@@ -196,9 +196,20 @@ def company_meta(robot: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_company_queue(robots: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Companies ordered by their oldest gapped pending robot."""
+    """Companies ordered by their oldest gapped pending robot.
+
+    Stalled robots are excluded from SELECTION, not just from processing. Filtering
+    them only inside enrich_company (cycle-2 finding, 2026-07-28) left the same 8
+    exhausted companies occupying every slot of the --max-companies budget with
+    targets=0 — waste went away but throughput went to ~zero, because selection
+    still counted their unfillable gaps. A company whose gapped robots are all
+    stalled must drop out of the queue so the budget reaches fresh companies.
+    """
+    stalled = _load_stalled()
     buckets: "OrderedDict[int, dict[str, Any]]" = OrderedDict()
     for robot in robots:
+        if _is_stalled(stalled, int(robot.get("id") or 0)):
+            continue
         gaps = robot_gaps(robot)
         if not gaps:
             continue

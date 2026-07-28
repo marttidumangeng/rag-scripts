@@ -4,12 +4,23 @@ title: Research Docs Changelog
 status: published
 version: 1.0
 owner: AI
-last_updated: 2026-07-22
+last_updated: 2026-07-29
 tags:
   - research
 ---
 
 # Research Docs Changelog
+
+## 2026-07-29
+
+- Aobo Robot (1384) content-queue enrich: 25 keepers updated (`created_count=0`), 18 URL-dupes rejected via API fallback, copy-media 24/24, CDN verify 43/43. Script: `fix_aobo_1384_robots.py`. Report: `staging/reports/aobo-1384-enrichment.md`. Hold: 1993 KaKa Welcome imageless (shared OEM hero with 1997; stale banner photo needs ORM delete).
+
+## 2026-07-28
+
+- Elephant Robotics (216) curated enrichment via `fix_elephant_216_robots.py`: **15 pending_review enriched**, **1 rejected** (450 MarsCat dupe → keep 2483). Fixed uniform `payload_kg=3.0`, shared CDN hero hash on 2482–2493, broken doubled URLs, empty `family_key`, C3/catbot naming. CDN **16/16** OK, **0** pending hero collisions. Marked done 216. Report: [overnight-216-elephant.md](../staging/reports/overnight-216-elephant.md).
+- Drone Delivery Canada (1509) curated enrichment via `fix_ddc_1509_robots.py`: **4/4 pending_review** (Sparrow/Canary/Robin XL/Condor) — OEM heroes, family_*, Available/Announced, typed payload/speed/MTOW, CA country + website `dronedeliverycanada.com`. CDN **4/4** distinct. Left `pending_review`. Report: `staging/reports/overnight-1509-ddc.md`.
+- Mujin (810) completeness pass via `fix_mujin_810_robots.py`: renamed JP display names (3763/3753), re-PATCHed Available(11)+JP+taxonomy, documented AGV multi-SKU table + cell work limits in features (not arm typed columns), kept 3756 as mixed-load layout variant of 3757, soft-held 3755 RCP / 3758 Pallet Changer. CDN **10/10** distinct. Approve allowlist: **3753, 3754, 3756, 3757, 3759, 3760, 3762, 3763**. Soft leftover: 3758 TruckBot video 6941 needs staff soft-delete. Marked done 810. Report: [overnight-810-mujin.md](../staging/reports/overnight-810-mujin.md).
+- Rainbow Robotics (228) full enrichment via `fix_rainbow_228_robots.py`: **14 pending_review enriched**, **2 rejected** (4240 duplicate RB-Y1 → keep 4861; 4859 RB16 alias → keep 2211). Fixed shared cobot CDN collision, restored OEM payload/reach/weight/repeatability, corrected RBM-S100b specs, added RST heroes from rainbowastro + OEM. Families `rainbow-robotics:{rb|rb-y1|rbq|rbm-s100|rst}`; KR; Available/Announced. CDN **14/14** distinct. Left `pending_review`.
 
 ## 2026-07-22
 
