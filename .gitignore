@@ -1,0 +1,20 @@
+.venv/
+output*/
+__pycache__/
+*.pyc
+research/staging/**
+!research/staging/.gitkeep
+
+# Scraped page-image caches from QA passes (~48 MB)
+research/docs/_*_qa/
+
+# Generated media outputs (sources are the optimize_*.py scripts)
+optimized/
+
+# Runtime caches
+research/state/robolist_cache/
+
+# Secrets
+.env
+.env.*
+*.pem

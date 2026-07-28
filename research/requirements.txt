@@ -1,0 +1,10 @@
+apify-client>=3.0.0
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+# Grounded selection + pre-import verification (--grounded / --verify)
+google-genai>=1.0.0
+pillow>=10.0.0
+pillow-avif-plugin>=1.4.0  # KUKA-class sites serve AVIF (RAI CrewAI handoff spec §1.1)
+
+# Optional — rendered HTML for HubSpot/SPA sites (pip install playwright && playwright install chromium)
+# playwright>=1.40.0

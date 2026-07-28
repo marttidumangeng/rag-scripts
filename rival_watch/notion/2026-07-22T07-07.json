@@ -1,0 +1,3219 @@
+{
+  "rival": "notion",
+  "fetched_at": "2026-07-22T07:07:39Z",
+  "total_companies": 803,
+  "items": {
+    "10x": {
+      "country": "India",
+      "type": "Robot or automated system,Autonomous control system"
+    },
+    "1X": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "1ms.ai": {
+      "country": "France",
+      "type": "Software as a service"
+    },
+    "3DEO": {
+      "country": "United States of America",
+      "type": "On-demand hardware component development"
+    },
+    "6 River Systems": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "7Xrobotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "7robotics": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "ABB Robotics": {
+      "country": "Switzerland",
+      "type": "Robot or automated system,Software"
+    },
+    "AERO AI": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "AGILOX": {
+      "country": "Austria",
+      "type": "Robot or automated system"
+    },
+    "AIMRSE": {
+      "country": "",
+      "type": "Robot or automated system"
+    },
+    "AION Robotics Corporation": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "AMP": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "ANSCER Robotics": {
+      "country": "India",
+      "type": "Robot or automated system,Robot as a service,Software as a service"
+    },
+    "ANT-X": {
+      "country": "Italy",
+      "type": "Robot or automated system,On-demand robotics or automation development,Software"
+    },
+    "ANYbotics": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "ARIN Technologies, Inc.": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "ARIX Technologies": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "ARTI": {
+      "country": "Austria",
+      "type": "Software"
+    },
+    "ARX Robotics": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "AV": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "AXIBO": {
+      "country": "Canada",
+      "type": "Robot or automated system"
+    },
+    "Acceleration Robotics": {
+      "country": "Spain",
+      "type": "Hardware component,On-demand hardware component development"
+    },
+    "Acumino": {
+      "country": "United States of America",
+      "type": "Robot as a service,On-demand service other,Software as a service"
+    },
+    "Addverb": {
+      "country": "India",
+      "type": "Robot or automated system"
+    },
+    "Advanced Construction Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Advanced Navigation": {
+      "country": "Australia",
+      "type": "Hardware component,Robot or automated system"
+    },
+    "Advex AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Aeolus Robotics, Inc.": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "Aeon": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "AeroVect": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Aerodome": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot accessory,Hardware component"
+    },
+    "Aerones": {
+      "country": "Latvia",
+      "type": "Robot-powered service,Software as a service"
+    },
+    "Aescape": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Aethon": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "AgXeed": {
+      "country": "Netherlands",
+      "type": "Robot or automated system,Autonomous control system"
+    },
+    "AgiBot": {
+      "country": "China",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "Agile Robots": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "AgileX Robotics": {
+      "country": "China",
+      "type": "Robot or automated system"
+    },
+    "Agility Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Agtonomy": {
+      "country": "United States of America",
+      "type": "Software,Autonomous control system"
+    },
+    "Aibuild": {
+      "country": "United Kingdom",
+      "type": "Software as a service"
+    },
+    "Aigen": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Airobotics": {
+      "country": "Israel",
+      "type": "Robot or automated system,Robot accessory"
+    },
+    "Airspace Link, Inc.": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "All3": {
+      "country": "United Kingdom",
+      "type": "Robot-powered service"
+    },
+    "Alloy Enterprises Inc": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Allvision IO": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Alquist": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "Alt-Bionics, Inc.": {
+      "country": "United States of America",
+      "type": "Hardware component,Human augmentation device"
+    },
+    "Amazon Fulfillment Technologies & Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Ambi Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Andromie Robotics": {
+      "country": "",
+      "type": "Hardware component,Software as a service,Software"
+    },
+    "Anduril Industries": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Angsa Robotics": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "Aniai": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Annin Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Anyware Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Apex.AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Apparel Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Appetronix": {
+      "country": "Canada",
+      "type": "Robot or automated system,Software"
+    },
+    "Applied Intuition": {
+      "country": "United States of America",
+      "type": "Robot software,Software"
+    },
+    "Apptronik": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Aqua Satellite": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Ara Robotics": {
+      "country": "",
+      "type": "Robot as a service,Robot accessory,Robot or automated system"
+    },
+    "Archer": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot-powered service"
+    },
+    "Archetype AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Arrobot": {
+      "country": "India",
+      "type": "Robot or automated system,On-demand robotics or automation development"
+    },
+    "Arrow Electronics": {
+      "country": "United States of America",
+      "type": "Hardware component,On-demand robotics or automation development"
+    },
+    "Articulated Robotics": {
+      "country": "Australia",
+      "type": "On-demand service other"
+    },
+    "Artificial, Inc.": {
+      "country": "United States of America",
+      "type": "Software,Software as a service"
+    },
+    "Ascent AeroSystems": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Ascento": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "AstroForge": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Astrobotic": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Astrolab": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Asylon Robotics": {
+      "country": "United States of America",
+      "type": "Robot as a service,Software,Robot accessory"
+    },
+    "Atomic Industries": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Atomic Machines": {
+      "country": "United States of America",
+      "type": "Hardware component,On-demand hardware component development"
+    },
+    "Attabotics": {
+      "country": "Canada",
+      "type": "Robot or automated system"
+    },
+    "Augmentus Robotics": {
+      "country": "Singapore",
+      "type": "Software as a service"
+    },
+    "Augury": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Aurora": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Auterion": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "AutoStore": {
+      "country": "Norway",
+      "type": "Robot or automated system"
+    },
+    "Autodesk Research": {
+      "country": "United States of America",
+      "type": "Software,On-demand software development,On-demand robotics or automation development"
+    },
+    "Automated Architecture (AUAR)": {
+      "country": "United Kingdom",
+      "type": "Robot or automated system"
+    },
+    "Autoware Foundation": {
+      "country": "Japan",
+      "type": "Software"
+    },
+    "Ava Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Avalon Robotics": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development,Robot or automated system"
+    },
+    "Avatar Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Avidbots Corp.": {
+      "country": "Canada",
+      "type": "Robot or automated system"
+    },
+    "Avride": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Autonomous control system"
+    },
+    "Avular": {
+      "country": "Netherlands",
+      "type": "Robot or automated system,Autonomous control system"
+    },
+    "Azalea Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "BEA Sensors Americas": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "BIA5": {
+      "country": "Australia",
+      "type": "Robot or automated system"
+    },
+    "BRINC Drones": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot accessory,Software as a service"
+    },
+    "Basis Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Bastian Solutions": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development,Robot or automated system,Software"
+    },
+    "Baubot": {
+      "country": "Austria",
+      "type": "Robot or automated system"
+    },
+    "Bear Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Bearcover": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "Bedrock Ocean Exploration": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Bedrock Robotics": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Berkshire Grey": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Black Coffee Robotics": {
+      "country": "India",
+      "type": "On-demand software development,Software"
+    },
+    "Black-I Robotics, Inc.": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Bloomfield": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Blue Ocean Robotics": {
+      "country": "Denmark",
+      "type": "Robot or automated system"
+    },
+    "Blue River Technology": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Blue Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component,Software"
+    },
+    "Bluewhite": {
+      "country": "Israel",
+      "type": "Autonomous control system"
+    },
+    "Boardwalk Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Bonsai Robotics": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Boost Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Booster Robotics": {
+      "country": "China",
+      "type": "Robot or automated system,Software"
+    },
+    "Borg Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Bosch Rexroth": {
+      "country": "Germany",
+      "type": "Robot or automated system,Hardware component,Software"
+    },
+    "Boston Dynamics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "BotBuilt": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Botrista, Inc.": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Botronics": {
+      "country": "Belgium",
+      "type": "Robot or automated system"
+    },
+    "Botsync": {
+      "country": "Singapore",
+      "type": "Robot or automated system"
+    },
+    "Boxbot": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Brain Corp": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Bright Machines": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Brightpick": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Bucket Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Building Diagnostic Robotics": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Buildroid": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Built Robotics": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Butlr": {
+      "country": "United States of America",
+      "type": "Hardware component,Software as a service"
+    },
+    "CHASSY": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "COREMATIC Europe": {
+      "country": "Belgium",
+      "type": "On-demand robotics or automation development,Robot accessory,Software"
+    },
+    "CRABI Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "CSC Robotic Engineering Limited": {
+      "country": "China",
+      "type": "Robot or automated system"
+    },
+    "Calvary Robotics": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "Camerabotics": {
+      "country": "Lebanon",
+      "type": "Robot or automated system,Software"
+    },
+    "Canvas": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "CapSen Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Cape": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Capra Robotics": {
+      "country": "Denmark",
+      "type": "Robot or automated system"
+    },
+    "Carbon Origins Inc.": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Carbon Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Cardinal Robotics": {
+      "country": "United States of America",
+      "type": "Robot as a service,Robot-powered service"
+    },
+    "Carnegie Robotics": {
+      "country": "United States of America",
+      "type": "Hardware component,Autonomous control system"
+    },
+    "Cartken": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Cartwheel Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,On-demand robotics or automation development"
+    },
+    "Cassini Robotics": {
+      "country": "Israel",
+      "type": "Robot or automated system"
+    },
+    "Cerulion": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Charge Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Chef Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot as a service"
+    },
+    "Circus Group": {
+      "country": "Germany",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "Civ Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Clearpath Robotics by Rockwell Automation": {
+      "country": "Canada",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Clevon": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Clone": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Coboworx": {
+      "country": "Germany",
+      "type": "Robot as a service"
+    },
+    "Coco": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Cohesive Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Collaborative Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Comau": {
+      "country": "Italy",
+      "type": "Robot or automated system,Software"
+    },
+    "Contoro Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Copia Automation": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Copper Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Corvus Robotics": {
+      "country": "United States of America",
+      "type": "Robot as a service,Software as a service"
+    },
+    "Cosmic": {
+      "country": "United States of America",
+      "type": "Robot-powered service,Software"
+    },
+    "Cosmic Robotics": {
+      "country": "uni',United States of America",
+      "type": "Robot or automated system"
+    },
+    "Covariant": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Crobotic Solutions": {
+      "country": "Croatia",
+      "type": "Software,On-demand software development"
+    },
+    "CubeMars": {
+      "country": "",
+      "type": "Robot-powered service,Robot accessory"
+    },
+    "Cuby": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Custos Robotics ApS": {
+      "country": "Denmark",
+      "type": "On-demand robotics or automation development"
+    },
+    "CyberOrigin": {
+      "country": "Singapore",
+      "type": "Hardware component,On-demand service other"
+    },
+    "CynLr": {
+      "country": "India",
+      "type": "Hardware component,Software"
+    },
+    "D-Robotics": {
+      "country": "China",
+      "type": "Hardware component"
+    },
+    "DZYNE Technologies": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Daxo Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,On-demand robotics or automation development,Software"
+    },
+    "Deci AI (Acquired by NVIDIA)": {
+      "country": "Israel",
+      "type": "Software as a service"
+    },
+    "Deep Trekker Inc.": {
+      "country": "Canada",
+      "type": "Robot or automated system"
+    },
+    "Delivers.ai": {
+      "country": "United Kingdom",
+      "type": "Robot as a service"
+    },
+    "Delta Robotics": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Deltia": {
+      "country": "Germany",
+      "type": "Software as a service"
+    },
+    "Dematic": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Deplace AI": {
+      "country": "France",
+      "type": "Software as a service"
+    },
+    "Devanthro": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "Dexory": {
+      "country": "United Kingdom",
+      "type": "Robot or automated system"
+    },
+    "Dexterity, Inc.": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Diligent Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Diode Computers, Inc.": {
+      "country": "United States of America",
+      "type": "On-demand hardware component development"
+    },
+    "Dobot Robotics": {
+      "country": "China",
+      "type": "Robot or automated system,Software"
+    },
+    "Doosan Robotics": {
+      "country": "South Korea",
+      "type": "Robot or automated system,Software"
+    },
+    "Dorna Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software,Robot accessory,On-demand robotics or automation development"
+    },
+    "DroneDeploy": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Duality AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Duatic": {
+      "country": "Switzerland",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Duckietown Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software,Autonomous control system"
+    },
+    "Durin": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot-powered service"
+    },
+    "Dusty Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Dyna Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "E-COBOT": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "ELITE ROBOTS": {
+      "country": "China",
+      "type": "Robot or automated system,Software"
+    },
+    "ESTAT Actuation": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "EULER-NAV": {
+      "country": "Germany",
+      "type": "Hardware component"
+    },
+    "EV Bots, Inc.": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Easy Aerial Inc.": {
+      "country": "United States",
+      "type": "Robot or automated system,Robot accessory"
+    },
+    "EasyMile": {
+      "country": "France",
+      "type": "Autonomous control system,Robot or automated system,Software as a service"
+    },
+    "Ecorobotix": {
+      "country": "Switzerland",
+      "type": "Robot or automated system,Software"
+    },
+    "Edge Case": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Eelume AS": {
+      "country": "Norway",
+      "type": "Robot or automated system,Robot-powered service"
+    },
+    "Efficient Computer": {
+      "country": "United States of America",
+      "type": "Hardware component,Software"
+    },
+    "Ekumen": {
+      "country": "Argentina",
+      "type": "On-demand robotics or automation development"
+    },
+    "Electric Sheep": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Elementary": {
+      "country": "United States of America",
+      "type": "Software,Hardware component"
+    },
+    "Elephant Robotics": {
+      "country": "China",
+      "type": "Robot or automated system,Software,Robot accessory"
+    },
+    "Elroy Air": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Ember Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Emerson": {
+      "country": "United States of America",
+      "type": "Hardware component,Software,On-demand robotics or automation development"
+    },
+    "Enabled Robotics": {
+      "country": "Denmark",
+      "type": "Robot or automated system,Software"
+    },
+    "Enchanted Tools": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "Encord": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Endiatx": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Energy Robotics": {
+      "country": "Germany",
+      "type": "Software"
+    },
+    "EpiSci (an Applied Intuition company)": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Epirus": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Essential Aero": {
+      "country": "United States of America",
+      "type": "Software as a service,Robot or automated system"
+    },
+    "Estun Automation": {
+      "country": "China",
+      "type": "Robot or automated system,Software,Hardware component"
+    },
+    "Et Cetera Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Eureka Robotics": {
+      "country": "Singapore",
+      "type": "Hardware component"
+    },
+    "Exodigo": {
+      "country": "Israel",
+      "type": "Robot-powered service"
+    },
+    "Exotec": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "Expedition Technology, LLC": {
+      "country": "United States of America",
+      "type": "Software,On-demand software development"
+    },
+    "Eye-bot": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "FANUC America Corporation": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component,Software"
+    },
+    "Fabric": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Fabrica AI": {
+      "country": "Singapore",
+      "type": "Robot or automated system,Software as a service,Robot-powered service"
+    },
+    "Farm-ng": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "FarmWise": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Fauna Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Fid Labs": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Field AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Figure": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Filics": {
+      "country": "Germany",
+      "type": "Robot or automated system,Software"
+    },
+    "Firestorm": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Flasheye": {
+      "country": "Sweden",
+      "type": "Software"
+    },
+    "Fleet Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "FleetGlue": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "FlexSim Software Products, Inc.": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Flexiv Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Flink Robotics": {
+      "country": "Switzerland",
+      "type": "Robot as a service,Software as a service"
+    },
+    "Floating Robotics": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "Flock Safety": {
+      "country": "United States of America",
+      "type": "Software as a service,Hardware component,Robot-powered service"
+    },
+    "Flow Robotics": {
+      "country": "Denmark",
+      "type": "Robot or automated system,Robot accessory"
+    },
+    "Fluke Process Instruments": {
+      "country": "United States of America",
+      "type": "Hardware component,Software,On-demand hardware component development"
+    },
+    "Flyability": {
+      "country": "Switzerland",
+      "type": "Robot or automated system,Software"
+    },
+    "Flyby Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "ForceN": {
+      "country": "Canada",
+      "type": "On-demand hardware component development"
+    },
+    "Formant": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Formic": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "Formic Transportsystem": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "Formlogic": {
+      "country": "United States of America",
+      "type": "Autonomous control system,Robot or automated system"
+    },
+    "Fort": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Fortem Technologies": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot accessory,Hardware component"
+    },
+    "Forterra": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Foundation": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Four Growers, Inc.": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Fourier": {
+      "country": "Singapore",
+      "type": "Robot or automated system,Human augmentation device"
+    },
+    "Fox Robotics": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Foxglove": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Franka Robotics": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "Freedom Robotics": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Freeform": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Frontier Machines": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Fulfil": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Fuzzy Logic Robotics": {
+      "country": "France",
+      "type": "Autonomous control system"
+    },
+    "GITAI": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Gambit": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Gambit Robotics, Inc.": {
+      "country": "United States of America",
+      "type": "Software,Robot or automated system"
+    },
+    "Gather": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Gather AI": {
+      "country": "United States of America",
+      "type": "Robot as a service,Software"
+    },
+    "Gatik": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Gausium Official": {
+      "country": "China",
+      "type": "Robot or automated system,Software,Robot accessory"
+    },
+    "Gecko Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Geek+": {
+      "country": "China",
+      "type": "Robot or automated system,Software"
+    },
+    "Geisel Software": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "General Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "General Trajectory (YC W25)": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "Generalist": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Genesis AI": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Ghost Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Glacier": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Global Robot Marketplace": {
+      "country": "United Kingdom",
+      "type": "Software as a service"
+    },
+    "Godelius": {
+      "country": "",
+      "type": "Autonomous control system,Hardware component,Human augmentation device,On-demand hardware component development,On-demand robotics or automation development,On-demand service other,On-demand software development,Robot accessory,Robot as a service,Robot or automated system"
+    },
+    "Gravis Robotics": {
+      "country": "Switzerland",
+      "type": "Autonomous control system"
+    },
+    "GrayMatter Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Graze Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Gridstore Robotics GmbH": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "Gritt Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Groundlight AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "HAL Robotics": {
+      "country": "United Kingdom",
+      "type": "Software"
+    },
+    "HEBI Robotics": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "HYPRLABS Inc.": {
+      "country": "United States of America",
+      "type": "Software,Robot or automated system"
+    },
+    "Hammer Robotics": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "Haply Robotics": {
+      "country": "Canada",
+      "type": "Hardware component"
+    },
+    "Harmonic Bionics, Inc.": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Harvest Automation": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "HavocAI": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Hellbender": {
+      "country": "United States of America",
+      "type": "Hardware component,On-demand hardware component development"
+    },
+    "Hello Robot Inc": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Helm.ai": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Helsing": {
+      "country": "Germany",
+      "type": "Robot or automated system,Software"
+    },
+    "Henki Robotics": {
+      "country": "Finland",
+      "type": "On-demand robotics or automation development,On-demand software development"
+    },
+    "Hermeus": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Hextronics": {
+      "country": "United States of America",
+      "type": "Robot accessory"
+    },
+    "Hillbot": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software,Robot-powered service"
+    },
+    "Honu Robotics": {
+      "country": "United States of America",
+      "type": "On-demand software development"
+    },
+    "House of Design Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Hoverfly Technologies": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Hugging Face": {
+      "country": "United States,France",
+      "type": "Software as a service,Robot or automated system"
+    },
+    "Hullbot": {
+      "country": "Australia",
+      "type": "Robot or automated system"
+    },
+    "Human In Motion Robotics Inc.": {
+      "country": "Canada",
+      "type": "Human augmentation device"
+    },
+    "Humanoid": {
+      "country": "United Kingdom",
+      "type": "Robot or automated system"
+    },
+    "Humotech": {
+      "country": "United States of America",
+      "type": "Human augmentation device"
+    },
+    "Husarion": {
+      "country": "Poland",
+      "type": "Robot or automated system"
+    },
+    "Hyperever": {
+      "country": "",
+      "type": "Robot or automated system,Robot accessory"
+    },
+    "IHMC": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development,On-demand software development"
+    },
+    "INSAION": {
+      "country": "",
+      "type": "Software as a service"
+    },
+    "ISEE": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Identified Technologies": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "In-Position Technologies": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development,Robot or automated system"
+    },
+    "InDro Robotics": {
+      "country": "Canada",
+      "type": "Robot-powered service,On-demand robotics or automation development"
+    },
+    "Inbolt": {
+      "country": "France",
+      "type": "Software,Hardware component"
+    },
+    "Inception Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Industrial Next": {
+      "country": "United States of America",
+      "type": "Software,Hardware component"
+    },
+    "Industrial Robotics Company": {
+      "country": "Lithuania",
+      "type": "Robot or automated system"
+    },
+    "Ingersoll Machine Tools": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Innate (YC F24)": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Innok Robotics": {
+      "country": "Germany",
+      "type": "Robot or automated system,Autonomous control system"
+    },
+    "Instock.com": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "Instor": {
+      "country": "Brazil",
+      "type": "Robot or automated system"
+    },
+    "Instrumental Inc.": {
+      "country": "United States of America",
+      "type": "Software as a service,Hardware component"
+    },
+    "Intermodalics": {
+      "country": "Belgium",
+      "type": "Software,On-demand software development"
+    },
+    "Intermode": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "Interstellar Lab": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "Intrepid AI": {
+      "country": "Belgium",
+      "type": "Software as a service"
+    },
+    "Intrinsic": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Intuitive": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Invio Automation": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "Jacobi Robotics": {
+      "country": "United States of America",
+      "type": "Software as a service,Software"
+    },
+    "JdeRobot": {
+      "country": "Spain",
+      "type": "Software,Software as a service"
+    },
+    "Journey Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "K-Scale Labs": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "KABAM Robotics": {
+      "country": "Singapore",
+      "type": "Robot or automated system,Software"
+    },
+    "KAIKAKU": {
+      "country": "United Kingdom",
+      "type": "Robot-powered service,Robot or automated system"
+    },
+    "KEF Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "KUKA": {
+      "country": "Germany",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "KUNBUS": {
+      "country": "Germany",
+      "type": "Hardware component"
+    },
+    "Karelics": {
+      "country": "Finland",
+      "type": "Software,Robot as a service"
+    },
+    "Kathedra": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Kawasaki Robotics": {
+      "country": "Japan",
+      "type": "Robot or automated system,Software"
+    },
+    "Kepler Exploration Robotics": {
+      "country": "Finland",
+      "type": "Robot or automated system"
+    },
+    "Keybotic": {
+      "country": "Spain",
+      "type": "Robot or automated system"
+    },
+    "Kind Humanoid": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Kinisi Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Kipo AI": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Knightscope": {
+      "country": "United States of America",
+      "type": "Robot as a service,Software as a service"
+    },
+    "KoalaLifter": {
+      "country": "Spain",
+      "type": "Robot or automated system"
+    },
+    "Kodiak": {
+      "country": "United States of America",
+      "type": "Autonomous control system,Robot as a service"
+    },
+    "Kognic": {
+      "country": "Sweden",
+      "type": "Software"
+    },
+    "Konboi": {
+      "country": "France",
+      "type": "Software"
+    },
+    "Koop": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Kornia AI": {
+      "country": "Spain",
+      "type": "Software,Software as a service"
+    },
+    "Kraken Robotics": {
+      "country": "Canada",
+      "type": "Hardware component,Robot or automated system,Robot as a service"
+    },
+    "KratoX": {
+      "country": "India",
+      "type": "Robot or automated system,Software"
+    },
+    "Kyber Labs": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "LEVA Robotics": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "LabyrinthAI": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Laelaps AI": {
+      "country": "",
+      "type": "Robot as a service,Software,Autonomous control system"
+    },
+    "Latitude AI": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Launchpad.build": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "LaundroBot LLC": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Leaficient": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Leap AI": {
+      "country": "United Kingdom",
+      "type": "Robot or automated system,Software"
+    },
+    "Lely": {
+      "country": "Netherlands",
+      "type": "Robot or automated system,Software"
+    },
+    "Life Science Robotics": {
+      "country": "Denmark",
+      "type": "Robot or automated system"
+    },
+    "Light Robotics": {
+      "country": "Singapore",
+      "type": "Robot or automated system"
+    },
+    "Lightwheel": {
+      "country": "United States of America",
+      "type": "Software,On-demand software development"
+    },
+    "LimX Dynamics": {
+      "country": "China",
+      "type": "Robot or automated system"
+    },
+    "LionsBot International": {
+      "country": "Singapore",
+      "type": "Robot or automated system"
+    },
+    "Liquid Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Litmus": {
+      "country": "United States of America",
+      "type": "Software as a service,Data management,Software"
+    },
+    "Locus Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Loki Robotics": {
+      "country": "Switzerland",
+      "type": "Robot or automated system,Robot-powered service"
+    },
+    "Lucid Bots": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "Lucky Robots": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Lume Robotics": {
+      "country": "Brazil",
+      "type": "Autonomous control system"
+    },
+    "Luminous": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Lunar Outpost": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Luxonis": {
+      "country": "United States of America",
+      "type": "Hardware component,Software,Software as a service"
+    },
+    "MAB Robotics": {
+      "country": "Poland",
+      "type": "Hardware component,Robot or automated system"
+    },
+    "MESH": {
+      "country": "Switzerland",
+      "type": "Robot or automated system,Software"
+    },
+    "MRA Automation": {
+      "country": "Australia",
+      "type": "On-demand robotics or automation development,Software,Autonomous control system"
+    },
+    "MYBOTSHOP GmbH": {
+      "country": "Germany",
+      "type": "Hardware component,Robot or automated system,On-demand robotics or automation development,Robot accessory"
+    },
+    "Mach9": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Machina Labs": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot-powered service"
+    },
+    "Magazino – a Jungheinrich company": {
+      "country": "Germany",
+      "type": "Robot or automated system,Software"
+    },
+    "Main Street Autonomy": {
+      "country": "United States of America",
+      "type": "Software,Software as a service"
+    },
+    "Manifold Robotics": {
+      "country": "United States of America",
+      "type": "Hardware component,Software"
+    },
+    "Maniro": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "Manna Drone Delivery": {
+      "country": "Ireland",
+      "type": "Robot-powered service"
+    },
+    "Mapless AI": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Markforged": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "Massive Dimension": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Matic Robots": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Maven Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "May Mobility": {
+      "country": "United States of America",
+      "type": "Autonomous control system,Robot as a service,Software"
+    },
+    "Mecademic": {
+      "country": "Canada",
+      "type": "Robot or automated system"
+    },
+    "Mech-Mind Robotics": {
+      "country": "Germany",
+      "type": "Software,Hardware component"
+    },
+    "Medra": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Meili Robots": {
+      "country": "Denmark",
+      "type": "Software as a service"
+    },
+    "Mekanika": {
+      "country": "Belgium",
+      "type": "Robot or automated system,Robot accessory"
+    },
+    "Meltio": {
+      "country": "Spain",
+      "type": "Hardware component,Robot or automated system,Software"
+    },
+    "Merlin": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Metalware": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Micropsi Industries": {
+      "country": "Germany",
+      "type": "Software"
+    },
+    "Mine Vision Systems": {
+      "country": "United States of America",
+      "type": "Hardware component,Software"
+    },
+    "Minus Zero": {
+      "country": "India",
+      "type": "Software"
+    },
+    "Mirsee Robotics Inc.": {
+      "country": "Canada",
+      "type": "Robot or automated system"
+    },
+    "Miru": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Mito Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Mobile Industrial Robots": {
+      "country": "Denmark",
+      "type": "Robot or automated system"
+    },
+    "ModalAI": {
+      "country": "United States of America",
+      "type": "Autonomous control system,Hardware component,Software"
+    },
+    "Model-Prime": {
+      "country": "United States of America",
+      "type": "Software as a service,Software"
+    },
+    "Monumental": {
+      "country": "Netherlands",
+      "type": "Robot or automated system"
+    },
+    "Monumental Labs": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Moon Surgical": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "Motional": {
+      "country": "United States of America",
+      "type": "Autonomous control system,On-demand robotics or automation development"
+    },
+    "Movel AI": {
+      "country": "Singapore",
+      "type": "Software as a service"
+    },
+    "Mujin": {
+      "country": "Japan",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Multiply Labs": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Mythos AI": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Autonomous control system,Software as a service"
+    },
+    "Mytra": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "NAVER LABS Corp.": {
+      "country": "South Korea",
+      "type": "Robot or automated system,Autonomous control system"
+    },
+    "NAVER LABS Europe": {
+      "country": "France",
+      "type": "Software"
+    },
+    "NEFF Automation": {
+      "country": "United States of America",
+      "type": "Robot or automated system,On-demand robotics or automation development"
+    },
+    "NEURA Robotics": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "NODE Robotics": {
+      "country": "Germany",
+      "type": "Software"
+    },
+    "NVIDIA": {
+      "country": "United States of America",
+      "type": "Hardware component,Software"
+    },
+    "NVIDIA Robotics": {
+      "country": "United States of America",
+      "type": "Software,Hardware component"
+    },
+    "Naio Technologies": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "National Robotics Engineering Center": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "Native Robotics": {
+      "country": "Cyprus",
+      "type": "Software"
+    },
+    "Nature Robots": {
+      "country": "Germany",
+      "type": "Software as a service,Autonomous control system"
+    },
+    "Nauticus Robotics, Inc.": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot as a service,Hardware component"
+    },
+    "Navya Mobility": {
+      "country": "France",
+      "type": "Robot or automated system,Autonomous control system,Software"
+    },
+    "Near Earth Autonomy": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "Neobotix": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "Neocis": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Neros Technologies": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Neubility": {
+      "country": "South Korea",
+      "type": "Robot or automated system"
+    },
+    "Neuraville": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Nextera Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Neya Systems": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Nimble": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Nio Robotics": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "Niryo": {
+      "country": "France",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Nomagic": {
+      "country": "Poland",
+      "type": "Robot or automated system"
+    },
+    "Nominal": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Nordbo Robotics": {
+      "country": "Denmark",
+      "type": "Robot or automated system"
+    },
+    "Novus Hi-Tech": {
+      "country": "India",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "Nupeak Robotics": {
+      "country": "Canada",
+      "type": "Software as a service"
+    },
+    "Nuro": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "OTTO by Rockwell Automation": {
+      "country": "Canada",
+      "type": "Robot or automated system"
+    },
+    "Ocado Technology": {
+      "country": "United Kingdom",
+      "type": "Robot or automated system"
+    },
+    "Okibo": {
+      "country": "Israel",
+      "type": "Robot or automated system"
+    },
+    "Olis Robotics": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Olive Robotics": {
+      "country": "Germany",
+      "type": "Hardware component"
+    },
+    "Omni Instrument": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Onki": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Onward Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Onyx Robotics": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Open Navigation LLC": {
+      "country": "United States of America",
+      "type": "On-demand software development,On-demand service other"
+    },
+    "Open Robotics": {
+      "country": "United States of America",
+      "type": "Software,On-demand software development"
+    },
+    "OpenAI": {
+      "country": "",
+      "type": "Unknown"
+    },
+    "OpenCV": {
+      "country": "United States",
+      "type": "Software"
+    },
+    "OpenMV LLC": {
+      "country": "United States of America",
+      "type": "Hardware component,Software"
+    },
+    "OpenMind": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "OpenShelf": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Opentrons Labworks Inc.": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Opteran": {
+      "country": "United Kingdom",
+      "type": "Software"
+    },
+    "Orangewood": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "Orbbec": {
+      "country": "China",
+      "type": "Hardware component,Software,On-demand hardware component development"
+    },
+    "Orbotix Technologies": {
+      "country": "Romania",
+      "type": "Robot or automated system,Software"
+    },
+    "Orchard": {
+      "country": "United States of America",
+      "type": "Hardware component,Software as a service"
+    },
+    "Orthopus": {
+      "country": "France",
+      "type": "Human augmentation device"
+    },
+    "OttonomyIO": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Ouster": {
+      "country": "United States of America",
+      "type": "Hardware component,Software"
+    },
+    "Outrider": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Overland AI": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Overview AI": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Oxa": {
+      "country": "United Kingdom",
+      "type": "Software"
+    },
+    "Oxipital AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "PAL Robotics": {
+      "country": "Spain",
+      "type": "Robot or automated system"
+    },
+    "PDW": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "PSYONIC": {
+      "country": "United States of America",
+      "type": "Human augmentation device"
+    },
+    "PX4 Autopilot": {
+      "country": "Switzerland",
+      "type": "Software"
+    },
+    "Paladin Robotics Inc": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development,On-demand hardware component development,On-demand software development"
+    },
+    "Paradigm Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Parallel": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Partner Robotics": {
+      "country": "China",
+      "type": "Robot or automated system"
+    },
+    "Path Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Pattern": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Pave Robotics (YC W25)": {
+      "country": "United States of America",
+      "type": "Robot-powered service,Software as a service"
+    },
+    "Peanut Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Peer Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Pelican Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Pendulum Systems": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Peppermint Robotics": {
+      "country": "India",
+      "type": "Robot or automated system,Software"
+    },
+    "Percepto": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Peregrine.ai": {
+      "country": "Germany",
+      "type": "Software"
+    },
+    "Persona AI Inc": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "Petra": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Physical Intelligence": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "PickNik Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Pickle Robot Company": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Pike Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Pio": {
+      "country": "Norway",
+      "type": "Robot or automated system"
+    },
+    "Pivot Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Pixconvey": {
+      "country": "United Kingdom",
+      "type": "Robot or automated system"
+    },
+    "Pliant Energy Systems Inc": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software,Hardware component"
+    },
+    "Plus": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Plus One Robotics": {
+      "country": "United States of America",
+      "type": "Software,Robot or automated system"
+    },
+    "Podium Automation": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "Point One Navigation": {
+      "country": "United States of America",
+      "type": "Software,Hardware component"
+    },
+    "Pollen Robotics": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "Polymath Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Primordial Labs": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Proception.AI": {
+      "country": "United States of America",
+      "type": "Hardware component,Software"
+    },
+    "Progressive Robotics": {
+      "country": "Greece",
+      "type": "Software"
+    },
+    "Pronto": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Protex AI": {
+      "country": "Ireland",
+      "type": "Software as a service"
+    },
+    "Proxy": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Public Means": {
+      "country": "United States of America",
+      "type": "Software,On-demand service other"
+    },
+    "Pyka": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Quantum Systems": {
+      "country": "Germany",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Quarero Robotics": {
+      "country": "Switzerland",
+      "type": "Robot or automated system,Robot as a service"
+    },
+    "Quilter": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "RAI Institute": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "READY Robotics": {
+      "country": "United States of America",
+      "type": "Software,Software as a service"
+    },
+    "RIF Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "RIVR": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "RLP, Rapid Liquid Print": {
+      "country": "United States of America",
+      "type": "Robot or automated system,On-demand hardware component development,Software"
+    },
+    "RODRADAR": {
+      "country": "Israel",
+      "type": "Hardware component"
+    },
+    "ROS-Industrial": {
+      "country": "Germany",
+      "type": "Software,On-demand service other"
+    },
+    "Radmantis LLC": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software,Hardware component"
+    },
+    "Rainmaker Technology Corporation": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Raise Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Rapid Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Ras Labs, Inc.": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Raspberry Pi": {
+      "country": "United Kingdom",
+      "type": "Hardware component,Software"
+    },
+    "Raven Space Systems": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "ReSim.ai": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Reach Robotics": {
+      "country": "Australia",
+      "type": "Hardware component,Robot or automated system"
+    },
+    "RealBotics, Inc.": {
+      "country": "United States of America",
+      "type": "Software as a service,Hardware component,On-demand robotics or automation development"
+    },
+    "Realtime Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Reazon Human Interaction Lab": {
+      "country": "Japan",
+      "type": "Software"
+    },
+    "Red Barn Robotics": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "Red Cat Holdings": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Red Rabbit Robotics": {
+      "country": "Canada",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Reflex Robotics": {
+      "country": "",
+      "type": "Hardware component,Autonomous control system,Robot as a service,Robot or automated system"
+    },
+    "Reframe Systems": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Relentless Adrenaline": {
+      "country": "United States of America",
+      "type": "On-demand software development,On-demand robotics or automation development"
+    },
+    "Reliable Robotics": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Renovate Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Rerun": {
+      "country": "Sweden",
+      "type": "Software as a service,Software"
+    },
+    "Reshape Automation": {
+      "country": "United States of America",
+      "type": "Software as a service,On-demand robotics or automation development"
+    },
+    "ReviMo": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Human augmentation device"
+    },
+    "Revise Robotics (YC W25)": {
+      "country": "Australia",
+      "type": "Robot-powered service"
+    },
+    "Revolute Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Revolution Pi": {
+      "country": "Germany",
+      "type": "Hardware component"
+    },
+    "RiACT ROBOTICS": {
+      "country": "Denmark",
+      "type": "Software as a service"
+    },
+    "RightHand Robotics": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "RoBoa": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "RoBuild": {
+      "country": "United States of America",
+      "type": "On-demand service other"
+    },
+    "RobCo": {
+      "country": "Germany",
+      "type": "Robot or automated system,Robot-powered service,Hardware component"
+    },
+    "RoboDK": {
+      "country": "Canada",
+      "type": "Software"
+    },
+    "RoboForce": {
+      "country": "United States of America",
+      "type": "Robot as a service,Robot or automated system"
+    },
+    "Roboception GmbH": {
+      "country": "Germany",
+      "type": "Hardware component"
+    },
+    "Roboflow": {
+      "country": "United States of America",
+      "type": "Software,Software as a service"
+    },
+    "Robosoft": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Robot Advisors": {
+      "country": "United States of America",
+      "type": "On-demand service other"
+    },
+    "Robotair": {
+      "country": "Portugal",
+      "type": "Software"
+    },
+    "Robotec.ai": {
+      "country": "Poland",
+      "type": "Software"
+    },
+    "Robotic Crew": {
+      "country": "United States of America",
+      "type": "On-demand service other"
+    },
+    "Robotiq": {
+      "country": "Canada",
+      "type": "Hardware component"
+    },
+    "Robotnik Automation": {
+      "country": "Spain",
+      "type": "Robot or automated system"
+    },
+    "Roboto AI": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Robovision": {
+      "country": "Belgium",
+      "type": "Software"
+    },
+    "Robust.AI": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Rocketfarm AS": {
+      "country": "Norway",
+      "type": "Software,On-demand software development,On-demand robotics or automation development"
+    },
+    "Rover Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Rowbot Systems": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "Rugged Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "SAGA ROBOTICS // THORVALD": {
+      "country": "Norway",
+      "type": "Robot as a service"
+    },
+    "SCHUNK - Hand in hand for tomorrow": {
+      "country": "Germany",
+      "type": "Hardware component"
+    },
+    "SKA Robotics": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "SNOWBOTIX": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "STÄUBLI Robotics": {
+      "country": "Switzerland",
+      "type": "Robot or automated system,Hardware component,Software,Robot accessory"
+    },
+    "Sabanto": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Salient Motion": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Sanctuary AI": {
+      "country": "Canada",
+      "type": "Robot or automated system,Software,Autonomous control system"
+    },
+    "Saronic Technologies": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Scalable Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Scentience": {
+      "country": "United States of America",
+      "type": "Hardware component,Software,Software as a service"
+    },
+    "Scout AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Scythe Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Sea Machines Robotics": {
+      "country": "United States of America",
+      "type": "Autonomous control system,Software"
+    },
+    "Seasats": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Seeed Studio": {
+      "country": "China",
+      "type": "Hardware component,On-demand hardware component development,Software"
+    },
+    "Seegrid": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Segments.ai": {
+      "country": "Belgium",
+      "type": "Software"
+    },
+    "Sensei Robotics": {
+      "country": "United States of America",
+      "type": "Software,On-demand service other"
+    },
+    "Sentien Robotics": {
+      "country": "United States of America",
+      "type": "Robot accessory,Software,Robot-powered service"
+    },
+    "Septentrio": {
+      "country": "Belgium",
+      "type": "Hardware component"
+    },
+    "Sereact": {
+      "country": "Germany",
+      "type": "Software"
+    },
+    "Serve Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Servo7": {
+      "country": "Netherlands",
+      "type": "Robot or automated system"
+    },
+    "Servus Intralogistics GmbH": {
+      "country": "Austria",
+      "type": "Robot or automated system"
+    },
+    "Sevensense Robotics": {
+      "country": "Switzerland",
+      "type": "Hardware component,Autonomous control system"
+    },
+    "Shadow Robot": {
+      "country": "United Kingdom",
+      "type": "Hardware component,On-demand robotics or automation development"
+    },
+    "ShapeDiver": {
+      "country": "Austria",
+      "type": "Software as a service"
+    },
+    "Shield AI": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component,Autonomous control system"
+    },
+    "Shift5": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Shinkei": {
+      "country": "United States of America",
+      "type": "Software,Robot or automated system"
+    },
+    "Sick": {
+      "country": "Germany",
+      "type": "Hardware component"
+    },
+    "Sift": {
+      "country": "United States of America",
+      "type": "Software,Software as a service"
+    },
+    "Simbe": {
+      "country": "United States of America",
+      "type": "Robot as a service,Software as a service"
+    },
+    "Skild AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Skip": {
+      "country": "United States of America",
+      "type": "Human augmentation device"
+    },
+    "Skip Robotics": {
+      "country": "United States of America",
+      "type": "On-demand software development,Software"
+    },
+    "Skydio": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot accessory"
+    },
+    "Skyryse": {
+      "country": "United States of America",
+      "type": "Autonomous control system,Robot or automated system"
+    },
+    "Skyways": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Slamcore": {
+      "country": "United Kingdom",
+      "type": "Hardware component"
+    },
+    "Slip Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot as a service"
+    },
+    "Smart Robotics": {
+      "country": "Netherlands",
+      "type": "Robot or automated system"
+    },
+    "Smooth Robotics ApS": {
+      "country": "Denmark",
+      "type": "Software"
+    },
+    "Soar Robotics": {
+      "country": "United States of America",
+      "type": "Software,Hardware component"
+    },
+    "Sodex Innovations": {
+      "country": "Austria",
+      "type": "Hardware component"
+    },
+    "SolarCleano": {
+      "country": "Luxembourg",
+      "type": "Robot or automated system"
+    },
+    "Solideon": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Solomon AI and 3D Vision": {
+      "country": "Taiwan",
+      "type": "Software,Hardware component"
+    },
+    "Sonair": {
+      "country": "Norway",
+      "type": "Hardware component"
+    },
+    "Source Robotics": {
+      "country": "Croatia",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Southie Autonomy": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot as a service"
+    },
+    "Sovereign Propulsion Systems": {
+      "country": "Australia",
+      "type": "On-demand robotics or automation development"
+    },
+    "Spaero Bio": {
+      "country": "United States",
+      "type": "Software as a service"
+    },
+    "Sparck Technologies": {
+      "country": "Netherlands",
+      "type": "Robot or automated system"
+    },
+    "Spin Robotics": {
+      "country": "Denmark",
+      "type": "Hardware component"
+    },
+    "Stack AV": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Standard Bots": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Stanley Robotics": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "Star Robotics": {
+      "country": "Spain",
+      "type": "Robot or automated system"
+    },
+    "Starship Technologies": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Staxel": {
+      "country": "",
+      "type": "Robot or automated system,Robot-powered service"
+    },
+    "Stereolabs": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Sunrise Robotics": {
+      "country": "Slovenia",
+      "type": "Robot or automated system,Software"
+    },
+    "Swarm Aero": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Swarmbotics AI": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Symbotic": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "T-robotics": {
+      "country": "United States of America",
+      "type": "Software,Software as a service,On-demand software development"
+    },
+    "TACTUN": {
+      "country": "United States of America",
+      "type": "Hardware component,Software as a service"
+    },
+    "TDK SensEI": {
+      "country": "Singapore",
+      "type": "Software as a service,Software"
+    },
+    "THN AutonOhm": {
+      "country": "Germany",
+      "type": "On-demand software development"
+    },
+    "TIER IV": {
+      "country": "Japan",
+      "type": "Software,Autonomous control system"
+    },
+    "TRACLabs": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "TRC Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,On-demand software development,Software"
+    },
+    "Tailos": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Tangram Vision": {
+      "country": "United States of America",
+      "type": "On-demand service other"
+    },
+    "Tau Robotics": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Teal Drones": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Teledyne FLIR": {
+      "country": "United States of America",
+      "type": "Hardware component,Robot or automated system"
+    },
+    "Tennibot": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Tera AI": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "Teradyne": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Terradepth": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "Tethys Robotics": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "Tevel": {
+      "country": "Israel",
+      "type": "Robot or automated system"
+    },
+    "The Bot Company": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "The Construct Robotics Institute": {
+      "country": "Spain",
+      "type": "Software as a service,Software"
+    },
+    "The Robot Learning Company (YC X25)": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "Theseus": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Third Wave Automation": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Tilburg Robotics": {
+      "country": "Netherlands",
+      "type": "Robot or automated system,Software"
+    },
+    "Tinymovr": {
+      "country": "Greece",
+      "type": "Hardware component"
+    },
+    "Titan Robotics, Inc.": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "Toggle Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Tokyo Robotics": {
+      "country": "Japan",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Tomahawk Robotics": {
+      "country": "United States of America",
+      "type": "Hardware component"
+    },
+    "Torc Robotics": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "Tortuga AgTech": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Toyota Research Institute": {
+      "country": "United States of America",
+      "type": "Software,Autonomous control system"
+    },
+    "Tractonomy Robotics": {
+      "country": "Belgium",
+      "type": "Robot or automated system"
+    },
+    "Transitive Robotics": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "TripleA robotics": {
+      "country": "Denmark",
+      "type": "Hardware component,Software"
+    },
+    "Trossen Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component,Software"
+    },
+    "Tubular Network": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Tuesday Lab": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "UBTECH Robotics": {
+      "country": "China",
+      "type": "Robot or automated system"
+    },
+    "UCR": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "UFACTORY": {
+      "country": "China",
+      "type": "Robot or automated system,Hardware component,Software"
+    },
+    "UKRSPECSYSTEMS": {
+      "country": "Ukraine",
+      "type": "Robot accessory,Robot or automated system,Hardware component"
+    },
+    "Ubiros Inc.": {
+      "country": "United States of America",
+      "type": "Hardware component,On-demand robotics or automation development"
+    },
+    "Ugo": {
+      "country": "",
+      "type": "Robot as a service,Robot or automated system,Software,Software as a service"
+    },
+    "Ultralytics": {
+      "country": "United States of America",
+      "type": "Software,Software as a service"
+    },
+    "Ultrium Inc.": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Ulysses Ecosystem Engineering Inc.": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Robot-powered service"
+    },
+    "Unchained Robotics": {
+      "country": "",
+      "type": "Robot or automated system,Software"
+    },
+    "UnitX": {
+      "country": "United States of America",
+      "type": "Software,Hardware component"
+    },
+    "United Robotics Group": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "Unitree Robotics": {
+      "country": "China",
+      "type": "Robot or automated system"
+    },
+    "Universal Robots": {
+      "country": "Denmark",
+      "type": "Robot or automated system,Software"
+    },
+    "Unlimited Robotics": {
+      "country": "Israel",
+      "type": "Robot or automated system"
+    },
+    "Urban Machine": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Vannevar Labs": {
+      "country": "United States of America",
+      "type": "Hardware component,Software as a service"
+    },
+    "Vantage Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component"
+    },
+    "Vassar Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Hardware component,Software"
+    },
+    "Vatn Systems": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Vayu Robotics": {
+      "country": "United States of America",
+      "type": "Robot as a service,Hardware component,Software"
+    },
+    "Vecna Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Vector Robotics": {
+      "country": "",
+      "type": "Autonomous control system,Robot as a service"
+    },
+    "Vention": {
+      "country": "Canada",
+      "type": "Robot or automated system,Software"
+    },
+    "Verdant Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Verity": {
+      "country": "Switzerland",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "Verne Robotics": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development"
+    },
+    "Versatile Robotics": {
+      "country": "Germany",
+      "type": "Software"
+    },
+    "Viam": {
+      "country": "United States of America",
+      "type": "Software as a service,Software"
+    },
+    "VinMotion": {
+      "country": "Vietnam",
+      "type": "Robot or automated system,Software"
+    },
+    "Violet Labs": {
+      "country": "United States of America",
+      "type": "Software,Software as a service"
+    },
+    "Virtual Incision": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Virya Autonomous Technologies Pvt Ltd": {
+      "country": "",
+      "type": "Robot or automated system,Autonomous control system,Hardware component,On-demand robotics or automation development,Robot as a service,Software"
+    },
+    "Vitibot": {
+      "country": "France",
+      "type": "Robot or automated system"
+    },
+    "Voaige": {
+      "country": "United States of America",
+      "type": "Software as a service,Autonomous control system"
+    },
+    "Void Robotics": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development,Robot or automated system"
+    },
+    "Volarious": {
+      "country": "Singapore",
+      "type": "Robot or automated system,Robot accessory"
+    },
+    "Voliro": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "Voxel": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "Voyant Photonics": {
+      "country": "United States of America",
+      "type": "Hardware component,Software"
+    },
+    "WAKU Care": {
+      "country": "Germany",
+      "type": "Software as a service"
+    },
+    "WEIBUILD": {
+      "country": "China",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "WIRobotics Inc.": {
+      "country": "South Korea",
+      "type": "Robot or automated system,Human augmentation device"
+    },
+    "Waabi": {
+      "country": "Canada",
+      "type": "Autonomous control system"
+    },
+    "Wandelbots": {
+      "country": "Germany",
+      "type": "Software"
+    },
+    "Wandercraft": {
+      "country": "France",
+      "type": "Human augmentation device"
+    },
+    "Watney Robotics Inc": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Wayve": {
+      "country": "United Kingdom",
+      "type": "Autonomous control system"
+    },
+    "Weave Robotics": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Westwood Robotics Corporation": {
+      "country": "United States of America",
+      "type": "Hardware component,Robot or automated system"
+    },
+    "Wild Robotics": {
+      "country": "Uruguay",
+      "type": "Software"
+    },
+    "Wilder Systems Robots": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    },
+    "Wildfire Robotics Inc.": {
+      "country": "Canada",
+      "type": "Robot or automated system"
+    },
+    "WindBorne Systems": {
+      "country": "United States of America",
+      "type": "Robot-powered service,Software as a service"
+    },
+    "Windrobo": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Wing": {
+      "country": "United States of America",
+      "type": "Robot-powered service,Software as a service"
+    },
+    "Wingtra": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "Witty Machines": {
+      "country": "Switzerland",
+      "type": "Robot or automated system"
+    },
+    "Woodworking Robotics": {
+      "country": "United Kingdom",
+      "type": "Robot or automated system"
+    },
+    "Xaba Inc.": {
+      "country": "Canada",
+      "type": "Software,Software as a service"
+    },
+    "Yaak": {
+      "country": "Germany",
+      "type": "Software as a service"
+    },
+    "Yard Robotics": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Zaber Technologies": {
+      "country": "Canada",
+      "type": "Hardware component"
+    },
+    "Zauberzeug": {
+      "country": "Germany",
+      "type": "Robot or automated system,Hardware component,On-demand robotics or automation development"
+    },
+    "Zeno Robotics and AI Institute": {
+      "country": "United States of America",
+      "type": "On-demand robotics or automation development,Robot or automated system,On-demand service other"
+    },
+    "Zeon Systems (YC X25)": {
+      "country": "United States of America",
+      "type": "Robot or automated system,Software"
+    },
+    "ZettaScale Technology": {
+      "country": "France",
+      "type": "Software,Software as a service"
+    },
+    "Zipline": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "Zivid": {
+      "country": "Norway",
+      "type": "Hardware component"
+    },
+    "Zoo": {
+      "country": "United States of America",
+      "type": "Software as a service,Software"
+    },
+    "Zordi": {
+      "country": "United States of America",
+      "type": "Robot-powered service"
+    },
+    "Zyphra": {
+      "country": "United States of America",
+      "type": "Software"
+    },
+    "b-robotized": {
+      "country": "Germany",
+      "type": "On-demand robotics or automation development"
+    },
+    "beRobox": {
+      "country": "Canada",
+      "type": "Robot or automated system,Robot accessory"
+    },
+    "clippership": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "comma.ai": {
+      "country": "United States of America",
+      "type": "Hardware component,Software,Software as a service,On-demand software development"
+    },
+    "dolaGon": {
+      "country": "United States of America",
+      "type": "Autonomous control system"
+    },
+    "eProsima": {
+      "country": "Spain",
+      "type": "Software,Robot or automated system"
+    },
+    "ek robotics": {
+      "country": "Germany",
+      "type": "Robot or automated system"
+    },
+    "idealworks": {
+      "country": "Germany",
+      "type": "Software,Robot or automated system"
+    },
+    "igus GmbH": {
+      "country": "Germany",
+      "type": "Robot or automated system,Software,Hardware component"
+    },
+    "inOrbit": {
+      "country": "United States of America",
+      "type": "Software as a service"
+    },
+    "mimic": {
+      "country": "Switzerland",
+      "type": "Hardware component,Software"
+    },
+    "moss": {
+      "country": "United States of America",
+      "type": "Robot or automated system"
+    },
+    "motmot": {
+      "country": "United States of America",
+      "type": "Robot-powered service,Software as a service"
+    },
+    "ngen squared": {
+      "country": "Canada",
+      "type": "On-demand robotics or automation development,On-demand service other"
+    },
+    "phospho (YC W24)": {
+      "country": "France",
+      "type": "Software as a service"
+    },
+    "pib.rocks": {
+      "country": "Germany",
+      "type": "Robot or automated system,Software as a service"
+    },
+    "qbrobotics": {
+      "country": "Italy",
+      "type": "Hardware component"
+    },
+    "realvirtual.io": {
+      "country": "Germany",
+      "type": "Software"
+    },
+    "silana": {
+      "country": "Austria",
+      "type": "Robot or automated system"
+    },
+    "velo.ai": {
+      "country": "United States of America",
+      "type": "Robot accessory"
+    },
+    "voraus robotik GmbH": {
+      "country": "Germany",
+      "type": "Software"
+    },
+    "yondu": {
+      "country": "United States of America",
+      "type": "Robot as a service"
+    }
+  }
+}

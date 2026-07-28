@@ -1,0 +1,903 @@
+[
+  {
+    "prdSeq": 23,
+    "prdNm": "HDR300-26(HH300)",
+    "prdTypeCd": "60010001",
+    "payload": "300",
+    "reach": "2666",
+    "fileSeq": 6823,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/7d3b65c593de477da1caa2840265f268.png?response-content-disposition=attachment%3Bfilename%3D%22HH300.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=5e80423ac75573ee2b5c76d0325c8da1bff0124a81c7214c8e269a57a76eaa5a",
+    "fileOriNm": "HH300.png",
+    "atts": [
+      {
+        "fileSeq": 6823,
+        "fileOriNm": "HH300.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/7d3b65c593de477da1caa2840265f268.png?response-content-disposition=attachment%3Bfilename%3D%22HH300.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=5e80423ac75573ee2b5c76d0325c8da1bff0124a81c7214c8e269a57a76eaa5a"
+      }
+    ]
+  },
+  {
+    "prdSeq": 22,
+    "prdNm": "HDR200L-30(HS200L)",
+    "prdTypeCd": "60010001",
+    "payload": "200",
+    "reach": "3070",
+    "fileSeq": 6824,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/0ee4266dc74b456e9c3687049036cc11.png?response-content-disposition=attachment%3Bfilename%3D%22HS200L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=6e418272a63145a9cdbeb5ba806caeef23b95cf4e3e549c28049c460cc980b25",
+    "fileOriNm": "HS200L.png",
+    "atts": [
+      {
+        "fileSeq": 6824,
+        "fileOriNm": "HS200L.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/0ee4266dc74b456e9c3687049036cc11.png?response-content-disposition=attachment%3Bfilename%3D%22HS200L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=6e418272a63145a9cdbeb5ba806caeef23b95cf4e3e549c28049c460cc980b25"
+      }
+    ]
+  },
+  {
+    "prdSeq": 21,
+    "prdNm": "HDR220-26(HS220)",
+    "prdTypeCd": "60010001",
+    "payload": "220",
+    "reach": "2666",
+    "fileSeq": 6852,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/0793a05009054505ad333a29a77b138d.png?response-content-disposition=attachment%3Bfilename%3D%22HS220.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=b2fb09f8ce660547f7b439af18d04fdeae19736278d1e5fcd6e4c272f22fc47f",
+    "fileOriNm": "HS220.png",
+    "atts": [
+      {
+        "fileSeq": 6852,
+        "fileOriNm": "HS220.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/0793a05009054505ad333a29a77b138d.png?response-content-disposition=attachment%3Bfilename%3D%22HS220.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=b2fb09f8ce660547f7b439af18d04fdeae19736278d1e5fcd6e4c272f22fc47f"
+      }
+    ]
+  },
+  {
+    "prdSeq": 68,
+    "prdNm": "Hi6-N10",
+    "prdTypeCd": "60010003",
+    "payload": "600×550×335",
+    "reach": "60",
+    "fileSeq": 4226,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N10.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N10.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=e7e6ac5f9533777d58e7b7f2416e31cea51e18b1e20b888d42ebfaf45f85351d",
+    "fileOriNm": "Hi6-N10.png",
+    "atts": [
+      {
+        "fileSeq": 4226,
+        "fileOriNm": "Hi6-N10.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N10.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N10.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=e7e6ac5f9533777d58e7b7f2416e31cea51e18b1e20b888d42ebfaf45f85351d"
+      }
+    ]
+  },
+  {
+    "prdSeq": 70,
+    "prdNm": "Hi6-N00",
+    "prdTypeCd": "60010003",
+    "payload": "650×560×580",
+    "reach": "120",
+    "fileSeq": 4228,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N00.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N00.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=48ee521f1e544134b834299cc5b75893e70f9335e9f192e6439bbc32e8a57226",
+    "fileOriNm": "Hi6-N00.png",
+    "atts": [
+      {
+        "fileSeq": 4228,
+        "fileOriNm": "Hi6-N00.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N00.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N00.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=48ee521f1e544134b834299cc5b75893e70f9335e9f192e6439bbc32e8a57226"
+      }
+    ]
+  },
+  {
+    "prdSeq": 71,
+    "prdNm": "Hi6-N00 HK",
+    "prdTypeCd": "60010003",
+    "payload": "650x600x890",
+    "reach": "185",
+    "fileSeq": 4229,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N00%20HK.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N00%2BHK.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=ee25cfd3f6a333d813d124375841cdf9a6c0cfc467dfd50ce57e5f783ca7b674",
+    "fileOriNm": "Hi6-N00 HK.png",
+    "atts": [
+      {
+        "fileSeq": 4229,
+        "fileOriNm": "Hi6-N00 HK.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N00%20HK.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N00%2BHK.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=ee25cfd3f6a333d813d124375841cdf9a6c0cfc467dfd50ce57e5f783ca7b674"
+      }
+    ]
+  },
+  {
+    "prdSeq": 72,
+    "prdNm": "Hi6-N30",
+    "prdTypeCd": "60010003",
+    "payload": "650×560×580",
+    "reach": "120",
+    "fileSeq": 4230,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N30.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N30.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=a720d58d2b53aabdf2188a202881f346b94a0df2e7e669cd7755b987c11291ea",
+    "fileOriNm": "Hi6-N30.png",
+    "atts": [
+      {
+        "fileSeq": 4230,
+        "fileOriNm": "Hi6-N30.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N30.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N30.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=a720d58d2b53aabdf2188a202881f346b94a0df2e7e669cd7755b987c11291ea"
+      }
+    ]
+  },
+  {
+    "prdSeq": 73,
+    "prdNm": "Hi6-N30 HK",
+    "prdTypeCd": "60010003",
+    "payload": "650x600x890",
+    "reach": "165",
+    "fileSeq": 4231,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N30%20HK.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N30%2BHK.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=4661c9379fe7ebe9c8d3f0e4cef0a0a7df4427e88061c1604ce4474ca3bb12fe",
+    "fileOriNm": "Hi6-N30 HK.png",
+    "atts": [
+      {
+        "fileSeq": 4231,
+        "fileOriNm": "Hi6-N30 HK.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N30%20HK.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N30%2BHK.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=4661c9379fe7ebe9c8d3f0e4cef0a0a7df4427e88061c1604ce4474ca3bb12fe"
+      }
+    ]
+  },
+  {
+    "prdSeq": 74,
+    "prdNm": "Hi6-N80",
+    "prdTypeCd": "60010003",
+    "payload": "650×560×580",
+    "reach": "125",
+    "fileSeq": 4232,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N80.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N80.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=e1c451bb536c4e934803be9f9a632176f35948be9a27af98a8d0875914f03e90",
+    "fileOriNm": "Hi6-N80.png",
+    "atts": [
+      {
+        "fileSeq": 4232,
+        "fileOriNm": "Hi6-N80.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N80.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N80.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=e1c451bb536c4e934803be9f9a632176f35948be9a27af98a8d0875914f03e90"
+      }
+    ]
+  },
+  {
+    "prdSeq": 75,
+    "prdNm": "Hi6-N80 HK",
+    "prdTypeCd": "60010003",
+    "payload": "650x600x890",
+    "reach": "195",
+    "fileSeq": 4233,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N80%20HK.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N80%2BHK.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=6cd43dedb0e19d9b4bd323d4f4b92d848fcd3a2ca311541128e2f40c028cac5e",
+    "fileOriNm": "Hi6-N80 HK.png",
+    "atts": [
+      {
+        "fileSeq": 4233,
+        "fileOriNm": "Hi6-N80 HK.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-N80%20HK.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-N80%2BHK.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=6cd43dedb0e19d9b4bd323d4f4b92d848fcd3a2ca311541128e2f40c028cac5e"
+      }
+    ]
+  },
+  {
+    "prdSeq": 76,
+    "prdNm": "Hi6-T15",
+    "prdTypeCd": "60010003",
+    "payload": "420x285x130",
+    "reach": "12",
+    "fileSeq": 4234,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-T15.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-T15.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=15bc4f766080ece5e23a1d37bee50e96349b907073a0d0379f8ea59bb80d365e",
+    "fileOriNm": "Hi6-T15.png",
+    "atts": [
+      {
+        "fileSeq": 4234,
+        "fileOriNm": "Hi6-T15.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi6-T15.png?response-content-disposition=attachment%3Bfilename%3D%22Hi6-T15.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=15bc4f766080ece5e23a1d37bee50e96349b907073a0d0379f8ea59bb80d365e"
+      }
+    ]
+  },
+  {
+    "prdSeq": 41,
+    "prdNm": "HDR35-20(UH035)",
+    "prdTypeCd": "60010001",
+    "payload": "35",
+    "reach": "2060",
+    "fileSeq": 6819,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/4c6e63def4e9455a91f13e48cb703aaa.png?response-content-disposition=attachment%3Bfilename%3D%22UH035.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=8f46c1a32063cafe52a843991a7bb42946eed13320a9b949059bc155a650dd00",
+    "fileOriNm": "UH035.png",
+    "atts": [
+      {
+        "fileSeq": 6819,
+        "fileOriNm": "UH035.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/4c6e63def4e9455a91f13e48cb703aaa.png?response-content-disposition=attachment%3Bfilename%3D%22UH035.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=8f46c1a32063cafe52a843991a7bb42946eed13320a9b949059bc155a650dd00"
+      }
+    ]
+  },
+  {
+    "prdSeq": 40,
+    "prdNm": "HDR20-17(UH020)",
+    "prdTypeCd": "60010001",
+    "payload": "20",
+    "reach": "1742",
+    "fileSeq": 6820,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/247a5771e3f147dbbb4610472b732f78.png?response-content-disposition=attachment%3Bfilename%3D%22UH020.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=a447c12bd51aec8f02de0b620530e70d7c7d4093ee4f2a97f16ca52ed162506e",
+    "fileOriNm": "UH020.png",
+    "atts": [
+      {
+        "fileSeq": 6820,
+        "fileOriNm": "UH020.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/247a5771e3f147dbbb4610472b732f78.png?response-content-disposition=attachment%3Bfilename%3D%22UH020.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=a447c12bd51aec8f02de0b620530e70d7c7d4093ee4f2a97f16ca52ed162506e"
+      }
+    ]
+  },
+  {
+    "prdSeq": 33,
+    "prdNm": "HDP130-32(HP130)",
+    "prdTypeCd": "60010001",
+    "payload": "130",
+    "reach": "3217",
+    "fileSeq": 6834,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/96b9d0399cd9409d9cf6059620af7008.png?response-content-disposition=attachment%3Bfilename%3D%22HP130.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=bcb363a85dc2da18585e4fdd794b75ad785db823621fa599883eebccb0560f88",
+    "fileOriNm": "HP130.png",
+    "atts": [
+      {
+        "fileSeq": 6834,
+        "fileOriNm": "HP130.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/96b9d0399cd9409d9cf6059620af7008.png?response-content-disposition=attachment%3Bfilename%3D%22HP130.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=bcb363a85dc2da18585e4fdd794b75ad785db823621fa599883eebccb0560f88"
+      }
+    ]
+  },
+  {
+    "prdSeq": 32,
+    "prdNm": "HDX500S-30(HX500S)",
+    "prdTypeCd": "60010001",
+    "payload": "500",
+    "reach": "3068",
+    "fileSeq": 6833,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/aa84be70b17d46c2bd27349932e402b1.png?response-content-disposition=attachment%3Bfilename%3D%22HX500S.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=f2bbf1b95948761720b7662789d848a74b93c6141743df3767d1162f6b43ee3c",
+    "fileOriNm": "HX500S.png",
+    "atts": [
+      {
+        "fileSeq": 6833,
+        "fileOriNm": "HX500S.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/aa84be70b17d46c2bd27349932e402b1.png?response-content-disposition=attachment%3Bfilename%3D%22HX500S.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=f2bbf1b95948761720b7662789d848a74b93c6141743df3767d1162f6b43ee3c"
+      }
+    ]
+  },
+  {
+    "prdSeq": 31,
+    "prdNm": "HX400S",
+    "prdTypeCd": "60010001",
+    "payload": "400",
+    "reach": "3106",
+    "fileSeq": 6832,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/b95c8f2ca9d34b2d8bd704208113f224.png?response-content-disposition=attachment%3Bfilename%3D%22HX400S.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=bd575731abce8b7a37eaa72a2432bf114669641b9b236ca5ac8a0e2787f9975f",
+    "fileOriNm": "HX400S.png",
+    "atts": [
+      {
+        "fileSeq": 6832,
+        "fileOriNm": "HX400S.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/b95c8f2ca9d34b2d8bd704208113f224.png?response-content-disposition=attachment%3Bfilename%3D%22HX400S.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=bd575731abce8b7a37eaa72a2432bf114669641b9b236ca5ac8a0e2787f9975f"
+      }
+    ]
+  },
+  {
+    "prdSeq": 30,
+    "prdNm": "HDR220S-30(HS220S)",
+    "prdTypeCd": "60010001",
+    "payload": "220",
+    "reach": "3091",
+    "fileSeq": 6831,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/77aee89976674a11ac76fa39937eeb6f.png?response-content-disposition=attachment%3Bfilename%3D%22HS220S.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=6a19c10cf0127e0c0b01fb3027e065059e180e3d95aceaa02ffc6e8be8a56184",
+    "fileOriNm": "HS220S.png",
+    "atts": [
+      {
+        "fileSeq": 6831,
+        "fileOriNm": "HS220S.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/77aee89976674a11ac76fa39937eeb6f.png?response-content-disposition=attachment%3Bfilename%3D%22HS220S.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=6a19c10cf0127e0c0b01fb3027e065059e180e3d95aceaa02ffc6e8be8a56184"
+      }
+    ]
+  },
+  {
+    "prdSeq": 20,
+    "prdNm": "HDR210H-26(HS210E)",
+    "prdTypeCd": "60010001",
+    "payload": "210",
+    "reach": "2666",
+    "fileSeq": 6851,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/374d450de8c746ae8593ec2b422fd972.png?response-content-disposition=attachment%3Bfilename%3D%22HS210E.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=b70d8048e9d88826b760c3a8a60ae483b39f711a2dcca83a66cb5206b51e8c11",
+    "fileOriNm": "HS210E.png",
+    "atts": [
+      {
+        "fileSeq": 6851,
+        "fileOriNm": "HS210E.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/374d450de8c746ae8593ec2b422fd972.png?response-content-disposition=attachment%3Bfilename%3D%22HS210E.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=b70d8048e9d88826b760c3a8a60ae483b39f711a2dcca83a66cb5206b51e8c11"
+      }
+    ]
+  },
+  {
+    "prdSeq": 28,
+    "prdNm": "HDX600-27(HX600)",
+    "prdTypeCd": "60010001",
+    "payload": "600",
+    "reach": "2704",
+    "fileSeq": 6829,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/6b00173a60c04772b081a90b576480ff.png?response-content-disposition=attachment%3Bfilename%3D%22HX600.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=432e0e908578aa8e8d0e5431909ae0c140f123020bad4034483b025197a577b6",
+    "fileOriNm": "HX600.png",
+    "atts": [
+      {
+        "fileSeq": 6829,
+        "fileOriNm": "HX600.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/6b00173a60c04772b081a90b576480ff.png?response-content-disposition=attachment%3Bfilename%3D%22HX600.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=432e0e908578aa8e8d0e5431909ae0c140f123020bad4034483b025197a577b6"
+      }
+    ]
+  },
+  {
+    "prdSeq": 27,
+    "prdNm": "HX500",
+    "prdTypeCd": "60010001",
+    "payload": "500",
+    "reach": "2704",
+    "fileSeq": 6828,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/5ffba20460964bedb583fed32ef9b4cc.png?response-content-disposition=attachment%3Bfilename%3D%22HX500.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=00a239d6047eb29addd6fe8fd09c81d08b075b5fb8c1d49223539ea585921f87",
+    "fileOriNm": "HX500.png",
+    "atts": [
+      {
+        "fileSeq": 6828,
+        "fileOriNm": "HX500.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/5ffba20460964bedb583fed32ef9b4cc.png?response-content-disposition=attachment%3Bfilename%3D%22HX500.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=00a239d6047eb29addd6fe8fd09c81d08b075b5fb8c1d49223539ea585921f87"
+      }
+    ]
+  },
+  {
+    "prdSeq": 26,
+    "prdNm": "HDX400L-30(HX400L)",
+    "prdTypeCd": "60010001",
+    "payload": "400",
+    "reach": "3056",
+    "fileSeq": 6827,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/274d59536382440093d00e124d1d4942.png?response-content-disposition=attachment%3Bfilename%3D%22HX400L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=57153c50f1de3e676957d406056a13230bc9df491f44ad88e07c2706e552151c",
+    "fileOriNm": "HX400L.png",
+    "atts": [
+      {
+        "fileSeq": 6827,
+        "fileOriNm": "HX400L.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/274d59536382440093d00e124d1d4942.png?response-content-disposition=attachment%3Bfilename%3D%22HX400L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=57153c50f1de3e676957d406056a13230bc9df491f44ad88e07c2706e552151c"
+      }
+    ]
+  },
+  {
+    "prdSeq": 25,
+    "prdNm": "HDX400-25(HX400)",
+    "prdTypeCd": "60010001",
+    "payload": "400",
+    "reach": "2573",
+    "fileSeq": 6826,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/6bc69216fb7e4afbb1655019d52208bb.png?response-content-disposition=attachment%3Bfilename%3D%22HX400.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=e5a999914f665f0d508a62002f58ee108bdd02c02599876f23dd681f4b8b8c9c",
+    "fileOriNm": "HX400.png",
+    "atts": [
+      {
+        "fileSeq": 6826,
+        "fileOriNm": "HX400.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/6bc69216fb7e4afbb1655019d52208bb.png?response-content-disposition=attachment%3Bfilename%3D%22HX400.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=e5a999914f665f0d508a62002f58ee108bdd02c02599876f23dd681f4b8b8c9c"
+      }
+    ]
+  },
+  {
+    "prdSeq": 24,
+    "prdNm": "HDX300L-30(HX300L)",
+    "prdTypeCd": "60010001",
+    "payload": "300",
+    "reach": "3056",
+    "fileSeq": 6825,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/d2b5250094fd407583c5c963f456b470.png?response-content-disposition=attachment%3Bfilename%3D%22HX300L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=82b3a583ac2c5c49cf515a619107734b510f6d910b8fe997c7ad65f798e99a94",
+    "fileOriNm": "HX300L.png",
+    "atts": [
+      {
+        "fileSeq": 6825,
+        "fileOriNm": "HX300L.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/d2b5250094fd407583c5c963f456b470.png?response-content-disposition=attachment%3Bfilename%3D%22HX300L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041147Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=82b3a583ac2c5c49cf515a619107734b510f6d910b8fe997c7ad65f798e99a94"
+      }
+    ]
+  },
+  {
+    "prdSeq": 77,
+    "prdNm": "HAP1-0500-04",
+    "prdTypeCd": "60010004",
+    "payload": "0",
+    "reach": "0.5t",
+    "fileSeq": 4235,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HAP1-0500-04.png?response-content-disposition=attachment%3Bfilename%3D%22HAP1-0500-04.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=975aa690f67701b2c257743cdbec0753ccda4eae09a0769b42219dcad70dc5c4",
+    "fileOriNm": "HAP1-0500-04.png",
+    "atts": [
+      {
+        "fileSeq": 4235,
+        "fileOriNm": "HAP1-0500-04.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HAP1-0500-04.png?response-content-disposition=attachment%3Bfilename%3D%22HAP1-0500-04.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=975aa690f67701b2c257743cdbec0753ccda4eae09a0769b42219dcad70dc5c4"
+      }
+    ]
+  },
+  {
+    "prdSeq": 64,
+    "prdNm": "Hi5a-T",
+    "prdTypeCd": "60010003",
+    "payload": "260x490x450",
+    "reach": "25",
+    "fileSeq": 4222,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-T.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-T.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=6e9783339d611eb9e8ed02506e4a07b1753a959c5cc1d0a927bca579d5a67280",
+    "fileOriNm": "Hi5a-T.png",
+    "atts": [
+      {
+        "fileSeq": 4222,
+        "fileOriNm": "Hi5a-T.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-T.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-T.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=6e9783339d611eb9e8ed02506e4a07b1753a959c5cc1d0a927bca579d5a67280"
+      }
+    ]
+  },
+  {
+    "prdSeq": 62,
+    "prdNm": "Hi5a-S10",
+    "prdTypeCd": "60010003",
+    "payload": "375x650x600",
+    "reach": "65",
+    "fileSeq": 4220,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-S10.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-S10.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=93599381aedce0d7f9bc518894a00f8bf13863c3d0a6119f9f1e585c1acb5e2f",
+    "fileOriNm": "Hi5a-S10.png",
+    "atts": [
+      {
+        "fileSeq": 4220,
+        "fileOriNm": "Hi5a-S10.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-S10.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-S10.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=93599381aedce0d7f9bc518894a00f8bf13863c3d0a6119f9f1e585c1acb5e2f"
+      }
+    ]
+  },
+  {
+    "prdSeq": 63,
+    "prdNm": "Hi5a-S20",
+    "prdTypeCd": "60010003",
+    "payload": "300x550x600",
+    "reach": "45",
+    "fileSeq": 4221,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-S20.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-S20.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=e5534bb29c7a0f7701731b762630894f52f1b3dc76a4dfd95ee8942e11bf6d03",
+    "fileOriNm": "Hi5a-S20.png",
+    "atts": [
+      {
+        "fileSeq": 4221,
+        "fileOriNm": "Hi5a-S20.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-S20.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-S20.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=e5534bb29c7a0f7701731b762630894f52f1b3dc76a4dfd95ee8942e11bf6d03"
+      }
+    ]
+  },
+  {
+    "prdSeq": 65,
+    "prdNm": "Hi5a-S",
+    "prdTypeCd": "60010003",
+    "payload": "700x900x630",
+    "reach": "150",
+    "fileSeq": 4223,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-S.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-S.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=d75dcc79dd7cf4b2c93007b7e68010c35691445e1fed4a8679ad64c59bd0076c",
+    "fileOriNm": "Hi5a-S.png",
+    "atts": [
+      {
+        "fileSeq": 4223,
+        "fileOriNm": "Hi5a-S.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-S.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-S.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=d75dcc79dd7cf4b2c93007b7e68010c35691445e1fed4a8679ad64c59bd0076c"
+      }
+    ]
+  },
+  {
+    "prdSeq": 66,
+    "prdNm": "Hi5a-C",
+    "prdTypeCd": "60010003",
+    "payload": "600x1100x500",
+    "reach": "150",
+    "fileSeq": 4224,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-C.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-C.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=da56af643d9719bacb24b1f1b7267b8dc22a09dda47733abcfcf8bf3b80ab4dd",
+    "fileOriNm": "Hi5a-C.png",
+    "atts": [
+      {
+        "fileSeq": 4224,
+        "fileOriNm": "Hi5a-C.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-C.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-C.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=da56af643d9719bacb24b1f1b7267b8dc22a09dda47733abcfcf8bf3b80ab4dd"
+      }
+    ]
+  },
+  {
+    "prdSeq": 67,
+    "prdNm": "Hi5a-P",
+    "prdTypeCd": "60010003",
+    "payload": "650x600x1250",
+    "reach": "160",
+    "fileSeq": 4225,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-P.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-P.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=eb2461fca93d27fc32d227acd8f5db02107401eead1825726ddae9ca3bc6fb6f",
+    "fileOriNm": "Hi5a-P.png",
+    "atts": [
+      {
+        "fileSeq": 4225,
+        "fileOriNm": "Hi5a-P.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/Hi5a-P.png?response-content-disposition=attachment%3Bfilename%3D%22Hi5a-P.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=eb2461fca93d27fc32d227acd8f5db02107401eead1825726ddae9ca3bc6fb6f"
+      }
+    ]
+  },
+  {
+    "prdSeq": 52,
+    "prdNm": "HC125*P Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "65\"(8G)",
+    "fileSeq": 4210,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC125%2AP%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC125%2AP%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=493a066bc8960ba7be12f73c9555423d87fb0803d0e9781f0a820c7f9aaab4b2",
+    "fileOriNm": "HC125*P Series.png",
+    "atts": [
+      {
+        "fileSeq": 4210,
+        "fileOriNm": "HC125*P Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC125%2AP%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC125%2AP%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=493a066bc8960ba7be12f73c9555423d87fb0803d0e9781f0a820c7f9aaab4b2"
+      }
+    ]
+  },
+  {
+    "prdSeq": 53,
+    "prdNm": "HC085*P Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "65\"(6G)",
+    "fileSeq": 4211,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC085%2AP%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC085%2AP%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=57437fb16e7563948151c949881e6e9168a4ad41b9771074e53592fde41c9dca",
+    "fileOriNm": "HC085*P Series.png",
+    "atts": [
+      {
+        "fileSeq": 4211,
+        "fileOriNm": "HC085*P Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC085%2AP%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC085%2AP%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=57437fb16e7563948151c949881e6e9168a4ad41b9771074e53592fde41c9dca"
+      }
+    ]
+  },
+  {
+    "prdSeq": 54,
+    "prdNm": "HC047*P Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "23\"(4G)",
+    "fileSeq": 4212,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC047%2AP%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC047%2AP%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=5848cc33b924bfb46b43aa82f772aeb03663f46b0a2b10e0b5f957c1861d38a7",
+    "fileOriNm": "HC047*P Series.png",
+    "atts": [
+      {
+        "fileSeq": 4212,
+        "fileOriNm": "HC047*P Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC047%2AP%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC047%2AP%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041117Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=5848cc33b924bfb46b43aa82f772aeb03663f46b0a2b10e0b5f957c1861d38a7"
+      }
+    ]
+  },
+  {
+    "prdSeq": 39,
+    "prdNm": "HDR12H-14(UA012E)",
+    "prdTypeCd": "60010001",
+    "payload": "12",
+    "reach": "1439",
+    "fileSeq": 6276,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/4344733276514b229d34070f36d46a87.png?response-content-disposition=attachment%3Bfilename%3D%22UA012E.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=5bed902daf2de7418d2e9b332c1791aef7e993cd30e2ca4c4418d9df715aca7f",
+    "fileOriNm": "UA012E.png",
+    "atts": [
+      {
+        "fileSeq": 6276,
+        "fileOriNm": "UA012E.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/4344733276514b229d34070f36d46a87.png?response-content-disposition=attachment%3Bfilename%3D%22UA012E.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=5bed902daf2de7418d2e9b332c1791aef7e993cd30e2ca4c4418d9df715aca7f"
+      }
+    ]
+  },
+  {
+    "prdSeq": 38,
+    "prdNm": "HDR12-14(UH012)",
+    "prdTypeCd": "60010001",
+    "payload": "12",
+    "reach": "1430",
+    "fileSeq": 6821,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/4b21deda55ca40e5b41a5a1afdfcc839.png?response-content-disposition=attachment%3Bfilename%3D%22UH012.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=8c446262961e11d1ad288e9d9a084e19e04d441e6a73f68d42c408103887d0f9",
+    "fileOriNm": "UH012.png",
+    "atts": [
+      {
+        "fileSeq": 6821,
+        "fileOriNm": "UH012.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/4b21deda55ca40e5b41a5a1afdfcc839.png?response-content-disposition=attachment%3Bfilename%3D%22UH012.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=8c446262961e11d1ad288e9d9a084e19e04d441e6a73f68d42c408103887d0f9"
+      }
+    ]
+  },
+  {
+    "prdSeq": 37,
+    "prdNm": "HDR8-14(UA008)",
+    "prdTypeCd": "60010001",
+    "payload": "8",
+    "reach": "1430",
+    "fileSeq": 6822,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/47f3d8a8b330452281d00673b6e707e8.png?response-content-disposition=attachment%3Bfilename%3D%22UA008.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=566e694a5d8523544865cbf6125627a4cb59fcdf8f27b778e80f068960da0aa4",
+    "fileOriNm": "UA008.png",
+    "atts": [
+      {
+        "fileSeq": 6822,
+        "fileOriNm": "UA008.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/47f3d8a8b330452281d00673b6e707e8.png?response-content-disposition=attachment%3Bfilename%3D%22UA008.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=566e694a5d8523544865cbf6125627a4cb59fcdf8f27b778e80f068960da0aa4"
+      }
+    ]
+  },
+  {
+    "prdSeq": 90,
+    "prdNm": "YS140",
+    "prdTypeCd": "60010001",
+    "payload": "140",
+    "reach": "2339.2",
+    "fileSeq": 7995,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/fc74184991d1484099e4e6552f5f0468.png?response-content-disposition=attachment%3Bfilename%3D%22YS080L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=79a0829a9a6304a9264eb7903f4603f4ffc67f598a05ac9c64cbe1a0911c98dc",
+    "fileOriNm": "YS080L.png",
+    "atts": [
+      {
+        "fileSeq": 7995,
+        "fileOriNm": "YS080L.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/fc74184991d1484099e4e6552f5f0468.png?response-content-disposition=attachment%3Bfilename%3D%22YS080L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=79a0829a9a6304a9264eb7903f4603f4ffc67f598a05ac9c64cbe1a0911c98dc"
+      }
+    ]
+  },
+  {
+    "prdSeq": 89,
+    "prdNm": "YS100A",
+    "prdTypeCd": "60010001",
+    "payload": "100",
+    "reach": "2239",
+    "fileSeq": 7994,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/008b28b9687e4164beb161dcab1a2145.png?response-content-disposition=attachment%3Bfilename%3D%22YS080.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=13a375584e0388f9a68141d4676763854b3d420bc8e1d5b6456dd825672bddd8",
+    "fileOriNm": "YS080.png",
+    "atts": [
+      {
+        "fileSeq": 7994,
+        "fileOriNm": "YS080.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/008b28b9687e4164beb161dcab1a2145.png?response-content-disposition=attachment%3Bfilename%3D%22YS080.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041115Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=13a375584e0388f9a68141d4676763854b3d420bc8e1d5b6456dd825672bddd8"
+      }
+    ]
+  },
+  {
+    "prdSeq": 78,
+    "prdNm": "HAP1-1000-03",
+    "prdTypeCd": "60010004",
+    "payload": "0",
+    "reach": "1t",
+    "fileSeq": 4236,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HAP1-1000-03.png?response-content-disposition=attachment%3Bfilename%3D%22HAP1-1000-03.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=2e2dd95722971aa40b5e3d2f4acc790bd0a5a5685fc7cf3bb61dc5bab9ec1468",
+    "fileOriNm": "HAP1-1000-03.png",
+    "atts": [
+      {
+        "fileSeq": 4236,
+        "fileOriNm": "HAP1-1000-03.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HAP1-1000-03.png?response-content-disposition=attachment%3Bfilename%3D%22HAP1-1000-03.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=2e2dd95722971aa40b5e3d2f4acc790bd0a5a5685fc7cf3bb61dc5bab9ec1468"
+      }
+    ]
+  },
+  {
+    "prdSeq": 79,
+    "prdNm": "HAP2-0500-03",
+    "prdTypeCd": "60010004",
+    "payload": "0",
+    "reach": "0.5t",
+    "fileSeq": 4237,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HAP2-0500-03.png?response-content-disposition=attachment%3Bfilename%3D%22HAP2-0500-03.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=7bb5a10e7626b22eabe70494f802156e6152ecfebccaef138a7619d060e213e1",
+    "fileOriNm": "HAP2-0500-03.png",
+    "atts": [
+      {
+        "fileSeq": 4237,
+        "fileOriNm": "HAP2-0500-03.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HAP2-0500-03.png?response-content-disposition=attachment%3Bfilename%3D%22HAP2-0500-03.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=7bb5a10e7626b22eabe70494f802156e6152ecfebccaef138a7619d060e213e1"
+      }
+    ]
+  },
+  {
+    "prdSeq": 81,
+    "prdNm": "HSP1-2500-06",
+    "prdTypeCd": "60010004",
+    "payload": "0",
+    "reach": "2.5 ton",
+    "fileSeq": 9185,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/8f81c8ccbf054eb0af52734e3723a75c.jpg?response-content-disposition=attachment%3Bfilename%3D%222500_01.jpg%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=a11483417c46f8ce931788b93462b99ddf24d6e4b8b3d34dbe6026bbfa38ddd1",
+    "fileOriNm": "2500_01.jpg",
+    "atts": [
+      {
+        "fileSeq": 9185,
+        "fileOriNm": "2500_01.jpg",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/8f81c8ccbf054eb0af52734e3723a75c.jpg?response-content-disposition=attachment%3Bfilename%3D%222500_01.jpg%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=a11483417c46f8ce931788b93462b99ddf24d6e4b8b3d34dbe6026bbfa38ddd1"
+      }
+    ]
+  },
+  {
+    "prdSeq": 82,
+    "prdNm": "HSP1-5000-06",
+    "prdTypeCd": "60010004",
+    "payload": "0",
+    "reach": "5t",
+    "fileSeq": 9186,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/3c425250dbf44b778d6ef6e3e17be972.jpg?response-content-disposition=attachment%3Bfilename%3D%225000_02.jpg%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=70aa75b2bd714680e3fe5d5c5f3d1a7f15e05e3ca483ec5c1e25ec52bd13cfc6",
+    "fileOriNm": "5000_02.jpg",
+    "atts": [
+      {
+        "fileSeq": 9186,
+        "fileOriNm": "5000_02.jpg",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/3c425250dbf44b778d6ef6e3e17be972.jpg?response-content-disposition=attachment%3Bfilename%3D%225000_02.jpg%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=70aa75b2bd714680e3fe5d5c5f3d1a7f15e05e3ca483ec5c1e25ec52bd13cfc6"
+      }
+    ]
+  },
+  {
+    "prdSeq": 83,
+    "prdNm": "HSP1-7500-03",
+    "prdTypeCd": "60010004",
+    "payload": "0",
+    "reach": "7.5 ton",
+    "fileSeq": 9187,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/756b6eeb579948c19b09dbb920cb510f.jpg?response-content-disposition=attachment%3Bfilename%3D%227500_03.jpg%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=00deca7cec971d872426075a917ea739dde6985436bd54386f68a194aba9788b",
+    "fileOriNm": "7500_03.jpg",
+    "atts": [
+      {
+        "fileSeq": 9187,
+        "fileOriNm": "7500_03.jpg",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/756b6eeb579948c19b09dbb920cb510f.jpg?response-content-disposition=attachment%3Bfilename%3D%227500_03.jpg%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041116Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=00deca7cec971d872426075a917ea739dde6985436bd54386f68a194aba9788b"
+      }
+    ]
+  },
+  {
+    "prdSeq": 42,
+    "prdNm": "HC3301B Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "11G / 10.5G",
+    "fileSeq": 4200,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC3301B%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC3301B%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=ca92f573f6b27a70fe2b20880da16ecb535d032c006cea782ac51b0eeded682f",
+    "fileOriNm": "HC3301B Series.png",
+    "atts": [
+      {
+        "fileSeq": 4200,
+        "fileOriNm": "HC3301B Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC3301B%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC3301B%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=ca92f573f6b27a70fe2b20880da16ecb535d032c006cea782ac51b0eeded682f"
+      }
+    ]
+  },
+  {
+    "prdSeq": 43,
+    "prdNm": "HC3303B Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "11G / 10.5G",
+    "fileSeq": 4201,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC3303B%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC3303B%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=9d6a504b112e0436699e61fd6aadda7bb140565e235524fa42de54b4b9bcee32",
+    "fileOriNm": "HC3303B Series.png",
+    "atts": [
+      {
+        "fileSeq": 4201,
+        "fileOriNm": "HC3303B Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC3303B%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC3303B%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=9d6a504b112e0436699e61fd6aadda7bb140565e235524fa42de54b4b9bcee32"
+      }
+    ]
+  },
+  {
+    "prdSeq": 44,
+    "prdNm": "HC250*B Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "8G",
+    "fileSeq": 4202,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC250%2AB%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC250%2AB%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=8251f49bbf0945be2f1b508465b342cdbe974a9c601ff272f18551806a8560d7",
+    "fileOriNm": "HC250*B Series.png",
+    "atts": [
+      {
+        "fileSeq": 4202,
+        "fileOriNm": "HC250*B Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC250%2AB%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC250%2AB%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=8251f49bbf0945be2f1b508465b342cdbe974a9c601ff272f18551806a8560d7"
+      }
+    ]
+  },
+  {
+    "prdSeq": 45,
+    "prdNm": "HC250*MB Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "6GH",
+    "fileSeq": 4203,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC250%2AMB%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC250%2AMB%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=425a6c50dc2f8582271e7a1cbb8533740746036802fa599c92bcbf44c9daebd4",
+    "fileOriNm": "HC250*MB Series.png",
+    "atts": [
+      {
+        "fileSeq": 4203,
+        "fileOriNm": "HC250*MB Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC250%2AMB%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC250%2AMB%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=425a6c50dc2f8582271e7a1cbb8533740746036802fa599c92bcbf44c9daebd4"
+      }
+    ]
+  },
+  {
+    "prdSeq": 46,
+    "prdNm": "HC225*B Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "7.5G",
+    "fileSeq": 4204,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC225%2AB%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC225%2AB%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=b28ba4a33188442447dbdf8c61f9d64a8c3a6fa99b6ea5ec1d17ded8d2dd4124",
+    "fileOriNm": "HC225*B Series.png",
+    "atts": [
+      {
+        "fileSeq": 4204,
+        "fileOriNm": "HC225*B Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC225%2AB%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC225%2AB%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=b28ba4a33188442447dbdf8c61f9d64a8c3a6fa99b6ea5ec1d17ded8d2dd4124"
+      }
+    ]
+  },
+  {
+    "prdSeq": 50,
+    "prdNm": "HC092*C Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "4.5G",
+    "fileSeq": 4208,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC092%2AC%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC092%2AC%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=711cda8d63d5c7085a3abc0b778489ebf709974af6bfe165f60e62dce9fea3f3",
+    "fileOriNm": "HC092*C Series.png",
+    "atts": [
+      {
+        "fileSeq": 4208,
+        "fileOriNm": "HC092*C Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC092%2AC%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC092%2AC%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=711cda8d63d5c7085a3abc0b778489ebf709974af6bfe165f60e62dce9fea3f3"
+      }
+    ]
+  },
+  {
+    "prdSeq": 48,
+    "prdNm": "HC150*B Series",
+    "prdTypeCd": "60010002",
+    "payload": null,
+    "reach": "5.5G",
+    "fileSeq": 4206,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC150%2AB%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC150%2AB%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=848c3d8ffb9fa5b009c089e433d681ab9170717bc8b46cecdb4bd937f3dd4d26",
+    "fileOriNm": "HC150*B Series.png",
+    "atts": [
+      {
+        "fileSeq": 4206,
+        "fileOriNm": "HC150*B Series.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/goods/product/HC150%2AB%20Series.png?response-content-disposition=attachment%3Bfilename%3D%22HC150%2AB%2BSeries.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=848c3d8ffb9fa5b009c089e433d681ab9170717bc8b46cecdb4bd937f3dd4d26"
+      }
+    ]
+  },
+  {
+    "prdSeq": 19,
+    "prdNm": "HDR160L-30(HS160L)",
+    "prdTypeCd": "60010001",
+    "payload": "160",
+    "reach": "3036",
+    "fileSeq": 6850,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/d0dee71ea5284b9ca1d3f95a59a74057.png?response-content-disposition=attachment%3Bfilename%3D%22HS160L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=1dbb24833c40e2045b9d4250c1780e6fb75d3d7dff88b803ff2b779015720d6e",
+    "fileOriNm": "HS160L.png",
+    "atts": [
+      {
+        "fileSeq": 6850,
+        "fileOriNm": "HS160L.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/d0dee71ea5284b9ca1d3f95a59a74057.png?response-content-disposition=attachment%3Bfilename%3D%22HS160L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=1dbb24833c40e2045b9d4250c1780e6fb75d3d7dff88b803ff2b779015720d6e"
+      }
+    ]
+  },
+  {
+    "prdSeq": 2,
+    "prdNm": "HDF4H-6(HH4E)",
+    "prdTypeCd": "60010001",
+    "payload": "4",
+    "reach": "606",
+    "fileSeq": 4337,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/eeef4d98d7064a4d8cf2d3f364946bf3.png?response-content-disposition=attachment%3Bfilename%3D%22HH4E.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=58bc32e05bc48763bff7893e048bb8f1244b266c6c93bc8dcdb325235e74e2db",
+    "fileOriNm": "HH4E.png",
+    "atts": [
+      {
+        "fileSeq": 4337,
+        "fileOriNm": "HH4E.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/eeef4d98d7064a4d8cf2d3f364946bf3.png?response-content-disposition=attachment%3Bfilename%3D%22HH4E.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=58bc32e05bc48763bff7893e048bb8f1244b266c6c93bc8dcdb325235e74e2db"
+      }
+    ]
+  },
+  {
+    "prdSeq": 18,
+    "prdNm": "HDR150L-31(HH150L)",
+    "prdTypeCd": "60010001",
+    "payload": "150",
+    "reach": "3100",
+    "fileSeq": 6849,
+    "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/06a9d3ee88e64e28a18bdd0397e469fe.png?response-content-disposition=attachment%3Bfilename%3D%22HH150L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=cd322630d67a13503a96b907f5041f840b8153d04a449062860689abfac80484",
+    "fileOriNm": "HH150L.png",
+    "atts": [
+      {
+        "fileSeq": 6849,
+        "fileOriNm": "HH150L.png",
+        "fileDwLink": "https://ksoe-s3-hdrobo-homepage-prd.s3.ap-northeast-2.amazonaws.com/notice/06a9d3ee88e64e28a18bdd0397e469fe.png?response-content-disposition=attachment%3Bfilename%3D%22HH150L.png%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAU6GDY6MMTLGV7HEV%2F20260722%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20260722T041118Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=cd322630d67a13503a96b907f5041f840b8153d04a449062860689abfac80484"
+      }
+    ]
+  }
+]

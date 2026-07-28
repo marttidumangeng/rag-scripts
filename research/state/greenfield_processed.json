@@ -1,0 +1,122 @@
+{
+  "processed_names": [
+    "XQL LASER CHINA",
+    "RobotLAB Group",
+    "Ti5 Robot",
+    "MIT Biomimetic Robotics L",
+    "Enchanted Tools",
+    "Kondo Kagaku",
+    "RoboTronic Industries",
+    "Alpha Robot",
+    "Lefant",
+    "Smorobot",
+    "Beatbot",
+    "Ilife",
+    "NAVER LABS",
+    "Noble Machines",
+    "Quantum Systems",
+    "Spirit AI",
+    "University of Tehran"
+  ],
+  "created_company_ids": [
+    1534,
+    1535,
+    1536,
+    1537,
+    1538,
+    1539,
+    1540,
+    1541,
+    1542,
+    1543,
+    1544,
+    1545
+  ],
+  "notes": {
+    "XQL LASER CHINA": {
+      "at": "2026-07-23T05:31:00.137071+00:00",
+      "company_id": null,
+      "note": "website_mismatch"
+    },
+    "RobotLAB Group": {
+      "at": "2026-07-23T05:31:16.404157+00:00",
+      "company_id": null,
+      "note": "website_mismatch"
+    },
+    "Ti5 Robot": {
+      "at": "2026-07-23T05:31:59.737832+00:00",
+      "company_id": null,
+      "note": "website_mismatch"
+    },
+    "MIT Biomimetic Robotics L": {
+      "at": "2026-07-23T05:34:01.682142+00:00",
+      "company_id": null,
+      "note": "website_mismatch"
+    },
+    "Enchanted Tools": {
+      "at": "2026-07-23T05:34:47.000000+00:00",
+      "company_id": 1534,
+      "note": "created — discovery needs Playwright (JS-rendered site)"
+    },
+    "Kondo Kagaku": {
+      "at": "2026-07-23T05:57:40.000000+00:00",
+      "company_id": 1535,
+      "note": "created — discovery interrupted, re-run on desktop"
+    },
+    "RoboTronic Industries": {
+      "at": "2026-07-23T06:21:38.000000+00:00",
+      "company_id": 1536,
+      "note": "created — discovery timed out (slow/blocked site robotronic.eu)"
+    },
+    "Alpha Robot": {
+      "at": "2026-07-23T08:10:59.199548+00:00",
+      "company_id": 1537,
+      "note": "completed"
+    },
+    "Lefant": {
+      "at": "2026-07-23T08:11:02.396040+00:00",
+      "company_id": 1538,
+      "note": "no_robots_discovered"
+    },
+    "Smorobot": {
+      "at": "2026-07-23T08:11:05.365918+00:00",
+      "company_id": 1539,
+      "note": "no_robots_discovered"
+    },
+    "Beatbot": {
+      "at": "2026-07-23T08:11:08.316316+00:00",
+      "company_id": 1540,
+      "note": "no_robots_discovered"
+    },
+    "Ilife": {
+      "at": "2026-07-23T08:17:16.478342+00:00",
+      "company_id": 1541,
+      "note": "completed"
+    },
+    "NAVER LABS": {
+      "at": "2026-07-23T08:18:01.193929+00:00",
+      "company_id": 1542,
+      "note": "no_robots_discovered"
+    },
+    "Noble Machines": {
+      "at": "2026-07-23T08:18:41.105530+00:00",
+      "company_id": 1543,
+      "note": "no_robots_discovered"
+    },
+    "Quantum Systems": {
+      "at": "2026-07-23T08:21:39.910334+00:00",
+      "company_id": 1544,
+      "note": "completed"
+    },
+    "Spirit AI": {
+      "at": "2026-07-23T08:23:13.520582+00:00",
+      "company_id": 1545,
+      "note": "completed"
+    },
+    "University of Tehran": {
+      "at": "2026-07-23T08:23:20.513798+00:00",
+      "company_id": null,
+      "note": "website_mismatch"
+    }
+  }
+}

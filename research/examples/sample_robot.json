@@ -1,0 +1,43 @@
+{
+  "name": "Go2",
+  "model_name": "Go2",
+  "company_name": "Unitree Robotics",
+  "company_slug": "unitree-robotics",
+  "manufacturer_country_code": "CN",
+  "url": "https://www.unitree.com/go2",
+  "image": "https://www.unitree.com/productimages/go2-hero.jpg",
+  "images": [
+    "https://www.unitree.com/productimages/go2-hero.jpg",
+    {
+      "url": "https://www.unitree.com/productimages/go2-side.jpg",
+      "source_page_url": "https://www.unitree.com/go2",
+      "source_tier": "official_exact",
+      "source_publisher": "unitree.com",
+      "media_class": "product_photo",
+      "image_scope": "exact_variant",
+      "confidence_score": 82,
+      "rights_status": "official_source",
+      "match_reason": "Official gallery side view"
+    }
+  ],
+  "video_urls": [
+    "https://www.youtube.com/watch?v=EXAMPLE_OFFICIAL_DEMO"
+  ],
+  "description": "Consumer and research quadruped robot.",
+  "purpose": "Agile locomotion for research and light logistics.",
+  "availability_status_key": "available",
+  "movement_type_keys": "legged",
+  "industry_keys": "research|logistics",
+  "sub_category_slug": "personal-assistants",
+  "release_year": 2023,
+  "price_min": 1600,
+  "price_max": 2800,
+  "price_currency": "USD",
+  "weight_kg": 15,
+  "sensors": ["lidar", "depth camera"],
+  "sources": [
+    {"url": "https://www.unitree.com/go2", "type": "website", "title": "Official product page"}
+  ],
+  "confidence": {"description": "high", "price_min": "medium"},
+  "research_notes": "Price range from official store listing; weight from spec sheet."
+}

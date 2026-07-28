@@ -1,0 +1,14 @@
+{
+  "id": 0,
+  "name": "Boston Dynamics",
+  "slug": "boston-dynamics",
+  "description": "Example company description from official about page.",
+  "website": "https://www.bostondynamics.com",
+  "hq_address": "Waltham, MA, USA",
+  "country_code": "US",
+  "employee_count": "500-1000",
+  "sources": [
+    {"url": "https://www.bostondynamics.com/about", "type": "website"}
+  ],
+  "research_notes": "Replace id with real company id from missing-data API. Use slug from company name, not company-NN."
+}

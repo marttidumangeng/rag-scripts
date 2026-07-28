@@ -1,0 +1,1304 @@
+{
+  "rival": "aparobot",
+  "fetched_at": "2026-07-22T15:04:33Z",
+  "total_robots": 266,
+  "total_companies": 162,
+  "section_counts": {
+    "articles": 106,
+    "author": 2,
+    "companies": 162,
+    "countries": 44,
+    "robot-classifications": 18,
+    "robots": 266,
+    "topics": 13,
+    "use-cases": 35
+  },
+  "items": {
+    "4ne-1": {
+      "name": "4ne-1"
+    },
+    "adam": {
+      "name": "adam"
+    },
+    "adam-2": {
+      "name": "adam-2"
+    },
+    "aeon": {
+      "name": "aeon"
+    },
+    "agibot-a2": {
+      "name": "agibot-a2"
+    },
+    "agibot-a2-w": {
+      "name": "agibot-a2-w"
+    },
+    "agibot-d1-ultra": {
+      "name": "agibot-d1-ultra"
+    },
+    "agibot-g1": {
+      "name": "agibot-g1"
+    },
+    "agibot-g2": {
+      "name": "agibot-g2"
+    },
+    "agibot-raise-a1": {
+      "name": "agibot-raise-a1"
+    },
+    "agibot-x1": {
+      "name": "agibot-x1"
+    },
+    "agibot-x2": {
+      "name": "agibot-x2"
+    },
+    "agile-one": {
+      "name": "agile-one"
+    },
+    "aimoga": {
+      "name": "aimoga"
+    },
+    "aimy": {
+      "name": "aimy"
+    },
+    "airbot-mmk2": {
+      "name": "airbot-mmk2"
+    },
+    "alex": {
+      "name": "alex"
+    },
+    "alice-4": {
+      "name": "alice-4"
+    },
+    "allex": {
+      "name": "allex"
+    },
+    "alpha": {
+      "name": "alpha"
+    },
+    "alphabot-2": {
+      "name": "alphabot-2"
+    },
+    "alphadog-c-series": {
+      "name": "alphadog-c-series"
+    },
+    "ambidex": {
+      "name": "ambidex"
+    },
+    "ameca": {
+      "name": "ameca"
+    },
+    "anymal": {
+      "name": "anymal"
+    },
+    "anymal-x": {
+      "name": "anymal-x"
+    },
+    "apollo": {
+      "name": "apollo"
+    },
+    "apollo-2": {
+      "name": "apollo-2"
+    },
+    "asimo": {
+      "name": "asimo"
+    },
+    "astribot-s1": {
+      "name": "astribot-s1"
+    },
+    "atlas": {
+      "name": "atlas"
+    },
+    "atlas-2026": {
+      "name": "atlas-2026"
+    },
+    "atom": {
+      "name": "atom"
+    },
+    "babyalpha-a2": {
+      "name": "babyalpha-a2"
+    },
+    "babyalpha-dev-q": {
+      "name": "babyalpha-dev-q"
+    },
+    "baha": {
+      "name": "baha"
+    },
+    "baobao": {
+      "name": "baobao"
+    },
+    "barkan-2": {
+      "name": "barkan-2"
+    },
+    "bdx-droids": {
+      "name": "bdx-droids"
+    },
+    "beomni": {
+      "name": "beomni"
+    },
+    "black-hornet-3-prs": {
+      "name": "black-hornet-3-prs"
+    },
+    "black-hornet-4-prs": {
+      "name": "black-hornet-4-prs"
+    },
+    "black-panther-ii": {
+      "name": "black-panther-ii"
+    },
+    "bluefin-12": {
+      "name": "bluefin-12"
+    },
+    "bluefin-21": {
+      "name": "bluefin-21"
+    },
+    "bluefin-9": {
+      "name": "bluefin-9"
+    },
+    "booster-k1": {
+      "name": "booster-k1"
+    },
+    "booster-t1": {
+      "name": "booster-t1"
+    },
+    "borg-01": {
+      "name": "borg-01"
+    },
+    "bozbey": {
+      "name": "bozbey"
+    },
+    "bruce": {
+      "name": "bruce"
+    },
+    "bulut": {
+      "name": "bulut"
+    },
+    "caka": {
+      "name": "caka"
+    },
+    "calvin-40": {
+      "name": "calvin-40"
+    },
+    "casbot-02": {
+      "name": "casbot-02"
+    },
+    "casbot-w1": {
+      "name": "casbot-w1"
+    },
+    "centaur": {
+      "name": "centaur"
+    },
+    "charlie": {
+      "name": "charlie"
+    },
+    "cinnamon-1": {
+      "name": "cinnamon-1"
+    },
+    "clicbot": {
+      "name": "clicbot"
+    },
+    "clone-alpha": {
+      "name": "clone-alpha"
+    },
+    "cloud-ginger-xr-1": {
+      "name": "cloud-ginger-xr-1"
+    },
+    "codroid-02": {
+      "name": "codroid-02"
+    },
+    "coman": {
+      "name": "coman"
+    },
+    "copperhead": {
+      "name": "copperhead"
+    },
+    "corleo": {
+      "name": "corleo"
+    },
+    "cyberdog": {
+      "name": "cyberdog"
+    },
+    "cyberone": {
+      "name": "cyberone"
+    },
+    "daimon-one": {
+      "name": "daimon-one"
+    },
+    "dal-e": {
+      "name": "dal-e"
+    },
+    "daystar-bot-gs": {
+      "name": "daystar-bot-gs"
+    },
+    "dexforce-w1-pro": {
+      "name": "dexforce-w1-pro"
+    },
+    "diablo": {
+      "name": "diablo"
+    },
+    "digit": {
+      "name": "digit"
+    },
+    "dive-ld": {
+      "name": "dive-ld"
+    },
+    "dive-xl": {
+      "name": "dive-xl"
+    },
+    "dora": {
+      "name": "dora"
+    },
+    "dr-02": {
+      "name": "dr-02"
+    },
+    "dr01": {
+      "name": "dr01"
+    },
+    "dual-arm-compound-robot-rmc-da": {
+      "name": "dual-arm-compound-robot-rmc-da"
+    },
+    "dynamixel": {
+      "name": "dynamixel"
+    },
+    "emiew3": {
+      "name": "emiew3"
+    },
+    "enginai-se-01": {
+      "name": "enginai-se-01"
+    },
+    "engineai-js01": {
+      "name": "engineai-js01"
+    },
+    "engineai-pm01": {
+      "name": "engineai-pm01"
+    },
+    "engineai-sa01": {
+      "name": "engineai-sa01"
+    },
+    "engineai-t800": {
+      "name": "engineai-t800"
+    },
+    "ergocub": {
+      "name": "ergocub"
+    },
+    "eve": {
+      "name": "eve"
+    },
+    "explosion-proof-quadruped-robot": {
+      "name": "explosion-proof-quadruped-robot"
+    },
+    "exrobot": {
+      "name": "exrobot"
+    },
+    "figure-01": {
+      "name": "figure-01"
+    },
+    "figure-02": {
+      "name": "figure-02"
+    },
+    "figure-03": {
+      "name": "figure-03"
+    },
+    "firstlook-110": {
+      "name": "firstlook-110"
+    },
+    "flashbot-arm": {
+      "name": "flashbot-arm"
+    },
+    "fourier-gr-1": {
+      "name": "fourier-gr-1"
+    },
+    "fourier-gr-2": {
+      "name": "fourier-gr-2"
+    },
+    "friday": {
+      "name": "friday"
+    },
+    "gaemi-indoor": {
+      "name": "gaemi-indoor"
+    },
+    "gaemi-outdoor": {
+      "name": "gaemi-outdoor"
+    },
+    "galbot-g1": {
+      "name": "galbot-g1"
+    },
+    "galexea-r1-pro": {
+      "name": "galexea-r1-pro"
+    },
+    "genisom-m1": {
+      "name": "genisom-m1"
+    },
+    "gino-1": {
+      "name": "gino-1"
+    },
+    "gomate": {
+      "name": "gomate"
+    },
+    "haribit": {
+      "name": "haribit"
+    },
+    "helios": {
+      "name": "helios"
+    },
+    "hexplorer": {
+      "name": "hexplorer"
+    },
+    "hiva-haiwa": {
+      "name": "hiva-haiwa"
+    },
+    "hmnd-01-alpha-bipedal": {
+      "name": "hmnd-01-alpha-bipedal"
+    },
+    "hmnd-01-alpha-wheeled": {
+      "name": "hmnd-01-alpha-wheeled"
+    },
+    "hobbs": {
+      "name": "hobbs"
+    },
+    "honor-humanoid-robot": {
+      "name": "honor-humanoid-robot"
+    },
+    "hubo-2": {
+      "name": "hubo-2"
+    },
+    "human-x": {
+      "name": "human-x"
+    },
+    "hyq": {
+      "name": "hyq"
+    },
+    "igris-a": {
+      "name": "igris-a"
+    },
+    "igris-c": {
+      "name": "igris-c"
+    },
+    "inmoov": {
+      "name": "inmoov"
+    },
+    "ipal": {
+      "name": "ipal"
+    },
+    "iron": {
+      "name": "iron"
+    },
+    "isage-star-sageman": {
+      "name": "isage-star-sageman"
+    },
+    "jaka-k-1": {
+      "name": "jaka-k-1"
+    },
+    "jizhi-a1": {
+      "name": "jizhi-a1"
+    },
+    "jump-series": {
+      "name": "jump-series"
+    },
+    "keplerbot": {
+      "name": "keplerbot"
+    },
+    "keyper": {
+      "name": "keyper"
+    },
+    "khr-3": {
+      "name": "khr-3"
+    },
+    "kime": {
+      "name": "kime"
+    },
+    "kobra-725": {
+      "name": "kobra-725"
+    },
+    "kuavo-3-0": {
+      "name": "kuavo-3-0"
+    },
+    "kuavo-my": {
+      "name": "kuavo-my"
+    },
+    "l7": {
+      "name": "l7"
+    },
+    "lg-cloid": {
+      "name": "lg-cloid"
+    },
+    "little-sophia": {
+      "name": "little-sophia"
+    },
+    "loona": {
+      "name": "loona"
+    },
+    "lynx-m20": {
+      "name": "lynx-m20"
+    },
+    "m1": {
+      "name": "m1"
+    },
+    "magicbot": {
+      "name": "magicbot"
+    },
+    "magicbot-z1": {
+      "name": "magicbot-z1"
+    },
+    "magicdog": {
+      "name": "magicdog"
+    },
+    "magicdog-y1": {
+      "name": "magicdog-y1"
+    },
+    "martian": {
+      "name": "martian"
+    },
+    "matrix-1": {
+      "name": "matrix-1"
+    },
+    "matrix-3": {
+      "name": "matrix-3"
+    },
+    "max": {
+      "name": "max"
+    },
+    "meka-m1": {
+      "name": "meka-m1"
+    },
+    "memo": {
+      "name": "memo"
+    },
+    "menteebot": {
+      "name": "menteebot"
+    },
+    "menteebot-v3-0": {
+      "name": "menteebot-v3-0"
+    },
+    "mercury-b1": {
+      "name": "mercury-b1"
+    },
+    "mercury-x1": {
+      "name": "mercury-x1"
+    },
+    "mesmer": {
+      "name": "mesmer"
+    },
+    "mh3": {
+      "name": "mh3"
+    },
+    "mini-cheetah": {
+      "name": "mini-cheetah"
+    },
+    "mini-hi": {
+      "name": "mini-hi"
+    },
+    "mini-p": {
+      "name": "mini-p"
+    },
+    "mirokai": {
+      "name": "mirokai"
+    },
+    "mobed": {
+      "name": "mobed"
+    },
+    "moby": {
+      "name": "moby"
+    },
+    "monte01": {
+      "name": "monte01"
+    },
+    "monte02": {
+      "name": "monte02"
+    },
+    "motion-2": {
+      "name": "motion-2"
+    },
+    "move-new-t1": {
+      "name": "move-new-t1"
+    },
+    "moxi": {
+      "name": "moxi"
+    },
+    "moz1": {
+      "name": "moz1"
+    },
+    "n2": {
+      "name": "n2"
+    },
+    "navigator-2": {
+      "name": "navigator-2"
+    },
+    "neo": {
+      "name": "neo"
+    },
+    "oli": {
+      "name": "oli"
+    },
+    "olivia": {
+      "name": "olivia"
+    },
+    "onero-h1": {
+      "name": "onero-h1"
+    },
+    "orca-1": {
+      "name": "orca-1"
+    },
+    "packbot-525": {
+      "name": "packbot-525"
+    },
+    "panther": {
+      "name": "panther"
+    },
+    "pepper": {
+      "name": "pepper"
+    },
+    "phantom": {
+      "name": "phantom"
+    },
+    "phoenix": {
+      "name": "phoenix"
+    },
+    "pr2": {
+      "name": "pr2"
+    },
+    "promobot-v-4": {
+      "name": "promobot-v-4"
+    },
+    "psi-v1": {
+      "name": "psi-v1"
+    },
+    "pudu-d1": {
+      "name": "pudu-d1"
+    },
+    "pudu-d5": {
+      "name": "pudu-d5"
+    },
+    "pudu-d7": {
+      "name": "pudu-d7"
+    },
+    "pudu-d9": {
+      "name": "pudu-d9"
+    },
+    "puma-series": {
+      "name": "puma-series"
+    },
+    "punyo": {
+      "name": "punyo"
+    },
+    "px5": {
+      "name": "px5"
+    },
+    "q5": {
+      "name": "q5"
+    },
+    "qinglong": {
+      "name": "qinglong"
+    },
+    "qrio": {
+      "name": "qrio"
+    },
+    "quanta-x2": {
+      "name": "quanta-x2"
+    },
+    "r-noid": {
+      "name": "r-noid"
+    },
+    "r1": {
+      "name": "r1"
+    },
+    "raven-b-rq-11b": {
+      "name": "raven-b-rq-11b"
+    },
+    "rb-y1": {
+      "name": "rb-y1"
+    },
+    "rbq-3": {
+      "name": "rbq-3"
+    },
+    "realbotix-f-series": {
+      "name": "realbotix-f-series"
+    },
+    "reeman-intelligent-commercial-humanoid": {
+      "name": "reeman-intelligent-commercial-humanoid"
+    },
+    "reflex-robot": {
+      "name": "reflex-robot"
+    },
+    "rivr-one": {
+      "name": "rivr-one"
+    },
+    "roadrunner": {
+      "name": "roadrunner"
+    },
+    "roban": {
+      "name": "roban"
+    },
+    "robo-c2": {
+      "name": "robo-c2"
+    },
+    "robothespian": {
+      "name": "robothespian"
+    },
+    "rollo": {
+      "name": "rollo"
+    },
+    "rover-x1": {
+      "name": "rover-x1"
+    },
+    "sancar": {
+      "name": "sancar"
+    },
+    "sirius": {
+      "name": "sirius"
+    },
+    "sophia": {
+      "name": "sophia"
+    },
+    "spaceo-m1": {
+      "name": "spaceo-m1"
+    },
+    "spaceo-pro": {
+      "name": "spaceo-pro"
+    },
+    "spot": {
+      "name": "spot"
+    },
+    "sprout": {
+      "name": "sprout"
+    },
+    "star-1": {
+      "name": "star-1"
+    },
+    "starleth": {
+      "name": "starleth"
+    },
+    "sugv-325": {
+      "name": "sugv-325"
+    },
+    "surena-4": {
+      "name": "surena-4"
+    },
+    "svan-m2": {
+      "name": "svan-m2"
+    },
+    "switchblade-600": {
+      "name": "switchblade-600"
+    },
+    "t170a": {
+      "name": "t170a"
+    },
+    "talos": {
+      "name": "talos"
+    },
+    "tarzhan-walker": {
+      "name": "tarzhan-walker"
+    },
+    "tesla-optimus": {
+      "name": "tesla-optimus"
+    },
+    "themis": {
+      "name": "themis"
+    },
+    "themis-v2": {
+      "name": "themis-v2"
+    },
+    "tiago-pro": {
+      "name": "tiago-pro"
+    },
+    "tien-kung": {
+      "name": "tien-kung"
+    },
+    "tita": {
+      "name": "tita"
+    },
+    "titan": {
+      "name": "titan"
+    },
+    "tlibot": {
+      "name": "tlibot"
+    },
+    "tm-xplore-i": {
+      "name": "tm-xplore-i"
+    },
+    "tora-one": {
+      "name": "tora-one"
+    },
+    "toro": {
+      "name": "toro"
+    },
+    "torobo": {
+      "name": "torobo"
+    },
+    "trinity-pro": {
+      "name": "trinity-pro"
+    },
+    "tron-1": {
+      "name": "tron-1"
+    },
+    "tron-2": {
+      "name": "tron-2"
+    },
+    "ultra-magnus": {
+      "name": "ultra-magnus"
+    },
+    "unitree-a2": {
+      "name": "unitree-a2"
+    },
+    "unitree-g1": {
+      "name": "unitree-g1"
+    },
+    "unitree-go2": {
+      "name": "unitree-go2"
+    },
+    "unitree-h1": {
+      "name": "unitree-h1"
+    },
+    "unitree-h2": {
+      "name": "unitree-h2"
+    },
+    "unitree-r1": {
+      "name": "unitree-r1"
+    },
+    "valkyrie": {
+      "name": "valkyrie"
+    },
+    "vapor-series": {
+      "name": "vapor-series"
+    },
+    "vega": {
+      "name": "vega"
+    },
+    "vision-60": {
+      "name": "vision-60"
+    },
+    "w1": {
+      "name": "w1"
+    },
+    "w1-2": {
+      "name": "w1-2"
+    },
+    "walker-2": {
+      "name": "walker-2"
+    },
+    "walker-c": {
+      "name": "walker-c"
+    },
+    "walker-s1": {
+      "name": "walker-s1"
+    },
+    "walker-s2": {
+      "name": "walker-s2"
+    },
+    "wanda-2-0": {
+      "name": "wanda-2-0"
+    },
+    "x20": {
+      "name": "x20"
+    },
+    "x30": {
+      "name": "x30"
+    },
+    "xgo-mini": {
+      "name": "xgo-mini"
+    },
+    "xgo-rider": {
+      "name": "xgo-rider"
+    },
+    "xiaowu": {
+      "name": "xiaowu"
+    },
+    "y10": {
+      "name": "y10"
+    },
+    "yogi": {
+      "name": "yogi"
+    },
+    "zerith-h1": {
+      "name": "zerith-h1"
+    },
+    "zsl-1": {
+      "name": "zsl-1"
+    }
+  },
+  "companies": {
+    "1x-technologies": {
+      "name": "1x-technologies"
+    },
+    "a-star-social-robotics-lab": {
+      "name": "a-star-social-robotics-lab"
+    },
+    "aeirobot": {
+      "name": "aeirobot"
+    },
+    "aerovironment": {
+      "name": "aerovironment"
+    },
+    "agibot": {
+      "name": "agibot"
+    },
+    "agile-robots": {
+      "name": "agile-robots"
+    },
+    "agility-robotics": {
+      "name": "agility-robotics"
+    },
+    "ai2-robotics": {
+      "name": "ai2-robotics"
+    },
+    "airbot": {
+      "name": "airbot"
+    },
+    "anduril": {
+      "name": "anduril"
+    },
+    "ant-group": {
+      "name": "ant-group"
+    },
+    "anybotics": {
+      "name": "anybotics"
+    },
+    "aplux": {
+      "name": "aplux"
+    },
+    "apptronik": {
+      "name": "apptronik"
+    },
+    "astribot-robotics": {
+      "name": "astribot-robotics"
+    },
+    "avatarmind": {
+      "name": "avatarmind"
+    },
+    "beyond-imagination": {
+      "name": "beyond-imagination"
+    },
+    "boardwalk-robotics": {
+      "name": "boardwalk-robotics"
+    },
+    "booster-robotics": {
+      "name": "booster-robotics"
+    },
+    "borg-robotics": {
+      "name": "borg-robotics"
+    },
+    "boston-dynamics": {
+      "name": "boston-dynamics"
+    },
+    "cartwheel-robotics": {
+      "name": "cartwheel-robotics"
+    },
+    "casbot": {
+      "name": "casbot"
+    },
+    "chery": {
+      "name": "chery"
+    },
+    "clone-robotics": {
+      "name": "clone-robotics"
+    },
+    "corenetic": {
+      "name": "corenetic"
+    },
+    "cyan-robotics": {
+      "name": "cyan-robotics"
+    },
+    "daimon-robotics": {
+      "name": "daimon-robotics"
+    },
+    "dataa-robotics": {
+      "name": "dataa-robotics"
+    },
+    "deep-robotics": {
+      "name": "deep-robotics"
+    },
+    "dexforce": {
+      "name": "dexforce"
+    },
+    "dexmate": {
+      "name": "dexmate"
+    },
+    "dfki-robotics-innovation-center": {
+      "name": "dfki-robotics-innovation-center"
+    },
+    "diligent-robotics": {
+      "name": "diligent-robotics"
+    },
+    "direct-drive-tech": {
+      "name": "direct-drive-tech"
+    },
+    "disney-imagineering": {
+      "name": "disney-imagineering"
+    },
+    "dobot": {
+      "name": "dobot"
+    },
+    "donut-robotics": {
+      "name": "donut-robotics"
+    },
+    "droidup": {
+      "name": "droidup"
+    },
+    "duatic": {
+      "name": "duatic"
+    },
+    "elephant-robotics": {
+      "name": "elephant-robotics"
+    },
+    "enchanted-tools": {
+      "name": "enchanted-tools"
+    },
+    "engineai": {
+      "name": "engineai"
+    },
+    "engineered-arts": {
+      "name": "engineered-arts"
+    },
+    "ergocub": {
+      "name": "ergocub"
+    },
+    "estun-codroid": {
+      "name": "estun-codroid"
+    },
+    "exrobot": {
+      "name": "exrobot"
+    },
+    "fauna-robotics": {
+      "name": "fauna-robotics"
+    },
+    "fdrobot": {
+      "name": "fdrobot"
+    },
+    "figure-ai": {
+      "name": "figure-ai"
+    },
+    "foundation-robotics": {
+      "name": "foundation-robotics"
+    },
+    "fourier": {
+      "name": "fourier"
+    },
+    "gac-group": {
+      "name": "gac-group"
+    },
+    "galbot": {
+      "name": "galbot"
+    },
+    "galexea-ai": {
+      "name": "galexea-ai"
+    },
+    "geek": {
+      "name": "geek"
+    },
+    "general-dynamics-mission-system": {
+      "name": "general-dynamics-mission-system"
+    },
+    "german-aerospace-center-dlr": {
+      "name": "german-aerospace-center-dlr"
+    },
+    "ghost-robotics": {
+      "name": "ghost-robotics"
+    },
+    "glroad": {
+      "name": "glroad"
+    },
+    "haier": {
+      "name": "haier"
+    },
+    "hanson-robotics": {
+      "name": "hanson-robotics"
+    },
+    "haribit": {
+      "name": "haribit"
+    },
+    "havelsan": {
+      "name": "havelsan"
+    },
+    "hengbot": {
+      "name": "hengbot"
+    },
+    "hexagon": {
+      "name": "hexagon"
+    },
+    "high-torque-robotics": {
+      "name": "high-torque-robotics"
+    },
+    "hitachi": {
+      "name": "hitachi"
+    },
+    "holiday-robotics": {
+      "name": "holiday-robotics"
+    },
+    "honda-robotics": {
+      "name": "honda-robotics"
+    },
+    "honor": {
+      "name": "honor"
+    },
+    "humanoid": {
+      "name": "humanoid"
+    },
+    "inmoov": {
+      "name": "inmoov"
+    },
+    "isagebot": {
+      "name": "isagebot"
+    },
+    "italian-institute-of-technology-iit": {
+      "name": "italian-institute-of-technology-iit"
+    },
+    "jaka-robotics": {
+      "name": "jaka-robotics"
+    },
+    "jitri-intelligent-manufacturing": {
+      "name": "jitri-intelligent-manufacturing"
+    },
+    "kawasaki-heavy-industries": {
+      "name": "kawasaki-heavy-industries"
+    },
+    "kepler-robotics": {
+      "name": "kepler-robotics"
+    },
+    "keybotic": {
+      "name": "keybotic"
+    },
+    "keyi-technology": {
+      "name": "keyi-technology"
+    },
+    "kondo-kagaku": {
+      "name": "kondo-kagaku"
+    },
+    "leju-robotics": {
+      "name": "leju-robotics"
+    },
+    "lenovo": {
+      "name": "lenovo"
+    },
+    "lg": {
+      "name": "lg"
+    },
+    "limx-dynamics": {
+      "name": "limx-dynamics"
+    },
+    "luwu-intelligence": {
+      "name": "luwu-intelligence"
+    },
+    "macco-robotics": {
+      "name": "macco-robotics"
+    },
+    "magiclab": {
+      "name": "magiclab"
+    },
+    "matrix-robotics": {
+      "name": "matrix-robotics"
+    },
+    "meka-robotics": {
+      "name": "meka-robotics"
+    },
+    "mentee-robotics": {
+      "name": "mentee-robotics"
+    },
+    "microrobottech": {
+      "name": "microrobottech"
+    },
+    "milrem-robotics": {
+      "name": "milrem-robotics"
+    },
+    "mirrorme-technology": {
+      "name": "mirrorme-technology"
+    },
+    "mirsee-robotics": {
+      "name": "mirsee-robotics"
+    },
+    "mit-biomimetic-robotics-lab": {
+      "name": "mit-biomimetic-robotics-lab"
+    },
+    "muks-robotics": {
+      "name": "muks-robotics"
+    },
+    "nasa": {
+      "name": "nasa"
+    },
+    "naver-labs": {
+      "name": "naver-labs"
+    },
+    "neura-robotics": {
+      "name": "neura-robotics"
+    },
+    "noble-machines": {
+      "name": "noble-machines"
+    },
+    "noetix-robotics": {
+      "name": "noetix-robotics"
+    },
+    "nvidia": {
+      "name": "nvidia"
+    },
+    "pal-robotics": {
+      "name": "pal-robotics"
+    },
+    "paxini": {
+      "name": "paxini"
+    },
+    "pndbotics": {
+      "name": "pndbotics"
+    },
+    "promobot": {
+      "name": "promobot"
+    },
+    "psibot": {
+      "name": "psibot"
+    },
+    "pudu-robotics": {
+      "name": "pudu-robotics"
+    },
+    "quantum-systems": {
+      "name": "quantum-systems"
+    },
+    "rainbow-robotics": {
+      "name": "rainbow-robotics"
+    },
+    "realbotix": {
+      "name": "realbotix"
+    },
+    "realman-robotics": {
+      "name": "realman-robotics"
+    },
+    "reeman-robot": {
+      "name": "reeman-robot"
+    },
+    "reflex-robotics": {
+      "name": "reflex-robotics"
+    },
+    "richtech-robotics": {
+      "name": "richtech-robotics"
+    },
+    "rivr": {
+      "name": "rivr"
+    },
+    "roboforce": {
+      "name": "roboforce"
+    },
+    "robosense": {
+      "name": "robosense"
+    },
+    "robot-com": {
+      "name": "robot-com"
+    },
+    "robotera": {
+      "name": "robotera"
+    },
+    "robotics-lab": {
+      "name": "robotics-lab"
+    },
+    "robotics-systems-lab-rsl-eth-zurich": {
+      "name": "robotics-systems-lab-rsl-eth-zurich"
+    },
+    "robotis": {
+      "name": "robotis"
+    },
+    "robros": {
+      "name": "robros"
+    },
+    "rokae": {
+      "name": "rokae"
+    },
+    "rollo-robotics": {
+      "name": "rollo-robotics"
+    },
+    "sanctuary-ai": {
+      "name": "sanctuary-ai"
+    },
+    "sevnce-robotics": {
+      "name": "sevnce-robotics"
+    },
+    "softbank-robotics": {
+      "name": "softbank-robotics"
+    },
+    "sony": {
+      "name": "sony"
+    },
+    "spirit-ai": {
+      "name": "spirit-ai"
+    },
+    "sunday": {
+      "name": "sunday"
+    },
+    "switchbot": {
+      "name": "switchbot"
+    },
+    "techman-robot": {
+      "name": "techman-robot"
+    },
+    "teledyne-flir-defense": {
+      "name": "teledyne-flir-defense"
+    },
+    "tencent-robotics-x": {
+      "name": "tencent-robotics-x"
+    },
+    "tesla": {
+      "name": "tesla"
+    },
+    "ti5-robot": {
+      "name": "ti5-robot"
+    },
+    "tokyo-robotics": {
+      "name": "tokyo-robotics"
+    },
+    "toyota-research-institute": {
+      "name": "toyota-research-institute"
+    },
+    "ubtech-robotics": {
+      "name": "ubtech-robotics"
+    },
+    "unitree-robotics": {
+      "name": "unitree-robotics"
+    },
+    "university-of-tehran": {
+      "name": "university-of-tehran"
+    },
+    "unix-ai": {
+      "name": "unix-ai"
+    },
+    "vinmotion": {
+      "name": "vinmotion"
+    },
+    "wandercraft": {
+      "name": "wandercraft"
+    },
+    "weilan": {
+      "name": "weilan"
+    },
+    "westwood-robotics": {
+      "name": "westwood-robotics"
+    },
+    "willow-garage": {
+      "name": "willow-garage"
+    },
+    "wirobotics": {
+      "name": "wirobotics"
+    },
+    "x-humanoid": {
+      "name": "x-humanoid"
+    },
+    "x-square-robot": {
+      "name": "x-square-robot"
+    },
+    "xiao-peng": {
+      "name": "xiao-peng"
+    },
+    "xiaomi": {
+      "name": "xiaomi"
+    },
+    "xterra-robotics": {
+      "name": "xterra-robotics"
+    },
+    "yobotics": {
+      "name": "yobotics"
+    },
+    "zerith-robotics": {
+      "name": "zerith-robotics"
+    },
+    "zeroth": {
+      "name": "zeroth"
+    },
+    "zhejiang-humanoid-robot-innovation-center-co-ltd": {
+      "name": "zhejiang-humanoid-robot-innovation-center-co-ltd"
+    },
+    "zsibot": {
+      "name": "zsibot"
+    }
+  }
+}

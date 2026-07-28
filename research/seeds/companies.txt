@@ -1,0 +1,10 @@
+# US robotics companies — one name per line (greenfield research seeds).
+Boston Dynamics
+Agility Robotics
+Figure AI
+1X Technologies
+Sanctuary AI
+Apptronik
+Rethink Robotics
+iRobot
+Bedrock Robotics

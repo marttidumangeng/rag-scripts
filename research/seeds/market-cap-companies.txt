@@ -1,0 +1,27 @@
+# Top robotics companies by market cap (companiesmarketcap.com, 2026).
+# One canonical name per line. See DB status in comments.
+# Workflow: discover/enrich if "in DB", greenfield research if "missing".
+
+# --- In DB (discover + enrich) ---
+Fanuc                          # id=189, 37 robots, JP
+UBTECH Robotics                # id=107, 3 robots, CN — DB name: UBTech Robotics
+Doosan Robotics                # id=193, 2 robots, KR
+Richtech Robotics              # id=131, 1 robot, US
+Estun Automation               # → Estun Robotics id=220, 0 robots, CN
+Kion Group                     # → STILL (KION) id=414, 1 robot, DE
+Beijing Roborock Technology    # → Roborock id=223 (2) + Roborock Technology id=1418 (10), CN
+Exail Technologies             # → Exail Robotics id=428, 3 robots, FR
+Server Robotics                # → Serve Robotics id=252, 1 robot, US (name variant)
+
+# --- Not in DB (greenfield) ---
+Symbotic                       # US — warehouse automation
+THK Co                         # JP — motion components / automation
+ATS Corporation                # CA — industrial automation
+Amano Corporation              # JP — service / facility automation
+Kraken Robotics                # CA — underwater robotics
+PROCEPT BioRobotics            # US — surgical robotics
+Nachi-Fujikoshi                # JP — industrial robots
+Palladyne AI                   # US — software + robotics
+Stereotaxis                    # US — surgical robotics
+Scott Technology               # NZ — automation / robotics
+AMC Robotics Corporation       # verify legal name before import

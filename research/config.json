@@ -1,0 +1,7 @@
+{
+  "country_code": "US",
+  "include_null_country": true,
+  "exclude_generic_slugs": false,
+  "use_playwright": false,
+  "created_by_id": null
+}
