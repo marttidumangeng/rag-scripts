@@ -16,7 +16,9 @@
     "Noble Machines",
     "Quantum Systems",
     "Spirit AI",
-    "University of Tehran"
+    "University of Tehran",
+    "Willow Garage",
+    "Robot.com"
   ],
   "created_company_ids": [
     1534,
@@ -115,6 +117,16 @@
     },
     "University of Tehran": {
       "at": "2026-07-23T08:23:20.513798+00:00",
+      "company_id": null,
+      "note": "website_mismatch"
+    },
+    "Willow Garage": {
+      "at": "2026-07-28T14:11:12.735512+00:00",
+      "company_id": null,
+      "note": "website_mismatch"
+    },
+    "Robot.com": {
+      "at": "2026-07-28T14:11:15.638341+00:00",
       "company_id": null,
       "note": "website_mismatch"
     }
