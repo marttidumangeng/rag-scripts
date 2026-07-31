@@ -65,6 +65,12 @@ _SKIP_DOMAINS: tuple[str, ...] = (
     # CDN / infra
     "cloudfront.net", "amazonaws.com", "googleapis.com", "gstatic.com",
     "googleusercontent.com", "fbcdn.net", "wp.com",
+    # news / media / press (coverage of a company is never its own site)
+    "news.mit.edu", "mit.edu", "techcrunch.com", "theverge.com", "wired.com",
+    "ieee.org", "spectrum.ieee.org", "forbes.com", "reuters.com", "cnbc.com",
+    "bbc.com", "bbc.co.uk", "nytimes.com", "wsj.com", "engadget.com",
+    "venturebeat.com", "zdnet.com", "cnet.com", "prnewswire.com",
+    "businesswire.com", "globenewswire.com", "newatlas.com", "axios.com",
 )
 
 # Generic tokens dropped before comparing a domain to a company name.
@@ -73,6 +79,10 @@ _STOP_TOKENS: set[str] = {
     "ai", "tech", "technology", "technologies", "systems", "the", "china",
     "industries", "industry", "global", "international", "intelligent",
     "automation", "laser", "company", "limited", "gmbh",
+    # English function words — a stopword token must NEVER count as a domain
+    # match (bug: "...to an Android?" matched animenewsnetwork.com via "an")
+    "a", "an", "and", "of", "to", "in", "on", "at", "by", "for", "or", "is",
+    "it", "if", "do", "does", "you", "your", "with", "from", "we", "our",
 }
 
 
@@ -88,12 +98,35 @@ def _domain(url: str) -> str:
     return m.group(1).lower().removeprefix("www.")
 
 
+def _registrable_label_static(host: str) -> str:
+    """Brand label of a host/domain string (module-level twin of _registrable_label)."""
+    host = (host or "").lower().removeprefix("www.")
+    base = re.sub(r"\.[a-z]{2,6}$", "", host)
+    base = re.sub(r"\.[a-z]{2,6}$", "", base)
+    return base.rsplit(".", 1)[-1] if base else ""
+
+
+# Brand labels whose ENTIRE domain family is skippable regardless of TLD:
+# linkedin.cn evaded the old exact-host list that only had linkedin.com.
+_SKIP_BRAND_LABELS: frozenset[str] = frozenset(
+    _registrable_label_static(d) for d in _SKIP_DOMAINS
+)
+
+
 def is_skippable_domain(url: str) -> bool:
-    """True when the URL's host is a social/aggregator/CDN domain (never a maker site)."""
+    """True when the URL's host is a social/aggregator/CDN domain (never a maker site).
+
+    Matches both the exact-host list AND the domain FAMILY by registrable
+    brand label, so linkedin.cn / facebook.de / amazon.co.jp are all caught
+    even though only the .com form is listed.
+    """
     host = _domain(url)
     if not host:
         return True
-    return any(skip in host for skip in _SKIP_DOMAINS)
+    # Suffix match, not substring: "x.com" must not catch "xerox.com".
+    if any(host == skip or host.endswith("." + skip) for skip in _SKIP_DOMAINS):
+        return True
+    return _registrable_label_static(host) in _SKIP_BRAND_LABELS
 
 
 def _name_tokens(company_name: str) -> set[str]:
@@ -132,17 +165,113 @@ def domain_matches_company(url: str, company_name: str) -> bool:
     label = _registrable_label(host)
     label_flat = re.sub(r"[^a-z0-9]", "", label)
 
-    name_tokens = _name_tokens(company_name)
-    if not name_tokens:
+    name_flat = re.sub(r"[^a-z0-9]", "", (company_name or "").lower())
+    if not name_flat:
+        return True  # nothing meaningful to compare
+
+    # Full-name containment: covers compact brands ("Ti5Robot" ~ ti5robot.com)
+    # and is the ONLY substring rule allowed below 4 chars.
+    if len(name_flat) >= 4 and name_flat in label_flat:
         return True
 
+    name_tokens = _name_tokens(company_name)
+    if not name_tokens:
+        # All tokens were stopwords ("At", "Us"): never permissive — require
+        # exact label equality (bug: "At" substring-matched att.com).
+        return name_flat == label_flat
+
     for tok in name_tokens:
-        if tok in label_flat:
+        # Substring matching needs a substantive token (>= 4 chars); shorter
+        # tokens ("an", "At", "NEC") only count on exact label equality
+        # (avoids "an" ~ animenewsnetwork.com, "At" ~ att.com).
+        if len(tok) >= 4 and tok in label_flat:
+            return True
+        if len(tok) < 4 and tok == label_flat:
             return True
     # Reverse: a meaningful chunk of the domain label appears in the company name
     for tok in re.split(r"[^a-z0-9]+", label):
         if len(tok) >= 4 and tok in (company_name or "").lower():
             return True
+    return False
+
+
+# Signals that a landing page belongs to a hardware/robotics COMPANY rather
+# than a merch shop, news site, government portal, or personal page.
+_COMPANY_SIGNALS_RE = re.compile(
+    r"\b(robot|robotic|automation|manipulator|cobot|agv|amr|humanoid|drone|"
+    r"uav|ugv|exoskeleton|automated|autonomous|actuator|servo|gripper|"
+    r"end.?effector|palletiz|weld|cnc|machinery|manufactur|industrial|"
+    r"engineering|intralogistics|automazione|roboter|robotique|\u673a\u5668\u4eba)\b",
+    re.I)
+# Anti-signals: dominant merch/news/gov vocabulary with no company signals.
+_NON_COMPANY_RE = re.compile(
+    r"\b(add to cart|checkout|merch|t-shirts?|hoodies?|apparel|album|tour dates|"
+    r"box office|breaking news|latest news|editorial|newsroom|press releases only|"
+    r"government|official portal|citizen services)\b", re.I)
+
+
+def page_looks_like_robot_company(
+    url: str,
+    *,
+    session: requests.Session | None = None,
+    timeout: int = 12,
+) -> bool:
+    """Fetch the landing page and check for robotics/manufacturing vocabulary.
+
+    The FEDOR/MABEL failure class: a robot NAME token-matches some domain
+    (pool-player merch, T-shirt shop) that is a perfectly valid website — just
+    not a robot company's. A cheap content sniff catches most of these.
+    Fail-open on network errors (the domain match + validation already passed).
+    """
+    s = session or requests
+    try:
+        resp = s.get(url, headers=_HEADERS, timeout=timeout, allow_redirects=True)
+        text = resp.text[:120_000]
+    except requests.RequestException:
+        return True  # fail-open: connectivity issues shouldn't nuke a candidate
+    signals = len(_COMPANY_SIGNALS_RE.findall(text))
+    anti = len(_NON_COMPANY_RE.findall(text))
+    if signals == 0:
+        return False
+    if anti > signals:
+        return False
+    return True
+
+
+# Single-word names (mostly Wikipedia robot pages staged as "companies":
+# FEDOR, MABEL, Soundwave, Ee, Fi, Us) are the highest-risk input for bare
+# token-match search resolution — the token WILL match some domain, just not
+# a robot maker's. Single words are allowed only when they carry a company-ish
+# suffix or are long/distinctive enough to be a brand (>= 7 chars covers
+# Symbotic, Flyability, Volocopter; robot names in the failure set were <= 9
+# but paired with zero corporate suffix AND a Wikipedia-only source, so length
+# is a heuristic, not a guarantee — the page sniff is the second gate).
+_CORP_SUFFIX_RE = re.compile(
+    r"(inc|corp|ltd|llc|gmbh|ag|srl|sas|bv|ab|oy|kk|co)\.?$", re.I)
+
+# Plain English compounds like "Soundwave" (common word + common word) are
+# robot-name-ish; coined brands (Symbotic, Volocopter) are not dictionary words.
+_DICTIONARY_WORD_RE = re.compile(
+    r"^(sound|light|shock|storm|thunder|iron|steel|fire|ice|snow|rain|sky|"
+    r"star|moon|sun|dark|night|day|red|blue|black|white|gold|silver|quick|"
+    r"strong|power|mega|ultra|super)?(wave|storm|bolt|blade|wing|claw|fang|"
+    r"strike|runner|walker|rider|master|hunter|breaker|crusher|guard)$", re.I)
+
+
+def name_too_generic_to_resolve(company_name: str) -> bool:
+    """True when the name is a single word too generic/risky for bare
+    token-match search resolution (FEDOR/MABEL/Ee/Fi/Us failure class)."""
+    nm = (company_name or "").strip()
+    if not nm or " " in nm:
+        return False  # multi-word names carry enough signal
+    if _CORP_SUFFIX_RE.search(nm):
+        return False
+    if len(nm) <= 4:
+        return True   # Ee, Fi, Us, ABB-like cases are known-brand exceptions upstream
+    if len(nm) <= 5 and nm.isupper():
+        return True   # FEDOR, MABEL: short all-caps single words = robot names
+    if len(nm) <= 9 and nm.istitle() and _DICTIONARY_WORD_RE.match(nm):
+        return True   # Soundwave: a plain dictionary-word compound
     return False
 
 
@@ -277,6 +406,8 @@ def website_from_search(
                 continue
             if validate and not validate_website(root, session=session):
                 continue
+            if not page_looks_like_robot_company(root, session=session):
+                continue
             return root
     return None
 
@@ -305,7 +436,7 @@ def resolve_company_website(
         if site and (not validate or validate_website(site, session=session)):
             return site, "robolist"
 
-    if use_search:
+    if use_search and not name_too_generic_to_resolve(name):
         site = website_from_search(
             name, country=country, session=session, validate=validate,
         )

@@ -164,8 +164,14 @@ class ResearchApiClient:
         return results
 
     def get_subcategories(self) -> list[dict[str, Any]]:
+        # The endpoint returns a BARE LIST (it is not paginated), so the
+        # `data.get("results", ...)` form raised AttributeError on every call —
+        # the isinstance fallback was evaluated as the default argument, which
+        # Python computes before `.get` runs. Check the type first.
         data = self._get("robots/subcategories/")
-        return data.get("results", data if isinstance(data, list) else [])
+        if isinstance(data, list):
+            return data
+        return data.get("results", []) if isinstance(data, dict) else []
 
     def list_tags(self, *, q: str = "", page_size: int = 200) -> list[dict[str, Any]]:
         """Fetch active tags from GET /api/v1/tags/ (paginated)."""

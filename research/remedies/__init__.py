@@ -12,8 +12,11 @@ per company. The QA/rejection loop resolves flags -> remedies through
                                       attempts=robot["auto_fix_attempts"]):
         result = remedy(robot, ctx)
         ledger.append(result.to_attempt())
-        if result.changed:
-            break   # re-run QA before trying the next flag
+        if result.changed and flag not in MEDIA_FLAGS:
+            break   # re-run QA before trying the next flag — media flags are
+                     # noisy on re-fetch and must not eat the pass alone
+                     # (Estun 2026-07-31: few_photos re-"fixed" every run and
+                     # permanently starved missing_features/missing_specs)
 """
 
 from .base import (  # noqa: F401
@@ -33,11 +36,13 @@ from .engine import run_reresearch  # noqa: F401
 from .registry import (  # noqa: F401
     GAP_TO_FLAG,
     MAX_ATTEMPTS_PER_ACTION,
+    MEDIA_FLAGS,
     REJECTION_CATEGORY_TO_FLAGS,
     REMEDY_ORDER,
     REMEDY_REGISTRY,
     TERMINAL_CATEGORIES,
     UNFIXABLE_FLAGS,
+    WEBSITE_FREE_FLAGS,
     blocked_actions,
     flags_from_categories,
     flags_from_gaps,
@@ -48,9 +53,9 @@ from .registry import (  # noqa: F401
 __all__ = [
     "RemedyContext", "RemedyResult", "RemedyFn",
     "FIXED", "NO_OP", "FAILED", "SKIPPED", "TERMINAL",
-    "REMEDY_REGISTRY", "REMEDY_ORDER", "UNFIXABLE_FLAGS",
+    "REMEDY_REGISTRY", "REMEDY_ORDER", "UNFIXABLE_FLAGS", "MEDIA_FLAGS",
     "TERMINAL_CATEGORIES", "REJECTION_CATEGORY_TO_FLAGS", "MAX_ATTEMPTS_PER_ACTION",
     "plan_remedies", "is_terminal", "flags_from_categories", "flags_from_gaps",
-    "GAP_TO_FLAG", "blocked_actions",
+    "GAP_TO_FLAG", "WEBSITE_FREE_FLAGS", "blocked_actions",
     "run_reresearch", "snapshot", "diff_fields",
 ]

@@ -6,6 +6,7 @@ import json
 import os
 import random
 import re
+import threading
 import time
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
@@ -33,6 +34,13 @@ _CHROME_UA = (
 )
 # Under this much visible text the page is assumed to be a JS shell needing a render
 _JS_SHELL_TEXT_CHARS = 5000
+# Playwright's sync API drives a single process-wide greenlet dispatcher — two
+# threads each opening their own sync_playwright() context at the same time
+# corrupts it. Each render call still gets its own fresh browser (see
+# get_rendered below); this lock only serializes the render *calls* themselves,
+# so concurrent workers stay parallel for everything except the rare Tier-2
+# escalation. Cheaper than forcing single-threaded operation project-wide.
+_PLAYWRIGHT_LOCK = threading.Lock()
 # Extension may sit mid-URL when a CDN transform suffix or query params follow
 # (Storyblok: .../photo.webp/m/750x869/...; Next.js: /_next/image?url=...photo.png&w=3840).
 _IMAGE_EXT_RE = re.compile(r"\.(?:jpe?g|png|webp|avif)(?:[?&]|$|/m/)", re.I)
@@ -271,7 +279,7 @@ class WebFetcher:
         except ImportError:
             return None
         try:
-            with sync_playwright() as p:
+            with _PLAYWRIGHT_LOCK, sync_playwright() as p:
                 browser = p.chromium.launch(headless=True)
                 page = browser.new_page(
                     user_agent=_CHROME_UA if self.stealth else _USER_AGENT,

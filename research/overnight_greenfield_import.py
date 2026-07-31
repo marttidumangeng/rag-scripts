@@ -53,6 +53,7 @@ from load_env import load_research_env  # noqa: E402
 load_research_env(local="--local" in sys.argv)
 
 from api_client import ResearchApiClient  # noqa: E402
+from company_country_resolve import resolve_company_country  # noqa: E402
 from company_website_resolve import (  # noqa: E402
     resolve_company_website,
     validate_website,
@@ -70,20 +71,10 @@ PROGRESS_PATH = _RESEARCH_DIR / "staging" / "reports" / "greenfield-import-progr
 SUMMARY_PATH = _RESEARCH_DIR / "staging" / "reports" / "greenfield-import-summary.json"
 STATE_PATH = _RESEARCH_DIR / "state" / "greenfield_processed.json"
 
-# Categories on Robolist that map to our category IDs (best-effort)
-_CATEGORY_MAP: dict[str, str] = {
-    "humanoid": "humanoid",
-    "industrial-arm": "industrial-arm",
-    "cobot": "cobot",
-    "cleaning": "cleaning",
-    "education": "education",
-    "amr": "amr",
-    "hospitality": "hospitality",
-    "medical": "medical",
-    "logistics": "logistics",
-    "drone": "drone",
-    "exoskeleton": "exoskeleton",
-}
+# NOTE: a `_CATEGORY_MAP` of Robolist labels lived here and was never referenced
+# by anything. Category mapping now lives in `robot_categories.py`, against a
+# vocabulary of slugs that actually exist on prod — half the slugs in the old map
+# ("industrial-arm", "cobot", "hospitality", "medical", "logistics") did not.
 
 
 # ---------------------------------------------------------------------------
@@ -278,11 +269,21 @@ def create_or_find_company(
         _safe_print(f"    [dry-run] would create company: name={name!r} website={website}")
         return (None, "dry_run_created")
 
-    # Resolve country_id if country code is available
+    # Resolve country_id if country code is available. When the gap entry has no
+    # country, resolve it NOW rather than creating a blank Company: enrichment
+    # fills each robot's country by copying `company.country`, so a company born
+    # blank stamps the error-severity "No country" flag on every robot it will
+    # ever own — 232 of 806 companies were in that state on 2026-07-31.
     country_id: int | None = None
-    country_code = entry.get("country")
+    country_code = entry.get("country") or entry.get("country_code") or ""
+    if not country_code:
+        country_code, how = resolve_company_country(name, website)
+        if country_code:
+            _safe_print(f"    country ({how}): {country_code}")
     if country_code:
         country_id = client.resolve_country_id(country_code)
+        if not country_id:
+            _safe_print(f"    !! country {country_code} has no Country row — left blank")
 
     payload: dict[str, Any] = {
         "name": name,

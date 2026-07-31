@@ -86,7 +86,21 @@ class RemedyContext:
     dry_run: bool = True
     status: str = "pending_review"
 
+    hints: dict[int, dict[str, Any]] = field(default_factory=dict)
+    """robot_id -> hand-verified field overrides, loaded from
+    remedies/hints/<company_id>.json when present. See hints/README.md."""
+
     _vision_researcher: Any = None
+    _hints_loaded: bool = False
+
+    _country_lookup: Any = None
+    """Memo for `remedy_missing_manufacturer_country`: `(code, how)` or None.
+
+    HQ country is a property of the COMPANY, and this context is built once per
+    company, so the web lookup must happen once — not once per robot. Without
+    this a 40-robot company with a blank country row would make 40 identical
+    serper/Gemini calls, and 40 in dry-run mode where nothing is ever written
+    back to short-circuit them."""
 
     def get_researcher(self, *, vision: bool = False) -> Any:
         """Researcher for this remedy.
@@ -116,7 +130,42 @@ class RemedyContext:
         if self.staging_dir is None:
             self.staging_dir = _RESEARCH_DIR / "staging" / "robots" / (self.company_slug or "unknown") / "remedies"
         self.staging_dir.mkdir(parents=True, exist_ok=True)
+        if not self._hints_loaded:
+            self.hints = _load_hints(self.company_id) if self.company_id else {}
+            self._hints_loaded = True
         return self
+
+    def hint_for(self, robot_id: int) -> dict[str, Any] | None:
+        """Hand-verified field overrides for this robot, if a hints file supplied any."""
+        return self.hints.get(int(robot_id))
+
+
+_HINTS_DIR = _RESEARCH_DIR / "remedies" / "hints"
+
+
+def _load_hints(company_id: int) -> dict[int, dict[str, Any]]:
+    """Load remedies/hints/<company_id>.json — hand-verified per-robot field
+    overrides for companies where automated discovery underperforms (wrong nav,
+    attribution landmines, non-standard taxonomy). Absent file = no hints, zero
+    behavior change. See hints/README.md for the format.
+    """
+    path = _HINTS_DIR / f"{company_id}.json"
+    if not path.exists():
+        return {}
+    import json
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return {}
+    out: dict[int, dict[str, Any]] = {}
+    for key, val in (raw or {}).items():
+        try:
+            rid = int(key)
+        except (TypeError, ValueError):
+            continue
+        if isinstance(val, dict):
+            out[rid] = {k: v for k, v in val.items() if not k.startswith("_")}
+    return out
 
 
 RemedyFn = Callable[[dict, RemedyContext], RemedyResult]

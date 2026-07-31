@@ -1,0 +1,335 @@
+"""Resolve a company's HQ country to an ISO alpha-2 code.
+
+WHY THIS EXISTS
+---------------
+`missing_manufacturer_country` is an **error**-severity flag ("No country"), yet
+it was listed in `remedies.registry.UNFIXABLE_FLAGS` — no remedy could ever
+clear it. Measured on prod 2026-07-31: 351 of 1596 pending robots had no
+country, and the cause is upstream, not per-robot:
+
+    232 of 806 companies have no country at all
+    633 pending robots belong to such a company
+     54 pending robots have no country even though their company DOES
+        (pure propagation gap — enrichment reads company.country and copies it,
+        so a company filled in later never back-propagates)
+
+A robot's `manufacturer_country` is the manufacturer's HQ country, so fixing the
+COMPANY fixes every one of its robots at once. That is what this module is for;
+`resolve_pending_company_countries.py` is the batch driver.
+
+Resolution tiers — first confident hit wins, and every tier is checked against
+the ISO table so a hallucinated code can never be written:
+
+  1. ccTLD of the company's own website  (.jp/.de/.cn/... — deterministic, free)
+  2. Address / imprint text on the website itself
+  3. serper.dev snippets for "<name> headquarters"
+  4. Gemini extraction over the text tiers 2-3 collected
+
+Fail-closed by design: an unresolved country returns "" and the caller leaves
+the field blank. A WRONG country is worse than a missing one — it silently
+mislabels the manufacturer on every robot page and in every country facet.
+"""
+
+from __future__ import annotations
+
+import os
+import re
+from typing import Any
+
+import requests
+
+from company_website_resolve import _HEADERS, _serper_search
+from load_env import load_research_env
+
+load_research_env()
+
+# ---------------------------------------------------------------------------
+# Tier 1: country-code TLDs
+# ---------------------------------------------------------------------------
+# Only unambiguous ccTLDs that a manufacturer plausibly uses as its primary
+# domain. Deliberately excluded: vanity/repurposed TLDs (.ai Anguilla, .io BIOT,
+# .co Colombia, .me Montenegro, .tv Tuvalu, .to Tonga, .sh, .ly, .cc, .is, .am)
+# — a robotics startup on a .ai domain is not headquartered in Anguilla.
+_CCTLD_TO_COUNTRY: dict[str, str] = {
+    "au": "AU", "at": "AT", "be": "BE", "br": "BR", "ca": "CA", "ch": "CH",
+    "cn": "CN", "cz": "CZ", "de": "DE", "dk": "DK", "es": "ES", "fi": "FI",
+    "fr": "FR", "gr": "GR", "hk": "HK", "hu": "HU", "id": "ID", "ie": "IE",
+    "il": "IL", "in": "IN", "it": "IT", "jp": "JP", "kr": "KR", "lu": "LU",
+    "mx": "MX", "my": "MY", "nl": "NL", "no": "NO", "nz": "NZ", "ph": "PH",
+    "pl": "PL", "pt": "PT", "ro": "RO", "ru": "RU", "se": "SE", "sg": "SG",
+    "sk": "SK", "th": "TH", "tr": "TR", "tw": "TW", "ua": "UA", "uk": "GB",
+    "vn": "VN", "za": "ZA",
+    # second-level forms
+    "co.uk": "GB", "co.jp": "JP", "co.kr": "KR", "com.cn": "CN", "com.au": "AU",
+    "com.br": "BR", "com.tw": "TW", "co.nz": "NZ", "com.sg": "SG",
+    "com.tr": "TR", "co.il": "IL", "co.in": "IN", "com.mx": "MX",
+}
+
+# ---------------------------------------------------------------------------
+# Tier 2/3: country names seen in address / snippet text
+# ---------------------------------------------------------------------------
+_COUNTRY_NAME_TO_CODE: dict[str, str] = {
+    "united states": "US", "usa": "US", "u.s.a.": "US", "u.s.": "US",
+    "america": "US",
+    "united kingdom": "GB", "great britain": "GB", "england": "GB",
+    "scotland": "GB", "wales": "GB",
+    "china": "CN", "prc": "CN", "hong kong": "HK", "taiwan": "TW",
+    "japan": "JP", "south korea": "KR", "korea": "KR",
+    "germany": "DE", "deutschland": "DE",
+    "france": "FR", "italy": "IT", "italia": "IT", "spain": "ES",
+    "espana": "ES", "netherlands": "NL", "holland": "NL",
+    "belgium": "BE", "switzerland": "CH", "schweiz": "CH",
+    "austria": "AT", "osterreich": "AT",
+    "sweden": "SE", "norway": "NO", "denmark": "DK", "finland": "FI",
+    "poland": "PL", "czech republic": "CZ", "czechia": "CZ",
+    "portugal": "PT", "greece": "GR", "ireland": "IE", "iceland": "IS",
+    "canada": "CA", "mexico": "MX", "brazil": "BR", "brasil": "BR",
+    "argentina": "AR", "chile": "CL",
+    "australia": "AU", "new zealand": "NZ",
+    "india": "IN", "singapore": "SG", "malaysia": "MY", "thailand": "TH",
+    "vietnam": "VN", "viet nam": "VN", "indonesia": "ID", "philippines": "PH",
+    "israel": "IL", "turkey": "TR", "turkiye": "TR",
+    "united arab emirates": "AE", "uae": "AE", "saudi arabia": "SA",
+    "south africa": "ZA", "egypt": "EG",
+    "russia": "RU", "ukraine": "UA", "belarus": "BY",
+    "hungary": "HU", "romania": "RO", "slovakia": "SK", "slovenia": "SI",
+    "croatia": "HR", "bulgaria": "BG", "serbia": "RS", "estonia": "EE",
+    "latvia": "LV", "lithuania": "LT", "luxembourg": "LU",
+}
+
+# US-state and other regional tokens that imply a country on their own. Address
+# blocks often name the state and skip the country ("Pittsburgh, PA 15201").
+_REGION_HINTS: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\b[A-Z]{2}\s+\d{5}(-\d{4})?\b"), "US"),          # CA 94107
+    (re.compile(r"\b(california|texas|massachusetts|michigan|pennsylvania|"
+                r"new york|silicon valley|boston|pittsburgh|san francisco)\b",
+                re.I), "US"),
+    (re.compile(r"\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b"), "GB"),   # SW1A 1AA
+    (re.compile(r"\b(shenzhen|shanghai|beijing|hangzhou|suzhou|guangdong|"
+                r"guangzhou|shandong|zhejiang|jiangsu)\b", re.I), "CN"),
+    (re.compile(r"\b(tokyo|osaka|nagoya|kyoto|yokohama|aichi|kanagawa)\b", re.I), "JP"),
+    (re.compile(r"\b(seoul|gyeonggi|daejeon|busan|incheon)\b", re.I), "KR"),
+    (re.compile(r"\bimpressum\b", re.I), "DE"),
+]
+
+# Pages that carry the legal address, in the order worth trying.
+_CONTACT_PATHS: tuple[str, ...] = (
+    "", "/contact", "/contact-us", "/about", "/about-us", "/imprint",
+    "/impressum", "/en/contact", "/company",
+)
+
+_MAX_PAGE_BYTES = 400_000
+
+
+def country_from_domain(website: str) -> str:
+    """ISO alpha-2 implied by the website's ccTLD, or ''. Offline and free."""
+    return _tld_country(website)
+
+
+def _tld_country(website: str) -> str:
+    host = re.sub(r"^https?://", "", (website or "").strip().lower()).split("/")[0]
+    host = host.split(":")[0].strip(".")
+    if not host:
+        return ""
+    parts = host.split(".")
+    for depth in (2, 1):
+        if len(parts) > depth:
+            suffix = ".".join(parts[-depth:])
+            if suffix in _CCTLD_TO_COUNTRY:
+                return _CCTLD_TO_COUNTRY[suffix]
+    return ""
+
+
+_HQ_MARKER = re.compile(
+    r"\b(headquarter(s|ed)?|head office|hq|registered office|main office|"
+    r"principal place of business|founded in|based in)\b"
+)
+_HQ_WINDOW = 200
+"""How far after an HQ marker a country name still counts as describing it."""
+
+
+def _country_from_text(text: str) -> str:
+    """Country implied by an address block, or ''.
+
+    Country NAMES beat regional hints: an explicit "Germany" in a footer beats a
+    US-looking postcode elsewhere on the page. Where several countries appear,
+    one that FOLLOWS an HQ marker wins over one that merely appears earlier —
+    otherwise "our USA office opened; HQ in Germany" relocates the company.
+    """
+    if not text:
+        return ""
+    lowered = re.sub(r"\s+", " ", text.lower())
+
+    hits: list[tuple[int, str]] = []
+    for phrase, code in _COUNTRY_NAME_TO_CODE.items():
+        pos = lowered.find(phrase)
+        # Word-boundary check keeps "china" out of "chinatown" and, more
+        # importantly, "usa" out of "usability"/"causal".
+        while pos != -1:
+            before = lowered[pos - 1] if pos else " "
+            after_idx = pos + len(phrase)
+            after = lowered[after_idx] if after_idx < len(lowered) else " "
+            if not before.isalnum() and not after.isalnum():
+                hits.append((pos, code))
+                break
+            pos = lowered.find(phrase, pos + 1)
+
+    if hits:
+        markers = [m.end() for m in _HQ_MARKER.finditer(lowered)]
+        anchored = [
+            (pos, code) for pos, code in hits
+            if any(0 <= pos - m <= _HQ_WINDOW for m in markers)
+        ]
+        return min(anchored or hits)[1]
+
+    for pattern, code in _REGION_HINTS:
+        if pattern.search(text):
+            return code
+    return ""
+
+
+def _fetch_text(url: str, session: requests.Session | None = None) -> str:
+    sess = session or requests
+    try:
+        resp = sess.get(url, headers=_HEADERS, timeout=15, allow_redirects=True)
+        if resp.status_code >= 400:
+            return ""
+        html = resp.text[:_MAX_PAGE_BYTES]
+    except requests.RequestException:
+        return ""
+    html = re.sub(r"(?is)<(script|style|noscript)[^>]*>.*?</\1>", " ", html)
+    return re.sub(r"<[^>]+>", " ", html)
+
+
+def _from_website(website: str, session: requests.Session | None = None) -> tuple[str, str]:
+    """Scrape the company's own site for an address. Returns (code, how)."""
+    base = (website or "").strip().rstrip("/")
+    if not base:
+        return "", "no-website"
+    if "://" not in base:
+        base = "https://" + base
+    for path in _CONTACT_PATHS:
+        text = _fetch_text(base + path, session)
+        if not text:
+            continue
+        # The address almost always sits in the footer; searching the tail first
+        # avoids matching a "made in Germany" marketing line in the hero.
+        for chunk in (text[-6000:], text):
+            code = _country_from_text(chunk)
+            if code:
+                return code, f"website{path or '/'}"
+    return "", "website-no-address"
+
+
+def _from_search(name: str, website: str = "") -> tuple[str, str]:
+    """serper.dev snippets for the HQ. Returns (code, how)."""
+    if not name:
+        return "", "no-name"
+    votes: dict[str, int] = {}
+    for query in (
+        f'"{name}" robotics headquarters located',
+        f'"{name}" company headquarters address',
+    ):
+        for item in _serper_search(query, max_results=8):
+            blob = f"{item.get('title', '')} {item.get('snippet', '')}"
+            code = _country_from_text(blob)
+            if code:
+                votes[code] = votes.get(code, 0) + 1
+        if votes:
+            break
+    if not votes:
+        return "", "search-no-hit"
+    top = max(votes.items(), key=lambda kv: kv[1])
+    # A single ambiguous snippet is not evidence. Require either two agreeing
+    # snippets or an outright majority — "Company X opens US office" would
+    # otherwise relocate a Japanese manufacturer to the United States.
+    if top[1] < 2 and len(votes) > 1:
+        return "", f"search-ambiguous:{sorted(votes)}"
+    return top[0], f"search(votes={top[1]})"
+
+
+_GEMINI_SYSTEM = """\
+You identify where a robotics company is HEADQUARTERED.
+
+Return ONLY a JSON object: {"country_code": "<ISO 3166-1 alpha-2>", "confidence": "high|medium|low"}
+
+Rules:
+- country_code must be the HEADQUARTERS country, not a sales office, not a
+  factory, not the country of a distributor or investor.
+- If the evidence names several countries and does not say which is the
+  headquarters, return {"country_code": "", "confidence": "low"}.
+- Never guess from the company name or from what the products look like.
+- Return "" rather than a plausible-sounding answer you cannot support.
+"""
+
+
+def _from_gemini(name: str, evidence: str) -> tuple[str, str]:
+    """Constrained extraction over already-collected text. Returns (code, how)."""
+    api_key = os.environ.get("GEMINI_API_KEY", "")
+    if not api_key or not evidence.strip():
+        return "", "gemini-unavailable"
+    try:
+        from google import genai
+        from google.genai import types
+
+        client = genai.Client(api_key=api_key, http_options={"api_version": "v1beta"})
+        resp = client.models.generate_content(
+            model="models/gemini-2.5-flash",
+            contents=f"{_GEMINI_SYSTEM}\n\nCompany: {name}\n\n--- Evidence ---\n{evidence[:8000]}",
+            config=types.GenerateContentConfig(
+                temperature=0.0,
+                response_mime_type="application/json",
+                max_output_tokens=256,
+                thinking_config=types.ThinkingConfig(thinking_budget=0),
+            ),
+        )
+        import json
+
+        text = re.sub(r"^```(?:json)?\s*|\s*```$", "", (resp.text or "").strip())
+        data: dict[str, Any] = json.loads(text)
+    except Exception:  # noqa: BLE001 — fail-open: heuristics already ran
+        return "", "gemini-error"
+    code = str(data.get("country_code") or "").strip().upper()[:2]
+    confidence = str(data.get("confidence") or "low").lower()
+    if not re.fullmatch(r"[A-Z]{2}", code) or confidence == "low":
+        return "", f"gemini-unconfident({confidence})"
+    return code, f"gemini({confidence})"
+
+
+def resolve_company_country(
+    name: str,
+    website: str = "",
+    *,
+    session: requests.Session | None = None,
+    use_search: bool = True,
+    use_gemini: bool = True,
+) -> tuple[str, str]:
+    """Best-effort ISO alpha-2 HQ country for a company.
+
+    Returns ``(country_code, how)``. ``country_code`` is "" when no tier
+    produced a supportable answer — callers must leave the field blank rather
+    than fall back to a guess.
+    """
+    code = _tld_country(website)
+    if code:
+        return code, "cctld"
+
+    evidence_parts: list[str] = []
+
+    site_code, site_how = _from_website(website, session)
+    if site_code:
+        return site_code, site_how
+    if website:
+        evidence_parts.append(_fetch_text(
+            website if "://" in website else "https://" + website, session)[:4000])
+
+    if use_search:
+        search_code, search_how = _from_search(name, website)
+        if search_code:
+            return search_code, search_how
+        for item in _serper_search(f'"{name}" robotics company headquarters', max_results=6):
+            evidence_parts.append(f"{item.get('title', '')}: {item.get('snippet', '')}")
+
+    if use_gemini:
+        return _from_gemini(name, "\n".join(p for p in evidence_parts if p))
+    return "", site_how

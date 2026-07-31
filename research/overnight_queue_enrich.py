@@ -345,6 +345,14 @@ def enrich_company(
     company_country_code = ""
     if company.get("country"):
         company_country_code = str(company["country"].get("code") or "")
+    if not company_country_code and website:
+        # Offline ccTLD tier, so a company row nobody has filled in does not
+        # stamp "No country" on every robot this pass touches. The full
+        # resolution (and the Company write) belongs to
+        # `resolve_pending_company_gaps` / `remedy_missing_manufacturer_country`.
+        from company_country_resolve import country_from_domain
+
+        company_country_code = country_from_domain(website)
 
     pending = [
         r
@@ -650,7 +658,8 @@ def main() -> int:
         default=1,
         help="Companies to enrich in parallel (default 1 = original serial behavior). "
              "Each worker is fully isolated; keep modest (e.g. 4–6) to avoid overloading "
-             "prod. Forced to 1 if RESEARCH_USE_PLAYWRIGHT is set (not thread-safe).",
+             "prod. Safe with RESEARCH_USE_PLAYWRIGHT set — web_extract._PLAYWRIGHT_LOCK "
+             "serializes just the render calls, not the whole worker.",
     )
     args = parser.parse_args()
 
@@ -742,13 +751,11 @@ def main() -> int:
     _save_progress(progress)
 
     workers = max(1, args.workers)
-    # Playwright's sync API is not thread-safe — never fan out with it enabled.
-    if workers > 1 and os.environ.get("RESEARCH_USE_PLAYWRIGHT", "").lower() in ("1", "true", "yes"):
-        _safe_print(
-            "  RESEARCH_USE_PLAYWRIGHT is set — forcing --workers 1 (playwright is not thread-safe)",
-            flush=True,
-        )
-        workers = 1
+    # Playwright's sync API isn't thread-safe, but web_extract._PLAYWRIGHT_LOCK
+    # (added 2026-07-30, proven on the remediation stage's --workers 4 rollout)
+    # serializes just the render calls themselves — everything else (Tier-1
+    # fetch, DB read/writes) stays parallel even with RESEARCH_USE_PLAYWRIGHT=1.
+    # No blanket single-thread fallback needed here anymore.
     if workers > 8:
         _safe_print(
             f"  NOTE: --workers {workers} is high; keep it modest to avoid overloading prod.",

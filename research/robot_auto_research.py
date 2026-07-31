@@ -14,6 +14,7 @@ from google import genai
 from google.genai import types as genai_types
 
 from api_client import ResearchApiClient
+from company_country_resolve import country_from_domain
 from evidence_store import EvidenceStore, LOW_VERIFY_SCORE, sweep_company_evidence
 from grounded_select import (
     MAX_IMAGE_CANDIDATES,
@@ -27,6 +28,7 @@ from grounded_select import (
 # score logos/banners/other models under 30.
 MIN_VISION_HERO_SCORE = 60
 from release_year_lookup import citation_line, lookup_release_year
+from robot_categories import derive_category_slugs
 from schema import SourceRef, StagedRobot, VideoRef
 from slug_utils import resolve_company_slug, slugify_company_name
 from product_url_search import is_weak_product_url, search_product_url_for_robot
@@ -794,12 +796,40 @@ class RobotAutoResearcher:
             if purpose and purpose_duplicates_description(purpose, description):
                 purpose = ""
 
+        # `sub_category` resolves to RobotSubCategory ("Applications"), which is NOT
+        # the Category M2M that `quality.missing_category` counts — so classifying a
+        # robot never used to give it a category, and the flag stayed up through any
+        # number of re-enrichments. Derive the Category assignment from the same
+        # signals, against a fixed vocabulary of slugs that already exist on prod.
+        # `fallback="other"` is honest here and only here: we have fetched and read
+        # the product page, so "nothing matched" is a finding, not a blank.
+        category_slugs = derive_category_slugs(
+            name=name,
+            text=source_text or "",
+            movement_type_keys=movement_types,
+            sub_category_slug=sub_category,
+            use_keys=use_keys,
+            industry_keys=industry_keys,
+            existing=_category_slugs_from_robot(robot),
+            fallback="other" if source_text else "",
+        )
+
         staged = StagedRobot(
             name=name,
             model_name=model_name,
             company_slug=company_slug,
             company_name=company_name,
-            manufacturer_country_code=manufacturer_country_code or _country_code_from_robot(robot),
+            # Order: caller's value (the company's country) -> whatever the robot
+            # already had -> the company domain's ccTLD. The ccTLD tier is free and
+            # offline, and it is the difference between a blank field and a correct
+            # one for every manufacturer on a .jp/.de/.cn domain whose Company row
+            # nobody has filled in yet. Anything less certain is left to
+            # `resolve_company_country`, which fixes the Company instead.
+            manufacturer_country_code=(
+                manufacturer_country_code
+                or _country_code_from_robot(robot)
+                or country_from_domain(company_website)
+            ),
             # On a URL refresh, a failed re-derivation must stage a blank URL (not the homepage)
             # so _merge_staged keeps the DB value instead of force-overwriting it with junk.
             url=product_url or (website if trust_stored_url else ""),
@@ -814,6 +844,7 @@ class RobotAutoResearcher:
             industry_keys=industry_keys,
             use_keys=use_keys,
             sub_category_slug=sub_category,
+            category_slugs=category_slugs,
             payload_kg=specs.get("payload_kg") if isinstance(specs.get("payload_kg"), (int, float)) else None,
             reach_mm=specs.get("reach_mm") if isinstance(specs.get("reach_mm"), (int, float)) else None,
             repeatability_mm=specs.get("repeatability_mm") if isinstance(specs.get("repeatability_mm"), (int, float)) else None,
@@ -1040,6 +1071,24 @@ def _country_code_from_robot(robot: dict[str, Any]) -> str:
     if isinstance(ref, dict):
         return str(ref.get("code") or "").upper()
     return ""
+
+
+def _category_slugs_from_robot(robot: dict[str, Any]) -> str:
+    """Existing categories as a pipe-joined string.
+
+    The API serializes `categories` as display NAMES ("Industrial-Robot"), not
+    slugs; `derive_category_slugs` normalizes either form, and the importer
+    slugifies whatever it is sent, so names round-trip to the same rows.
+    """
+    cats = robot.get("categories")
+    if not isinstance(cats, list):
+        return ""
+    out = []
+    for c in cats:
+        val = c.get("name") or c.get("slug") if isinstance(c, dict) else c
+        if val:
+            out.append(str(val))
+    return "|".join(out)
 
 
 def _key_from_obj(obj: Any, default: str = "") -> str:
@@ -1549,5 +1598,11 @@ def _robot_api_to_staged(robot: dict[str, Any], company_slug: str, company_name:
         "availability_status_key": _key_from_obj(robot.get("availability_status")),
         "industry_keys": _m2m_keys(robot.get("industries")),
         "use_keys": _m2m_keys(robot.get("uses")),
+        # Carried so a remedy can SEE the current assignment: without these the
+        # merge base was blank, the researched row was blank, and every remedy
+        # wrote back a robot with no categories and no movement types — which is
+        # why `remedy_missing_category` could never clear its own flag.
+        "movement_type_keys": _m2m_keys(robot.get("movement_types")),
+        "category_slugs": _category_slugs_from_robot(robot),
         "sources": [{"url": robot.get("url"), "type": "website"}] if robot.get("url") else [],
     })

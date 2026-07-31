@@ -74,10 +74,32 @@ python -u rejection_feedback_loop.py --max-robots 3        # dry-run by default
 | `FAST_COMPANY_IDS` | *(unset)* | target companies; skips the full queue scan |
 | `CYCLE_SLEEP` | 300 | pause between cycles |
 | `GATE_BACKOFF` | 1800 | pause after a failed smoke gate |
-| `MAX_NEW_COMPANIES` / `MAX_COMPANIES` / `MAX_REJECTED` | 3 / 8 / 25 | per-stage caps |
-| `T_DISCOVERY` / `T_ENRICH` / `T_REJECT` | 90m / 120m / 45m | per-stage wall clocks |
+| `MAX_NEW_COMPANIES` | 6 | discovery: new companies per cycle |
+| `MAX_COMPANIES` | 20 | enrichment: companies per cycle (serial — see below) |
+| `MAX_WEBSITE_RESOLVES` | 8 | website-resolve: companies per cycle |
+| `MAX_REMEDY_COMPANIES` / `MAX_REMEDY_ROBOTS` | 12 / 12 | queue remediation: companies × robots/company per cycle |
+| `MAX_REMEDY_WORKERS` | 4 | queue remediation: companies run in parallel (2026-07-30; see below) |
+| `MAX_REJECTED` | 50 | rejection loop: robots per cycle |
+| `T_DISCOVERY` / `T_ENRICH` / `T_QREMEDY` / `T_REJECT` | 90m / 120m / 45m / 45m | per-stage wall clocks |
 | `SHIP_EVERY` | 600 | periodic log upload |
 | `ENRICH_STALL_COOLDOWN_HOURS` | 168 | how long a no-progress robot is skipped |
+
+### Parallelism: remediation vs. enrichment
+
+Queue remediation (`remedy_dryrun.py --queue`) runs companies **in parallel**
+(`--workers`, default 4) — each company gets its own API client and robots are
+partitioned by company up front, so no two workers ever touch the same robot.
+Playwright's sync API isn't thread-safe, but rather than disabling all
+concurrency for that, `web_extract._PLAYWRIGHT_LOCK` serializes just the
+render calls themselves — everything else (Tier-1 fetch, Gemini calls, DB
+read/writes) stays parallel even with `RESEARCH_USE_PLAYWRIGHT=1`.
+
+Enrichment (`overnight_queue_enrich.py`) still runs `--workers 1` — it was
+built and deployed before the lock existed, and its own guard forces workers
+back to 1 whenever `RESEARCH_USE_PLAYWRIGHT` is set regardless of what's
+passed. It's a safe candidate for the same fix, just not done yet — do it as
+its own change once remediation's concurrency has run for a few cycles in
+prod, not bundled in.
 
 ## Operating notes
 

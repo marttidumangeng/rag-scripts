@@ -4,15 +4,40 @@ title: Research Docs Changelog
 status: published
 version: 1.0
 owner: AI
-last_updated: 2026-07-29
+last_updated: 2026-07-31
 tags:
   - research
 ---
 
 # Research Docs Changelog
 
+## 2026-07-31
+
+- **Discovery + Enrichment no longer leave robots with "No country" or "No category."** Root cause was three separate holes, all measured on prod that day (1596 pending: 351 no country, 317 no category, 295 both):
+  - *Nothing ever wrote a category.* The Gemini classifier produces `sub_category`, which resolves to `RobotSubCategory` ("Applications") — a different model from the `Category` M2M that `quality.missing_category` counts. New [`robot_categories.py`](../robot_categories.py) derives `category_slugs` from movement types / sub-category / uses / industries / name keywords against a fixed vocabulary of slugs that already exist on prod; wired into `robot_auto_research`, `discover_robots` and `manufacturer_gap_discovery`.
+  - *`missing_manufacturer_country` was listed as UNFIXABLE* despite being error-severity and deterministic. New [`company_country_resolve.py`](../company_country_resolve.py) (ccTLD → site address → serper → Gemini, fail-closed) plus `remedy_missing_manufacturer_country`, which writes the **Company** as well as the robot so siblings are fixed for free. 232 of 806 companies had no country.
+  - *`robot_gaps()` reported neither*, and `overnight_queue_enrich` filters its work queue on it — so a robot whose only problems were these two was invisible to every remediation pass.
+- Also: `missing_category` and `missing_taxonomy` shared the `refresh_taxonomy` action, so a NO_OP under one blocked the other (category now uses `refresh_category`). `resolve_pending_company_websites.py` → **`resolve_pending_company_gaps.py`**, now resolving website *and* country in one queue scan. `api_client.get_subcategories()` raised `AttributeError` on every call (bare-list response). Bulk import's `_get_categories` now RESOLVES before creating and refuses sentence fragments — the unguarded `get_or_create` is why prod holds 191 categories with 135 unused. Tests: `test_robot_categories.py`, `test_company_country_resolve.py`, `test_country_category_coverage.py`, `test_bulk_import_categories.py`.
+
+## 2026-07-30
+
+- Gap-queue: rejected MIC SEO shells for Dongguan Rainbow **1496** (19) and Guangzhou Aobo **1482** (14, dupe of 1384). Enriched Guanhong **1419** (18) via `fix_guanhong_1419_robots.py` + hero repair; 5 All-In-One imageless (LinkedIn logo placeholder). Marked done 1496/1482/1419.
+- Created **Israel Aerospace Industries (IAI)** company **1648**; reassigned Palladyne IAI SKUs Mini HARPY/HARPY/HAROP (#5675/#5672/#5671) via `fix_iai_reassign_from_palladyne.py`; enriched from `iai.co.il`; CDN 3/3; marked done 1621 + 1648.
+- Symbotic (1623) curated enrichment via `fix_symbotic_1623_robots.py`: SymMicro #5686 — system-render hero, features/purpose/taxonomy, US, Available(11), CDN OK. Marked done 1623.
+- Coco Robotics (1619) curated enrichment via `fix_coco_1619_robots.py`: renamed Delivery→Coco 2 #5657, URL `/coco2`, speed 21 km/h, Framer studio hero, CDN OK. Marked done 1619.
+- Palladyne AI (1621) curated enrichment via `fix_palladyne_1621_robots.py`: 7 own products enriched (3 imageless IMAGE TO-DO); 3 IAI partner SKUs attribution-hold only — **not marked done** pending reject/reassign decision.
+
 ## 2026-07-29
 
+- Ecovacs Robotics (32) full enrichment via `fix_ecovacs_32_robots.py`: **36 keepers / 7 rejects** / 1 IMAGE TO-DO (#2475). Series `family_key`s; restored feat=0 BLACK twins; purpose≠description; Available(11); CDN **38/38** distinct heroes. Left `pending_review`. Marked done 32. Report: `staging/reports/ecovacs-32-enrichment.md`.
+- Doosan Robotics (193) curated enrichment via `fix_doosan_193_robots.py`: **14 keepers / 14 rejects** (same-SKU PDP dupes). Heroes `{sku}-slide01.jpg` md5-unique; catalog PDF weights; family `doosan-robotics:{e|a|m|h|p}-series`; stripped name prefix; cleared Humanoid/AMR/Drone tags; Available(11); KR; CDN **30/30**. Left `pending_review`. Marked done 193. Report: `staging/reports/doosan-193-enrichment.md`.
+- Avidbots (305) curated enrichment via `fix_avidbots_305_robots.py`: keepers **Meet Kas #3847**, **Neo 2 #3845**, **Neo 2W #2679**; rejected Neo 2W dupe **#3846→2679**. Cleared fake payloads (Kas downforce 36.8; FAQ GVW 581.5); OEM tech-sheet dims/speed/weight; CA country; Cleaning/AMR tags; CDN **6/6**. Left `pending_review`. Marked done 305. Report: `staging/reports/avidbots-305-enrichment.md`.
+- EP Equipment (1274) curated enrichment via `fix_ep_1274_robots.py`: **20/20** pending_review (0 rejects). Live PDPs for 10 keepers; brochure/overview for 10 (IMAGE TO-DO). JXO→JX0; RPL251/301 family-scope; EPT25 payload 2500; cleared multi-option/tow payloads; distinct EPT attr_11 heroes; CDN **10/10** keepers (10 intentional imageless). `family_key=ep-equipment:{series}`. Marked done 1274. Report: `staging/reports/ep-1274-enrichment.md`.
+- DJI (27) curated enrichment via `fix_dji_27_robots.py`: **16 keepers** / **7 rejects** (series shells 413–417, Agras 108, FlyCart 418). EN OEM PDPs + specs; CMS heroes md5-unique; cleared fabricated camera payloads; fixed family keys; zh translation-sync force; copy-media 16/16; CDN **23/23**. Left `pending_review`. Marked done 27. Report: `staging/reports/dji-27-enrichment.md`.
+- LimX Dynamics (68) curated enrichment via `fix_limx_68_robots.py`: **7 keepers** (Luna/Oli/TRON1/TRON2 + imageless W1/CL-1/P1), **3 rejects** (4856 TRON1 dupe→158, 4855 CL-3→670 Oli, 2170 non_robot shell). OEM EN PDPs + `/spec` tables; cleared fabricated payload_kg=10 (except OEM TRON1 load ≤10 kg); heroes Luna/Oli/TRON2 CDN 200; W1/CL-1/P1 IMAGE TO-DO. family_key `limx-dynamics:{series}`; slug stays `limx-dynamics-2`. Marked done 68. Report: `staging/reports/limx-68-enrichment.md`.
+- Wesar Intelligence (1476) curated enrichment via `fix_wesar_1476_robots.py`: **33 keepers / 17 rejects**. Cleared fabricated `payload_kg=1000`; OEM EN PDP tables; `family_key=wesar:{cu|tp5|tp1|f1|f3|f4|q|qf}`; CN + Available(11) (F3-1000 discontinued). WP slug≠model remaps confirmed via titles. Fail-closed 7 imageless (shared F3/F4/TP5 bytes + CU1-1500C). CDN keeper heroes hash-unique; marked done 1476. Report: `staging/reports/wesar-1476-enrichment.md`.
+- AgXeed (264) curated enrichment via `fix_agxeed_264_robots.py`: **4 pending_review enriched** (W4/W3/T2.5/T2.7 SERIES), **1 rejected** (4031 W4.2 → keep 1537). OEM Specsheet PDFs for typed weight/speed/dims; cleared false payload 500; family `agxeed:{w4-2|w3-2|t2-5|t2-7}`; NL; Available(11); CDN **4/4** distinct. Report: `staging/reports/agxeed-264-enrichment.md`.
+- Aobo Robot (1384) QA fix on 15 To-Review robots: hero swaps (XiaoAn r2, DaBen r2), strip generic/sibling videos (ORM), Reception-vs-delivery aligned to datasheets, KaKa Welcome imageless, verification flags cleared. CDN **42/43** (1993 imageless). Script: `fix_aobo_1384_qa.py`. Report: `staging/reports/aobo-1384-qa-fix.md`.
 - Aobo Robot (1384) content-queue enrich: 25 keepers updated (`created_count=0`), 18 URL-dupes rejected via API fallback, copy-media 24/24, CDN verify 43/43. Script: `fix_aobo_1384_robots.py`. Report: `staging/reports/aobo-1384-enrichment.md`. Hold: 1993 KaKa Welcome imageless (shared OEM hero with 1997; stale banner photo needs ORM delete).
 
 ## 2026-07-28
@@ -21,6 +46,7 @@ tags:
 - Drone Delivery Canada (1509) curated enrichment via `fix_ddc_1509_robots.py`: **4/4 pending_review** (Sparrow/Canary/Robin XL/Condor) — OEM heroes, family_*, Available/Announced, typed payload/speed/MTOW, CA country + website `dronedeliverycanada.com`. CDN **4/4** distinct. Left `pending_review`. Report: `staging/reports/overnight-1509-ddc.md`.
 - Mujin (810) completeness pass via `fix_mujin_810_robots.py`: renamed JP display names (3763/3753), re-PATCHed Available(11)+JP+taxonomy, documented AGV multi-SKU table + cell work limits in features (not arm typed columns), kept 3756 as mixed-load layout variant of 3757, soft-held 3755 RCP / 3758 Pallet Changer. CDN **10/10** distinct. Approve allowlist: **3753, 3754, 3756, 3757, 3759, 3760, 3762, 3763**. Soft leftover: 3758 TruckBot video 6941 needs staff soft-delete. Marked done 810. Report: [overnight-810-mujin.md](../staging/reports/overnight-810-mujin.md).
 - Rainbow Robotics (228) full enrichment via `fix_rainbow_228_robots.py`: **14 pending_review enriched**, **2 rejected** (4240 duplicate RB-Y1 → keep 4861; 4859 RB16 alias → keep 2211). Fixed shared cobot CDN collision, restored OEM payload/reach/weight/repeatability, corrected RBM-S100b specs, added RST heroes from rainbowastro + OEM. Families `rainbow-robotics:{rb|rb-y1|rbq|rbm-s100|rst}`; KR; Available/Announced. CDN **14/14** distinct. Left `pending_review`.
+- Hanwha Robotics (227) curated enrichment via `fix_hanwha_227_robots.py`: **20 pending_review enriched**, **0 rejected**, **0 imageless**; corrected Hanwha PDP typed `payload_kg` misparse (label-based override), extracted cobot dims/DOF, set family keys `hanwha-robotics:{hcr|amr|agv}`, availability `Available(11)`, OEM-purpose one-per-line, TagCatalog exact tags, and kept only model-token video titles. Copy-media applied for 18/20 robots (transient 502 for Roll/Reel) then CDN verify **20/20** distinct HTTP200. Marked done 227. Report: `staging/reports/hanwha-227-enrichment.md`.
 
 ## 2026-07-22
 
@@ -327,6 +353,10 @@ tags:
 - Company 783 (Infinium Robotics): added `scripts/research/fix_infinium_robots.py` — Infinium Scan photo/features/cited specs/3 videos/tags; copy-media OK. Catalog discovery: only one named robot on OEM site (`/packages` = pricing).
 - Company 50 (IIT): added `scripts/research/fix_iit_robots.py` — 7 pending robots enriched (GrowBot, HyQReal, XoSoft, PLANTOID, I-Seed, HyQCentaur, HyQ); IIT lab URLs; corrected heroes; features/specs/videos/tags; copy-media 7/7. Skipped published iCub/ErgoCub.
 - Added project skill `.cursor/skills/content-queue-robot-backfill/` (SKILL.md + self-learning `lessons.md`) for reusable content-queue robot backfills; linked from project-onboarding + robot-research-agent.
+
+## 2026-07-29
+
+- Company 305 (Avidbots): `fix_avidbots_305_robots.py` — enriched Meet Kas #3847, Neo 2 #3845, Neo 2W #2679; rejected Neo 2W dupe #3846; cleared fake payloads; CA country; CDN verify 6/6. Report: `staging/reports/avidbots-305-enrichment.md`.
 
 ## 2026-07-10
 

@@ -1,0 +1,31 @@
+{
+  "5678": {
+    "_note": "SwarmOS — verified by hand 2026-07-30 from fix_palladyne_1621_robots.py; automated grounded URL check scored the catalog page 0/100.",
+    "url": "https://www.palladyneai.com/products/ai-software/swarmos/",
+    "image": "https://www.palladyneai.com/wp-content/uploads/2025/11/swarmos_banner-scaled.jpg",
+    "images": "https://www.palladyneai.com/wp-content/uploads/2025/11/swarmos_banner-scaled.jpg",
+    "description": "SwarmOS is Palladyne AI's patented swarming and autonomy software that lets heterogeneous drones, robots, and sensors collaborate as a self-organizing team. It shares compact feature-level insights across platforms for decentralized coordination in contested environments.",
+    "purpose": "Heterogeneous autonomous swarm coordination\nCross-platform drone and robot collaboration\nDecentralized multi-agent mission autonomy\nTactical force-multiplier swarming",
+    "features": "OEM SwarmOS page: patented swarming/autonomy software for drones, robots, and sensors; feature-based decentralized communication; sensor-agnostic insight fusion (cameras, radar, RF); closed-loop feedback for dynamic role assignment and re-tasking; designed for GPS/comms-contested tactical warfare. Software — no mech specs.",
+    "tags": "UAV|Drone|Aerial|Autonomous|Defense|Autonomous Flight",
+    "family_name": "SwarmOS",
+    "family_key": "palladyne-ai:swarmos",
+    "family_url": "https://www.palladyneai.com/products/ai-software/swarmos/",
+    "variant_code": "SwarmOS",
+    "variant_label": "SwarmOS"
+  },
+  "5679": {
+    "_note": "SwarmStrike — verified by hand 2026-07-30. Deliberately imageless: OEM hero is Adobe Stock conceptual missile/HUD art (AdobeStock_1526861541), not a real product photo — visually rejected per media gates, not an oversight.",
+    "url": "https://www.palladyneai.com/products/uas/swarmstrike/",
+    "image": "",
+    "description": "SwarmStrike is a next-generation autonomous weapons platform under development by Palladyne AI. It is designed for mass, attritable precision-strike effects in GPS- and communications-denied environments, combining AI mission management with resilient navigation.",
+    "purpose": "Autonomous precision-strike UAS (under development)\nMass attritable munition deployment\nGPS-denied autonomous targeting\nContested-battlespace strike coordination",
+    "features": "OEM SwarmStrike page: autonomous weapons platform currently under development; AI-driven autonomy via GuideTech BRAIN avionics (mission management, autonomous target recognition, in-flight coordination); ScavengerNav proprietary suite for GPS-denied navigation. No public OEM weight/warhead/range numbers on page.",
+    "tags": "UAV|Drone|Aerial|Autonomous|Defense|Autonomous Flight",
+    "family_name": "SwarmStrike",
+    "family_key": "palladyne-ai:swarmstrike",
+    "family_url": "https://www.palladyneai.com/products/uas/swarmstrike/",
+    "variant_code": "SwarmStrike",
+    "variant_label": "SwarmStrike"
+  }
+}

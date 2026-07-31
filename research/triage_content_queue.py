@@ -39,8 +39,13 @@ REPORT_PATH = _RESEARCH_DIR / "staging" / "reports" / "content-queue-triage.json
 GAP_WEIGHTS = {
     "no_image": 5,
     "no_features": 4,
+    # `no_country` is the only ERROR-severity flag in this list
+    # (quality.FLAG_REGISTRY) and it is the cheapest to fix — usually a copy from
+    # the company — so it outranks the warnings.
+    "no_country": 5,
     "no_videos": 3,
     "no_url": 3,
+    "no_category": 3,
     "no_tags": 2,
     "no_specs": 1,
     "no_company": 4,
@@ -124,6 +129,18 @@ def _has_specs(robot: dict[str, Any]) -> bool:
     return False
 
 
+def _has_country(robot: dict[str, Any]) -> bool:
+    ref = robot.get("manufacturer_country_ref")
+    if isinstance(ref, dict) and (ref.get("code") or ref.get("id")):
+        return True
+    return bool(str(robot.get("manufacturer_country") or "").strip())
+
+
+def _has_category(robot: dict[str, Any]) -> bool:
+    cats = robot.get("categories") or []
+    return isinstance(cats, list) and len(cats) > 0
+
+
 def robot_gaps(robot: dict[str, Any]) -> list[str]:
     gaps: list[str] = []
     if not _has_image(robot):
@@ -138,6 +155,15 @@ def robot_gaps(robot: dict[str, Any]) -> list[str]:
         gaps.append("no_url")
     if not _has_specs(robot):
         gaps.append("no_specs")
+    # Country and category were absent from this list until 2026-07-31, and
+    # `overnight_queue_enrich` filters its work queue on `robot_gaps(r)` being
+    # non-empty — so a robot whose ONLY problems were "No country" and "No
+    # category" was silently dropped from every remediation pass. 295 pending
+    # robots were missing both.
+    if not _has_country(robot):
+        gaps.append("no_country")
+    if not _has_category(robot):
+        gaps.append("no_category")
     if not (robot.get("company_ref") or robot.get("company")):
         gaps.append("no_company")
     return gaps

@@ -582,9 +582,19 @@ _CATEGORY_SLUGS = None
 
 
 def _catalog_category_slugs() -> list[str]:
-    """Category slugs from the catalog API (loaded once per process)."""
+    """Category slugs the model may choose from (loaded once per process).
+
+    Intersected with `robot_categories.CANONICAL_CATEGORY_SLUGS` rather than
+    offered raw. The live table held 191 rows on 2026-07-31, 135 of them unused
+    and many near-duplicates of each other ("Ground Robot" / "Ground / Ground
+    Robot" / "Grounded"; "aerial" / "drone" / "uav"). Handing that list to a
+    classifier guarantees the duplicates keep getting picked, which is how they
+    stay alive. The intersection also means the model can only name rows that
+    already exist, so the importer never has to create one.
+    """
     global _CATEGORY_SLUGS
     if _CATEGORY_SLUGS is None:
+        from robot_categories import CANONICAL_CATEGORY_SLUGS
         try:
             from api_client import ResearchApiClient
             c = ResearchApiClient()
@@ -596,9 +606,11 @@ def _catalog_category_slugs() -> list[str]:
                 if not (isinstance(d, dict) and d.get("next")):
                     break
                 page += 1
-            _CATEGORY_SLUGS = slugs
+            _CATEGORY_SLUGS = [s for s in slugs if s in CANONICAL_CATEGORY_SLUGS]
         except Exception:
-            _CATEGORY_SLUGS = []
+            # Offline/API failure must not mean "no categories at all" — the
+            # vocabulary is a constant, and every slug in it exists on prod.
+            _CATEGORY_SLUGS = sorted(CANONICAL_CATEGORY_SLUGS)
     return _CATEGORY_SLUGS
 
 
@@ -815,6 +827,21 @@ def _write_staging(
                   "coming_soon": "coming_soon", "discontinued": "discontinued"}
     _price_min, _price_max = robot.get("price_min"), robot.get("price_max")
 
+    # The extractor returns [] for categories whenever nothing in the allowed
+    # list "fits", which is most of the time — derive from the taxonomy it DID
+    # return rather than staging a robot that lands flagged "No category".
+    from robot_categories import derive_category_slugs
+
+    category_slugs = _keys(robot.get("categories")) or derive_category_slugs(
+        name=name,
+        text=" ".join(str(robot.get(f) or "") for f in ("description", "purpose", "features")),
+        movement_type_keys=_keys(robot.get("movement_types")),
+        sub_category_slug=(robot.get("sub_category") or "").strip(),
+        use_keys=_keys(robot.get("uses")),
+        industry_keys=_keys(robot.get("industries")),
+        fallback="other",
+    )
+
     staged = StagedRobot(
         name=name,
         model_name=robot.get("model_name") or "",
@@ -836,7 +863,7 @@ def _write_staging(
         # so any other detected page language (ko/ja/de/...) stages as en.
         source_locale=(lambda loc: loc if loc in ("en", "zh-CN", "zh-TW", "zh-HK") else "en")(
             (robot.get("source_locale") or "en").strip()),
-        category_slugs=_keys(robot.get("categories")),
+        category_slugs=category_slugs,
         movement_type_keys=_keys(robot.get("movement_types")),
         sub_category_slug=(robot.get("sub_category") or "").strip(),
         use_keys=_keys(robot.get("uses")),
@@ -849,6 +876,10 @@ def _write_staging(
         ecosystem_compatibility=(robot.get("ecosystem_compatibility") or "")[:150],
         image=hero_image,
         images=image_candidates,
+        # Fills `company.country` on import when the Company row is blank
+        # (views.py company-enrichment block), so the whole manufacturer is
+        # fixed by the first robot staged rather than one robot at a time.
+        company_hq_country_code=country_code,
         sources=[SourceRef(url=product_url, type="website")] if product_url else [],
     )
     # Specs: Gemini-extracted (page spec tables) first, then heuristic page-text fallback
@@ -948,6 +979,17 @@ def discover_robots_for_company(
 
     if not website:
         return {"ok": False, "error": f"Company id={company_id} has no website set"}
+
+    if not country_code:
+        # Free, offline, and correct for every manufacturer on a ccTLD — the
+        # alternative is staging a whole company's robots with the
+        # error-severity "No country" flag. Anything less certain is left to
+        # `resolve_pending_company_gaps`, which fixes the Company row itself.
+        from company_country_resolve import country_from_domain
+
+        country_code = country_from_domain(website)
+        if country_code:
+            print(f"Country         : {country_code} (from domain — company row is blank)")
 
     print(f"\nCompany         : {company_name} (id={company_id})")
     print(f"Website         : {website}")

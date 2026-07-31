@@ -41,6 +41,7 @@ load_research_env(local="--local" in sys.argv)
 from api_client import ResearchApiClient  # noqa: E402
 from remedies import (  # noqa: E402
     FIXED,
+    MEDIA_FLAGS,
     RemedyContext,
     categories_for_robot,
     flags_from_categories,
@@ -191,7 +192,9 @@ def process_robot(robot: dict[str, Any], ctx: RemedyContext, *, dry_run: bool) -
             changed = True
             if flag in reason_flags:
                 reason_cleared = True
-            break  # re-run QA before attempting the next flag
+            if flag not in MEDIA_FLAGS:
+                break  # re-run QA before attempting the next flag
+                       # (media flags are noisy on re-fetch, must not eat the pass alone)
 
     # Resubmission ALWAYS requires having cleared the reviewer's own objection.
     # When the reason maps to no remedy (`other`, or an unclassifiable free-text
@@ -282,6 +285,10 @@ def main() -> int:
                 company_name=str(co.get("name") or ""),
                 company_slug=resolve_company_slug(str(co.get("name") or ""), co.get("slug")),
                 company_website=str(co.get("website") or "").strip(),
+                # Without this the country remedy cannot take its free path and
+                # would web-resolve a country the Company row already holds.
+                country_code=str((co.get("country") or {}).get("code") or "")
+                if isinstance(co.get("country"), dict) else "",
                 client=client,
                 dry_run=dry_run,
             )

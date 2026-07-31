@@ -50,13 +50,33 @@ REMEDY_REGISTRY: dict[str, RemedyFn] = {
     "missing_category": engine.remedy_missing_category,
     "missing_taxonomy": engine.remedy_missing_taxonomy,
     "missing_family": engine.remedy_missing_family,
+    "missing_manufacturer_country": engine.remedy_missing_manufacturer_country,
 }
+
+MEDIA_FLAGS: frozenset[str] = frozenset({
+    "missing_image", "image_mismatch", "image_dead", "few_photos",
+})
+"""Flags whose remedy re-fetches a page fresh every pass and naturally varies
+run to run (different query-string params, source ordering) even when nothing
+meaningful changed — so they can register as FIXED indefinitely without ever
+satisfying the underlying flag (e.g. a site with only 2 real product photos
+can never clear `few_photos`'s "want 4+"). Callers must NOT let a FIXED result
+on one of these stop the pass the way a real content change should — found
+live on Estun (2026-07-31): `few_photos` re-"fixed" every single run, which
+under the normal "stop after one real change" rule permanently starved
+`missing_features`/`missing_specs` of ever being attempted in the same pass.
+"""
 
 # Flags no remedy can fix automatically — they need a human or a different
 # pipeline (dedupe, company reassignment, translation).
 UNFIXABLE_FLAGS: frozenset[str] = frozenset({
     "duplicate_suspect", "shared_url", "non_english_content", "unverifiable",
-    "missing_manufacturer_country", "missing_price", "missing_availability",
+    # `missing_manufacturer_country` was here until 2026-07-31 and should never
+    # have been: it is an ERROR-severity flag with a deterministic source (the
+    # company's HQ country), and parking it here left 351 pending robots with a
+    # permanent red chip. It now has `remedy_missing_manufacturer_country`,
+    # which also backfills the Company so its siblings are fixed for free.
+    "missing_price", "missing_availability",
     # Duplicate/variant photos within one robot's gallery. Deliberately NOT wired to
     # refresh_media: many OEMs publish only FAMILY-level images (measured on Hikrobot
     # 2026-07-26 — sibling models return byte-identical image sets), so re-researching
@@ -108,7 +128,12 @@ REJECTION_CATEGORY_TO_FLAGS: dict[str, list[str]] = {
 #     stale purpose was still in place. Clearing that first unblocks the rest.
 #  2. Then cheap/structural fixes: a correct source URL improves everything
 #     researched from it, so repair the anchor before the content drawn from it.
+#  3. `missing_manufacturer_country` runs FIRST of all: it is the only
+#     error-severity flag with a remedy, it usually needs no network (the value
+#     comes off the Company), and when it does resolve one it writes the Company
+#     too — so every later robot from that manufacturer takes the free path.
 REMEDY_ORDER: list[str] = [
+    "missing_manufacturer_country",
     "purpose_duplicates_description", "missing_purpose",
     "missing_url", "malformed_url", "url_dead", "url_domain_mismatch", "url_content_mismatch",
     "missing_image", "image_dead", "image_mismatch", "few_photos",
@@ -121,6 +146,19 @@ REMEDY_ORDER: list[str] = [
 
 MAX_ATTEMPTS_PER_ACTION = 2
 """A hard failure earns one retry; NO_OP earns none."""
+
+WEBSITE_FREE_FLAGS: frozenset[str] = frozenset({
+    # `missing_category` derives from the robot's own stored taxonomy — no page
+    # fetch at all. `missing_manufacturer_country` has a company fast path and,
+    # failing that, a search tier that works from the company NAME.
+    "missing_category", "missing_manufacturer_country",
+})
+"""Flags whose remedies do not need the company's OEM site.
+
+Callers that skip website-less companies (every remedy that re-researches SKIPs
+for them) must still let these through, or a manufacturer whose site can never
+be resolved keeps a permanently unfixable "No category"/"No country" chip on
+every robot it owns."""
 
 
 def is_terminal(categories: list[str] | None) -> bool:
@@ -147,6 +185,8 @@ GAP_TO_FLAG: dict[str, str] = {
     "no_tags": "missing_tags",
     "no_url": "missing_url",
     "no_specs": "missing_specs",
+    "no_country": "missing_manufacturer_country",
+    "no_category": "missing_category",
     "no_company": "",  # wrong company is a human/dedupe call, not a remedy
 }
 
@@ -242,8 +282,16 @@ _ACTION_BY_FLAG = {
     "missing_specs": "refresh_specs",
     "missing_release_year": "refresh_release_year",
     "missing_tags": "refresh_tags",
-    **{f: "refresh_taxonomy" for f in ("missing_category", "missing_taxonomy")},
+    # `missing_category` gets its OWN action, not the shared `refresh_taxonomy`.
+    # Blocking is by action, so while they shared one a NO_OP from either flag
+    # suppressed the other — and they are no longer the same operation at all
+    # (category is an offline derivation, taxonomy re-researches the page).
+    # The rename also retires every stale `refresh_taxonomy` ledger entry left by
+    # the broken category remedy, which is what un-sticks the robots it blocked.
+    "missing_category": "refresh_category",
+    "missing_taxonomy": "refresh_taxonomy",
     "missing_family": "refresh_family",
+    "missing_manufacturer_country": "refresh_country",
 }
 
 

@@ -125,8 +125,20 @@ def validate_robot(data: dict[str, Any] | StagedRobot) -> ValidationResult:
     if not robot.image.strip():
         issues.append(ValidationIssue("warning", "image", "Image URL missing."))
 
-    if not robot.sub_category_slug.strip() and not robot.category_slugs.strip():
-        issues.append(ValidationIssue("warning", "category", "No category or sub_category assigned."))
+    # These are two DIFFERENT models and only one of them clears the server's
+    # `missing_category` flag: `category_slugs` populates the `categories` M2M
+    # that `quality.py` counts, while `sub_category_slug` resolves to
+    # `RobotSubCategory` ("Applications"). Treating a sub-category as a
+    # substitute is what hid the gap — 317 pending robots had a sub-category
+    # and no category on 2026-07-31. Warn on each independently.
+    if not robot.category_slugs.strip():
+        issues.append(ValidationIssue(
+            "warning", "category_slugs",
+            "No category assigned — this is what raises the 'No category' flag "
+            "(a sub_category does NOT clear it). See robot_categories.derive_category_slugs.",
+        ))
+    if not robot.sub_category_slug.strip():
+        issues.append(ValidationIssue("warning", "sub_category_slug", "No sub-category (Application) assigned."))
 
     # Numeric fields with low confidence should have research_notes
     for field_name, level in robot.confidence.items():

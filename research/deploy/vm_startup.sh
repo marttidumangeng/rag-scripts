@@ -167,12 +167,21 @@ while true; do
     staging/reports/competitor_gap_companies.json >/dev/null 2>&1 \
     && echo "seed list pulled" || echo "!! no seed list — discovery will find nothing"
 
+  # Company-level gaps, fixed BEFORE enrichment because enrichment inherits them:
+  #  * no website -> the company is INVISIBLE to enrichment and every remedy
+  #    (60 companies / 345 pending robots parked that way, found 2026-07-29)
+  #  * no country -> enrichment copies company.country onto each robot, so a blank
+  #    here reproduces the error-severity "No country" flag on every robot it
+  #    will ever own (232/806 companies, 351 pending robots, found 2026-07-31)
+  # One pass covers both. Failures cool down a week in their own per-field ledger.
+  stage "company gap resolve (website + country)" "${T_WEBRESOLVE:-15m}"     "$PY" -u resolve_pending_company_gaps.py --apply --max-companies "${MAX_WEBSITE_RESOLVES:-12}"
+
   # Order is the pipeline order: discovery creates pending_review robots, enrichment
   # fills them the SAME night, then the rejection loop reworks what reviewers bounced.
   # Sequential on one host is also why discovery and enrichment can no longer collide
   # on the shared prod rate limit.
   stage "discovery (greenfield)" "${T_DISCOVERY:-90m}" \
-    "$PY" -u overnight_greenfield_import.py --max-companies "${MAX_NEW_COMPANIES:-3}" --created-by-id 1
+    "$PY" -u overnight_greenfield_import.py --max-companies "${MAX_NEW_COMPANIES:-6}" --created-by-id 1
 
   # FAST_COMPANY_IDS turns a ~2.5h cycle into ~15min for iterating on the pipeline
   # itself. It targets named companies, which ALSO skips the full pending scan —
@@ -184,11 +193,19 @@ while true; do
       "$PY" -u overnight_queue_enrich.py --workers 1 --company-ids "$FAST_COMPANY_IDS"
   else
     stage "enrichment (gap-fill, oldest first)" "${T_ENRICH:-120m}" \
-      "$PY" -u overnight_queue_enrich.py --workers 1 --max-companies "${MAX_COMPANIES:-8}"
+      "$PY" -u overnight_queue_enrich.py --workers 1 --max-companies "${MAX_COMPANIES:-20}"
   fi
 
+  # Flag-driven remedies for PENDING robots (vision photos, tags, family, purpose...).
+  # Previously these ran only on REJECTED robots, so To Review sat full of fixable
+  # warnings that gap-fill enrichment never saw. Ledgered via auto_fix_attempts.
+  # Companies run in parallel (each robot belongs to exactly one company, so no two
+  # workers ever touch the same robot); Playwright's render calls self-serialize via
+  # web_extract._PLAYWRIGHT_LOCK, so this is safe even with RESEARCH_USE_PLAYWRIGHT=1.
+  stage "queue remediation (pending flags)" "${T_QREMEDY:-45m}"     "$PY" -u remedy_dryrun.py --queue --apply       --max-queue-companies "${MAX_REMEDY_COMPANIES:-12}" --max-robots "${MAX_REMEDY_ROBOTS:-12}"       --workers "${MAX_REMEDY_WORKERS:-4}"
+
   stage "rejection feedback loop" "${T_REJECT:-45m}" \
-    "$PY" -u rejection_feedback_loop.py --max-robots "${MAX_REJECTED:-25}" --apply
+    "$PY" -u rejection_feedback_loop.py --max-robots "${MAX_REJECTED:-50}" --apply
 
   echo "=== cycle $CYCLE finished $(date -u +%FT%TZ) ==="
   ship

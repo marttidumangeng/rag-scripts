@@ -30,8 +30,23 @@ from .base import (
     RemedyContext,
     RemedyResult,
     diff_fields,
+    normalize_field,
     snapshot,
 )
+
+# StagedRobot's write-side field name -> the API's read-side key for the same
+# data, when they differ. `images` writes the gallery but RobotSerializer only
+# echoes it back under `photos` (a SerializerMethodField; `images` is popped
+# out of validated_data on save, never re-serialized under its own name) — so
+# `_verify_persisted` was permanently blind for every media remedy on every
+# company. Found live on Estun (2026-07-31): the same robot reported
+# `few_photos fixed` six times over three days while its real photo count
+# never moved, and because the loop stops at the first real change, the false
+# "fixed" also silently blocked `missing_features`/`missing_specs` from ever
+# being attempted on the same pass.
+_FIELD_READ_ALIASES: dict[str, str] = {
+    "images": "photos",
+}
 
 
 def _stage_and_import(merged: Any, robot_id: int, ctx: RemedyContext, *, replace_media: bool) -> dict[str, Any]:
@@ -85,23 +100,34 @@ def run_reresearch(
 
     try:
         from robot_auto_research import _merge_staged, _robot_api_to_staged
+        from schema import StagedRobot
 
         base = _robot_api_to_staged(robot, ctx.company_slug, ctx.company_name)
         before = snapshot(base.to_dict(), watch)
 
-        researched = ctx.get_researcher(vision=vision).research_robot(
-            robot,
-            company_slug=ctx.company_slug,
-            company_name=ctx.company_name,
-            company_website=ctx.company_website,
-            manufacturer_country_code=ctx.country_code,
-            # When the stored URL is the thing under repair, don't anchor on it.
-            trust_stored_url="url" not in force_fields,
-            refresh_description="description" in force_fields,
-            evidence=ctx.evidence,
-        )
-        if researched is None:
-            return RemedyResult(action, FAILED, flag=flag, detail="target_not_found on OEM site")
+        # A hand-verified hint (remedies/hints/<company_id>.json) takes priority over
+        # automated discovery — it exists precisely because discovery underperformed
+        # on this company (wrong nav, attribution landmines, CMS image names). It
+        # flows through the SAME merge/diff/no-op/write/verify pipeline as a live
+        # research result, just skipping the network call.
+        hint = ctx.hint_for(robot_id)
+        used_hint = hint is not None
+        if used_hint:
+            researched = StagedRobot.from_dict({"name": base.name, **hint})
+        else:
+            researched = ctx.get_researcher(vision=vision).research_robot(
+                robot,
+                company_slug=ctx.company_slug,
+                company_name=ctx.company_name,
+                company_website=ctx.company_website,
+                manufacturer_country_code=ctx.country_code,
+                # When the stored URL is the thing under repair, don't anchor on it.
+                trust_stored_url="url" not in force_fields,
+                refresh_description="description" in force_fields,
+                evidence=ctx.evidence,
+            )
+            if researched is None:
+                return RemedyResult(action, FAILED, flag=flag, detail="target_not_found on OEM site")
 
         merged = _merge_staged(base, researched, force_fields=force_fields)
         merged = _strip_quarantined(base, merged)
@@ -115,10 +141,12 @@ def run_reresearch(
                 detail="re-research produced no new value for " + ",".join(sorted(watch)),
             )
 
+        hint_tag = " (from hint)" if used_hint else ""
+
         if ctx.dry_run:
             return RemedyResult(
                 action, FIXED, flag=flag, changed_fields=changed,
-                detail="dry-run — not written",
+                detail=f"dry-run — not written{hint_tag}",
             )
 
         imp = _stage_and_import(merged, robot_id, ctx, replace_media=replace_media)
@@ -142,7 +170,7 @@ def run_reresearch(
             )
         return RemedyResult(
             action, FIXED, flag=flag, changed_fields=changed,
-            detail=verify_note if persisted is None else "",
+            detail=(verify_note if persisted is None else "") + hint_tag,
         )
 
 
@@ -204,14 +232,20 @@ def _verify_persisted(
     if not isinstance(fresh, dict) or not fresh:
         return None, "unverified: empty re-read"
 
-    verifiable = [f for f in claimed if f in fresh]
-    unverifiable = [f for f in claimed if f not in fresh]
+    def _in_fresh(f: str) -> bool:
+        return f in fresh or _FIELD_READ_ALIASES.get(f, "") in fresh
+
+    def _fresh_value(f: str) -> Any:
+        return fresh.get(f) if f in fresh else fresh.get(_FIELD_READ_ALIASES.get(f, ""))
+
+    verifiable = [f for f in claimed if _in_fresh(f)]
+    unverifiable = [f for f in claimed if not _in_fresh(f)]
     if not verifiable:
         return None, (
             "unverified: " + ",".join(unverifiable) +
             " not returned by the API (write-only staging alias?)"
         )
-    after_server = snapshot(fresh, frozenset(verifiable))
+    after_server = {f: normalize_field(f, _fresh_value(f)) for f in verifiable}
     landed = diff_fields({k: before.get(k) for k in verifiable}, after_server)
     if landed:
         note = ""
@@ -282,6 +316,200 @@ def remedy_missing_family(robot: dict[str, Any], ctx: RemedyContext) -> RemedyRe
         return RemedyResult(action, FAILED, flag=flag, detail=f"{type(exc).__name__}: {exc}")
 
 
+def _subcategory_slug(ctx: RemedyContext, sub_category: Any) -> str:
+    """API returns `sub_category` as a PK; the derivation needs its slug."""
+    if isinstance(sub_category, dict):
+        return str(sub_category.get("slug") or "")
+    if not isinstance(sub_category, int):
+        return ""
+    try:
+        for row in ctx.client.get_subcategories() or []:
+            if row.get("id") == sub_category:
+                return str(row.get("slug") or "")
+    except Exception:  # noqa: BLE001 — a missing slug just weakens the derivation
+        return ""
+    return ""
+
+
+def remedy_missing_category(robot: dict[str, Any], ctx: RemedyContext) -> RemedyResult:
+    """Assign Category rows from the taxonomy the robot already carries.
+
+    This does NOT re-research. `missing_category` counts the `categories` M2M
+    (`quality.py`: `n_categories == 0`), and everything needed to fill it —
+    movement types, sub-category, uses, industries, name, description — is
+    already on the robot. Making it a network fix would gate the flag on the
+    company having a reachable website, which is exactly how 317 pending robots
+    got stuck with it in the first place.
+
+    The previous version of this remedy forced `{"sub_category",
+    "movement_type_keys"}`. Neither can change `n_categories` — `sub_category`
+    is `RobotSubCategory` ("Applications"), a different model — so it reported
+    FIXED while the flag stayed up, and the attempt ledger then blocked the
+    retry. Categories are only ever ADDED here: `_set_m2m` in the importer skips
+    a robot that already has some, so a curated assignment is never overwritten.
+    """
+    action, flag = "refresh_category", "missing_category"
+    ctx.ensure()
+    robot_id = int(robot.get("id") or 0)
+    try:
+        from robot_auto_research import _robot_api_to_staged
+        from robot_categories import derive_category_slugs
+        from schema import StagedRobot
+
+        base = _robot_api_to_staged(robot, ctx.company_slug, ctx.company_name)
+        watch = frozenset({"category_slugs"})
+        before = snapshot(base.to_dict(), watch)
+
+        slugs = derive_category_slugs(
+            name=str(robot.get("name") or ""),
+            text=" ".join(str(robot.get(f) or "") for f in ("description", "purpose", "features")),
+            movement_type_keys=base.movement_type_keys,
+            sub_category_slug=_subcategory_slug(ctx, robot.get("sub_category")),
+            use_keys=base.use_keys,
+            industry_keys=base.industry_keys,
+            existing=base.category_slugs,
+            # No fallback: this remedy reads stored fields only. A robot with no
+            # taxonomy at all is an enrichment gap, and stamping it "Other" would
+            # clear the chip while leaving the reviewer nothing to act on.
+            fallback="",
+        )
+        if not slugs:
+            return RemedyResult(
+                action, NO_OP, flag=flag,
+                detail="no movement type, sub-category, use, industry or name keyword "
+                       "to classify from — needs enrichment first",
+            )
+
+        payload = base.to_dict()
+        payload["category_slugs"] = slugs
+        merged = StagedRobot.from_dict(payload)
+        changed = diff_fields(before, snapshot(merged.to_dict(), watch))
+        if not changed:
+            return RemedyResult(action, NO_OP, flag=flag, detail=f"already categorised: {slugs}")
+        if ctx.dry_run:
+            return RemedyResult(action, FIXED, flag=flag, changed_fields=changed,
+                                detail=f"dry-run — would set {slugs}")
+
+        imp = _stage_and_import(merged, robot_id, ctx, replace_media=False)
+        if not imp.get("ok"):
+            return RemedyResult(action, FAILED, flag=flag, changed_fields=changed,
+                                detail=f"import failed: {str(imp)[:200]}")
+
+        # `category_slugs` is a write-only staging alias — the API returns
+        # `categories` (display names) — so _verify_persisted cannot see it.
+        # Check the real relation instead of accepting an unverified FIXED.
+        try:
+            fresh = ctx.client._get(f"robots/robots/{robot_id}/")
+            landed = [c for c in (fresh.get("categories") or []) if c]
+        except Exception as exc:  # noqa: BLE001
+            return RemedyResult(action, FIXED, flag=flag, changed_fields=changed,
+                                detail=f"unverified: re-read failed ({type(exc).__name__})")
+        if not landed:
+            return RemedyResult(action, FAILED, flag=flag, changed_fields=[],
+                                detail=f"staged {slugs} but robot still has no categories")
+        return RemedyResult(action, FIXED, flag=flag, changed_fields=changed,
+                            detail=", ".join(str(c) for c in landed))
+    except Exception as exc:  # noqa: BLE001
+        return RemedyResult(action, FAILED, flag=flag, detail=f"{type(exc).__name__}: {exc}")
+
+
+def remedy_missing_manufacturer_country(robot: dict[str, Any], ctx: RemedyContext) -> RemedyResult:
+    """Fill the manufacturer's country — and fix the Company that caused it.
+
+    `missing_manufacturer_country` is an ERROR-severity flag that used to sit in
+    `UNFIXABLE_FLAGS`, so 351 pending robots carried a permanent red chip nobody
+    could clear. It is not unfixable; it is just not a per-robot problem. A
+    robot's manufacturer country IS its company's HQ country, and on 2026-07-31
+    the split was 287 robots whose company also had no country against 54 whose
+    company already did (pure propagation gap).
+
+    So: resolve once, write the COMPANY as well as the robot. The next robot
+    from the same manufacturer then takes the free path, and enrichment — which
+    copies `company.country` onto everything it touches — stops producing new
+    blanks at the source.
+    """
+    action, flag = "refresh_country", "missing_manufacturer_country"
+    ctx.ensure()
+    robot_id = int(robot.get("id") or 0)
+    try:
+        from company_country_resolve import resolve_company_country
+        from robot_auto_research import _robot_api_to_staged
+        from schema import StagedRobot
+
+        company_code = (ctx.country_code or "").strip().upper()
+        how = "company"
+        if not company_code:
+            if ctx._country_lookup is None:
+                code, how = resolve_company_country(ctx.company_name, ctx.company_website)
+                ctx._country_lookup = ((code or "").strip().upper(), how)
+            company_code, how = ctx._country_lookup
+        if not company_code:
+            return RemedyResult(action, NO_OP, flag=flag,
+                                detail=f"HQ country not determinable ({how})")
+
+        base = _robot_api_to_staged(robot, ctx.company_slug, ctx.company_name)
+        watch = frozenset({"manufacturer_country_code"})
+        before = snapshot(base.to_dict(), watch)
+        payload = base.to_dict()
+        payload["manufacturer_country_code"] = company_code
+        # The multi-country M2M is only ever set alongside the primary FK (see the
+        # note in quality.py), so seeding it keeps the two consistent.
+        payload["manufacturer_country_codes"] = company_code
+        merged = StagedRobot.from_dict(payload)
+        changed = diff_fields(before, snapshot(merged.to_dict(), watch))
+        if not changed:
+            return RemedyResult(action, NO_OP, flag=flag, detail=f"already set to {company_code}")
+        if ctx.dry_run:
+            return RemedyResult(action, FIXED, flag=flag, changed_fields=changed,
+                                detail=f"dry-run — would set {company_code} [{how}]")
+
+        # Backfill the Company first: it is the actual defect, and doing it here
+        # means one resolution fixes every sibling robot instead of N lookups.
+        company_note = ""
+        if how != "company" and ctx.company_id:
+            company_note = _write_company_country(ctx, company_code)
+
+        imp = _stage_and_import(merged, robot_id, ctx, replace_media=False)
+        if not imp.get("ok"):
+            return RemedyResult(action, FAILED, flag=flag, changed_fields=changed,
+                                detail=f"import failed: {str(imp)[:200]}")
+
+        # Staged as `manufacturer_country_code`, returned as
+        # `manufacturer_country_ref` — verify against the relation.
+        try:
+            fresh = ctx.client._get(f"robots/robots/{robot_id}/")
+            ref = fresh.get("manufacturer_country_ref") or {}
+            landed = str(ref.get("code") or "").upper() if isinstance(ref, dict) else ""
+        except Exception as exc:  # noqa: BLE001
+            return RemedyResult(action, FIXED, flag=flag, changed_fields=changed,
+                                detail=f"unverified: re-read failed ({type(exc).__name__})")
+        if landed != company_code:
+            return RemedyResult(action, FAILED, flag=flag, changed_fields=[],
+                                detail=f"staged {company_code} but robot reads {landed or 'blank'}")
+        return RemedyResult(action, FIXED, flag=flag, changed_fields=changed,
+                            detail=f"{company_code} [{how}]{company_note}")
+    except Exception as exc:  # noqa: BLE001
+        return RemedyResult(action, FAILED, flag=flag, detail=f"{type(exc).__name__}: {exc}")
+
+
+def _write_company_country(ctx: RemedyContext, code: str) -> str:
+    """Persist the resolved HQ country on the Company. Never raises."""
+    try:
+        country_id = ctx.client.resolve_country_id(code)
+        if not country_id:
+            return f" (company not updated: {code} not in Country table)"
+        ctx.client._patch(f"companies/{ctx.company_id}/", {"country_id": country_id})
+        fresh = ctx.client.get_company(ctx.company_id) or {}
+        got = fresh.get("country")
+        got_code = (got.get("code") if isinstance(got, dict) else got) or ""
+        if str(got_code).upper() != code:
+            return " (company write did not persist)"
+        ctx.country_code = code
+        return f" +company {ctx.company_id}"
+    except Exception as exc:  # noqa: BLE001
+        return f" (company update failed: {type(exc).__name__})"
+
+
 def _make(action: str, flag: str, force: set[str], *, watch: set[str] | None = None, media: bool = False):
     # Media remedies need the vision fallback: filename matching finds nothing on
     # OEMs with CMS/date/hash image names, so pixels are the only remaining signal.
@@ -335,5 +563,13 @@ remedy_missing_specs = _make(
 )
 remedy_missing_release_year = _make("refresh_release_year", "missing_release_year", {"release_year"})
 remedy_missing_tags = _make("refresh_tags", "missing_tags", {"tags"})
-remedy_missing_category = _make("refresh_taxonomy", "missing_category", {"sub_category", "movement_type_keys"})
-remedy_missing_taxonomy = _make("refresh_taxonomy", "missing_taxonomy", {"use_keys", "industry_keys"})
+# `missing_category` is defined above as a real function, NOT via _make: it fills
+# the `categories` M2M from stored taxonomy and needs no network at all.
+# `sub_category`/`movement_type_keys` moved here from the old `missing_category`
+# remedy so that capability is not lost — they are taxonomy fields, and this is
+# the remedy that actually re-researches the page to refill them.
+remedy_missing_taxonomy = _make(
+    "refresh_taxonomy", "missing_taxonomy",
+    {"use_keys", "industry_keys", "sub_category", "movement_type_keys"},
+    watch={"use_keys", "industry_keys"},
+)
