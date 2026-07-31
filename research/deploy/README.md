@@ -75,31 +75,32 @@ python -u rejection_feedback_loop.py --max-robots 3        # dry-run by default
 | `CYCLE_SLEEP` | 300 | pause between cycles |
 | `GATE_BACKOFF` | 1800 | pause after a failed smoke gate |
 | `MAX_NEW_COMPANIES` | 6 | discovery: new companies per cycle |
-| `MAX_COMPANIES` | 20 | enrichment: companies per cycle (serial — see below) |
+| `MAX_COMPANIES` | 32 | enrichment: companies per cycle (raised from 20, 2026-07-31 — see below) |
+| `MAX_ENRICH_WORKERS` | 4 | enrichment: companies run in parallel (2026-07-31; see below) |
 | `MAX_WEBSITE_RESOLVES` | 8 | website-resolve: companies per cycle |
-| `MAX_REMEDY_COMPANIES` / `MAX_REMEDY_ROBOTS` | 12 / 12 | queue remediation: companies × robots/company per cycle |
-| `MAX_REMEDY_WORKERS` | 4 | queue remediation: companies run in parallel (2026-07-30; see below) |
+| `MAX_REMEDY_COMPANIES` / `MAX_REMEDY_ROBOTS` | 18 / 12 | queue remediation: companies × robots/company per cycle (companies raised from 12, 2026-07-31) |
+| `MAX_REMEDY_WORKERS` | 6 | queue remediation: companies run in parallel (raised from 4, 2026-07-31; see below) |
 | `MAX_REJECTED` | 50 | rejection loop: robots per cycle |
 | `T_DISCOVERY` / `T_ENRICH` / `T_QREMEDY` / `T_REJECT` | 90m / 120m / 45m / 45m | per-stage wall clocks |
 | `SHIP_EVERY` | 600 | periodic log upload |
 | `ENRICH_STALL_COOLDOWN_HOURS` | 168 | how long a no-progress robot is skipped |
 
-### Parallelism: remediation vs. enrichment
+### Parallelism: remediation and enrichment
 
-Queue remediation (`remedy_dryrun.py --queue`) runs companies **in parallel**
-(`--workers`, default 4) — each company gets its own API client and robots are
+Both queue remediation (`remedy_dryrun.py --queue`) and enrichment
+(`overnight_queue_enrich.py`) run companies **in parallel** (`--workers`,
+default 4 for each) — every company gets its own API client and robots are
 partitioned by company up front, so no two workers ever touch the same robot.
 Playwright's sync API isn't thread-safe, but rather than disabling all
-concurrency for that, `web_extract._PLAYWRIGHT_LOCK` serializes just the
-render calls themselves — everything else (Tier-1 fetch, Gemini calls, DB
-read/writes) stays parallel even with `RESEARCH_USE_PLAYWRIGHT=1`.
+concurrency for that, `web_extract._PLAYWRIGHT_LOCK` (added 2026-07-30)
+serializes just the render calls themselves — everything else (Tier-1 fetch,
+Gemini calls, DB read/writes) stays parallel even with
+`RESEARCH_USE_PLAYWRIGHT=1`.
 
-Enrichment (`overnight_queue_enrich.py`) still runs `--workers 1` — it was
-built and deployed before the lock existed, and its own guard forces workers
-back to 1 whenever `RESEARCH_USE_PLAYWRIGHT` is set regardless of what's
-passed. It's a safe candidate for the same fix, just not done yet — do it as
-its own change once remediation's concurrency has run for a few cycles in
-prod, not bundled in.
+Remediation got this first (2026-07-30); enrichment followed 2026-07-31 once
+the lock had run clean in prod. Both used to force `--workers 1` whenever
+Playwright was enabled — that blanket guard is gone from both now; the lock
+is the only serialization that's actually needed.
 
 ## Operating notes
 

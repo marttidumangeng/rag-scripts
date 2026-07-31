@@ -479,6 +479,55 @@ def enrich_company_robots(
     return out
 
 
+def enrich_company_robots_llm_approved(
+    raw_robots: list[dict[str, Any]], company: dict[str, Any], sess: requests.Session,
+) -> list[dict[str, Any]]:
+    """Same pipeline as enrich_company_robots, but for the backlog-recovery
+    pass: names were already judged real-vs-junk by batch LLM classification
+    (2026-07-31, 16 agents covering all 452 backlog companies), so this skips
+    ONLY `is_probable_product_name`'s structural-signal requirement. Every
+    other safety net still applies — nav/language junk regex, description-
+    required, duplicate-boilerplate/title detection, marketplace-template,
+    marketing-voice, category-description, mojibake, CMS-artifact patterns —
+    an LLM-approved name with no real page content or templated prose still
+    gets dropped.
+    """
+    cleaned_input: list[dict[str, Any]] = []
+    for r in raw_robots:
+        r = dict(r)
+        if r.get("name"):
+            r["name"] = dedupe_leading_word(_clean_name(r["name"]))
+        cleaned_input.append(r)
+
+    survivors = [
+        r for r in cleaned_input
+        if (r.get("name") or "").strip()
+        and not _JUNK_RE.search(r["name"])
+        and not _LANG_RE.match(r["name"])
+        and not _MOJIBAKE_RE.search(r["name"])
+    ]
+    if not survivors:
+        return []
+
+    page_cache = _fetch_company_pages(survivors, sess)
+    desc_counts: dict[str, int] = {}
+    title_counts: dict[str, int] = {}
+    for desc, _img, title in page_cache.values():
+        if desc:
+            desc_counts[desc] = desc_counts.get(desc, 0) + 1
+        if title:
+            title_counts[title] = title_counts.get(title, 0) + 1
+    boilerplate_descs = {d for d, n in desc_counts.items() if n >= 2}
+    boilerplate_titles = {t for t, n in title_counts.items() if n >= 2}
+
+    out: list[dict[str, Any]] = []
+    for r in survivors:
+        enriched = _enrich_one(dict(r), company, page_cache, boilerplate_descs, boilerplate_titles, sess)
+        if enriched:
+            out.append(enriched)
+    return out
+
+
 def _enrich_one(
     r: dict[str, Any],
     company: dict[str, Any],

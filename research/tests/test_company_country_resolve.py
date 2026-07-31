@@ -85,6 +85,139 @@ class AddressTextTests(unittest.TestCase):
         self.assertEqual(_country_from_text("Contact us for a quote."), "")
 
 
+class WeakSourceTests(unittest.TestCase):
+    """A homepage is marketing. It names deployments, partners and press.
+
+    Regression: Shark Robotics (company 1806) is a French firm in La Rochelle
+    whose homepage carries a Ukraine delivery story and never spells "France".
+    It resolved to UA until the homepage was demoted below the legal-notice page
+    AND required to look like an address.
+    """
+
+    HOMEPAGE = ("Shark Robotics designs firefighting robots. "
+                "Our Colossus units were delivered to Ukraine in 2022.")
+
+    def test_bare_mention_on_a_weak_source_is_not_an_address(self):
+        self.assertEqual(_country_from_text(self.HOMEPAGE, require_address_context=True), "")
+
+    def test_the_same_text_is_accepted_from_a_legal_page(self):
+        self.assertEqual(_country_from_text(self.HOMEPAGE), "UA")
+
+    def test_a_real_address_passes_the_weak_source_gate(self):
+        self.assertEqual(
+            _country_from_text(
+                "Rue Fleming 17, 17000 La Rochelle, France", require_address_context=True),
+            "FR",
+        )
+
+    def test_an_hq_marker_also_passes_the_gate(self):
+        self.assertEqual(
+            _country_from_text("Siege social: La Rochelle, France", require_address_context=True),
+            "FR",
+        )
+
+    def test_region_hints_do_not_bypass_the_gate(self):
+        # A bare "Pittsburgh, PA 15201" is fine on a contact page but must not
+        # let a homepage guess.
+        self.assertEqual(_country_from_text("Pittsburgh, PA", require_address_context=True), "")
+
+    def test_legal_pages_are_tried_before_the_homepage(self):
+        from company_country_resolve import _CONTACT_PATHS
+
+        self.assertEqual(_CONTACT_PATHS[-1], "", "the homepage must be the LAST resort")
+        self.assertLess(_CONTACT_PATHS.index("/mentions-legales"), _CONTACT_PATHS.index("/about"))
+
+
+class FalsePrefixTests(unittest.TestCase):
+    """A country name inside a longer place name is a different place.
+
+    Regression: Dane Technologies (company 1637, Minnesota) resolved to MX
+    because its contact page carries a US state dropdown containing
+    "New Mexico".
+    """
+
+    STATE_DROPDOWN = ("minnesota mississippi missouri montana nebraska nevada "
+                      "new hampshire new jersey new mexico new york north carolina")
+
+    def test_new_mexico_is_not_mexico(self):
+        self.assertNotEqual(_country_from_text(self.STATE_DROPDOWN), "MX")
+
+    def test_a_real_mexico_address_still_resolves(self):
+        self.assertEqual(_country_from_text("Av. Reforma 100, 06600 Mexico"), "MX")
+
+
+class AmbiguousPageTests(unittest.TestCase):
+    """A page listing several countries and no HQ is offices, not a headquarters."""
+
+    def test_multiple_countries_with_no_hq_marker_is_ambiguous(self):
+        self.assertEqual(
+            _country_from_text("Offices in Germany, Japan and Singapore."), "",
+        )
+
+    def test_an_hq_marker_resolves_the_ambiguity(self):
+        self.assertEqual(
+            _country_from_text("Offices in Germany and Japan. Headquartered in Singapore."),
+            "SG",
+        )
+
+    def test_a_single_country_is_still_accepted(self):
+        self.assertEqual(_country_from_text("Contact our office in Japan."), "JP")
+
+    def test_postal_hint_survives_when_no_country_is_named(self):
+        # Address blocks routinely omit the country: "Brooklyn Park, MN 55428".
+        self.assertEqual(
+            _country_from_text("Brooklyn Park, MN 55428", require_address_context=True), "US",
+        )
+
+    def test_soft_city_hints_are_gated_on_weak_sources(self):
+        self.assertEqual(_country_from_text("our Tokyo partner", require_address_context=True), "")
+        self.assertEqual(_country_from_text("our Tokyo partner"), "JP")
+
+
+class DomesticAddressTests(unittest.TestCase):
+    """A company does not write its own country into its own address.
+
+    The only country spelled out on a contact page is usually the FOREIGN
+    satellite, which biases every non-US manufacturer toward "US". Regression:
+    Bluepath Robotics (company 1677) lists its head office in Istanbul, its
+    factory in Kocaeli and a US office in Detroit — and resolved to US because
+    Detroit's was the only line naming a country.
+    """
+
+    BLUEPATH = ("Head Office Sanayi Mahallesi, Teknopark Bulvari 9C Blok No: 327, "
+                "34906 Pendik - Istanbul  Factory Deniz Evler, Mazhar Ozen Cd. "
+                "No:110, 41650 Golcuk/Kocaeli  US office Newlab, 2050 15th St, "
+                "Detroit, MI 48216, United States")
+
+    def test_hq_marker_anchors_a_city_hint_over_a_named_foreign_country(self):
+        self.assertEqual(_country_from_text(self.BLUEPATH), "TR")
+
+    def test_it_holds_under_the_weak_source_gate_too(self):
+        self.assertEqual(_country_from_text(self.BLUEPATH, require_address_context=True), "TR")
+
+    def test_turkish_dotted_capital_i_folds_to_ascii(self):
+        # "Istanbul" with a Turkish dotted capital I lowercases to "i" plus a
+        # combining dot, which never matches the literal hint without folding.
+        self.assertEqual(_country_from_text("Headquarters: Pendik İstanbul"), "TR")
+
+    def test_satellite_label_between_marker_and_hit_is_not_anchored(self):
+        text = "Headquarters Munich, Germany. US office Detroit, MI 48216, United States"
+        self.assertEqual(_country_from_text(text), "DE")
+
+    def test_a_lone_satellite_address_is_still_read_when_nothing_else_is(self):
+        self.assertEqual(_country_from_text("Detroit, MI 48216, United States"), "US")
+
+
+class CodeBlobTests(unittest.TestCase):
+    def test_js_i18n_dictionaries_are_stripped(self):
+        # Shark Robotics ships a MediaElement.js language table; scanning it for
+        # an address is noise at best.
+        blob = ('{"mejs.chinese":"Chinois","mejs.danish":"Danois",'
+                '"mejs.dutch":"Neerlandais","mejs.english":"Anglais",'
+                '"mejs.finnish":"Finnois","mejs.greek":"Grec"}')
+        self.assertEqual(_country_from_text(blob + " Contact us."), "")
+
+
 class VocabularyTests(unittest.TestCase):
     def test_all_codes_are_iso_alpha2(self):
         for phrase, code in _COUNTRY_NAME_TO_CODE.items():

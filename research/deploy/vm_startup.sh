@@ -187,13 +187,19 @@ while true; do
   # itself. It targets named companies, which ALSO skips the full pending scan —
   # ~7min of every cycle is spent paginating 1650 robots before any work starts, so
   # that scan, not the enrichment, is the thing making feedback slow.
-  # Playwright's sync API is not thread-safe, hence --workers 1 while it is enabled.
+  # Companies run in parallel, same as queue remediation (2026-07-31): each
+  # worker is fully isolated (own API client) and Playwright's render calls
+  # self-serialize via web_extract._PLAYWRIGHT_LOCK, so this is safe even with
+  # RESEARCH_USE_PLAYWRIGHT=1.
   if [ -n "${FAST_COMPANY_IDS:-}" ]; then
     stage "enrichment (FAST: companies ${FAST_COMPANY_IDS})" "${T_ENRICH:-20m}" \
-      "$PY" -u overnight_queue_enrich.py --workers 1 --company-ids "$FAST_COMPANY_IDS"
+      "$PY" -u overnight_queue_enrich.py --workers "${MAX_ENRICH_WORKERS:-4}" --company-ids "$FAST_COMPANY_IDS"
   else
+    # Raised 20->32 (2026-07-31): the first --workers 4 run finished all 20
+    # companies in 57min of the 120m budget — clean evidence this stage is now
+    # cap-bound, not time-bound, so the unused ~63min buys more coverage.
     stage "enrichment (gap-fill, oldest first)" "${T_ENRICH:-120m}" \
-      "$PY" -u overnight_queue_enrich.py --workers 1 --max-companies "${MAX_COMPANIES:-20}"
+      "$PY" -u overnight_queue_enrich.py --workers "${MAX_ENRICH_WORKERS:-4}" --max-companies "${MAX_COMPANIES:-32}"
   fi
 
   # Flag-driven remedies for PENDING robots (vision photos, tags, family, purpose...).
@@ -202,7 +208,13 @@ while true; do
   # Companies run in parallel (each robot belongs to exactly one company, so no two
   # workers ever touch the same robot); Playwright's render calls self-serialize via
   # web_extract._PLAYWRIGHT_LOCK, so this is safe even with RESEARCH_USE_PLAYWRIGHT=1.
-  stage "queue remediation (pending flags)" "${T_QREMEDY:-45m}"     "$PY" -u remedy_dryrun.py --queue --apply       --max-queue-companies "${MAX_REMEDY_COMPANIES:-12}" --max-robots "${MAX_REMEDY_ROBOTS:-12}"       --workers "${MAX_REMEDY_WORKERS:-4}"
+  # This stage is time-bound, not cap-bound (unlike enrichment): it still hits
+  # the full 45m window even with only 12 companies queued for 4 workers, most
+  # likely because the media-flags fix (2026-07-31) makes each robot pass do
+  # more real work (features/specs now actually get attempted, not starved).
+  # So the fix here is more workers, not a bigger company queue alone — raised
+  # the queue modestly (12->18) just to keep 6 workers fed, not to extend reach.
+  stage "queue remediation (pending flags)" "${T_QREMEDY:-45m}"     "$PY" -u remedy_dryrun.py --queue --apply       --max-queue-companies "${MAX_REMEDY_COMPANIES:-18}" --max-robots "${MAX_REMEDY_ROBOTS:-12}"       --workers "${MAX_REMEDY_WORKERS:-6}"
 
   stage "rejection feedback loop" "${T_REJECT:-45m}" \
     "$PY" -u rejection_feedback_loop.py --max-robots "${MAX_REJECTED:-50}" --apply

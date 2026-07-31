@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import os
 import re
+import unicodedata
 from typing import Any
 
 import requests
@@ -97,20 +98,65 @@ _COUNTRY_NAME_TO_CODE: dict[str, str] = {
     "latvia": "LV", "lithuania": "LT", "luxembourg": "LU",
 }
 
-# US-state and other regional tokens that imply a country on their own. Address
-# blocks often name the state and skip the country ("Pittsburgh, PA 15201").
-_REGION_HINTS: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"\b[A-Z]{2}\s+\d{5}(-\d{4})?\b"), "US"),          # CA 94107
-    (re.compile(r"\b(california|texas|massachusetts|michigan|pennsylvania|"
-                r"new york|silicon valley|boston|pittsburgh|san francisco)\b",
-                re.I), "US"),
+# Words that turn a country name into a DIFFERENT place. "New Mexico" appears in
+# every US state dropdown, and Dane Technologies (company 1637, Minnesota)
+# resolved to MX off its contact page for exactly that reason.
+_FALSE_PREFIX: dict[str, tuple[str, ...]] = {
+    "mexico": ("new",),
+    "india": ("west",),
+    "guinea": ("new", "papua"),
+}
+
+# Regional tokens that imply a country when no country is named. Split by
+# strength: POSTAL patterns are address-shaped by construction and are trusted
+# even on a weak page; SOFT hints are city/keyword mentions, which a marketing
+# page throws around freely ("our Tokyo partner"), so they are gated.
+_REGION_POSTAL: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\b[A-Z]{2}\s+\d{5}(-\d{4})?\b"), "US"),          # MN 55428
     (re.compile(r"\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b"), "GB"),   # SW1A 1AA
+]
+_REGION_SOFT: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\b(california|texas|massachusetts|michigan|pennsylvania|"
+                r"minnesota|new york|silicon valley|boston|pittsburgh|"
+                r"san francisco)\b", re.I), "US"),
     (re.compile(r"\b(shenzhen|shanghai|beijing|hangzhou|suzhou|guangdong|"
                 r"guangzhou|shandong|zhejiang|jiangsu)\b", re.I), "CN"),
     (re.compile(r"\b(tokyo|osaka|nagoya|kyoto|yokohama|aichi|kanagawa)\b", re.I), "JP"),
     (re.compile(r"\b(seoul|gyeonggi|daejeon|busan|incheon)\b", re.I), "KR"),
-    (re.compile(r"\bimpressum\b", re.I), "DE"),
+    # A company rarely writes its OWN country into its own address — the only
+    # country spelled out on a contact page is usually the FOREIGN satellite.
+    # Bluepath Robotics (company 1677) lists "Head Office ... Istanbul",
+    # "Factory ... Kocaeli" and "US office ... Detroit, MI 48216, United States",
+    # and resolved to US because Detroit's was the only line naming a country.
+    # City hints are what let a domestic address speak for itself.
+    (re.compile(r"\b(istanbul|ankara|izmir|kocaeli|pendik|bursa|gebze|antalya)\b", re.I), "TR"),
+    (re.compile(r"\b(bengaluru|bangalore|mumbai|chennai|pune|hyderabad|noida|gurugram)\b", re.I), "IN"),
+    (re.compile(r"\b(tel aviv|haifa|jerusalem|herzliya|rehovot)\b", re.I), "IL"),
+    (re.compile(r"\b(munich|m[uü]nchen|berlin|hamburg|stuttgart|frankfurt|"
+                r"d[uü]sseldorf|impressum)\b", re.I), "DE"),
+    (re.compile(r"\b(paris|lyon|toulouse|grenoble|nantes|la rochelle|bordeaux)\b", re.I), "FR"),
+    (re.compile(r"\b(milan|milano|turin|torino|bologna|rome|roma)\b", re.I), "IT"),
+    (re.compile(r"\b(z[uü]rich|geneva|gen[eè]ve|lausanne|basel)\b", re.I), "CH"),
+    (re.compile(r"\b(eindhoven|amsterdam|delft|rotterdam|utrecht)\b", re.I), "NL"),
+    (re.compile(r"\b(barcelona|madrid|valencia|bilbao|zaragoza)\b", re.I), "ES"),
+    (re.compile(r"\b(odense|copenhagen|k[oø]benhavn|aarhus)\b", re.I), "DK"),
+    (re.compile(r"\b(stockholm|gothenburg|g[oö]teborg|lund|v[aä]ster[aå]s)\b", re.I), "SE"),
+    (re.compile(r"\b(taipei|hsinchu|taichung|kaohsiung|new taipei)\b", re.I), "TW"),
+    (re.compile(r"\b(singapore city|jurong|tuas)\b", re.I), "SG"),
+    (re.compile(r"\b(toronto|vancouver|montreal|montr[eé]al|waterloo|kitchener)\b", re.I), "CA"),
+    (re.compile(r"\b(sydney|melbourne|brisbane|perth|canberra)\b", re.I), "AU"),
+    (re.compile(r"\b(warsaw|warszawa|krak[oó]w|wroc[lł]aw|pozna[nń])\b", re.I), "PL"),
+    (re.compile(r"\b(london|cambridge|oxford|bristol|manchester|edinburgh)\b", re.I), "GB"),
 ]
+
+# Labels that mark an address as a SATELLITE, not the headquarters. A country
+# anchored to one of these must never win.
+_SATELLITE_MARKER = re.compile(
+    r"\b((us|u\.s\.|uk|eu|asia|apac|emea|regional|sales|branch|local|"
+    r"subsidiary|representative)\s+(office|entity|branch|subsidiary)|"
+    r"(office|branch|subsidiary)\s+in)\b",
+    re.I,
+)
 
 # Pages that carry the legal address, BEST FIRST — and the homepage LAST.
 #
@@ -168,7 +214,10 @@ _HQ_WINDOW = 200
 # Tokens that make a country mention look like part of a postal address rather
 # than prose. Used to gate the homepage, which is the weakest page on any site.
 _ADDRESS_CONTEXT = re.compile(
-    r"\b(\d{4,6}|street|str\.|st\.|road|rue|avenue|ave\.|boulevard|blvd|"
+    # The digit run is a POSTAL CODE, so years are excluded — "delivered to
+    # Ukraine in 2022" otherwise reads as an address and re-opens the exact
+    # false positive this gate exists to stop.
+    r"\b((?!(?:19|20)\d{2}\b)\d{4,6}|street|str\.|st\.|road|rue|avenue|ave\.|boulevard|blvd|"
     r"strasse|stra[sß]e|via|calle|zone|parc|park|building|bldg|suite|floor|"
     r"district|p\.?o\.? box|cedex)\b",
     re.I,
@@ -191,9 +240,9 @@ def _country_from_text(text: str, *, require_address_context: bool = False) -> s
     """
     if not text:
         return ""
-    lowered = re.sub(r"\s+", " ", _strip_code_blobs(text).lower())
+    lowered = _fold(re.sub(r"\s+", " ", _strip_code_blobs(text)))
 
-    hits: list[tuple[int, str]] = []
+    names: list[tuple[int, str]] = []
     for phrase, code in _COUNTRY_NAME_TO_CODE.items():
         pos = lowered.find(phrase)
         # Word-boundary check keeps "china" out of "chinatown" and, more
@@ -202,33 +251,76 @@ def _country_from_text(text: str, *, require_address_context: bool = False) -> s
             before = lowered[pos - 1] if pos else " "
             after_idx = pos + len(phrase)
             after = lowered[after_idx] if after_idx < len(lowered) else " "
-            if not before.isalnum() and not after.isalnum():
-                hits.append((pos, code))
+            if (not before.isalnum() and not after.isalnum()
+                    and not _has_false_prefix(lowered, pos, phrase)):
+                names.append((pos, code))
                 break
             pos = lowered.find(phrase, pos + 1)
 
-    if hits:
-        markers = [m.end() for m in _HQ_MARKER.finditer(lowered)]
-        anchored = [
-            (pos, code) for pos, code in hits
-            if any(0 <= pos - m <= _HQ_WINDOW for m in markers)
-        ]
-        if require_address_context and not anchored:
-            addr = [m.start() for m in _ADDRESS_CONTEXT.finditer(lowered)]
-            anchored = [
-                (pos, code) for pos, code in hits
-                if any(abs(pos - a) <= _ADDRESS_WINDOW for a in addr)
-            ]
-            if not anchored:
-                return ""
-        return min(anchored or hits)[1]
+    postal = [(m.start(), code) for pat, code in _REGION_POSTAL
+              for m in [pat.search(text)] if m]
+    soft = [(m.start(), code) for pat, code in _REGION_SOFT
+            for m in [pat.search(lowered)] if m]
 
+    # --- HQ anchoring, across ALL signal kinds --------------------------------
+    # This has to include city hints, not just country names: a company writes
+    # "Head Office ... Istanbul" and never writes "Turkey", so anchoring only
+    # country names leaves the domestic HQ invisible and hands the answer to
+    # whichever foreign office bothered to name its country.
+    markers = [m.end() for m in _HQ_MARKER.finditer(lowered)]
+    satellites = [m.end() for m in _SATELLITE_MARKER.finditer(lowered)]
+    if markers:
+        anchored = [
+            (pos - m, code)
+            for pos, code in names + postal + soft
+            for m in markers
+            if 0 <= pos - m <= _HQ_WINDOW
+            # ...unless a satellite label sits between the marker and the hit,
+            # which is what "Headquarters <addr> US office <addr>" looks like.
+            and not any(m < s <= pos for s in satellites)
+        ]
+        if anchored:
+            return min(anchored)[1]
+
+    if names:
+        # Several countries and nothing saying which one is the headquarters:
+        # that is a page listing offices, distributors or deployments. Earliest
+        # mention is not evidence, so hand the question to the next tier rather
+        # than guess — a wrong country is worse than a blank one.
+        if len({code for _pos, code in names}) > 1:
+            return ""
+        if require_address_context:
+            addr = [m.start() for m in _ADDRESS_CONTEXT.finditer(lowered)]
+            if not any(abs(pos - a) <= _ADDRESS_WINDOW for pos, _c in names for a in addr):
+                return ""
+        return min(names)[1]
+
+    if postal:
+        return min(postal)[1]
     if require_address_context:
         return ""
-    for pattern, code in _REGION_HINTS:
-        if pattern.search(text):
-            return code
+    if soft:
+        return min(soft)[1]
     return ""
+
+
+def _fold(text: str) -> str:
+    """Lowercase and strip combining marks.
+
+    Turkish addresses render Istanbul with a dotted capital I, which lowercases
+    to "i" plus a combining dot — so a plain `.lower()` haystack never matches
+    the literal "istanbul" in the hint table.
+    """
+    decomposed = unicodedata.normalize("NFKD", text.lower())
+    return "".join(ch for ch in decomposed if not unicodedata.combining(ch))
+
+
+def _has_false_prefix(lowered: str, pos: int, phrase: str) -> bool:
+    """True when the preceding word makes this a different place ("new mexico")."""
+    for bad in _FALSE_PREFIX.get(phrase, ()):
+        if lowered[max(0, pos - len(bad) - 1):pos].strip() == bad:
+            return True
+    return False
 
 
 # Long runs of JSON/JS object literals — i18n dictionaries, config blobs, inline
