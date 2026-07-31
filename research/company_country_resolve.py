@@ -112,10 +112,25 @@ _REGION_HINTS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bimpressum\b", re.I), "DE"),
 ]
 
-# Pages that carry the legal address, in the order worth trying.
+# Pages that carry the legal address, BEST FIRST — and the homepage LAST.
+#
+# The homepage used to be tried first and it is the worst source on the site: it
+# is marketing, so it names deployment countries, partners and press. Shark
+# Robotics (company 1806, a French firm in La Rochelle) resolved to UKRAINE
+# purely because its homepage carries a delivery story and never spells
+# "France"; its /mentions-legales page states the address outright.
 _CONTACT_PATHS: tuple[str, ...] = (
-    "", "/contact", "/contact-us", "/about", "/about-us", "/imprint",
-    "/impressum", "/en/contact", "/company",
+    # legal-notice pages: the address is a statutory requirement on these
+    "/mentions-legales", "/imprint", "/impressum", "/legal-notice", "/legal",
+    "/aviso-legal", "/note-legali",
+    # contact pages
+    "/contact", "/contact-us", "/nous-contacter", "/kontakt", "/contacto",
+    "/en/contact", "/contact/",
+    # about pages
+    "/about", "/about-us", "/company", "/a-propos", "/ueber-uns",
+    # homepage last, and only trusted with an address-shaped match (see
+    # `_from_website`)
+    "",
 )
 
 _MAX_PAGE_BYTES = 400_000
@@ -142,23 +157,41 @@ def _tld_country(website: str) -> str:
 
 _HQ_MARKER = re.compile(
     r"\b(headquarter(s|ed)?|head office|hq|registered office|main office|"
-    r"principal place of business|founded in|based in)\b"
+    r"principal place of business|founded in|based in|"
+    # French/German/Spanish legal-notice wording — the pages most likely to
+    # carry the statutory address are usually not in English.
+    r"si[eè]ge social|si[eè]ge|adresse|sitz der gesellschaft|domicilio social)\b"
 )
 _HQ_WINDOW = 200
 """How far after an HQ marker a country name still counts as describing it."""
 
+# Tokens that make a country mention look like part of a postal address rather
+# than prose. Used to gate the homepage, which is the weakest page on any site.
+_ADDRESS_CONTEXT = re.compile(
+    r"\b(\d{4,6}|street|str\.|st\.|road|rue|avenue|ave\.|boulevard|blvd|"
+    r"strasse|stra[sß]e|via|calle|zone|parc|park|building|bldg|suite|floor|"
+    r"district|p\.?o\.? box|cedex)\b",
+    re.I,
+)
+_ADDRESS_WINDOW = 120
+"""How close an address token must sit to the country name to vouch for it."""
 
-def _country_from_text(text: str) -> str:
+
+def _country_from_text(text: str, *, require_address_context: bool = False) -> str:
     """Country implied by an address block, or ''.
 
     Country NAMES beat regional hints: an explicit "Germany" in a footer beats a
     US-looking postcode elsewhere on the page. Where several countries appear,
     one that FOLLOWS an HQ marker wins over one that merely appears earlier —
     otherwise "our USA office opened; HQ in Germany" relocates the company.
+
+    `require_address_context` demands that the winning mention sit near a postal
+    code, a street word or an HQ marker. Pass it for weak sources (a homepage),
+    where "delivered to Ukraine" is a news item, not a headquarters.
     """
     if not text:
         return ""
-    lowered = re.sub(r"\s+", " ", text.lower())
+    lowered = re.sub(r"\s+", " ", _strip_code_blobs(text).lower())
 
     hits: list[tuple[int, str]] = []
     for phrase, code in _COUNTRY_NAME_TO_CODE.items():
@@ -180,12 +213,33 @@ def _country_from_text(text: str) -> str:
             (pos, code) for pos, code in hits
             if any(0 <= pos - m <= _HQ_WINDOW for m in markers)
         ]
+        if require_address_context and not anchored:
+            addr = [m.start() for m in _ADDRESS_CONTEXT.finditer(lowered)]
+            anchored = [
+                (pos, code) for pos, code in hits
+                if any(abs(pos - a) <= _ADDRESS_WINDOW for a in addr)
+            ]
+            if not anchored:
+                return ""
         return min(anchored or hits)[1]
 
+    if require_address_context:
+        return ""
     for pattern, code in _REGION_HINTS:
         if pattern.search(text):
             return code
     return ""
+
+
+# Long runs of JSON/JS object literals — i18n dictionaries, config blobs, inline
+# data islands. They survive the <script> strip when the markup nests or escapes
+# a closing tag, and they are pure noise for address detection (Shark Robotics
+# ships a MediaElement.js language table listing every language on earth).
+_CODE_BLOB = re.compile(r'(?:"[\w.\- ]+"\s*:\s*"[^"]*"\s*,\s*){4,}')
+
+
+def _strip_code_blobs(text: str) -> str:
+    return _CODE_BLOB.sub(" ", text)
 
 
 def _fetch_text(url: str, session: requests.Session | None = None) -> str:
@@ -212,12 +266,14 @@ def _from_website(website: str, session: requests.Session | None = None) -> tupl
         text = _fetch_text(base + path, session)
         if not text:
             continue
-        # The address almost always sits in the footer; searching the tail first
-        # avoids matching a "made in Germany" marketing line in the hero.
-        for chunk in (text[-6000:], text):
-            code = _country_from_text(chunk)
-            if code:
-                return code, f"website{path or '/'}"
+        # The homepage is the weakest page on the site — it names deployment
+        # countries, partners and press — so a bare country mention there is not
+        # evidence. Require an address-shaped context (postal code, street word,
+        # or an HQ marker) before believing it. Dedicated legal/contact pages
+        # earn the benefit of the doubt.
+        code = _country_from_text(text, require_address_context=(path == ""))
+        if code:
+            return code, f"website{path or '/'}"
     return "", "website-no-address"
 
 
