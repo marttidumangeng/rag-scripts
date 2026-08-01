@@ -208,6 +208,41 @@ class DomesticAddressTests(unittest.TestCase):
         self.assertEqual(_country_from_text("Detroit, MI 48216, United States"), "US")
 
 
+class CompanyNameTests(unittest.TestCase):
+    """A company does not put a foreign region in its own registered name.
+
+    Regression: "Benson Intelligent Equipment (Shandong) Co., Ltd." (company
+    1399) resolved to RUSSIA — its site never writes "China", and a case-study
+    caption reading "equipment russia ... delivery site" was the only country
+    name on the page. That country then propagated to 27 robots.
+    """
+
+    def test_region_in_the_registered_name_wins(self):
+        from company_country_resolve import country_from_company_name
+
+        self.assertEqual(
+            country_from_company_name("Benson Intelligent Equipment (Shandong) Co., Ltd."), "CN")
+        self.assertEqual(country_from_company_name("Shenzhen Guanhong Automation"), "CN")
+        self.assertEqual(country_from_company_name("Istanbul Robotik A.S."), "TR")
+
+    def test_country_in_the_registered_name_also_counts(self):
+        from company_country_resolve import country_from_company_name
+
+        self.assertEqual(country_from_company_name("Acme Robotics Japan K.K."), "JP")
+
+    def test_a_plain_name_yields_nothing(self):
+        from company_country_resolve import country_from_company_name
+
+        self.assertEqual(country_from_company_name("Bluepath Robotics"), "")
+        self.assertEqual(country_from_company_name("Shark Robotics"), "")
+
+    def test_address_label_is_an_hq_marker(self):
+        # Chinese contact pages label the block "Address:" and never name the
+        # country; anchoring on that label lets the city hint speak.
+        self.assertEqual(
+            _country_from_text("Delivery site russia. Address: Feicheng, Shandong"), "CN")
+
+
 class CodeBlobTests(unittest.TestCase):
     def test_js_i18n_dictionaries_are_stripped(self):
         # Shark Robotics ships a MediaElement.js language table; scanning it for

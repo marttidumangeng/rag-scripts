@@ -203,7 +203,7 @@ def _tld_country(website: str) -> str:
 
 _HQ_MARKER = re.compile(
     r"\b(headquarter(s|ed)?|head office|hq|registered office|main office|"
-    r"principal place of business|founded in|based in|"
+    r"principal place of business|founded in|based in|address|located (at|in)|"
     # French/German/Spanish legal-notice wording — the pages most likely to
     # carry the statutory address are usually not in English.
     r"si[eè]ge social|si[eè]ge|adresse|sitz der gesellschaft|domicilio social)\b"
@@ -444,6 +444,25 @@ def _from_gemini(name: str, evidence: str) -> tuple[str, str]:
     return code, f"gemini({confidence})"
 
 
+def country_from_company_name(name: str) -> str:
+    """Region named inside the company's own registered name, or ''.
+
+    The strongest signal there is and the cheapest: a company does not put a
+    foreign region in its own legal name. "Benson Intelligent Equipment
+    (Shandong) Co., Ltd." is in Shandong — but its site never writes "China",
+    and a case-study caption reading "equipment russia ... delivery site" was
+    enough to resolve it to RUSSIA, which then propagated to 27 robots.
+    """
+    folded = _fold(name or "")
+    for pattern, code in _REGION_SOFT:
+        if pattern.search(folded):
+            return code
+    for phrase, code in _COUNTRY_NAME_TO_CODE.items():
+        if re.search(rf"\b{re.escape(phrase)}\b", folded):
+            return code
+    return ""
+
+
 def resolve_company_country(
     name: str,
     website: str = "",
@@ -461,6 +480,10 @@ def resolve_company_country(
     code = _tld_country(website)
     if code:
         return code, "cctld"
+
+    code = country_from_company_name(name)
+    if code:
+        return code, "company-name"
 
     evidence_parts: list[str] = []
 
