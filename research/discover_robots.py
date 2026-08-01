@@ -951,7 +951,7 @@ def discover_robots_for_company(
     *,
     client: ResearchApiClient | None = None,
     seed_urls: list[str] | None = None,
-    use_playwright: bool = False,
+    use_playwright: bool | None = None,
     use_stealth: bool = False,
     use_apify: bool | None = None,
     skip_existing: bool = True,
@@ -967,7 +967,19 @@ def discover_robots_for_company(
     max_per_page: if a page yields more than this many robots, skip it (it's a
                   listing page showing the full catalog, not a dedicated product page).
                   0 = no limit.
+    use_playwright: None (default) = take it from RESEARCH_USE_PLAYWRIGHT, which is
+                  what the nightly VM sets. Pass True/False to override explicitly.
     """
+    # Previously this defaulted to False and never consulted the environment, so
+    # the nightly discovery stage ran plain `requests` on a box with Chromium
+    # installed — RESEARCH_USE_PLAYWRIGHT was only ever read by
+    # robot_auto_research.py (the ENRICHMENT stage). Against a JS-rendered
+    # catalogue (axios/Next.js) discovery therefore saw a placeholder shell and
+    # moved on, which is a large part of why JS-storefront OEMs are so
+    # under-covered. Explicit True/False from a caller or --playwright still wins.
+    if use_playwright is None:
+        use_playwright = os.environ.get("RESEARCH_USE_PLAYWRIGHT", "").lower() in ("1", "true", "yes")
+
     client = client or ResearchApiClient()
     company = client.get_company(company_id)
     company_name = str(company.get("name") or "")

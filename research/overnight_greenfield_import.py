@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 import time
@@ -313,13 +314,26 @@ def create_or_find_company(
 # Stage 1: Robot discovery
 # ---------------------------------------------------------------------------
 
+# A page yielding more robots than this is treated as a catalogue/nav dump and
+# skipped. This was 4, which threw away the single most valuable page on most
+# manufacturer sites: a real catalogue page listing 10-60 models was discarded
+# wholesale, so companies whose models live only on a listing page yielded
+# NOTHING. (HD Hyundai's industrial catalogue alone is 46 models.) The guard's
+# intent — prefer detail pages, which carry specs — is sound, so it is kept, but
+# at a threshold that distinguishes a genuine catalogue from a link dump rather
+# than rejecting every catalogue. Note the count is of GEMINI-EXTRACTED robots,
+# not raw links, so it has already survived one filtering pass.
+# Tunable per-run without a code change: DISCOVERY_MAX_PER_PAGE.
+_DEFAULT_MAX_PER_PAGE = int(os.environ.get("DISCOVERY_MAX_PER_PAGE", "40") or 40)
+
+
 def run_discovery(
     company_id: int,
     *,
     dry_run: bool = False,
     url_limit: int = 60,
     product_pages_only: bool = True,
-    max_per_page: int = 4,
+    max_per_page: int = _DEFAULT_MAX_PER_PAGE,
 ) -> dict[str, Any]:
     """Run discover_robots_for_company and return the summary dict."""
     if dry_run:
