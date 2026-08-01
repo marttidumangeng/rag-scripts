@@ -262,6 +262,19 @@ def main() -> int:
             if not data.get("next"):
                 break
             page += 1
+        # Only the automated, unattended scan (no explicit --robot-ids/--company-id)
+        # respects locks — an explicit target is a deliberate human choice, possibly
+        # even the lock holder checking their own company, and shouldn't be blocked.
+        from company_locks import load_locked_company_ids
+        locked_ids = load_locked_company_ids()
+        if locked_ids:
+            before = len(robots)
+            robots = [
+                r for r in robots
+                if int(((r.get("company_ref") or {}).get("id")) or 0) not in locked_ids
+            ]
+            if len(robots) != before:
+                _p(f"  locked companies (skipped {before - len(robots)} robots): {sorted(locked_ids)}")
     if not args.include_unqueued:
         robots = [r for r in robots if str(r.get("auto_fix_status") or "") in (QUEUED, "", "none")]
     # Never re-touch something already handed to a human.

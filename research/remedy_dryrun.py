@@ -220,7 +220,18 @@ def run_queue_mode(client: ResearchApiClient, args) -> int:
             break
         page += 1
 
-    ranked = sorted(by_company.items(), key=lambda kv: -len(kv[1]["robots"]))
+    # Companies someone else has locked for exclusive manual work (see
+    # company_locks.py) — a stale-snapshot write from this loop is exactly
+    # what clobbered a manual sweep's changes on AgileX (2026-08-01).
+    from company_locks import load_locked_company_ids
+    locked_ids = load_locked_company_ids()
+    if locked_ids:
+        _p(f"  locked companies (skipping): {sorted(locked_ids)}")
+
+    ranked = sorted(
+        ((cid, e) for cid, e in by_company.items() if cid not in locked_ids),
+        key=lambda kv: -len(kv[1]["robots"]),
+    )
     dispatch = ranked[: args.max_queue_companies]
     workers = max(1, args.workers)
     if workers > 8:

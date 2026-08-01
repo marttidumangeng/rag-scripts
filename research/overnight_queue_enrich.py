@@ -731,6 +731,14 @@ def main() -> int:
     max_co = args.max_companies or None
     max_robots = args.max_robots_per_company or None
 
+    # Companies someone else has locked for exclusive manual work (see
+    # company_locks.py) — checked once per run, not per-robot, so a lock
+    # written mid-cycle still takes effect on the NEXT cycle at the latest.
+    from company_locks import load_locked_company_ids
+    locked_ids = load_locked_company_ids()
+    if locked_ids:
+        _safe_print(f"  locked companies (skipping): {sorted(locked_ids)}", flush=True)
+
     # Build the dispatch list up front (single-threaded): honor --start-after-company-id,
     # soft-skip no-website companies, then cap to --max-companies. Under parallel mode
     # --max-companies caps the companies *attempted* (those with a website).
@@ -738,6 +746,8 @@ def main() -> int:
     for entry in queue:
         cid = int(entry["company_id"])
         if args.start_after_company_id and cid <= args.start_after_company_id:
+            continue
+        if cid in locked_ids:
             continue
         website = entry.get("website") or ""
         if not website and not args.include_no_website:

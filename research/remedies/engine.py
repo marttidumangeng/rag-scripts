@@ -102,6 +102,23 @@ def run_reresearch(
         from robot_auto_research import _merge_staged, _robot_api_to_staged
         from schema import StagedRobot
 
+        # Re-fetch fresh rather than trusting the caller's `robot` dict: it was
+        # read during the initial queue scan, which can be many minutes before
+        # this specific flag's turn comes up (pagination + earlier flags in the
+        # same pass). The write below submits the FULL merged payload, not just
+        # this remedy's target fields — a stale snapshot means every OTHER field
+        # rides along at its old value and can silently clobber a concurrent
+        # writer's more recent change. Found live on AgileX (2026-08-01): a
+        # manual sweep wrote real `features`, and a `missing_family`/
+        # `video_mismatch` remedy running from a stale scan snapshot overwrote
+        # it back to blank purely as a side effect of fixing an unrelated flag.
+        try:
+            fresh = ctx.client._get(f"robots/robots/{robot_id}/")
+            if isinstance(fresh, dict) and fresh:
+                robot = fresh
+        except Exception:  # noqa: BLE001
+            pass  # fall back to the caller's snapshot rather than fail the remedy
+
         base = _robot_api_to_staged(robot, ctx.company_slug, ctx.company_name)
         before = snapshot(base.to_dict(), watch)
 
@@ -287,6 +304,18 @@ def remedy_missing_family(robot: dict[str, Any], ctx: RemedyContext) -> RemedyRe
             # and inventing one would be worse than leaving it blank.
             return RemedyResult(action, NO_OP, flag=flag,
                                 detail="no sibling shares this name prefix — not a family")
+
+        # Re-fetch fresh rather than trusting the caller's `robot` dict — same
+        # stale-snapshot risk as run_reresearch (see its comment): this remedy
+        # only intends to touch family_name/variant_label, but the write below
+        # submits the whole merged payload, so a stale copy of any other field
+        # can clobber a concurrent writer's more recent change.
+        try:
+            fresh = next((s for s in siblings if int(s.get("id") or 0) == robot_id), None)
+            if fresh:
+                robot = fresh
+        except Exception:  # noqa: BLE001
+            pass
 
         base = _robot_api_to_staged(robot, ctx.company_slug, ctx.company_name)
         before = snapshot(base.to_dict(), frozenset({"family_name", "variant_label"}))
