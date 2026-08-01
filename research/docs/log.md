@@ -358,6 +358,13 @@ tags:
 
 - Company 305 (Avidbots): `fix_avidbots_305_robots.py` — enriched Meet Kas #3847, Neo 2 #3845, Neo 2W #2679; rejected Neo 2W dupe #3846; cleared fake payloads; CA country; CDN verify 6/6. Report: `staging/reports/avidbots-305-enrichment.md`.
 
+## 2026-08-01
+
+- Company 1602 discovery follow-up: `fix_rsm_1602_gaps.py` — photos for SC7-1077 #6806, SC15-1464 #6808, SC20-2027 #6809 (distinct OEM shots; rejected mounting diagram / welder panel); Robotic Laser Welding #6810 got dof=6 + sensors/connectivity/voltage from OEM laser table (arm payload/reach still unpublished). CDN 4/4 OK.
+- Company 1602 discovery: `discover_rsm_1602_robots.py` — created SC7-1077 #6806, SC6-1460 #6807, SC15-1464 #6808, SC20-2027 #6809 (column-correct cobot table), Robotic Laser Welding #6810; CDN OK for imaged keepers. Company now has bending cell + SC family + laser welding cell.
+- Company 1602 (RSM Machinery / ERSM): `fix_rsm_1602_robots.py` — enriched #6718 Robotic Bending Cell (6-DOF, 20 kg, 1780 mm, ±0.03 mm; CN; taxonomy/tags; OEM cell hero); rejected 18 non-robot machine-tool/ASRS rows as `wrong_category`. CDN keeper OK.
+- Company 1605 (Shandong Tengyang Intelligent Equipment / Kowell): `fix_tengyang_1605_robots.py` — renamed 6 pending robots from marketing titles to OEM model codes (KW1300M-3200, KW1120M-2400, KW1030M-1835, KW1080B-2700, KW1007B-740, KW1004B-580); families KW-M / KW-B; filled features, purpose, typed specs, CN country, taxonomy, tags; CDN verify 6/6; KW1007B payload=7 kg (table 4 kg noted as sibling contamination). Soft left: few_photos, price, video, release_year.
+
 ## 2026-07-10
 
 - Company 1073 (INTAMSYS): added `scripts/research/fix_intamsys_robots.py` — replaced wrong/shared photos with official FUNMAT product renders; backfilled features, weight/dimensions from comparison table, 2 YouTube videos each, curated manufacturing tags; copy-media 5/5 OK (NEO, HT, PRO 410, PRO 610HT, PRO 310 APOLLO).

@@ -247,15 +247,31 @@ def run_queue_mode(client: ResearchApiClient, args) -> int:
             outcomes.update(result["outcomes"])
             per_flag.update(result["per_flag"])
     else:
-        with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = {
-                executor.submit(_process_company_remedy, cid, e, args): cid
-                for cid, e in dispatch
-            }
+        # NOT a `with ThreadPoolExecutor(...) as executor:` block deliberately:
+        # its __exit__ always calls shutdown(wait=True) with cancel_futures=False,
+        # even when a KeyboardInterrupt is what's unwinding the block — meaning the
+        # 45m `timeout --signal=INT` wrapper's interrupt would still block for
+        # every ALREADY-SUBMITTED company, not just the `workers` ones actually
+        # running. Measured live 2026-08-01: 18 companies queued, 6 workers, timeout
+        # fired on schedule at 45m but the process didn't actually exit for ~4
+        # hours — it was draining the 12 companies that hadn't even started yet.
+        executor = ThreadPoolExecutor(max_workers=workers)
+        futures = {
+            executor.submit(_process_company_remedy, cid, e, args): cid
+            for cid, e in dispatch
+        }
+        try:
             for fut in as_completed(futures):
                 result = fut.result()
                 outcomes.update(result["outcomes"])
                 per_flag.update(result["per_flag"])
+            executor.shutdown(wait=True)
+        except KeyboardInterrupt:
+            not_started = sum(1 for f in futures if not f.done() and not f.running())
+            _p(f"\n  interrupted — dropping {not_started} not-yet-started companies, "
+               f"waiting only for the {workers} already in flight to finish")
+            executor.shutdown(wait=True, cancel_futures=True)
+            raise
 
     _p("\n=== QUEUE SUMMARY ===")
     for k, v in outcomes.most_common():

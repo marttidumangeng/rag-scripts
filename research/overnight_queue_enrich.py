@@ -778,16 +778,30 @@ def main() -> int:
             kind, payload = _process_company(entry, max_robots=max_robots, dry_run=args.dry_run)
             _record(progress, kind, payload)
     else:
-        with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = {
-                executor.submit(
-                    _process_company, entry, max_robots=max_robots, dry_run=args.dry_run
-                ): entry
-                for entry in dispatch
-            }
+        # NOT a `with ThreadPoolExecutor(...) as executor:` block deliberately —
+        # see the identical comment in remedy_dryrun.py's run_queue_mode, which is
+        # where this exact shutdown-hang was actually measured (2026-08-01): the
+        # implicit shutdown(wait=True) on a KeyboardInterrupt still drains every
+        # SUBMITTED company, not just the ones already running, turning a 45m
+        # timeout into a multi-hour hang. Same latent risk here, fixed the same way.
+        executor = ThreadPoolExecutor(max_workers=workers)
+        futures = {
+            executor.submit(
+                _process_company, entry, max_robots=max_robots, dry_run=args.dry_run
+            ): entry
+            for entry in dispatch
+        }
+        try:
             for fut in as_completed(futures):
                 kind, payload = fut.result()
                 _record(progress, kind, payload)
+            executor.shutdown(wait=True)
+        except KeyboardInterrupt:
+            not_started = sum(1 for f in futures if not f.done() and not f.running())
+            _safe_print(f"\n  interrupted — dropping {not_started} not-yet-started companies, "
+                        f"waiting only for the {workers} already in flight to finish", flush=True)
+            executor.shutdown(wait=True, cancel_futures=True)
+            raise
 
     # Final rollup
     completed = progress["completed"]

@@ -1604,5 +1604,16 @@ def _robot_api_to_staged(robot: dict[str, Any], company_slug: str, company_name:
         # why `remedy_missing_category` could never clear its own flag.
         "movement_type_keys": _m2m_keys(robot.get("movement_types")),
         "category_slugs": _category_slugs_from_robot(robot),
+        # `features`/`tags` had the SAME bug as the four fields above and were
+        # missed when those were fixed: every write uses force_overwrite=True
+        # (full replace, not safe-patch), so a blank base here means any pass
+        # that doesn't itself re-discover features/tags silently blanks out
+        # real existing data as a side effect — found live on AgileX
+        # (2026-08-01, robots 1680/1681/1776): `missing_family` remedies wiped
+        # `features` even though that flag never touches it.
+        "features": robot.get("features") or "",
+        "tags": _join_pipe([str(t) for t in (robot.get("tags") or []) if str(t).strip()])
+                if isinstance(robot.get("tags"), list)
+                else str(robot.get("tags") or ""),
         "sources": [{"url": robot.get("url"), "type": "website"}] if robot.get("url") else [],
     })
