@@ -97,7 +97,18 @@ ALL distinct robot products mentioned on this page.
 A single page may describe multiple variants (e.g. Model A, Model B, Model C).
 Treat each variant as a separate robot.
 
+DO NOT extract products that are clearly NOT robots: conventional standalone
+machinery (press brakes, grinders, levelers, CNC machines, laser/plasma cutters,
+conveyors, decoilers, punching machines, storage racks), spare parts/accessories
+sold alone (grippers, controllers, sensors, batteries), or generic vehicles.
+A robotic CELL built around a robot arm counts as a robot. When a product is
+borderline, include it but set "is_robot" honestly.
+
 Return a JSON array. Each element must have:
+  - "is_robot": true when this is a robot/robotic system; false when it is
+    conventional machinery, a component, or software-only (boolean, required)
+  - "non_robot_reason": when is_robot is false, one short factual phrase quoting
+    what makes it a non-robot (string or "")
   - "name": the robot's full commercial name in ENGLISH (string, required).
     If the page names the product in Japanese/Chinese/Korean, translate or
     romanize it, keeping model codes verbatim (e.g. "Mujin パレットシャトル PS1500A"
@@ -333,13 +344,12 @@ def discover_product_urls(
 # Per-page robot extraction via Gemini
 # ---------------------------------------------------------------------------
 
-def _gemini_client() -> genai.Client:
-    return genai.Client(
-        api_key=os.environ.get("GEMINI_API_KEY", ""),
-        # v1beta: thinking_config is not accepted on v1 (400 INVALID_ARGUMENT);
-        # matches product_url_search.py / robot_auto_research.py.
-        http_options={"api_version": "v1beta"},
-    )
+def _gemini_client():
+    # Metered via spend_guard (daily budget); v1beta: thinking_config is not
+    # accepted on v1 (400 INVALID_ARGUMENT) — matches product_url_search.py /
+    # robot_auto_research.py.
+    import spend_guard
+    return spend_guard.client(http_options={"api_version": "v1beta"})
 
 
 class GeminiBudgetExhausted(RuntimeError):
@@ -466,8 +476,90 @@ def _normalize(s: str) -> str:
     return re.sub(r"[^a-z0-9]", "", (s or "").lower())
 
 
-def _already_exists(name: str, existing_names: set[str]) -> bool:
-    return _normalize(name) in existing_names
+def _model_code_set(name: str) -> frozenset[str]:
+    """The digit-bearing tokens of a product name — its language-independent core.
+
+    "Aktives Schulter-Exoskelett S700", "Active Shoulder Exoskeleton S700",
+    "S700 Schulter-Exoskelett", "exoIQ S700" and "S700" all reduce to {s700}:
+    the marketing words around a model code vary per page and per locale, the
+    code does not. Tokens without a digit ("exoiq", "shoulder") are excluded —
+    they're branding/description, not identity.
+    """
+    tokens = re.split(r"[^a-z0-9]+", (name or "").lower())
+
+    def _is_code(t: str) -> bool:
+        if not t or not any(c.isdigit() for c in t):
+            return False  # no digits = branding/description word
+        if t.isdigit() and len(t) < 3:
+            return False  # bare small numbers ("2", "24") are counts, not codes
+        return True
+
+    return frozenset(t for t in tokens if _is_code(t))
+
+
+# Tokens that make a same-code name a DIFFERENT product (a variant), not a
+# re-phrasing. Variants are deliberately separate catalog rows (Option A family
+# policy: models and variants shown separately) — the dedupe below must never
+# collapse them. Digit-bearing qualifiers (V2, MK2, R2) are already distinct
+# model codes; this list covers the digit-less ones.
+_VARIANT_QUALIFIERS = frozenset({
+    "pro", "plus", "max", "mini", "lite", "ultra", "neo", "evo", "air",
+    "xl", "xs", "se", "ng", "gen", "mk", "mkii", "cobot", "edu", "kit",
+    "sp", "dw", "mi", "sr", "hd", "st", "lr", "ex", "w",
+})
+
+
+def _variant_tokens(name: str) -> frozenset[str]:
+    tokens = re.split(r"[^a-z0-9]+", (name or "").lower())
+    return frozenset(t for t in tokens if t in _VARIANT_QUALIFIERS)
+
+
+# Category/descriptor vocabulary (EN + the DE/EN mix real OEM sites use) that
+# never identifies a product. Only consulted for names WITHOUT a model code:
+# "DEXTER Robotic Surgery System" / "DEXTER" / "Dexter Robotic System" must
+# reduce to the same brand core {dexter} (Distalmotion, 2026-08-03: one product
+# became 6 rows because code-based dedupe had nothing to key on).
+_GENERIC_NAME_WORDS = frozenset({
+    "robot", "robots", "robotic", "robotics", "system", "systems", "series",
+    "platform", "solution", "solutions", "machine", "machines", "surgery",
+    "surgical", "medical", "active", "aktives", "aktive", "soft",
+    "exoskeleton", "exoskeletons", "exoskelett", "exoskelette",
+    "shoulder", "schulter", "back", "support", "console", "cart", "patient",
+    "surgeon", "edition", "version", "model", "type", "the", "and", "for",
+})
+
+
+def _identity_core(name: str) -> frozenset[str]:
+    """The tokens that identify a product: model codes when present, else the
+    brand words left after stripping generic vocabulary and variant qualifiers.
+    Empty = name carries no identity (pure category words) — no core dedupe."""
+    codes = _model_code_set(name)
+    if codes:
+        return codes
+    tokens = re.split(r"[^a-z0-9]+", (name or "").lower())
+    return frozenset(
+        t for t in tokens
+        if t and t not in _GENERIC_NAME_WORDS and t not in _VARIANT_QUALIFIERS and len(t) > 1
+    )
+
+
+def _already_exists(name: str, existing_names: set[str],
+                    existing_code_variants: dict[frozenset[str], set[frozenset[str]]] | None = None) -> bool:
+    if _normalize(name) in existing_names:
+        return True
+    # Cross-locale/cross-phrasing duplicate: same model-code core AND same
+    # variant qualifiers as a robot we already have. Without this, a bilingual
+    # site yields one robot per page TITLE, not per product — exoIQ
+    # (2026-08-03): 3 real products became 24 robots ("S700 Shoulder
+    # Exoskeleton", "S700 Schulter-Exoskelett", "exoIQ S700", "S700"...).
+    # VARIANTS ARE NOT DUPLICATES: "S700 Pro" differs from "S700" by a
+    # qualifier token, is a separate product, and stays a separate row —
+    # only names with the same code AND the same qualifier set are collapsed.
+    if existing_code_variants:
+        core = _identity_core(name)
+        if core and _variant_tokens(name) in existing_code_variants.get(core, set()):
+            return True
+    return False
 
 
 # ---------------------------------------------------------------------------
@@ -1010,14 +1102,20 @@ def discover_robots_for_company(
     if max_per_page:
         print(f"Max robots/page : {max_per_page}")
 
-    # Existing DB robots for dedup
+    # Existing DB robots for dedup — by normalized name AND by (model-code core,
+    # variant qualifiers) so cross-locale re-phrasings collapse while variants
+    # stay separate rows (see _already_exists).
     existing_names: set[str] = set()
+    existing_code_variants: dict[frozenset[str], set[frozenset[str]]] = {}
     if skip_existing:
         for r in client.list_robots_for_company(company_id):
             for field in ("name", "model_name"):
                 v = r.get(field)
                 if v:
                     existing_names.add(_normalize(str(v)))
+                    core = _identity_core(str(v))
+                    if core:
+                        existing_code_variants.setdefault(core, set()).add(_variant_tokens(str(v)))
         print(f"Existing : {len(existing_names)} robots already in DB")
 
     fetcher = WebFetcher(timeout=30, stealth=use_stealth, apify_fallback=use_apify)
@@ -1119,6 +1217,16 @@ def discover_robots_for_company(
             budget_exhausted = True
             break
         except Exception as exc:
+            # The DAILY budget (spend_guard) must stop the crawl exactly like the
+            # per-process budget above — without this it fell into the generic
+            # handler below and kept walking every remaining URL, failing each
+            # one (no spend, but wasted crawl time and a noisy log).
+            from spend_guard import SpendBudgetExceeded
+            if isinstance(exc, SpendBudgetExceeded):
+                print(f"        !! {exc} — aborting discovery for this company")
+                errors.append(str(exc))
+                budget_exhausted = True
+                break
             print(f"        -- Gemini error: {exc}")
             errors.append(f"gemini error on {url}: {exc}")
             if gemini_delay:
@@ -1142,14 +1250,23 @@ def discover_robots_for_company(
         for robot in robots:
             name = robot["name"]
             model_name = str(robot.get("model_name") or "").strip()
+            # Non-robots never get staged, so they can never be imported —
+            # discovery is the cheapest place to stop a press brake from ever
+            # costing a review slot + remediation passes (the 2026-07-31 batch
+            # put 19 sheet-metal machines in To Review as "robots").
+            if robot.get("is_robot") is False:
+                why = str(robot.get("non_robot_reason") or "conventional machinery")[:120]
+                print(f"        -- '{name}' NOT a robot ({why}), skipping")
+                errors.append(f"non_robot skipped: {name} ({why})")
+                continue
             if _CJK_NAME_RE.search(name):
                 # Prompt asks for English/romanized names; if CJK still leaks through,
                 # skip rather than import a name the site can't render for EN visitors.
                 print(f"        -- '{name}' has CJK name despite prompt, skipping")
                 errors.append(f"cjk name skipped: {name}")
                 continue
-            if _already_exists(name, existing_names):
-                print(f"        -- '{name}' already exists, skipping")
+            if _already_exists(name, existing_names, existing_code_variants):
+                print(f"        -- '{name}' already exists (name or model-code match), skipping")
                 skipped_existing.append(name)
                 continue
 
@@ -1184,6 +1301,10 @@ def discover_robots_for_company(
             discovered.append({"name": name, "url": url, "staging_file": str(path)})
             staged_files.append(str(path))
             existing_names.add(_normalize(name))  # prevent duplicates across pages
+            _core = _identity_core(name)
+            if _core:
+                # ...including cross-locale re-phrasings (variants stay distinct)
+                existing_code_variants.setdefault(_core, set()).add(_variant_tokens(name))
 
         if gemini_delay:
             time.sleep(gemini_delay)
@@ -1328,6 +1449,11 @@ def main() -> None:
         status=args.status,
         dry_run=False,
         created_by_id=args.created_by_id or None,
+        # Discovery stages SKELETONS (name/url/description/image). Importing
+        # them raw creates unapprovable To Review shells that busiest-first
+        # remediation never reaches (robot 6717, 2026-08-02). Run --enrich, or
+        # set IMPORT_ALLOW_SKELETONS=1 for a deliberate raw import.
+        block_skeletons=True,
     )
     created = import_result.get("created_count", 0)
     updated = import_result.get("updated_count", 0)

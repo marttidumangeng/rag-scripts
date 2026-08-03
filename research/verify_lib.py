@@ -40,7 +40,9 @@ def gemini_client():
 
     # SDK-default API version (v1beta): the stable v1 endpoint rejects
     # response_mime_type, which JSON-mode verification calls need.
-    return genai.Client(api_key=api_key)
+    # Metered: every generate_content charges the daily budget (spend_guard.py).
+    import spend_guard
+    return spend_guard.client(api_key=api_key)
 
 
 class _CompanyShim:

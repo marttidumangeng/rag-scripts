@@ -458,6 +458,38 @@ def process_company(
                 _mark_processed(state, name, company_id, "no_robots_discovered")
                 result["skipped"] = "no_robots_discovered"
                 return result
+
+            # ---- Stage 1b: import THIS run's staged rows ----
+            # This import was MISSING: Stage 2's auto_research_pipeline only
+            # researches robots already in prod, which for a brand-new company
+            # is zero — so discovery's staged rows (which DO carry features/
+            # taxonomy/tags when extraction succeeds) were never imported by
+            # the orchestrator at all. They piled up in staging until someone
+            # eventually raw-imported them by hand, stale rows and all — which
+            # is how the 2026-07-31 22:08 skeleton batch (robot 6717 etc.)
+            # reached To Review. block_skeletons holds back any row whose
+            # extraction produced none of the easy fields.
+            from import_staging import import_staging as _import_staging
+            staged_now = [Path(p) for p in disc.get("staged_files") or [] if Path(p).is_file()]
+            imp1 = _import_staging(
+                staged_now,
+                dry_run=dry_run,
+                patch=True,
+                status="pending_review",
+                created_by_id=created_by_id,
+                block_skeletons=True,
+            )
+            result["stage1b"] = {
+                "ok": imp1.get("ok"),
+                "created": imp1.get("created_count", 0),
+                "updated": imp1.get("updated_count", 0),
+                "held_skeletons": imp1.get("held_skeletons") or [],
+            }
+            _safe_print(
+                f"    stage1b import: created={imp1.get('created_count', 0)} "
+                f"updated={imp1.get('updated_count', 0)} "
+                f"held_skeletons={len(imp1.get('held_skeletons') or [])}"
+            )
         else:
             _safe_print(f"  Stage 1 — skipped (--skip-discovery)")
             result["stage1"] = {"skipped": True}

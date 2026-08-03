@@ -257,6 +257,39 @@ class ResearchApiClient:
         resp.raise_for_status()
         return resp.json()
 
+    def reject_robot(
+        self,
+        robot_id: int,
+        *,
+        reason: str,
+        categories: list[str] | None = None,
+        escalate: bool = True,
+    ) -> dict[str, Any]:
+        """Reject a robot via the review endpoint, optionally pinning it OUT of
+        the automated fix loop.
+
+        Built for confident non-robot detections (2026-08-02): a press brake in
+        To Review can never be enriched into an approvable robot, so re-running
+        remedies on it is pure waste. `categories=["not_real"]` is terminal for
+        the rejection loop already; `escalate=True` additionally stamps
+        auto_fix_status=escalated so no automated path ever picks it up again —
+        un-rejecting is a deliberate human action from the admin UI.
+        """
+        out = self._post(
+            f"robots/robots/{robot_id}/review/",
+            {
+                "action": "reject",
+                "rejection_reason": reason,
+                "rejection_categories": categories or ["not_real"],
+            },
+        )
+        if escalate:
+            try:
+                self._patch(f"robots/robots/{robot_id}/", {"auto_fix_status": "escalated"})
+            except Exception:  # noqa: BLE001 — terminal category already keeps the loop off it
+                pass
+        return out
+
     def bulk_import_robots(
         self,
         robots: list[dict[str, Any]],

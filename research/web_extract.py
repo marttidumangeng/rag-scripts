@@ -48,6 +48,45 @@ _IMAGE_EXT_RE = re.compile(r"\.(?:jpe?g|png|webp|avif)(?:[?&]|$|/m/)", re.I)
 # serves the same asset in both avif and a classic format (Wix: one media id,
 # enc_avif transform), keep the classic sibling and drop the avif twin.
 _AVIF_URL_RE = re.compile(r"\.avif(?:[?&]|$|/m/)", re.I)
+# CMS size-variant families: the SAME photo emitted at several resolutions.
+# Strapi prefixes the FILENAME (large_/medium_/small_/thumbnail_photo.png);
+# WordPress suffixes it (photo-1024x388.png). Each size has different BYTES, so
+# content-hash dedupe correctly treats them as distinct — collapse must happen
+# here, on the filename family, keeping the best resolution. Found live on
+# Distalmotion (2026-08-03): 2 real photos staged as 10 gallery rows.
+_SIZE_PREFIX_RE = re.compile(r"^(x?large|medium|small|thumbnail|thumb)_", re.I)
+_WP_SIZE_SUFFIX_RE = re.compile(r"-\d{2,4}x\d{2,4}(?=\.[a-z0-9]{3,4}(?:$|[?&]))", re.I)
+_SIZE_RANK = {"": 0, "xlarge": 1, "large": 2, "medium": 3, "small": 4, "thumbnail": 5, "thumb": 5}
+
+
+def collapse_size_variant_urls(urls) -> list[str]:
+    """Keep one URL per underlying image — the best resolution of each family.
+
+    Input order is preserved by each family's first appearance, so ladder
+    priority (hero first, gallery after) survives the collapse.
+    """
+    from urllib.parse import urlparse as _urlparse
+
+    best: dict[tuple[str, str], list] = {}
+    for i, url in enumerate(u for u in urls if u):
+        parsed = _urlparse(url)
+        dirname, _, fname = parsed.path.rpartition("/")
+        m = _SIZE_PREFIX_RE.match(fname)
+        prefix = m.group(1).lower() if m else ""
+        base = fname[m.end():] if m else fname
+        debased = _WP_SIZE_SUFFIX_RE.sub("", base)
+        rank = _SIZE_RANK.get(prefix, 0)
+        if debased != base and not prefix:
+            rank = 3  # WP-sized counts like a medium — original (unsuffixed) wins
+        key = (parsed.netloc + dirname, debased.lower())
+        cur = best.get(key)
+        if cur is None:
+            best[key] = [rank, i, url]
+        elif rank < cur[0]:
+            cur[0], cur[2] = rank, url  # better resolution, keep first-seen position
+    return [u for _, _, u in sorted(best.values(), key=lambda v: v[1])]
+
+
 # UI chrome, footer/social icons, nav sprites — never product photos.
 _SKIP_IMAGE_RE = re.compile(
     r"(favicon|sprite|icon-|icons/|button-icons|megamenu|/icons/|"
@@ -55,6 +94,9 @@ _SKIP_IMAGE_RE = re.compile(
     r"skin/images/f-|/f-phone|/f-mail|/f-addr|/f-a\d|"
     r"skin/picture/top_pic|/skin/picture/|"
     r"gzh\.jpg|/dy\.jpg|wechat|weixin|tiktok|douyin|"
+    # CTA/contact widgets (Distalmotion 2026-08-03: Contact_Us phone-icon PNG
+    # staged as a product photo in five CMS sizes)
+    r"contact[-_]?us|book[-_]?a[-_]?demo|get[-_]?in[-_]?touch|call[-_]?us|"
     r"search\.png|arrowup|arrow-down|/skin/images/|/assets/img/)",
     re.I,
 )
@@ -67,8 +109,25 @@ _YOUTUBE_RE = re.compile(
     r"(?:https?://)?(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/)([\w-]{11})",
     re.I,
 )
-_PAYLOAD_LBS_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(?:lbs?|pounds?)", re.I)
-_PAYLOAD_KG_RE = re.compile(r"(\d+(?:\.\d+)?)\s*kg", re.I)
+# Payload MUST be labelled. These were previously bare — `(\d+)\s*kg` with no
+# label requirement, first match anywhere on the page wins — which is not
+# "conservative" as the extract_specs_from_text docstring claims, and caused
+# real corruption: enrichment run over HD Hyundai's catalogue page (which lists
+# every model) assigned HDX400L-30 the payload of HDX300L-30, and turned
+# marketing prose into specs. A number with no label next to it is not a spec.
+# Both orders are accepted: "Payload: 50 kg" and "50 kg payload".
+_PAYLOAD_LABEL = (r"payload|load\s+capacity|rated\s+load|max(?:imum)?\s+(?:load|payload)"
+                  r"|carrying\s+capacity|handling\s+capacity")
+_PAYLOAD_LBS_RE = re.compile(
+    rf"(?:(?:{_PAYLOAD_LABEL})[^\n]{{0,40}}?(\d+(?:\.\d+)?)\s*(?:lbs?|pounds?)"
+    rf"|(\d+(?:\.\d+)?)\s*(?:lbs?|pounds?)\s+(?:{_PAYLOAD_LABEL}))",
+    re.I,
+)
+_PAYLOAD_KG_RE = re.compile(
+    rf"(?:(?:{_PAYLOAD_LABEL})[^\n]{{0,40}}?(\d+(?:\.\d+)?)\s*kg"
+    rf"|(\d+(?:\.\d+)?)\s*kg\s+(?:{_PAYLOAD_LABEL}))",
+    re.I,
+)
 _RUNTIME_HOURS_RE = re.compile(r"(\d+(?:\.\d+)?)\+?\s*hours?", re.I)
 _JSON_URL_RE = re.compile(r'https?://[^"\']+(?:hubfs|hs-fs)[^"\']+\.(?:jpe?g|png|webp|avif)', re.I)
 # --- Track B spec extraction patterns (added for long-description readiness) ---
@@ -790,12 +849,17 @@ def extract_specs_from_text(text: str) -> dict[str, object]:
     return specs
 
   # ── Payload ──────────────────────────────────────────────────────────────
-  m = _PAYLOAD_LBS_RE.search(text)
-  if m:
-    specs["payload_kg"] = round(float(m.group(1)) * 0.453592, 1)
-  m = _PAYLOAD_KG_RE.search(text)
-  if m:
-    specs["payload_kg"] = float(m.group(1))
+  # Both payload patterns alternate "label first" / "number first", so the
+  # value lands in whichever group matched.
+  def _either(match) -> str | None:
+    return next((g for g in match.groups() if g), None) if match else None
+
+  raw = _either(_PAYLOAD_LBS_RE.search(text))
+  if raw:
+    specs["payload_kg"] = round(float(raw) * 0.453592, 1)
+  raw = _either(_PAYLOAD_KG_RE.search(text))
+  if raw:
+    specs["payload_kg"] = float(raw)
 
   # ── Reach ─────────────────────────────────────────────────────────────────
   m = _REACH_MM_RE.search(text)
@@ -1085,7 +1149,11 @@ def build_image_candidates_for_pages(
       *scoped_images,
     )
     if image_url
-  ))[: max_gallery + 1]
+  ))
+  # One row per underlying image: CMS size families (Strapi prefixes, WP
+  # suffixes) collapse to their best resolution BEFORE the slot cap, so
+  # variants can't crowd real distinct photos out of the shortlist.
+  shortlisted = collapse_size_variant_urls(shortlisted)[: max_gallery + 1]
   if not shortlisted:
     return []
 

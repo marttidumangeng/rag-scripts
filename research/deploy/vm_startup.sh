@@ -99,6 +99,11 @@ export IMPORT_SYNC_API_KEY="$(gcloud secrets versions access latest --secret=rag
 export INTERNAL_API_SECRET="$(gcloud secrets versions access latest --secret=internal-api-secret --project=$PROJECT)"
 export GEMINI_API_KEY="$(gcloud secrets versions access latest --secret=rag-gemini-api-key --project=$PROJECT)"
 export SERPER_API_KEY="$(gcloud secrets versions access latest --secret=rag-serper-api-key --project=$PROJECT)"
+# Hard daily ceiling on paid Gemini calls (spend_guard.py). Counted in
+# state/gemini_spend.json, which survives deploys AND restarts — a runaway
+# loop cannot reset it by dying and coming back. Added 2026-08-02 after spend
+# nearly doubled in a day with zero in-pipeline visibility.
+export GEMINI_DAILY_CALL_BUDGET="${GEMINI_DAILY_CALL_BUDGET:-2500}"
 
 ship() { gcloud storage cp "$LOG" "gs://$BUCKET/logs/nightly-$TS.log" >/dev/null 2>&1 || true; }
 
@@ -218,6 +223,10 @@ while true; do
 
   stage "rejection feedback loop" "${T_REJECT:-45m}" \
     "$PY" -u rejection_feedback_loop.py --max-robots "${MAX_REJECTED:-50}" --apply
+
+  # Same-hour spend visibility: today's paid-call count against the budget, in
+  # every cycle log. The $76-day was only caught by a human reading the bill.
+  "$PY" -c "from spend_guard import status; print('GEMINI SPEND:', status())" || true
 
   echo "=== cycle $CYCLE finished $(date -u +%FT%TZ) ==="
   ship

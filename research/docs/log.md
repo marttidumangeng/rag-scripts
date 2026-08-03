@@ -4,12 +4,20 @@ title: Research Docs Changelog
 status: published
 version: 1.0
 owner: AI
-last_updated: 2026-07-31
+last_updated: 2026-08-02
 tags:
   - research
 ---
 
 # Research Docs Changelog
+
+## 2026-08-02
+
+- Company **49** (Hyundai Robotics): remapped 17 To-Review robots from category list URLs to OEM detail pages (`/biz/product/detail/{prdSeq}`); filled features/specs from product API; restored missing HDR20L-32/HDR10L-19 heroes from attachments; CDN 17/17. Soft: few_photos/price/year/video; HC FPD no typed arm specs. Script: `fix_hyundai_49_detail_urls.py`.
+- Company **1801** (qb Robotics): kept SoftHand Industry/Research/SoftHand2 (#6519–6521) — OEM features/specs + distinct product heroes, CDN OK; rejected 6 mounting accessories as `wrong_category`+escalated. Soft left: release_year/price. Marked done 1801. Script: `fix_qb_1801_robots.py`.
+- Company **1750** (Shandong Hightop): filled OEM features for HT06 (#6338) and HT360W (#6343); cleared `missing_features`; HT360W specs from parameter table (`fix_hightop_1750_features.py`).
+- Company **1602** SC6-1460 (#6807): restored OEM studio hero after QA restamp wiped media; CDN OK (`fix_rsm_6807_image.py`).
+- Company **1602** (RSM Machinery / ERSM) QA: cleared hard queue chips on SC cobots **#6806–6809** (purpose/features/specs present; `url_content_mismatch` removed via bulk-import restamp; country_ref + availability re-PATCHed after restamp; tags pipe-string restamped). Machine tools re-rejected with `auto_fix_status=escalated`. Soft left: few_photos / price / video / release_year. Marked done 1602.
 
 ## 2026-07-31
 

@@ -420,7 +420,8 @@ def _from_gemini(name: str, evidence: str) -> tuple[str, str]:
         from google import genai
         from google.genai import types
 
-        client = genai.Client(api_key=api_key, http_options={"api_version": "v1beta"})
+        import spend_guard
+        client = spend_guard.client(api_key=api_key, http_options={"api_version": "v1beta"})
         resp = client.models.generate_content(
             model="models/gemini-2.5-flash",
             contents=f"{_GEMINI_SYSTEM}\n\nCompany: {name}\n\n--- Evidence ---\n{evidence[:8000]}",

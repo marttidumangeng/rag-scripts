@@ -102,6 +102,30 @@ def _import_batch_with_retry(
         return merged
 
 
+# The "easy win" fields a NEW robot must carry at least one of to be worth
+# importing. A row with none of these is a skeleton: it costs a reviewer's
+# attention, a remediation slot, and paid re-research calls, and small
+# companies never reach the top of the busiest-first remediation queue — so
+# skeletons rot in To Review indefinitely (robot 6717 "SWR – TIGMIG",
+# 2026-08-02: imported with NONE of these, untouched for 2 days, unapprovable).
+_EASY_FIELDS = (
+    "features", "purpose", "tags", "use_keys", "industry_keys",
+    "category_slugs", "sub_category_slug",
+)
+
+
+def _is_skeleton(rec: dict[str, Any]) -> bool:
+    """True when a staged row has NONE of the easy fields — enrichment either
+    never ran on it or entirely failed. Only blocks CREATES (see call site)."""
+    for f in _EASY_FIELDS:
+        v = rec.get(f)
+        if isinstance(v, str) and v.strip():
+            return False
+        if isinstance(v, (list, tuple)) and len(v) > 0:
+            return False
+    return True
+
+
 def import_staging(
     target: Path | list[Path],
     *,
@@ -114,10 +138,21 @@ def import_staging(
     created_by_id: int | None = None,
     replace_media: bool = False,
     force_overwrite: bool = False,
+    block_skeletons: bool = False,
+    allow_skeletons_env: str = "IMPORT_ALLOW_SKELETONS",
 ) -> dict[str, Any]:
     """`target` may be a staging dir, a single JSON file, or an explicit list of
     files — pipelines pass the current run's staged files so stale JSON left in
-    the persistent per-company staging dir is never re-imported implicitly."""
+    the persistent per-company staging dir is never re-imported implicitly.
+
+    block_skeletons: hold back rows with none of the easy fields (features,
+    purpose, tags, uses/industries, category) instead of creating unapprovable
+    shells in To Review. Discovery-import paths pass True — they're the only
+    paths that create NET-NEW robots from scratch. Patch paths (enrichment,
+    remedies) must NOT pass it: their rows carry current DB state, and a robot
+    whose DB fields are legitimately still sparse must remain patchable.
+    Escape hatch for a deliberate skeleton import: set IMPORT_ALLOW_SKELETONS=1.
+    """
     client = client or ResearchApiClient()
     created_by_id = resolve_created_by_id(created_by_id)
     if isinstance(target, (list, tuple)):
@@ -130,6 +165,29 @@ def import_staging(
     records: list[dict[str, Any]] = []
     for fpath in files:
         records.extend(load_json_robots(fpath))
+
+    held_skeletons: list[str] = []
+    if block_skeletons and os.environ.get(allow_skeletons_env, "").lower() not in ("1", "true", "yes"):
+        keep: list[dict[str, Any]] = []
+        for rec in records:
+            if _is_skeleton(rec):
+                held_skeletons.append(str(rec.get("name") or "?"))
+            else:
+                keep.append(rec)
+        if held_skeletons:
+            print(
+                f"  SKELETON GATE: holding back {len(held_skeletons)} row(s) with no "
+                f"features/purpose/tags/taxonomy — enrich them in staging first, or set "
+                f"{allow_skeletons_env}=1 to force: {', '.join(held_skeletons[:8])}"
+                + (" …" if len(held_skeletons) > 8 else ""),
+                flush=True,
+            )
+        records = keep
+        if not records:
+            return {
+                "ok": True, "robot_count": 0, "held_skeletons": held_skeletons,
+                "created_count": 0, "updated_count": 0, "skipped_count": 0, "error_count": 0,
+            }
 
     validation = validate_robot_batch(records)
     if not validation.ok:
@@ -190,6 +248,7 @@ def import_staging(
         "dry_run": False,
         "created_by_id": created_by_id,
         **totals,
+        "held_skeletons": held_skeletons,
         "results": all_results,
         "warnings": [f"{i.field}: {i.message}" for i in validation.warnings()],
     }

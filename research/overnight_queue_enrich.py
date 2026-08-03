@@ -425,6 +425,36 @@ def enrich_company(
                 evidence=evidence,
             )
             if researched is None:
+                # Confident non-robot -> Rejected lane (terminal category +
+                # escalated), never back into any enrichment loop. Re-running
+                # research on a press brake can only burn budget, never converge.
+                nr = getattr(researcher, "last_non_robot", None)
+                if nr and dry_run:
+                    _safe_print(f"    [dry-run] would AUTO-REJECT non-robot: {name}", flush=True)
+                    result["robots"].append(
+                        {"id": rid, "name": name, "gaps_before": gaps_before,
+                         "skipped": "would_auto_reject_non_robot"}
+                    )
+                    continue
+                if nr:
+                    reason = (
+                        "[AUTO] Not a robot — classified as conventional machinery/equipment "
+                        f"with high confidence during enrichment: {nr.get('reason', '')}"
+                    )[:490]
+                    try:
+                        client.reject_robot(rid, reason=reason, categories=["not_real"])
+                        _safe_print(f"    AUTO-REJECTED as non-robot: {name}", flush=True)
+                        result.setdefault("auto_rejected_non_robots", []).append(
+                            {"id": rid, "name": name, "reason": nr.get("reason", "")}
+                        )
+                        result["robots"].append(
+                            {"id": rid, "name": name, "gaps_before": gaps_before,
+                             "skipped": "auto_rejected_non_robot"}
+                        )
+                    except Exception as exc:  # noqa: BLE001
+                        _safe_print(f"    auto-reject failed ({exc}) — leaving pending", flush=True)
+                        result["errors"].append({"id": rid, "error": f"auto_reject_failed: {exc}"})
+                    continue
                 _safe_print(f"    skip target_not_found: {name}", flush=True)
                 result["errors"].append({"id": rid, "error": "target_not_found"})
                 result["robots"].append(

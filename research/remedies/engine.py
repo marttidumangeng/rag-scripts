@@ -192,6 +192,20 @@ def run_reresearch(
 
 
     except Exception as exc:  # noqa: BLE001
+        # Daily Gemini budget spent -> SKIPPED, never FAILED: blocked_actions()
+        # counts FAILED (2 strikes permanently blocks the action for this robot
+        # via the ledger), and a robot must not be punished forever because the
+        # budget happened to run out on its turn. SKIPPED is ignored by the
+        # blocker, so the remedy retries normally after the UTC-midnight reset.
+        try:
+            from spend_guard import SpendBudgetExceeded
+            if isinstance(exc, SpendBudgetExceeded):
+                return RemedyResult(
+                    action, SKIPPED, flag=flag,
+                    detail=f"daily Gemini budget spent — retry after UTC midnight: {exc}",
+                )
+        except ImportError:
+            pass
         return RemedyResult(
             action, FAILED, flag=flag,
             detail=f"{type(exc).__name__}: {exc} | {traceback.format_exc()[-200:]}",

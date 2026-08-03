@@ -1,0 +1,7 @@
+{
+  "date": "2026-08-03",
+  "calls": 27,
+  "by_kind": {
+    "generate_content:models/gemini-2.5-flash": 27
+  }
+}

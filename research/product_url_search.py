@@ -173,10 +173,8 @@ def search_product_url_via_grounding(
     tokens = robot_name_tokens(robot_name, model_name)
 
     try:
-        client = genai.Client(
-            api_key=os.environ.get("GEMINI_API_KEY", ""),
-            http_options={"api_version": "v1beta"},
-        )
+        import spend_guard
+        client = spend_guard.client(http_options={"api_version": "v1beta"})
         response = client.models.generate_content(
             model="models/gemini-2.5-flash",
             contents=prompt,

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import dataclasses
 import json
 import os
 import re
@@ -123,9 +124,14 @@ def _clean_vision_pool(urls, *, limit: int) -> list[str]:
     model, out of 19 available. Dedupe on the path (ignoring query) and drop
     placeholders so the budget buys distinct, real images.
     """
+    from web_extract import collapse_size_variant_urls
+
     seen: set[str] = set()
     out: list[str] = []
-    for url in urls:
+    # CMS size families (large_/medium_/thumbnail_ prefixes, WP -WxH suffixes)
+    # collapse to one best-resolution URL first — five sizes of one photo would
+    # otherwise eat five of the eight vision slots (Distalmotion, 2026-08-03).
+    for url in collapse_size_variant_urls(urls):
         if not url:
             continue
         base = url.split("?", 1)[0]
@@ -231,6 +237,12 @@ class RobotAutoResearcher:
         tokens = robot_name_tokens(name, model_name)
         robot_id = robot.get("id")
         page_paths_lean: list[str] = []
+        # Set when classification concludes with HIGH confidence that this
+        # product is not a robot at all (press brake, grinder, CNC machine...).
+        # research_robot then returns None like target_not_found, and callers
+        # that check this attribute auto-reject instead of retrying forever —
+        # enriching a non-robot can never converge, only burn budget.
+        self.last_non_robot: dict[str, Any] | None = None
 
         website = (company_website or robot.get("url") or "").strip()
         if website and not website.startswith("http"):
@@ -604,6 +616,14 @@ class RobotAutoResearcher:
                         tokens=tokens,
                         company_name=company_name,
                     )
+                    # Vision already downloaded these bytes — carry their hashes
+                    # into staging so the server's hash-first photo dedupe fires
+                    # at attach time (URL comparison can't catch rehosts/variants).
+                    _vision_hashes = vision.get("hashes") or {}
+                    for _cand in image_candidates:
+                        _h = _vision_hashes.get(_cand.get("url"))
+                        if _h and not _cand.get("content_hash"):
+                            _cand["content_hash"] = _h
                     print(
                         f"         vision image pick: hero={hero_score}/100 "
                         f"approved={len(approved)} from pool={len(pool)}",
@@ -655,6 +675,13 @@ class RobotAutoResearcher:
                         else len(preferred_urls)
                     ),
                 )
+                # Bytes were downloaded for the pixel check — carry hashes into
+                # staging so server-side photo dedupe can match by content.
+                _picked_hashes = picked.get("hashes") or {}
+                for _cand in image_candidates:
+                    _h = _picked_hashes.get(_cand.get("url"))
+                    if _h and not _cand.get("content_hash"):
+                        _cand["content_hash"] = _h
                 grounded_hero_score = (
                     picked["scores"].get(picked.get("hero"))
                     if picked.get("hero") in candidates
@@ -727,6 +754,38 @@ class RobotAutoResearcher:
 
         specs = extract_specs_from_text(source_text)
 
+        # Never let a prose-scraped number replace a spec the record already
+        # has. Page-text extraction is a LAST resort: the existing value may
+        # have come from the manufacturer's own structured data (a product API
+        # or spec table), and silently overwriting it degrades good data.
+        # This is not hypothetical — an enrichment pass over HD Hyundai's
+        # catalogue page rewrote 10 correct API-sourced specs with numbers
+        # scraped from a page listing every model, e.g. HX500's 2,704 mm reach
+        # became 68 and HDX400L-30 inherited HDX300L-30's payload.
+        #
+        # ABSENT KEY IS NOT BLANK. If the caller handed us a robot dict that
+        # simply does not carry the field (the lite serializer omits every spec
+        # field, for instance), we do NOT know the stored value — and must not
+        # infer "empty" from "not supplied". Treating absent as blank is
+        # precisely how a scraped guess overwrites a good value. Unknown fields
+        # are therefore left to the merge layer rather than filled here, and
+        # logged, because a caller passing spec-less robots is a bug worth
+        # seeing rather than silently working around.
+        _kept, _unknown = [], []
+        for k in list(specs):
+            if k not in robot:
+                _unknown.append(k)
+                specs.pop(k, None)
+            elif robot.get(k) not in (None, "", [], {}):
+                _kept.append(k)
+                specs.pop(k, None)
+        if _kept:
+            print(f"      specs: kept existing {sorted(_kept)} "
+                  f"(page-text extraction only fills blanks)")
+        if _unknown:
+            print(f"      specs: SKIPPED {sorted(_unknown)} — caller did not supply "
+                  f"current values, so 'blank' cannot be distinguished from 'unknown'")
+
         sources: list[SourceRef] = []
         if estun_entry and estun_entry.get("url"):
             sources.append(SourceRef(url=estun_entry["url"], type="website", title="Product page"))
@@ -764,6 +823,25 @@ class RobotAutoResearcher:
                 extractor="gemini_classify",
                 robot_id=robot_id,
             )
+
+        # Confident non-robot -> stop here. Only "non_robot_machine" at HIGH
+        # confidence acts; components and software stay for human judgment
+        # (SwarmOS-class software products are deliberately in the catalog).
+        if (
+            classification.get("product_type") == "non_robot_machine"
+            and classification.get("product_type_confidence") == "high"
+        ):
+            self.last_non_robot = {
+                "product_type": "non_robot_machine",
+                "reason": classification.get("product_type_reason") or "page describes conventional machinery",
+                "page": product_url or website or "",
+            }
+            print(
+                f"         NON-ROBOT (high confidence): {name!r} — "
+                f"{self.last_non_robot['reason'][:120]}",
+                flush=True,
+            )
+            return None
 
         # Fall back to existing DB values if Gemini returns nothing
         movement_types = (
@@ -1120,6 +1198,23 @@ _CLASSIFY_SYSTEM = """\
 You are a robotics catalog classifier. Given a robot's name and a snippet of its product page, \
 return a JSON object with these fields:
 
+- "product_type": what this product actually IS, one of:
+    "robot"             — a robot or robotic system (arm, cobot, AMR/AGV, humanoid,
+                          drone/UAV, exoskeleton, surgical/medical robot, robotic cell
+                          BUILT AROUND a robot, autonomous vehicle/vessel)
+    "non_robot_machine" — standalone conventional machinery or equipment with NO robotic
+                          component: press brakes, grinders, levelers, CNC machines,
+                          laser/plasma cutters, conveyors, decoilers, punching machines,
+                          storage racks, hand tools, generic vehicles
+    "component"         — a part or accessory sold separately (gripper, controller,
+                          actuator, sensor, battery, teach pendant)
+    "software"          — software-only product (fleet manager, autonomy stack, vision AI)
+    "unclear"           — cannot tell from the text
+- "product_type_confidence": "high" | "medium" | "low" — use "high" ONLY when the page text
+  makes the classification unambiguous (e.g. a spec table for a press brake with tonnage and
+  bending length and no robot anywhere). When in doubt, say "medium" or "low".
+- "product_type_reason": one short factual sentence quoting what on the page led to the
+  verdict. "" when product_type is "robot".
 - "movement_types": array of movement types from: ["wheeled","legged","aerial","tracked","stationary","swimming","other"]
 - "sub_category": single slug from: ["personal-assistants","service-hospitality","personal-mobility",
   "retail-customer-engagement","learning","logistics-warehouse","agriculture","companionship",
@@ -1154,7 +1249,7 @@ genuinely uncertain. Use "" for any narrative field not stated on the page.
 Respond ONLY with valid JSON — no markdown, no explanation.
 
 Example:
-{"movement_types":["wheeled"],"sub_category":"service-hospitality","uses":["delivery","guiding"],"industries":["hotels","restaurants"],"purpose":"Hotel room-service delivery","programming_interface":"Mobile app, no coding required","safety_fencing":"Not required","mounting_options":"","deployment_context":"","ecosystem_compatibility":""}
+{"product_type":"robot","product_type_confidence":"high","product_type_reason":"","movement_types":["wheeled"],"sub_category":"service-hospitality","uses":["delivery","guiding"],"industries":["hotels","restaurants"],"purpose":"Hotel room-service delivery","programming_interface":"Mobile app, no coding required","safety_fencing":"Not required","mounting_options":"","deployment_context":"","ecosystem_compatibility":""}
 """
 
 
@@ -1162,10 +1257,8 @@ def _classify_robot(name: str, text: str) -> dict[str, Any]:
     """Use Gemini to infer movement types, sub-category, uses, and industries from page text."""
     snippet = f"Robot: {name}\n\n{text[:2500]}"
     try:
-        client = genai.Client(
-            api_key=os.environ.get("GEMINI_API_KEY", ""),
-            http_options={"api_version": "v1beta"},
-        )
+        import spend_guard
+        client = spend_guard.client(http_options={"api_version": "v1beta"})
         response = client.models.generate_content(
             model="models/gemini-2.5-flash",
             contents=f"{_CLASSIFY_SYSTEM}\n\n{snippet}",
@@ -1199,7 +1292,17 @@ def _classify_robot(name: str, text: str) -> dict[str, Any]:
         val = data.get(key)
         narrative[key] = val.strip()[:max_len] if isinstance(val, str) and val.strip() else ""
 
+    ptype = data.get("product_type")
+    ptype = ptype.strip() if isinstance(ptype, str) else ""
+    pconf = data.get("product_type_confidence")
+    pconf = pconf.strip().lower() if isinstance(pconf, str) else ""
+    preason = data.get("product_type_reason")
+    preason = preason.strip()[:300] if isinstance(preason, str) else ""
+
     return {
+        "product_type": ptype if ptype in ("robot", "non_robot_machine", "component", "software", "unclear") else "unclear",
+        "product_type_confidence": pconf if pconf in ("high", "medium", "low") else "low",
+        "product_type_reason": preason,
         "movement_types": _filter(data.get("movement_types"), _VALID_MOVEMENT_TYPES),
         "sub_category": _one_of(data.get("sub_category"), _VALID_SUB_CATEGORIES),
         "uses": _filter(data.get("uses"), _VALID_USES),
@@ -1291,10 +1394,8 @@ Briefly summarize in 2-3 sentences what you found: the channel name/handle, and 
 robot-specific videos or only generic company videos. Do not fabricate URLs or video IDs."""
 
     try:
-        client = genai.Client(
-            api_key=os.environ.get("GEMINI_API_KEY", ""),
-            http_options={"api_version": "v1beta"},
-        )
+        import spend_guard
+        client = spend_guard.client(http_options={"api_version": "v1beta"})
         response = client.models.generate_content(
             model="models/gemini-2.5-flash",
             contents=prompt,
@@ -1483,10 +1584,19 @@ def research_robots_for_company(
         from workflow_backfill import fetch_robots_missing_for_company
         robots = fetch_robots_missing_for_company(company_id, client=client)
         if not robots:
-            # Missing-data queue empty — still research company robots lacking media
+            # Missing-data queue empty — fall back to the SAME gap definition the
+            # overnight queue uses (robot_gaps: features/tags/specs/videos/
+            # country/category too), not just media. The old filter here was
+            # `not image or not url` only, which declared a robot "done" the
+            # moment it had one photo and a URL — robot 6717 (2026-08-02) was
+            # missing features/purpose/tags/uses/industries/category/specs and
+            # this path researched 0 robots for its company. That media-only
+            # definition of "missing" is how easy-win fields stayed empty
+            # through repeated "successful" enrichment runs.
+            from triage_content_queue import robot_gaps
             robots = [
                 r for r in client.list_robots_for_company(company_id)
-                if not r.get("image") or not r.get("url")
+                if robot_gaps(r) or not r.get("image") or not r.get("url")
             ]
     else:
         robots = client.list_robots_for_company(company_id)
@@ -1506,6 +1616,7 @@ def research_robots_for_company(
     results: list[dict[str, Any]] = []
     errors: list[str] = []
     skipped_target_not_found: list[str] = []
+    auto_rejected_non_robots: list[dict[str, Any]] = []
     blocked_hero_urls: set[str] = set()
 
     for robot_idx, robot in enumerate(robots, 1):
@@ -1525,6 +1636,25 @@ def research_robots_for_company(
                 evidence=evidence,
             )
             if researched is None:
+                # Confident non-robot -> straight to the Rejected lane, pinned
+                # out of every automated loop (terminal category + escalated).
+                # Un-rejecting is a deliberate human action from the admin UI.
+                nr = getattr(researcher, "last_non_robot", None)
+                if nr and rid:
+                    reason = (
+                        "[AUTO] Not a robot — classified as conventional machinery/equipment "
+                        f"with high confidence during enrichment: {nr.get('reason', '')}"
+                    )[:490]
+                    try:
+                        client.reject_robot(int(rid), reason=reason, categories=["not_real"])
+                        print(f"         AUTO-REJECTED as non-robot: {rname}", flush=True)
+                        auto_rejected_non_robots.append(
+                            {"robot_id": rid, "name": rname, "reason": nr.get("reason", "")}
+                        )
+                    except Exception as exc:  # noqa: BLE001
+                        print(f"         auto-reject failed ({exc}) — leaving pending", flush=True)
+                        errors.append(f"auto_reject_failed: {rname}: {exc}")
+                    continue
                 print(f"         skipped — target_not_found", flush=True)
                 errors.append(f"target_not_found: {rname}")
                 skipped_target_not_found.append(str(rname))
@@ -1574,6 +1704,7 @@ def research_robots_for_company(
         "results": results,
         "errors": errors,
         "skipped_target_not_found": skipped_target_not_found,
+        "auto_rejected_non_robots": auto_rejected_non_robots,
         "evidence_dir": evidence.relative_root,
         "evidence_run_id": evidence.run_id,
         "evidence_sweep": sweep,
@@ -1584,8 +1715,26 @@ def research_robots_for_company(
     }
 
 
+# Fields StagedRobot models that either already have explicit, custom handling
+# above (name matches don't need conversion but ARE already set) or are
+# genuinely complex/relational types (images/video_urls/sensors/materials need
+# their own merge semantics — see `replace_media` — and aren't safe to
+# blindly pass through) or research-process metadata that isn't part of the
+# robot API representation at all. Everything else gets carried forward
+# generically below.
+_STAGED_ROBOT_SKIP_GENERIC_CARRY: frozenset[str] = frozenset({
+    "id", "company_slug", "company_name", "model_name",
+    "manufacturer_country_code", "url", "image", "description", "purpose",
+    "availability_status_key", "industry_keys", "use_keys", "movement_type_keys",
+    "category_slugs", "sources", "features", "tags",
+    "images", "video_urls", "sensors", "materials", "confidence",
+    "source_locale", "research_notes", "company_website",
+    "company_hq_country_code", "company_description",
+})
+
+
 def _robot_api_to_staged(robot: dict[str, Any], company_slug: str, company_name: str) -> StagedRobot:
-    return StagedRobot.from_dict({
+    payload: dict[str, Any] = {
         "name": robot.get("name") or "",
         "model_name": robot.get("model_name") or robot.get("name") or "",
         "company_slug": company_slug,
@@ -1616,4 +1765,17 @@ def _robot_api_to_staged(robot: dict[str, Any], company_slug: str, company_name:
                 if isinstance(robot.get("tags"), list)
                 else str(robot.get("tags") or ""),
         "sources": [{"url": robot.get("url"), "type": "website"}] if robot.get("url") else [],
-    })
+    }
+    # Generic carry-forward for everything else (specs, strengths/weaknesses,
+    # family data, narrative fields, ~55 fields total): without this, `base`
+    # never reflects the robot's actual current value, so ANY remedy write
+    # (force_overwrite=True — full replace, not safe-patch) silently blanks
+    # every field it isn't specifically trying to fix, the moment that pass
+    # doesn't itself re-discover it. This closes the gap for the whole class
+    # at once instead of one field at a time as each gets separately reported.
+    for f in dataclasses.fields(StagedRobot):
+        if f.name in payload or f.name in _STAGED_ROBOT_SKIP_GENERIC_CARRY:
+            continue
+        if f.name in robot and robot.get(f.name) is not None:
+            payload[f.name] = robot.get(f.name)
+    return StagedRobot.from_dict(payload)

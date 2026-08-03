@@ -22,6 +22,7 @@ research.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from typing import Any
@@ -156,6 +157,11 @@ def pick_hero_image(
         "hero": passing[0] if passing else "",
         "gallery": passing[1:1 + max_gallery],
         "scores": scores,
+        # The bytes were downloaded for scoring anyway — hash them here for free
+        # so callers can stamp ImageCandidate.content_hash and the server's
+        # hash-first photo dedupe (image_candidates._find_existing_photo) can
+        # actually fire at attach time. md5 = detect_duplicate_heroes convention.
+        "hashes": {url: hashlib.md5(data).hexdigest() for url, (data, _mime) in loaded},
     }
 
 

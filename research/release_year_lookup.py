@@ -115,7 +115,8 @@ def lookup_release_year(
     prompt = _PROMPT.format(name=robot_name, model_part=model_part, company=company_name)
 
     try:
-        client = genai.Client(api_key=api_key, http_options={"api_version": "v1beta"})
+        import spend_guard
+        client = spend_guard.client(api_key=api_key, http_options={"api_version": "v1beta"})
         response = client.models.generate_content(
             model=MODEL,
             contents=prompt,

@@ -173,10 +173,8 @@ def research_company(
         f"--- Web research results ---\n\n{web_content}"
     )
 
-    gemini = genai.Client(
-        api_key=os.environ.get("GEMINI_API_KEY", ""),
-        http_options={"api_version": "v1beta"},
-    )
+    import spend_guard
+    gemini = spend_guard.client(http_options={"api_version": "v1beta"})
     response = gemini.models.generate_content(
         model=MODEL,
         contents=f"{_SYSTEM}\n\n{user_msg}",

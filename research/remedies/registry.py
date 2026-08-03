@@ -16,7 +16,7 @@ from __future__ import annotations
 from typing import Any
 
 from . import engine
-from .base import FAILED, NO_OP, RemedyFn
+from .base import FAILED, FIXED, NO_OP, RemedyFn
 
 # ---------------------------------------------------------------------------
 # flag key (robots.quality.FLAG_REGISTRY) -> remedy
@@ -147,6 +147,22 @@ REMEDY_ORDER: list[str] = [
 MAX_ATTEMPTS_PER_ACTION = 2
 """A hard failure earns one retry; NO_OP earns none."""
 
+MEDIA_ACTIONS: frozenset[str] = frozenset({"refresh_media"})
+"""The action behind every MEDIA_FLAGS remedy — kept separate from MEDIA_FLAGS
+(flag names) because blocked_actions() works on actions, not flags."""
+
+MAX_MEDIA_FIXED_ATTEMPTS = 3
+"""Media remedies almost never return NO_OP or FAILED — the researcher
+re-fetches fresh every pass and minor variation (query params, source
+ordering) registers as a real change even when nothing meaningful improved,
+so the normal no-op/failure circuit breaker never trips. Confirmed live on
+Estun (2026-08-01): individual robots hit 26 "fixed" media attempts with no
+real convergence, at Gemini VISION cost (the most expensive call type) every
+single time — a direct, quantifiable driver of an unexplained cost spike.
+This caps repeated FIXED outcomes too, specifically for media, so a company
+whose site genuinely doesn't have more photos gets escalated instead of
+re-billed forever."""
+
 WEBSITE_FREE_FLAGS: frozenset[str] = frozenset({
     # `missing_category` derives from the robot's own stored taxonomy — no page
     # fetch at all. `missing_manufacturer_country` has a company fast path and,
@@ -212,9 +228,14 @@ def blocked_actions(attempts: list[dict[str, Any]] | None) -> set[str]:
 
     - any action that returned NO_OP -> the pipeline cannot currently do better
     - any action that failed >= MAX_ATTEMPTS_PER_ACTION times
+    - a MEDIA_ACTIONS action that returned FIXED >= MAX_MEDIA_FIXED_ATTEMPTS
+      times -> it keeps "succeeding" without the flag ever actually clearing
+      (see MAX_MEDIA_FIXED_ATTEMPTS), which normal failure/no-op counting
+      can't catch since it never fails or no-ops
     """
     blocked: set[str] = set()
     failures: dict[str, int] = {}
+    media_fixed: dict[str, int] = {}
     for entry in attempts or []:
         action = str(entry.get("action") or "")
         outcome = str(entry.get("outcome") or "")
@@ -225,6 +246,10 @@ def blocked_actions(attempts: list[dict[str, Any]] | None) -> set[str]:
         elif outcome == FAILED:
             failures[action] = failures.get(action, 0) + 1
             if failures[action] >= MAX_ATTEMPTS_PER_ACTION:
+                blocked.add(action)
+        elif outcome == FIXED and action in MEDIA_ACTIONS:
+            media_fixed[action] = media_fixed.get(action, 0) + 1
+            if media_fixed[action] >= MAX_MEDIA_FIXED_ATTEMPTS:
                 blocked.add(action)
     return blocked
 

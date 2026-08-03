@@ -84,6 +84,7 @@ python -u rejection_feedback_loop.py --max-robots 3        # dry-run by default
 | `T_DISCOVERY` / `T_ENRICH` / `T_QREMEDY` / `T_REJECT` | 90m / 120m / 45m / 45m | per-stage wall clocks |
 | `SHIP_EVERY` | 600 | periodic log upload |
 | `ENRICH_STALL_COOLDOWN_HOURS` | 168 | how long a no-progress robot is skipped |
+| `GEMINI_DAILY_CALL_BUDGET` | 2500 | hard daily cap on paid Gemini calls (`spend_guard.py`); counter survives restarts/deploys in `state/gemini_spend.json`; each cycle logs `GEMINI SPEND: {...}` |
 
 ### Parallelism: remediation and enrichment
 
