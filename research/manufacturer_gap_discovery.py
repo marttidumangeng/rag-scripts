@@ -88,7 +88,12 @@ from company_website_resolve import (  # noqa: E402
     validate_website,
 )
 from robot_categories import categories_from_discovery_hints, derive_category_slugs  # noqa: E402
-from schema import SourceRef, StagedCompany, StagedRobot  # noqa: E402
+from schema import (  # noqa: E402
+    SourceRef,
+    StagedCompany,
+    StagedRobot,
+    normalize_image_candidates,
+)
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 
@@ -402,20 +407,82 @@ def _decode_response(r: Any) -> str:
     return text
 
 
+# Visible-text floor below which a 200 is almost certainly an unrendered app
+# shell rather than a real page. Mirrors web_extract._JS_SHELL_TEXT_CHARS.
+_JS_SHELL_TEXT_CHARS = 5000
+_ESCALATION_FETCHER = None
+
+# Link-mining caps. Previously hard-coded 60 mined / 60 audited / 40 kept, which
+# truncates a real manufacturer catalogue before it is ever looked at — the same
+# class of defect as the nightly's max_per_page=4 discarding catalogue pages
+# outright. A genuine catalogue runs 10-60 models (HD Hyundai's industrial line
+# alone is 46), so the old ceiling cut mid-catalogue. Env-tunable for a cheap
+# smoke run without a code change.
+_MINE_LIMIT = int(os.environ.get("GAP_DISCOVERY_MINE_LIMIT", "150") or 150)
+_AUDIT_LIMIT = int(os.environ.get("GAP_DISCOVERY_AUDIT_LIMIT", "150") or 150)
+_KEEP_LIMIT = int(os.environ.get("GAP_DISCOVERY_KEEP_LIMIT", "100") or 100)
+
+
+def _visible_text_len(html: str) -> int:
+    t = re.sub(r"<script.*?</script>|<style.*?</style>", " ", html or "", flags=re.S | re.I)
+    t = re.sub(r"<[^>]+>", " ", t)
+    return len(re.sub(r"\s+", " ", t).strip())
+
+
+def _escalating_fetcher():
+    """Lazy shared WebFetcher: curl-impersonation then Playwright render.
+
+    Reused rather than reimplemented — WebFetcher already owns the stealth and
+    render tiers, and serialises render calls on _PLAYWRIGHT_LOCK.
+    """
+    global _ESCALATION_FETCHER
+    if _ESCALATION_FETCHER is None:
+        from web_extract import WebFetcher
+        _ESCALATION_FETCHER = WebFetcher(stealth=True)
+    return _ESCALATION_FETCHER
+
+
 def fetch_html(url: str, sess: requests.Session, retries: int = 2) -> str:
+    """Fetch a page, escalating past WAF blocks and JS shells.
+
+    This workflow previously used plain `requests` only, with no render tier at
+    all. That is the same blindness that made link mining return 23 mostly-junk
+    records for HD Hyundai (two controllers, three copies of a page heading)
+    where the site's own catalogue held 69 real robots: the listing is
+    axios-rendered and the CDN 403s non-browser agents, so a plain client sees
+    a placeholder and moves on. Sampling four unconfigured OEM sites, two
+    returned 403 and two returned ~6-7k-character shells — i.e. roughly half of
+    real manufacturer sites are unreadable without escalation.
+
+    Escalation is opt-out via GAP_DISCOVERY_ESCALATE=0 (it costs a browser
+    launch per rescued page, so a smoke run may want it off).
+    """
+    escalate = os.environ.get("GAP_DISCOVERY_ESCALATE", "1").lower() not in ("0", "false", "no")
     for attempt in range(retries + 1):
         try:
             r = sess.get(url, headers=UA, timeout=30, allow_redirects=True)
             if r.status_code == 200:
-                return _decode_response(r)
-            if r.status_code in (403, 429, 503) and attempt < retries:
-                time.sleep(3 * (attempt + 1))
-                continue
+                html = _decode_response(r)
+                # A 200 carrying no visible text is not a success for mining.
+                if not escalate or _visible_text_len(html) >= _JS_SHELL_TEXT_CHARS:
+                    return html
+                break
+            if r.status_code in (403, 429, 503):
+                if attempt < retries:
+                    time.sleep(3 * (attempt + 1))
+                    continue
+                break          # blocked after retries -> escalate below
             return ""
         except requests.RequestException:
             if attempt < retries:
                 time.sleep(2)
-    return ""
+
+    if not escalate:
+        return ""
+    try:
+        return _escalating_fetcher().get(url) or ""
+    except Exception:
+        return ""
 
 
 # ── Stage A: baseline ────────────────────────────────────────────────────────
@@ -905,7 +972,7 @@ def extract_robot_candidates(
         seen_urls.add(full)
         seen_names.add(nkey)
         out.append({"name": name, "url": full})
-        if len(out) >= 60:
+        if len(out) >= _MINE_LIMIT:
             break
     return out
 
@@ -1002,6 +1069,172 @@ def llm_filter_candidates(
     return kept
 
 
+def _category_from_product_type(product_type: str) -> str:
+    """Map an extractor's per-product type label onto a catalogue category.
+
+    `derive_category_slugs` matches on model names and free text and does not
+    recognise catalogue-section phrasing like "industrial articulated" or "FPD
+    glass transfer", so those fall through to the company-level hint and get
+    mis-stamped. This is the narrow bridge for that, and it stays deliberately
+    small: only phrases a source actually emits, no guessing.
+    """
+    t = (product_type or "").lower()
+    if not t:
+        return ""
+    if "collaborative" in t or "cobot" in t:
+        return "cobot"
+    if "articulated" in t or "industrial" in t:
+        return "industrial-arm"
+    if "glass" in t or "fpd" in t or "wafer" in t:
+        return "industrial-arm"
+    if "mobile" in t or "amr" in t:
+        return "amr-warehouse"
+    if "drone" in t or "uav" in t:
+        return "drone"
+    return ""
+
+
+def _structured_robots(
+    entry: dict[str, Any],
+    website: str,
+    html: str,
+    baseline: dict[str, Any],
+) -> list[StagedRobot]:
+    """Run the extraction ladder and map any hits onto StagedRobot.
+
+    Deliberately conservative about what it claims: only fields the source
+    actually stated are written. Descriptions are composed from those fields
+    rather than lifted from marketing copy, and nothing is inferred to fill a
+    gap — an absent payload stays absent.
+    """
+    try:
+        from extractors.ladder import ExtractionLadder
+    except Exception:
+        return []
+
+    try:
+        result, report = ExtractionLadder().run(website, html)
+    except Exception as exc:
+        print(f"      structured extraction failed: {str(exc)[:110]}", flush=True)
+        return []
+    if not result:
+        return []
+
+    # EVIDENCE GATE. A registered site config was mapped by a human, so its
+    # output is trusted. Anything discovered generically — a page-declared
+    # endpoint, a __NEXT_DATA__ island, loose JSON-LD — is a guess about what
+    # a list of dicts means, and that guess is wrong in a specific, damaging
+    # way: Zoox's nav menu extracted as four "products" ("How To Ride",
+    # "Support", "Where to Ride"). Because a structured hit SHORT-CIRCUITS
+    # link mining, junk here does not merely add noise, it REPLACES the result
+    # the old path would have produced. So an unregistered extraction must
+    # show real product evidence — a spec or an image — on at least half its
+    # rows, or we discard it and fall through to link mining.
+    try:
+        from extractors.base import registry as _reg
+        trusted = _reg.site_config(website) is not None
+    except Exception:
+        trusted = False
+    if not trusted:
+        def _has_evidence(p) -> bool:
+            return bool(p.payload_kg or p.reach_mm or p.dof or p.image_urls)
+        strong = sum(1 for p in result.products if _has_evidence(p))
+        if strong * 2 < len(result.products):
+            print(f"      structured extraction DISCARDED ({len(result.products)} rows, "
+                  f"only {strong} carried a spec or image — treating as non-product "
+                  f"data and falling back to link mining)", flush=True)
+            return []
+
+    co_slug = entry["slug"]
+    co_norm = norm_key(entry["name"])
+    company_categories = categories_from_discovery_hints(entry.get("categories"))
+    out: list[StagedRobot] = []
+    seen: set[str] = set()
+
+    for p in result.products:
+        name = (p.name or "").strip()
+        rkey = norm_key(name)
+        if not name or not rkey or rkey in seen:
+            continue
+        # Same dedupe the link-mining path applies, plus the legacy alias: a
+        # renamed model must not be imported twice under both designations.
+        if f"{co_norm}::{rkey}" in baseline["robot_index"] or rkey in baseline["robot_global"]:
+            continue
+        akey = p.alias_key()
+        if akey and (f"{co_norm}::{akey}" in baseline["robot_index"]
+                     or akey in baseline["robot_global"]):
+            continue
+        seen.add(rkey)
+
+        bits = [f"{name} is a product listed by {entry['name']}."]
+        if p.payload_kg:
+            bits.append(f"Rated payload {p.payload_kg:g} kg.")
+        if p.reach_mm:
+            bits.append(f"Maximum reach {p.reach_mm:g} mm.")
+        if p.dof:
+            bits.append(f"{p.dof} axes.")
+        if p.drive:
+            bits.append(f"Drive type: {p.drive}.")
+        if p.controllers:
+            bits.append(f"Compatible controllers: {p.controllers}.")
+        for k, v in (p.extra or {}).items():
+            if k != "description" and isinstance(v, (str, int, float)) and str(v).strip():
+                bits.append(f"{k.replace('_', ' ').capitalize()}: {v}.")
+        if p.in_production is False:
+            bits.append("Listed by the manufacturer as no longer in production.")
+
+        fam_token = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")[:32]
+        out.append(StagedRobot(
+            name=name,
+            company_slug=co_slug,
+            company_name=entry["name"],
+            model_name=name,
+            variant_code=p.alias,
+            family_key=f"{co_slug}:{fam_token}",
+            family_name=name,
+            url=p.source_url or website,
+            product_url_scope="exact_variant",
+            manufacturer_country_code=entry.get("country_code", ""),
+            description=" ".join(bits),
+            purpose=f"{entry['name']} product: {name}.",
+            payload_kg=p.payload_kg,
+            reach_mm=p.reach_mm,
+            dof=p.dof,
+            # Precedence: the model's own name, then the SOURCE'S per-product
+            # type label, and only then the company-level directory hint.
+            # That order matters — a company tagged both "industrial-arm" and
+            # "cobot" would otherwise stamp `collaborative-robot` on its
+            # industrial arms purely because the hint is company-wide. The
+            # product_type comes from the manufacturer's own catalogue split,
+            # so it is evidence about THIS model, not about the firm.
+            category_slugs=(
+                derive_category_slugs(name=name, fallback="")
+                or _category_from_product_type(p.product_type)
+                or company_categories
+            ),
+            availability_status_key=("discontinued" if p.in_production is False else "available"),
+            source_locale="en",
+            images=normalize_image_candidates([
+                {"url": u, "source_page_url": p.source_url or website,
+                 "source_tier": "manufacturer", "source_publisher": entry["name"],
+                 "media_class": "official_render", "image_scope": "exact_variant",
+                 "confidence_score": 85, "rights_status": "official_source",
+                 "match_reason": f"image published alongside the product by the manufacturer ({p.via})"}
+                for u in (p.image_urls or [])[:3]
+            ]),
+            sources=[SourceRef(url=p.source_url or website, type="website",
+                               title=f"{entry['name']} product catalogue")],
+            confidence={"name": "high", "specs": "high"},
+            research_notes=(
+                f"[AI Research] Extracted from the manufacturer's own structured data "
+                f"via '{p.via}' on {_now()[:10]} ({report.summary()[:120]}). Specs are the "
+                f"source's typed fields, not parsed prose."
+                + (f" Legacy designation: {p.alias}." if p.alias else "")
+            ),
+        ))
+    return out
+
+
 def discover_robots(
     entry: dict[str, Any],
     baseline: dict[str, Any],
@@ -1015,6 +1248,18 @@ def discover_robots(
     html = fetch_html(website, sess)
     if not html or len(html) < 400:
         return []
+
+    # STRUCTURED FIRST. If the site publishes its catalogue as data — its own
+    # product JSON API, schema.org Product markup, or a real spec table — read
+    # that instead of scraping anchor text. Link mining reconstructs by guess
+    # what the server already stated precisely: on HD Hyundai it produced 23
+    # records (~9 real) against 69 complete models with payload/reach/DOF from
+    # the same site's API. Falls through silently when nothing structured is
+    # present, which is the common case, so this only ever adds.
+    structured = _structured_robots(entry, website, html, baseline)
+    if structured:
+        print(f"      structured extraction: {len(structured)} products", flush=True)
+        return structured
 
     candidates = extract_robot_candidates(html, website, entry["name"])
 
@@ -1034,7 +1279,7 @@ def discover_robots(
                     break
 
     # LLM audit: keep only real robots, clean + anglicise names. Fail-open.
-    filtered = llm_filter_candidates(entry["name"], candidates[:60])
+    filtered = llm_filter_candidates(entry["name"], candidates[:_AUDIT_LIMIT])
     llm_ok = filtered is not None
     if llm_ok:
         candidates = filtered
@@ -1049,7 +1294,7 @@ def discover_robots(
     company_categories = categories_from_discovery_hints(entry.get("categories"))
     robots: list[StagedRobot] = []
     seen_clean: set[str] = set()
-    for cand in candidates[:40]:
+    for cand in candidates[:_KEEP_LIMIT]:
         rkey = norm_key(cand["name"])
         if not rkey or rkey in seen_clean:
             continue

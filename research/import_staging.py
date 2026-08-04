@@ -170,7 +170,12 @@ def import_staging(
     if block_skeletons and os.environ.get(allow_skeletons_env, "").lower() not in ("1", "true", "yes"):
         keep: list[dict[str, Any]] = []
         for rec in records:
-            if _is_skeleton(rec):
+            # Features are MANDATORY for new discovery rows (Martti, 2026-08-03:
+            # "There can be no 'No features'... from Discovery"). The staging
+            # writers promote description->features, so a blank here means the
+            # page yielded neither — not worth a review slot.
+            no_features = not str(rec.get("features") or "").strip()
+            if _is_skeleton(rec) or no_features:
                 held_skeletons.append(str(rec.get("name") or "?"))
             else:
                 keep.append(rec)

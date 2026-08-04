@@ -469,16 +469,24 @@ def enrich_company(
             base = robot_api_to_base(robot, company_slug, company_name)
             # Gap-fill only — never overwrite populated fields
             merged = _merge_staged(base, researched, force_fields=frozenset())
-            # Promote existing description/purpose into features when features still blank
-            # (does not invent — only copies already-stored OEM text).
+            # Generate features from description/purpose when still blank. This
+            # used to be a LITERAL COPY — which is where AgileX's 21
+            # features==description robots came from (the very defect the
+            # server's features_duplicates_description flag was built to catch,
+            # 2026-08-01). features_gen restructures into distinct bullets and
+            # verifies with the server's own duplicate checker; on '' the field
+            # stays blank and flags honestly.
             if len((merged.features or "").strip()) < 40:
+                from features_gen import features_from_text
                 for candidate in (merged.description, merged.purpose, merged.research_notes):
                     text = (candidate or "").strip()
                     if len(text) >= 40:
-                        payload = merged.to_dict()
-                        payload["features"] = text[:1800]
-                        merged = StagedRobot.from_dict(payload)
-                        break
+                        generated = features_from_text(merged.name, text)
+                        if generated:
+                            payload = merged.to_dict()
+                            payload["features"] = generated
+                            merged = StagedRobot.from_dict(payload)
+                            break
             validation = validate_robot(merged)
             path = staging_dir / f"robot_{rid}.json"
             path.write_text(

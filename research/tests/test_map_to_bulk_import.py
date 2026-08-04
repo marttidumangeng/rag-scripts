@@ -337,3 +337,41 @@ def test_hero_blank_when_only_non_reject_not_primary_eligible():
     })
     assert "image" not in row
     assert row["images"][0]["url"] == "https://example.com/low.jpg"
+
+
+# --------------------------------------------------------------------------
+# The notes prefix is added HERE, so a writer that also spells it out produced
+# "[AI Research] [AI Research] Ingested from ...". Three staging writers do,
+# including manufacturer_gap_discovery, so every robot they imported carries
+# the doubled prefix in its notes.
+# --------------------------------------------------------------------------
+def test_notes_prefix_is_not_doubled_when_the_writer_supplied_it():
+    row = staging_dict_to_bulk_import_row({
+        "name": "TM12",
+        "company_slug": "techman-robot",
+        "research_notes": "[AI Research] Ingested from Techman Robot's own product JSON API.",
+        "sources": [{"url": "https://www.tm-robot.com"}],
+    })
+    assert row["notes"].count("[AI Research]") == 1
+    assert row["notes"].startswith("[AI Research] Ingested from Techman")
+
+
+def test_notes_prefix_is_still_added_when_the_writer_omitted_it():
+    row = staging_dict_to_bulk_import_row({
+        "name": "TM12",
+        "company_slug": "techman-robot",
+        "research_notes": "Ingested from the manufacturer API.",
+        "sources": [{"url": "https://www.tm-robot.com"}],
+    })
+    assert row["notes"].startswith("[AI Research] Ingested from the manufacturer API.")
+
+
+def test_prefix_inside_the_body_is_left_alone():
+    """Only a LEADING prefix is redundant; one quoted mid-sentence is content."""
+    row = staging_dict_to_bulk_import_row({
+        "name": "TM12",
+        "company_slug": "techman-robot",
+        "research_notes": "Supersedes the earlier [AI Research] note.",
+        "sources": [{"url": "https://www.tm-robot.com"}],
+    })
+    assert row["notes"].count("[AI Research]") == 2

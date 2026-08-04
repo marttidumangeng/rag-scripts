@@ -553,6 +553,38 @@ def _write_company_country(ctx: RemedyContext, code: str) -> str:
         return f" (company update failed: {type(exc).__name__})"
 
 
+def remedy_image_not_uploaded(robot: dict[str, Any], ctx: RemedyContext) -> RemedyResult:
+    """Hero exists but was never uploaded to our CDN — trigger the server's
+    copy-media job (the same internal endpoint the admin button uses). The
+    server downloads, rehosts, stamps content_hash, generates variants, and
+    hash-dedupes the gallery; nothing to research client-side."""
+    import os
+
+    import requests as _requests
+
+    action, flag = "copy_media_upload", "image_not_uploaded"
+    robot_id = int(robot.get("id") or 0)
+    secret = os.environ.get("INTERNAL_API_SECRET") or ""
+    if not secret:
+        return RemedyResult(action, SKIPPED, flag=flag, detail="INTERNAL_API_SECRET not set")
+    if ctx.dry_run:
+        return RemedyResult(action, FIXED, flag=flag, changed_fields=["s3_image"],
+                            detail="dry-run — would trigger copy-media")
+    base = (os.environ.get("ADMIN_BASE") or "https://ragadmin.robotaigeek.com").rstrip("/")
+    try:
+        resp = _requests.post(
+            f"{base}/admin/robots/robot/content-queue/api/robot/{robot_id}/copy-media/",
+            headers={"X-Internal-Secret": secret}, timeout=180,
+        )
+        if resp.status_code < 300:
+            return RemedyResult(action, FIXED, flag=flag, changed_fields=["s3_image"],
+                                detail="copy-media triggered ok")
+        return RemedyResult(action, FAILED, flag=flag,
+                            detail=f"copy-media HTTP {resp.status_code}: {resp.text[:120]}")
+    except Exception as exc:  # noqa: BLE001
+        return RemedyResult(action, FAILED, flag=flag, detail=f"{type(exc).__name__}: {exc}")
+
+
 def _make(action: str, flag: str, force: set[str], *, watch: set[str] | None = None, media: bool = False):
     # Media remedies need the vision fallback: filename matching finds nothing on
     # OEMs with CMS/date/hash image names, so pixels are the only remaining signal.
@@ -593,6 +625,12 @@ remedy_purpose_duplicates_description = _make(
     "refresh_description", "purpose_duplicates_description", {"purpose"}
 )
 remedy_missing_features = _make("refresh_features", "missing_features", {"features"})
+# Same engine, forced overwrite: re-research regenerates features via
+# features_gen (distinct bullets, verified against the server's own duplicate
+# checker), replacing the copied-description block that raised the flag.
+remedy_features_duplicates_description = _make(
+    "refresh_features", "features_duplicates_description", {"features"}
+)
 
 # Video
 remedy_missing_video = _make("refresh_video", "missing_video", {"video_urls"})

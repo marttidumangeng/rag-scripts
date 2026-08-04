@@ -1,7 +1,8 @@
 {
   "date": "2026-08-03",
-  "calls": 27,
+  "calls": 1362,
   "by_kind": {
-    "generate_content:models/gemini-2.5-flash": 27
+    "generate_content:models/gemini-2.5-flash": 1297,
+    "generate_content:models/gemini-2.5-flash-lite": 65
   }
 }

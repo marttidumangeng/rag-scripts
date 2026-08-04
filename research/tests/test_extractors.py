@@ -21,8 +21,13 @@ if str(_HERE) not in sys.path:
 
 from extractors.base import ExtractedProduct, SpecMapping, to_number  # noqa: E402
 from extractors.manufacturer_api import (  # noqa: E402
+    ManufacturerAPIExtractor,
+    _attr_lookup,
+    _drop_shared_images,
     _walk_for_product_list,
     make_hyundai_config,
+    make_nachi_config,
+    make_techman_config,
     split_alias,
 )
 from extractors.structured_html import JsonLdExtractor, SpecTableExtractor  # noqa: E402
@@ -210,3 +215,204 @@ def test_table_without_recognisable_labels_declines():
     res = SpecTableExtractor().extract("https://example.com/p", html)
     assert not res
     assert "recognisable spec labels" in res.declined_reason
+
+
+# --------------------------------------------------------------------------
+# Navigation must not be mistaken for a catalogue.
+#
+# Live failure (2026-08-03): Zoox's __NEXT_DATA__ produced four "products" —
+# "How To Ride", "Know Your Ride", "Support", "Where to Ride" — because the
+# walker matched any list of dicts carrying a name-ish key. Since a structured
+# hit SHORT-CIRCUITS link mining, this did not add noise, it REPLACED the
+# result the old path would have produced. Caught 8 companies into a 595-company
+# run.
+# --------------------------------------------------------------------------
+def test_navigation_menu_is_not_a_product_list():
+    nav = {"props": {"pageProps": {"nav": [
+        {"title": "How To Ride", "href": "/how-to-ride"},
+        {"title": "Know Your Ride", "href": "/know"},
+        {"title": "Support", "href": "/support"},
+    ]}}}
+    assert _walk_for_product_list(nav) is None
+
+
+def test_breadcrumb_shape_is_not_a_product_list():
+    crumbs = {"data": [{"name": "Home", "url": "/"},
+                       {"name": "Products", "url": "/products"}]}
+    assert _walk_for_product_list(crumbs) is None
+
+
+def test_list_with_product_fields_survives_the_nav_filter():
+    """A record carrying a product-shaped key is a catalogue even when it also
+    has a url — many real product feeds include a link."""
+    feed = {"data": {"items": [
+        {"name": "Arm 5", "url": "/p/arm5", "payload_kg": 5, "image": "a.png"},
+        {"name": "Arm 7", "url": "/p/arm7", "payload_kg": 7, "image": "b.png"},
+    ]}}
+    rows = _walk_for_product_list(feed)
+    assert rows and len(rows) == 2
+
+
+# --------------------------------------------------------------------------
+# Nachi — WooCommerce attribute arrays
+#
+# Nachi types its specs as `attributes: [{name, terms:[{name}]}]`, which a
+# flat field-name mapping cannot see at all. Its product feed also mixes 5
+# controllers in with the 62 robots.
+# --------------------------------------------------------------------------
+NACHI_ROBOT = {
+    "name": "MZ35S",
+    "images": [{"src": "https://n.example.com/mz35s.png"}],
+    "attributes": [
+        {"name": "Reach", "terms": [{"name": "1882"}]},
+        {"name": "Payload", "terms": [{"name": "35"}]},
+        {"name": "Application", "terms": [{"name": "Dispensing"}, {"name": "Palletizing"}]},
+        {"name": "Mount", "terms": [{"name": "Floor"}]},
+    ],
+}
+NACHI_CONTROLLER = {
+    "name": "CFDQ Controller",
+    "images": [{"src": "https://n.example.com/cfdq.png"}],
+    # A controller carries the same attribute array shape, minus payload.
+    "attributes": [{"name": "Mount", "terms": [{"name": "Floor"}]}],
+}
+
+
+def _run(rows, cfg):
+    return ManufacturerAPIExtractor()._rows_to_products(
+        rows, page_url="https://n.example.com/", mappings=cfg.get("spec_mappings") or [],
+        image_url_template=cfg.get("image_url_template"), label="", cfg=cfg)
+
+
+def test_attr_lookup_flattens_woocommerce_terms():
+    flat = _attr_lookup(NACHI_ROBOT, make_nachi_config())
+    assert flat["payload"] == "35"
+    assert flat["reach"] == "1882"
+    assert flat["application"] == "Dispensing, Palletizing"
+
+
+def test_nachi_reads_specs_out_of_the_attribute_array():
+    p = _run([NACHI_ROBOT], make_nachi_config())[0]
+    assert (p.payload_kg, p.reach_mm) == (35.0, 1882.0)
+    # Applications are captured at extraction time, not re-derived from prose
+    # later: uses/industries must be filled from data we already hold.
+    assert p.extra["applications"] == "Dispensing, Palletizing"
+    assert p.extra["mounting"] == "Floor"
+
+
+def test_nachi_drops_controllers_via_missing_payload():
+    """The 5 controllers are exactly the rows with no payload attribute, so the
+    requirement doubles as the discriminator — no name blocklist to go stale."""
+    out = _run([NACHI_ROBOT, NACHI_CONTROLLER], make_nachi_config())
+    assert [p.name for p in out] == ["MZ35S"]
+
+
+def test_attribute_value_never_overwrites_a_mapped_field():
+    """A flat mapping is the more specific source; attributes only fill gaps."""
+    cfg = dict(make_nachi_config())
+    cfg["spec_mappings"] = [SpecMapping(name="x", applies_to=lambda r: True,
+                                        payload_field="true_payload")]
+    row = dict(NACHI_ROBOT, true_payload="35.5")
+    assert _run([row], cfg)[0].payload_kg == 35.5
+
+
+# --------------------------------------------------------------------------
+# Shared images
+#
+# Nachi's feed has several models pointing at the same *basename*
+# (robotproductspage.ai_.png) under different upload folders — those are
+# genuinely different files and must be KEPT. Only a repeated full URL is a
+# real collision, and it is correct for at most one of its claimants.
+# --------------------------------------------------------------------------
+def test_shared_image_url_is_dropped_from_every_claimant():
+    a = ExtractedProduct(name="A", source_url="x", image_urls=["http://c/shared.png"])
+    b = ExtractedProduct(name="B", source_url="x",
+                         image_urls=["http://c/shared.png", "http://c/b.png"])
+    assert _drop_shared_images([a, b]) == 2
+    assert a.image_urls == []
+    assert b.image_urls == ["http://c/b.png"]
+
+
+def test_same_basename_under_different_paths_is_not_shared():
+    a = ExtractedProduct(name="A", source_url="x", image_urls=["http://c/2023/07/p.png"])
+    b = ExtractedProduct(name="B", source_url="x", image_urls=["http://c/2025/07/p.png"])
+    assert _drop_shared_images([a, b]) == 0
+    assert a.image_urls and b.image_urls
+
+
+# --------------------------------------------------------------------------
+# Techman
+# --------------------------------------------------------------------------
+TECHMAN_ROW = {
+    "name": "TM5 - 700", "reach": 746, "payload": 6, "weight": 22, "ipiv": 54,
+    "typeName": "Regular", "feature": "Small Size, Big Capabilities",
+    "images": ["https://tm.example.com/tm5700.png"],
+    "applicationCategories": [{"name": "Assembly"}, {"name": "Inspection"},
+                              {"name": "Assembly"}],
+}
+
+
+def test_techman_normalises_the_spaced_hyphen_in_display_names():
+    """The API prints 'TM5 - 700'; every datasheet says 'TM5-700'. Importing the
+    spaced form would create a robot no search or dedupe key can match."""
+    assert _run([TECHMAN_ROW], make_techman_config())[0].name == "TM5-700"
+
+
+def test_techman_reads_typed_specs_and_applications():
+    p = _run([TECHMAN_ROW], make_techman_config())[0]
+    assert (p.payload_kg, p.reach_mm, p.dof) == (6.0, 746.0, 6)
+    assert p.extra["ip_rating"] == 54
+    assert p.extra["applications"] == "Assembly, Inspection"   # deduped, ordered
+    assert p.image_urls == ["https://tm.example.com/tm5700.png"]
+
+
+def test_techman_sends_the_content_language_header():
+    """Without it the endpoint answers 406 — which looks exactly like a bot
+    block and would otherwise trigger a pointless Playwright escalation."""
+    assert make_techman_config()["extra_headers"] == {"Content-Language": "en"}
+
+
+def test_constants_do_not_overwrite_a_value_the_source_supplied():
+    cfg = dict(make_techman_config())
+    cfg["spec_mappings"] = [SpecMapping(name="x", applies_to=lambda r: True,
+                                        dof_field="axes")]
+    p = _run([dict(TECHMAN_ROW, axes="7")], cfg)[0]
+    assert p.dof == 7, "a declared constant is a fallback, not an override"
+
+
+def test_hyundai_rows_still_match_after_nav_filter():
+    """The registered path must be unaffected by the nav discriminator."""
+    rows = [{"prdNm": "HDF4-5(HH4)", "prdTypeCd": "60010001", "prdBscSpec1": "4"},
+            {"prdNm": "HDF7-9(HH7)", "prdTypeCd": "60010001", "prdBscSpec1": "7"}]
+    assert _walk_for_product_list({"data": {"content": rows}}) is not None
+
+
+# --------------------------------------------------------------------------
+# DOF stated in copy but not typed as a field.
+#
+# Nachi's attribute array has no axis count, but the marketing sentence states
+# it. An UNANCHORED `(\d)-axis` search over the same text matches "J2-axis
+# encoder connector protector" and reported 6-axis arms as 1- and 7-axis, so
+# the match must be anchored to the product's own name.
+# --------------------------------------------------------------------------
+def test_dof_is_read_from_copy_when_anchored_to_the_product_name():
+    row = dict(NACHI_ROBOT, short_description=(
+        "<p>The MZ35S is a high-performance 6-axis industrial robot designed "
+        "for versatility.</p>"))
+    assert _run([row], make_nachi_config())[0].dof == 6
+
+
+def test_dof_ignores_axis_mentions_not_about_this_product():
+    row = dict(NACHI_ROBOT, short_description=(
+        "<p>When selecting option OP-P6-016 (J2-axis encoder connector "
+        "protector), the rating decreases.</p>"))
+    assert _run([row], make_nachi_config())[0].dof is None
+
+
+def test_dof_from_text_never_overrides_a_typed_value():
+    cfg = dict(make_nachi_config())
+    cfg["spec_mappings"] = [SpecMapping(name="x", applies_to=lambda r: True,
+                                        dof_field="axes")]
+    row = dict(NACHI_ROBOT, axes="4",
+               short_description="The MZ35S is a 6-axis industrial robot.")
+    assert _run([row], cfg)[0].dof == 4, "a typed field outranks prose"

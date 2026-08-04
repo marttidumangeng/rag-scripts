@@ -38,6 +38,7 @@ module so new call sites cannot quietly bypass the meter.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import threading
@@ -45,12 +46,39 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+try:  # POSIX only; Windows dev runs are single-process so the thread lock suffices
+    import fcntl
+except ImportError:
+    fcntl = None
+
 _RESEARCH_DIR = Path(__file__).resolve().parent
 STATE_PATH = _RESEARCH_DIR / "state" / "gemini_spend.json"
 
 DEFAULT_DAILY_BUDGET = 2500
 
 _LOCK = threading.Lock()
+
+
+@contextlib.contextmanager
+def _ledger_lock():
+    """Cross-PROCESS exclusive lock on the spend ledger.
+
+    Added 2026-08-04 when the VM pipeline split into two systemd loops
+    (discovery.service + enrichment.service) sharing this one ledger. The
+    thread lock no longer covers both writers, and a lost read-modify-write
+    UNDERCOUNTS — on a cost guard, the one direction that must never happen.
+    """
+    with _LOCK:
+        if fcntl is None:
+            yield
+            return
+        STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(STATE_PATH.with_suffix(".lock"), "a+") as lock_file:
+            fcntl.flock(lock_file, fcntl.LOCK_EX)
+            try:
+                yield
+            finally:
+                fcntl.flock(lock_file, fcntl.LOCK_UN)
 
 
 class SpendBudgetExceeded(RuntimeError):
@@ -92,11 +120,11 @@ def charge(kind: str = "generate_content") -> None:
     """Record one paid call; raise SpendBudgetExceeded when the day is spent.
 
     Charged BEFORE the call so exhaustion stops spend immediately rather than
-    one call late. Cross-process races can undercount slightly (two processes
-    reading the same value); acceptable for a guard whose job is stopping
-    runaway thousands, not accounting to the cent.
+    one call late. Serialized across processes via _ledger_lock — since the
+    discovery/enrichment service split, two loops write this ledger and a
+    lost update would undercount a cost guard.
     """
-    with _LOCK:
+    with _ledger_lock():
         data = _load()
         if data["calls"] >= _budget():
             raise SpendBudgetExceeded(
@@ -111,7 +139,7 @@ def charge(kind: str = "generate_content") -> None:
 
 def status() -> dict[str, Any]:
     """Today's usage — printed into every cycle log for same-hour visibility."""
-    with _LOCK:
+    with _ledger_lock():
         data = _load()
     return {**data, "budget": _budget()}
 

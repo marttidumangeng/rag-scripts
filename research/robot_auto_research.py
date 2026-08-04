@@ -1052,6 +1052,15 @@ class RobotAutoResearcher:
                 robot_id=robot_id,
             )
 
+        # HARD RULE (Martti, 2026-08-03): no research output may leave features
+        # blank when OEM description text exists. GENERATED distinct bullets,
+        # never a copy — features==description is itself a server quality flag
+        # (features_duplicates_description), so the naive promotion just traded
+        # one To Review warning for another. features_gen verifies distinctness.
+        if not (staged.features or "").strip():
+            from features_gen import features_from_text
+            staged.features = features_from_text(staged.name, staged.description or "")
+
         return staged
 
     def _grounded_product_url(

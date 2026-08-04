@@ -84,7 +84,13 @@ _PRODUCT_SIGNALS = re.compile(
     re.I,
 )
 _SKIP_SIGNALS = re.compile(
+    # cases/case-studies/applications: deployment stories, not product pages —
+    # they carry install-site nicknames instead of product names (Qin Feng
+    # 2026-08-03: a /cases/ page yielded "Old Treasure Little Yellow Man", a
+    # literal translation of the Chinese nickname for a robot that already
+    # existed under its real model code).
     r"/(blog|news|press|career|about|contact|privacy|cookie|"
+    r"cases?|case-stud(?:y|ies)|success-stor(?:y|ies)|"
     r"login|register|faq|glossary|tag|category|search|page)/",
     re.I,
 )
@@ -485,16 +491,24 @@ def _model_code_set(name: str) -> frozenset[str]:
     code does not. Tokens without a digit ("exoiq", "shoulder") are excluded —
     they're branding/description, not identity.
     """
-    tokens = re.split(r"[^a-z0-9]+", (name or "").lower())
+    # Split on WHITESPACE, not hyphens: a hyphenated model string is ONE code.
+    # Hyphen-splitting reduced 'QF-GJ-J-DL-1400-10-4/5' to {1400}, making every
+    # DL/YT/MD/H variant of the 1400 series "the same product" — 5+ real
+    # variants were skipped at discovery on Hu Nan Qin Feng (2026-08-03),
+    # directly violating the variants-are-separate-rows policy.
+    tokens = re.split(r"\s+", (name or "").lower())
 
     def _is_code(t: str) -> bool:
+        t = re.sub(r"[^a-z0-9]", "", t)
         if not t or not any(c.isdigit() for c in t):
             return False  # no digits = branding/description word
         if t.isdigit() and len(t) < 3:
             return False  # bare small numbers ("2", "24") are counts, not codes
         return True
 
-    return frozenset(t for t in tokens if _is_code(t))
+    return frozenset(
+        re.sub(r"[^a-z0-9]", "", t) for t in tokens if _is_code(t)
+    )
 
 
 # Tokens that make a same-code name a DIFFERENT product (a variant), not a
@@ -872,6 +886,13 @@ def _write_staging(
             model_name=robot.get("model_name") or "",
             company_website=company_website,
         )
+        # Search results bypass the crawl-time URL filter — apply it here too.
+        # Serper happily returns /about/, /news/, /cases/ pages as "the product
+        # URL", and Qin Feng (2026-08-03) got a whole shadow product series
+        # extracted from its About page's company-history section that way.
+        if searched and _SKIP_SIGNALS.search(searched):
+            print(f"        search returned non-product page, discarded: {searched}")
+            searched = None
         if searched:
             product_url = searched
             print(f"        product URL via search: {searched}")
@@ -1023,6 +1044,17 @@ def _write_staging(
     if vid_urls and not staged.video_urls:
         from schema import VideoRef
         staged.video_urls = [VideoRef(url=u, title=_youtube_title(u)) for u in vid_urls[:3]]
+
+    # HARD RULE (Martti, 2026-08-03): Discovery must never emit a robot with
+    # blank features. When the extractor found none, GENERATE distinct feature
+    # bullets from the description — never a literal copy, which the server's
+    # `features_duplicates_description` flag forbids (a naive copy shipped for
+    # a few hours on 2026-08-03 and immediately produced that flag on Edge
+    # Medical). features_gen verifies distinctness with the server's own
+    # checker; '' -> the import gate holds the row.
+    if not (staged.features or "").strip():
+        from features_gen import features_from_text
+        staged.features = features_from_text(staged.name, staged.description or "")
 
     out_dir = STAGING_ROBOTS / company_slug
     out_dir.mkdir(parents=True, exist_ok=True)

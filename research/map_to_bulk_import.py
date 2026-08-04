@@ -21,12 +21,26 @@ def _join_sources(robot: StagedRobot) -> str:
     return "|".join(s.url for s in robot.sources if s.url)
 
 
+def _strip_prefix(text: str) -> str:
+    """Drop a leading '[AI Research]' the writer already added.
+
+    This function re-adds the prefix below, so a staging writer that spells it
+    out itself produced "[AI Research] [AI Research] Ingested from ...". Three
+    writers do (including manufacturer_gap_discovery, the broad workflow), so
+    the fix belongs here rather than in each of them.
+    """
+    stripped = text.lstrip()
+    if stripped.startswith(AI_RESEARCH_PREFIX):
+        return stripped[len(AI_RESEARCH_PREFIX):].lstrip()
+    return text
+
+
 def _build_notes(robot: StagedRobot) -> str:
     parts: list[str] = []
     if robot.notes:
-        parts.append(robot.notes)
+        parts.append(_strip_prefix(robot.notes))
     if robot.research_notes:
-        parts.append(robot.research_notes)
+        parts.append(_strip_prefix(robot.research_notes))
     source_urls = _join_sources(robot)
     if source_urls:
         parts.append(f"Sources: {source_urls.replace('|', ' | ')}")

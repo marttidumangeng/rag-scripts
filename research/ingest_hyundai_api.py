@@ -261,11 +261,20 @@ def main() -> None:
             apps = [APP_CODES[c] for c in (x.get("prdApField") or "").split("|") if c in APP_CODES]
 
             bd = x.get("bdContent") or {}
-            thumb_seq = bd.get("bdcThumbFile1Seq")
             images: list[ImageCandidate] = []
-            if thumb_seq:
+            # DO NOT use bdcThumbFile1Seq / the /file/ck/view/<seq> endpoint:
+            # its metadata NAMES the product render, but the endpoint SERVES
+            # the corporate logo (verified by eye 2026-08-04 — 8 robots got the
+            # HD Hyundai logo installed as their hero this way, twice). The real
+            # product render is attachments[0].fileDwLink — a PRE-SIGNED S3 URL
+            # with ~6h expiry, so whoever imports this staging MUST run
+            # copy-media immediately; a stored signed URL is a dead gallery by
+            # the next day (also verified the hard way).
+            att = (bd.get("attachments") or [{}])[0]
+            dw_link = att.get("fileDwLink")
+            if dw_link:
                 images.append(ImageCandidate(
-                    url=IMG.format(seq=thumb_seq),
+                    url=dw_link,
                     source_page_url=f"{BASE}/biz/product/{code}",
                     source_tier="manufacturer",
                     source_publisher="HD Hyundai Robotics",
@@ -273,7 +282,8 @@ def main() -> None:
                     media_class="official_render",
                     image_scope="exact_variant",
                     confidence_score=88,
-                    match_reason="Official product thumbnail from manufacturer product API",
+                    match_reason=f"Product attachment {att.get('fileOriNm', '')} from manufacturer API "
+                                 "(SIGNED URL, ~6h expiry — copy-media immediately after import)",
                     rights_status="official_source",
                 ))
 
@@ -344,6 +354,9 @@ def main() -> None:
     print(f"\ncatalogue total: {sum(counts.values())}")
     print(f"already held (skipped as duplicates): {len(skipped_dup)} -> {skipped_dup}")
     print(f"NEW staged: {len(staged)}")
+    if not staged:
+        print("  nothing new to stage — all catalogue models already exist in the DB")
+        return
     print(f"  with payload+reach: {with_specs} ({round(100*with_specs/len(staged))}%)")
     print(f"  with official image: {with_img} ({round(100*with_img/len(staged))}%)")
     print(f"\nWrote {STAGED}")
