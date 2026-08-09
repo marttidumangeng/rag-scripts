@@ -176,17 +176,27 @@ def run_queue_mode(client: ResearchApiClient, args) -> int:
 
     _p(f"=== Queue remediation ({'APPLY' if args.apply else 'DRY-RUN'}) ===")
     by_company: dict[int, dict] = {}
-    page = 1
-    while page <= args.scan_pages:
-        for attempt in range(4):
-            try:
-                data = client._get("robots/robots/", params={
-                    "status": "pending_review", "page": page, "page_size": 50})
+    # Draft-first pipeline (2026-08-05): drafts are where discovery imports now
+    # live until promoted, so remediation must work BOTH lanes. Drafts scan
+    # first — completing them is what feeds the promotion gate.
+    scan_batches: list[dict] = []
+    for _status in ("draft", "pending_review"):
+        page = 1
+        while page <= args.scan_pages:
+            for attempt in range(4):
+                try:
+                    data = client._get("robots/robots/", params={
+                        "status": _status, "page": page, "page_size": 50})
+                    break
+                except Exception:
+                    _time.sleep(2 ** attempt)
+            else:
                 break
-            except Exception:
-                _time.sleep(2 ** attempt)
-        else:
-            break
+            scan_batches.append(data)
+            if not data.get("next"):
+                break
+            page += 1
+    for data in scan_batches:
         for r in data.get("results") or []:
             cref = r.get("company_ref") if isinstance(r.get("company_ref"), dict) else {}
             cid, website = cref.get("id"), (cref.get("website") or "").strip()
@@ -216,9 +226,6 @@ def run_queue_mode(client: ResearchApiClient, args) -> int:
                 "robots": [],
             })
             e["robots"].append(r)
-        if not data.get("next"):
-            break
-        page += 1
 
     # Companies someone else has locked for exclusive manual work (see
     # company_locks.py) — a stale-snapshot write from this loop is exactly

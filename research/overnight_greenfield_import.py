@@ -163,11 +163,14 @@ def _website_plausibly_matches_company(website: str, company_name: str) -> bool:
 
     # Tokenise the company name (split on non-alphanumeric)
     name_tokens = set(re.sub(r"[^a-z0-9]+", " ", company_name.lower()).split())
-    # Remove generic stop-words
-    _stop = {"co", "com", "ltd", "inc", "corp", "group", "robot", "robotics",
-             "ai", "tech", "technology", "technologies", "systems", "the",
-             "industries", "industry", "global", "international"}
-    name_tokens -= _stop
+    # Remove generic stop-words — the SHARED list from company_website_resolve,
+    # not a local copy. The two lists had drifted: this one lacked the
+    # academic/geo generics, so "Korea Institute of Science & Technology"
+    # kept the token "science", which substring-matched dongascience.com (a
+    # news outlet) and let discovery create two junk robots under KIST
+    # (2026-08-04). One list, one place to fix.
+    from company_website_resolve import _STOP_TOKENS
+    name_tokens -= _STOP_TOKENS
 
     if not name_tokens:
         # Every token was generic ("Robot.com" -> {robot, com}, both stop-words).
@@ -198,7 +201,7 @@ def _website_plausibly_matches_company(website: str, company_name: str) -> bool:
     # Check 2: the domain base (or significant portion) appears in the company name
     # (handles e.g. kondo-robot.com → kondo appears in "Kondo Kagaku")
     domain_tokens = set(re.sub(r"[^a-z0-9]+", " ", domain_base).split())
-    domain_tokens -= _stop
+    domain_tokens -= _STOP_TOKENS
     for tok in domain_tokens:
         if len(tok) >= 4 and tok in company_name.lower():
             return True
@@ -471,11 +474,17 @@ def process_company(
             # extraction produced none of the easy fields.
             from import_staging import import_staging as _import_staging
             staged_now = [Path(p) for p in disc.get("staged_files") or [] if Path(p).is_file()]
+            # DRAFT-FIRST (2026-08-05, Martti): discovery imports land as
+            # drafts, INVISIBLE to the Content Queue. Enrichment/remediation
+            # complete them in the draft lane, and promote_drafts.py moves a
+            # robot to pending_review only when its required set is filled AND
+            # server-side AI verification scores >= its gate. The queue shows
+            # finished candidates, not works-in-progress.
             imp1 = _import_staging(
                 staged_now,
                 dry_run=dry_run,
                 patch=True,
-                status="pending_review",
+                status="draft",
                 created_by_id=created_by_id,
                 block_skeletons=True,
             )

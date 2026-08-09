@@ -1,0 +1,1737 @@
+{
+ "date": "2026-08-06",
+ "registry": "registry_v4_20260805.csv",
+ "stats": {
+  "due": 165,
+  "rss": 14,
+  "scrape_changed": 11,
+  "no_change": 36,
+  "not_modified_304": 9,
+  "baseline": 31,
+  "needs_browser": 14,
+  "errors": 50,
+  "deadline_abandoned": 0,
+  "candidates": 97,
+  "candidates_dropped_over_cap": 0
+ },
+ "candidates": [
+  {
+   "source": "AgiBot",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.agibot.com/news",
+   "url": "https://www.agibot.com/products/A3",
+   "title": "AGIBOT Innovation (Shanghai) Technology Co., Ltd. -AGIBOT Innovation (Shanghai) Technology Co., Ltd.",
+   "published": "",
+   "via": "scrape",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "AgiBot",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.agibot.com/news",
+   "url": "https://www.agibot.com/products/A3",
+   "title": "AGIBOT Innovation (Shanghai) Technology Co., Ltd. -AGIBOT Innovation (Shanghai) Technology Co., Ltd.",
+   "published": "",
+   "via": "scrape",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "AgiBot",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.agibot.com/news",
+   "url": "https://www.agibot.com/products/A3",
+   "title": "AGIBOT Innovation (Shanghai) Technology Co., Ltd. -AGIBOT Innovation (Shanghai) Technology Co., Ltd.",
+   "published": "",
+   "via": "scrape",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/commonUrl/pageOfSearch?url=disclosure/list/search&checkedCategory=category_qyfpxzcs_szsh",
+   "title": "巨潮资讯网",
+   "published": "",
+   "via": "scrape",
+   "description": "巨潮资讯网是中国证监会指定的上市公司信息披露网站，平台提供上市公司公告、公司资讯、公司互动、股东大会网络投票等内容功能，一站式服务资本市场投资者。",
+   "og_image": "",
+   "keyword_hits": [
+    "公告"
+   ]
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=300735&orgId=9900034588",
+   "title": "巨潮资讯网",
+   "published": "",
+   "via": "scrape",
+   "description": "巨潮资讯网是中国证监会指定的上市公司信息披露网站，平台提供上市公司公告、公司资讯、公司互动、股东大会网络投票等内容功能，一站式服务资本市场投资者。",
+   "og_image": "",
+   "keyword_hits": [
+    "公告"
+   ]
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=300735&orgId=9900034588",
+   "title": "巨潮资讯网",
+   "published": "",
+   "via": "scrape",
+   "description": "巨潮资讯网是中国证监会指定的上市公司信息披露网站，平台提供上市公司公告、公司资讯、公司互动、股东大会网络投票等内容功能，一站式服务资本市场投资者。",
+   "og_image": "",
+   "keyword_hits": [
+    "公告"
+   ]
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300735&orgId=9900034588&announcementId=1225462691&announcementTime=2026-08-07",
+   "title": "巨潮资讯网",
+   "published": "",
+   "via": "scrape",
+   "description": "巨潮资讯网是中国证监会指定的上市公司信息披露网站，平台提供上市公司公告、公司资讯、公司互动、股东大会网络投票等内容功能，一站式服务资本市场投资者。",
+   "og_image": "",
+   "keyword_hits": [
+    "公告"
+   ]
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/commonUrl/pageOfSearch?url=disclosure/list/search&code=300735&name=光弘科技&orgId=9900034588&startDate=2026-08-07&endDate=2026-08-07",
+   "title": "08-07",
+   "published": "",
+   "via": "scrape",
+   "keyword_hits": []
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=600063&orgId=gssh0600063",
+   "title": "巨潮资讯网",
+   "published": "",
+   "via": "scrape",
+   "description": "巨潮资讯网是中国证监会指定的上市公司信息披露网站，平台提供上市公司公告、公司资讯、公司互动、股东大会网络投票等内容功能，一站式服务资本市场投资者。",
+   "og_image": "",
+   "keyword_hits": [
+    "公告"
+   ]
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=600063&orgId=gssh0600063",
+   "title": "巨潮资讯网",
+   "published": "",
+   "via": "scrape",
+   "description": "巨潮资讯网是中国证监会指定的上市公司信息披露网站，平台提供上市公司公告、公司资讯、公司互动、股东大会网络投票等内容功能，一站式服务资本市场投资者。",
+   "og_image": "",
+   "keyword_hits": [
+    "公告"
+   ]
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600063&orgId=gssh0600063&announcementId=1225462684&announcementTime=2026-08-07",
+   "title": "巨潮资讯网",
+   "published": "",
+   "via": "scrape",
+   "description": "巨潮资讯网是中国证监会指定的上市公司信息披露网站，平台提供上市公司公告、公司资讯、公司互动、股东大会网络投票等内容功能，一站式服务资本市场投资者。",
+   "og_image": "",
+   "keyword_hits": [
+    "公告"
+   ]
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/commonUrl/pageOfSearch?url=disclosure/list/search&code=600063&name=皖维高新&orgId=gssh0600063&startDate=2026-08-07&endDate=2026-08-07",
+   "title": "08-07",
+   "published": "",
+   "via": "scrape",
+   "keyword_hits": []
+  },
+  {
+   "source": "CNINFO",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.cninfo.com.cn/new/index",
+   "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=688018&orgId=9900039017",
+   "title": "巨潮资讯网",
+   "published": "",
+   "via": "scrape",
+   "description": "巨潮资讯网是中国证监会指定的上市公司信息披露网站，平台提供上市公司公告、公司资讯、公司互动、股东大会网络投票等内容功能，一站式服务资本市场投资者。",
+   "og_image": "",
+   "keyword_hits": [
+    "公告"
+   ]
+  },
+  {
+   "source": "Shanghai Gov",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.shanghai.gov.cn/nw12344/index.html",
+   "url": "https://www.shanghai.gov.cn/nw12344/20260806/3609bd240b8b472781cedfbdce00359c.html",
+   "title": "普陀区民政局关于印发《普陀区老龄事业发展“十五五”规划》的通知",
+   "published": "2026-08-05 14∶08",
+   "via": "scrape",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Shanghai Gov",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.shanghai.gov.cn/nw12344/index.html",
+   "url": "https://www.shanghai.gov.cn/nw12344/20260806/3609bd240b8b472781cedfbdce00359c.html",
+   "title": "普陀区民政局关于印发《普陀区老龄事业发展“十五五”规划》的通知",
+   "published": "2026-08-05 14∶08",
+   "via": "scrape",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Shanghai Gov",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.shanghai.gov.cn/nw12344/index.html",
+   "url": "https://www.shanghai.gov.cn/wzjd/20260806/83eb0e176a484141ae2410a98e4fc034.html",
+   "title": "《普陀区老龄事业发展“十五五”规划》政策解读",
+   "published": "2026-08-05 16∶08",
+   "via": "scrape",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "State Council",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.gov.cn/zhengce/",
+   "url": "https://www.gov.cn/zhengce/202608/content_7077560.htm",
+   "title": "这份规划，为“十五五”气象观测建设划重点_政策解读_中国政府网",
+   "published": "",
+   "via": "scrape",
+   "description": "近日，中国气象局与国家发展和改革委员会联合发布《国家综合气象观测系统建设“十五五”规划》，对未来五年国家综合气象观测系统建设作出部署。",
+   "og_image": "https://www.gov.cn/images/150.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "State Council",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.gov.cn/zhengce/",
+   "url": "https://www.gov.cn/zhengce/202608/content_7077560.htm",
+   "title": "这份规划，为“十五五”气象观测建设划重点_政策解读_中国政府网",
+   "published": "",
+   "via": "scrape",
+   "description": "近日，中国气象局与国家发展和改革委员会联合发布《国家综合气象观测系统建设“十五五”规划》，对未来五年国家综合气象观测系统建设作出部署。",
+   "og_image": "https://www.gov.cn/images/150.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "State Council",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.gov.cn/zhengce/",
+   "url": "https://www.gov.cn/zhengce/jiedu/tujie/202608/content_7077564.htm",
+   "title": "图表：这份规划，为“十五五”气象观测建设划重点__中国政府网",
+   "published": "",
+   "via": "scrape",
+   "description": "近日，中国气象局与国家发展和改革委员会联合发布《国家综合气象观测系统建设“十五五”规划》，对未来五年国家综合气象观测系统建设作出部署，加快构建陆海空天一体化、多行业协同、智能高效精准的现代化综合气象观测体系。",
+   "og_image": "https://www.gov.cn/images/150.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "State Council",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.gov.cn/zhengce/",
+   "url": "https://www.gov.cn/zhengce/jiedu/tujie/202608/content_7077564.htm",
+   "title": "图表：这份规划，为“十五五”气象观测建设划重点__中国政府网",
+   "published": "",
+   "via": "scrape",
+   "description": "近日，中国气象局与国家发展和改革委员会联合发布《国家综合气象观测系统建设“十五五”规划》，对未来五年国家综合气象观测系统建设作出部署，加快构建陆海空天一体化、多行业协同、智能高效精准的现代化综合气象观测体系。",
+   "og_image": "https://www.gov.cn/images/150.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "State Council",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.gov.cn/zhengce/",
+   "url": "https://www.gov.cn/zhengce/jiedu/tujie/202608/content_7077564.htm",
+   "title": "图表：这份规划，为“十五五”气象观测建设划重点__中国政府网",
+   "published": "",
+   "via": "scrape",
+   "description": "近日，中国气象局与国家发展和改革委员会联合发布《国家综合气象观测系统建设“十五五”规划》，对未来五年国家综合气象观测系统建设作出部署，加快构建陆海空天一体化、多行业协同、智能高效精准的现代化综合气象观测体系。",
+   "og_image": "https://www.gov.cn/images/150.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "State Council",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "http://www.gov.cn/zhengce/",
+   "url": "https://www.gov.cn/zhengce/jiedu/tujie/202608/content_7077564.htm",
+   "title": "图表：这份规划，为“十五五”气象观测建设划重点__中国政府网",
+   "published": "",
+   "via": "scrape",
+   "description": "近日，中国气象局与国家发展和改革委员会联合发布《国家综合气象观测系统建设“十五五”规划》，对未来五年国家综合气象观测系统建设作出部署，加快构建陆海空天一体化、多行业协同、智能高效精准的现代化综合气象观测体系。",
+   "og_image": "https://www.gov.cn/images/150.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81610",
+   "title": "Hiroshima urges leaders to abolish nuclear weapons on 81st A-bomb anniv.",
+   "published": "",
+   "via": "scrape",
+   "description": "Hiroshima on Thursday urged world leaders to abolish nuclear weapons amid rising global tensions, as the city marked the 81st anniversary of the U.S. atomic bombing, lamenting their use as \"tools of intimidation\" in military conflicts and how \"imperious actions by major powers\" violate international law.",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/9/4/1200x/img_942bc736b4bed252f28fe61a252b146d1023408.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81610",
+   "title": "Hiroshima urges leaders to abolish nuclear weapons on 81st A-bomb anniv.",
+   "published": "",
+   "via": "scrape",
+   "description": "Hiroshima on Thursday urged world leaders to abolish nuclear weapons amid rising global tensions, as the city marked the 81st anniversary of the U.S. atomic bombing, lamenting their use as \"tools of intimidation\" in military conflicts and how \"imperious actions by major powers\" violate international law.",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/9/4/1200x/img_942bc736b4bed252f28fe61a252b146d1023408.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81611",
+   "title": "Kyodo News Digest: Aug. 6, 2026",
+   "published": "",
+   "via": "scrape",
+   "description": "The following is the latest list of selected news summaries by Kyodo News.",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/3/4/1200x/img_346a2e8aeb4cd788a569282e46f3664e942059.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81611",
+   "title": "Kyodo News Digest: Aug. 6, 2026",
+   "published": "",
+   "via": "scrape",
+   "description": "The following is the latest list of selected news summaries by Kyodo News.",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/3/4/1200x/img_346a2e8aeb4cd788a569282e46f3664e942059.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81596",
+   "title": "FOCUS: Japan",
+   "published": "",
+   "via": "scrape",
+   "description": "Prime Minister Sanae Takaichi has decided to cut the consumption tax on food and beverages for two years starting next April, but the measure she described as \"temporary\" could become a vote-winning tool in future elections and remain in place beyond the intended period.",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/a/d/1200x/img_ad19919a3a38200504cbcb262be96b962742759.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81596",
+   "title": "FOCUS: Japan",
+   "published": "",
+   "via": "scrape",
+   "description": "Prime Minister Sanae Takaichi has decided to cut the consumption tax on food and beverages for two years starting next April, but the measure she described as \"temporary\" could become a vote-winning tool in future elections and remain in place beyond the intended period.",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/a/d/1200x/img_ad19919a3a38200504cbcb262be96b962742759.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81683",
+   "title": "N. Korea fires ballistic missile, no damage confirmed in Japan",
+   "published": "",
+   "via": "scrape",
+   "description": "North Korea on Thursday fired at least one ballistic missile, with no projectile believed to have fallen within Japan",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/7/e/1200x/img_7e783c381b0db1d4845e48321983c70c1292226.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81683",
+   "title": "N. Korea fires ballistic missile, no damage confirmed in Japan",
+   "published": "",
+   "via": "scrape",
+   "description": "North Korea on Thursday fired at least one ballistic missile, with no projectile believed to have fallen within Japan",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/7/e/1200x/img_7e783c381b0db1d4845e48321983c70c1292226.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81686",
+   "title": "Basketball: Hachimura eyes 2028 Olympics as",
+   "published": "",
+   "via": "scrape",
+   "description": "Los Angeles Clippers star Rui Hachimura on Thursday reaffirmed his determination to compete at the 2028 Los Angeles Olympics as he committed to rejoining the Japanese men",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/4/0/1200x/img_40307b700d30394289c53d2b55f70ec71012487.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Kyodo News",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://english.kyodonews.net/",
+   "url": "https://english.kyodonews.net/articles/-/81686",
+   "title": "Basketball: Hachimura eyes 2028 Olympics as",
+   "published": "",
+   "via": "scrape",
+   "description": "Los Angeles Clippers star Rui Hachimura on Thursday reaffirmed his determination to compete at the 2028 Los Angeles Olympics as he committed to rejoining the Japanese men",
+   "og_image": "https://english-kyodo.ismcdn.jp/mwimgs/4/0/1200x/img_40307b700d30394289c53d2b55f70ec71012487.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/politics/international-relations/thailand-throws-myanmar-s-min-aung-hlaing-a-diplomatic-lifeline",
+   "title": "Thailand throws Myanmar's Min Aung Hlaing a diplomatic lifeline - Nikkei Asia",
+   "published": "2026-08-06T21:48:36.000+09:00",
+   "via": "scrape",
+   "description": "Bangkok hosts president of its biggest neighbor to be 'proactive' on peace",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fcms-image-bucket-productionv3-ap-northeast-1-a7d2.s3.ap-northeast-1.amazonaws.com%2Fimages%2F2%2F9%2F1%2F7%2F12947192-1-eng-GB%2F859964e6811b-2H6A1603.jpg?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=1260&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/politics/international-relations",
+   "title": "International relations: News & Insights - Nikkei Asia",
+   "published": "",
+   "via": "scrape",
+   "description": "Japan, China, India and Southeast Asia news and expert analysis published by Nikkei, an award-winning independent provider of quality journalism.",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fasia.nikkei.com%2Fimages%2Ffrontend%2Ffavicons%2F630x630.png?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=630&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/politics/international-relations/thailand-throws-myanmar-s-min-aung-hlaing-a-diplomatic-lifeline",
+   "title": "Thailand throws Myanmar's Min Aung Hlaing a diplomatic lifeline - Nikkei Asia",
+   "published": "2026-08-06T21:48:36.000+09:00",
+   "via": "scrape",
+   "description": "Bangkok hosts president of its biggest neighbor to be 'proactive' on peace",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fcms-image-bucket-productionv3-ap-northeast-1-a7d2.s3.ap-northeast-1.amazonaws.com%2Fimages%2F2%2F9%2F1%2F7%2F12947192-1-eng-GB%2F859964e6811b-2H6A1603.jpg?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=1260&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/spotlight/myanmar-crisis/myanmar-moves-toward-jet-fuel-self-sufficiency-with-thanlyin-refinery",
+   "title": "Myanmar moves toward jet-fuel self-sufficiency with Thanlyin refinery - Nikkei Asia",
+   "published": "2026-08-06T10:49:19.000+09:00",
+   "via": "scrape",
+   "description": "Project is expected to sharply reduce import dependence and further undermine sanctions",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fcms-image-bucket-productionv3-ap-northeast-1-a7d2.s3.ap-northeast-1.amazonaws.com%2Fimages%2F0%2F1%2F3%2F1%2F12941310-1-eng-GB%2F856ecd4c5081-2026-08-05-10.38.13.png?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=1260&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/spotlight/iran-tensions/iran-war/how-the-us-iran-war-has-redrawn-asia-s-energy-map",
+   "title": "How the US-Iran war has redrawn Asia's energy map - Nikkei Asia",
+   "published": "2026-08-06T17:25:34.000+09:00",
+   "via": "scrape",
+   "description": "Higher oil imports from Russia, US have partially offset fall in total shipments",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fcms-image-bucket-productionv3-ap-northeast-1-a7d2.s3.ap-northeast-1.amazonaws.com%2Fimages%2F3%2F6%2F0%2F7%2F12947063-1-eng-GB%2F1c5929fd32f1-2026-07-08T110350Z_828356349_RC2TVKAXZAWN_RTRMADP_3_OIL-RESEARCH-HSBC.JPG?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=1260&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/spotlight/iran-tensions/iran-war",
+   "title": "Iran war: News & Insights - Nikkei Asia",
+   "published": "",
+   "via": "scrape",
+   "description": "Japan, China, India and Southeast Asia news and expert analysis published by Nikkei, an award-winning independent provider of quality journalism.",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fasia.nikkei.com%2Fimages%2Ffrontend%2Ffavicons%2F630x630.png?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=630&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/spotlight/iran-tensions/iran-war/how-the-us-iran-war-has-redrawn-asia-s-energy-map",
+   "title": "How the US-Iran war has redrawn Asia's energy map - Nikkei Asia",
+   "published": "2026-08-06T17:25:34.000+09:00",
+   "via": "scrape",
+   "description": "Higher oil imports from Russia, US have partially offset fall in total shipments",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fcms-image-bucket-productionv3-ap-northeast-1-a7d2.s3.ap-northeast-1.amazonaws.com%2Fimages%2F3%2F6%2F0%2F7%2F12947063-1-eng-GB%2F1c5929fd32f1-2026-07-08T110350Z_828356349_RC2TVKAXZAWN_RTRMADP_3_OIL-RESEARCH-HSBC.JPG?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=1260&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/business/markets/wealth-management/china-s-tax-dragnet-rattles-market-as-offshore-trusts-insurance-targeted",
+   "title": "China's tax dragnet rattles market as offshore trusts, insurance targeted - Nikkei Asia",
+   "published": "2026-08-06T17:53:20.000+09:00",
+   "via": "scrape",
+   "description": "Hong Kong insurer and bank shares drop sharply on signs of widening enforcement",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fcms-image-bucket-productionv3-ap-northeast-1-a7d2.s3.ap-northeast-1.amazonaws.com%2Fimages%2F9%2F6%2F2%2F7%2F12947269-1-eng-GB%2Fa1a6db58088e-2021-08-20T022913Z_184261141_RC2Z6P9IPF0M_RTRMADP_3_HONGKONG-SECURITY-SANCTIONS.JPG?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=1260&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/business/markets/wealth-management/china-s-tax-dragnet-rattles-market-as-offshore-trusts-insurance-targeted",
+   "title": "China's tax dragnet rattles market as offshore trusts, insurance targeted - Nikkei Asia",
+   "published": "2026-08-06T17:53:20.000+09:00",
+   "via": "scrape",
+   "description": "Hong Kong insurer and bank shares drop sharply on signs of widening enforcement",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fcms-image-bucket-productionv3-ap-northeast-1-a7d2.s3.ap-northeast-1.amazonaws.com%2Fimages%2F9%2F6%2F2%2F7%2F12947269-1-eng-GB%2Fa1a6db58088e-2021-08-20T022913Z_184261141_RC2Z6P9IPF0M_RTRMADP_3_HONGKONG-SECURITY-SANCTIONS.JPG?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=1260&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Nikkei",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://asia.nikkei.com/",
+   "url": "https://asia.nikkei.com/business/china-tech/ai-becomes-bigger-headache-than-tariffs-for-china-camera-maker-insta360",
+   "title": "AI becomes bigger headache than tariffs for China camera maker Insta360 - Nikkei Asia",
+   "published": "2026-08-06T21:29:45.000+09:00",
+   "via": "scrape",
+   "description": "Rising chip costs squeeze margins even as 360-degree camera leader accelerates US growth",
+   "og_image": "https://images.ft.com/v3/image/raw/https%3A%2F%2Fcms-image-bucket-productionv3-ap-northeast-1-a7d2.s3.ap-northeast-1.amazonaws.com%2Fimages%2F8%2F4%2F5%2F0%2F12940548-1-eng-GB%2F6a2fdfb2ec24-18.jpg?fit=cover&gravity=faces&dpr=2&quality=medium&source=nar-cms&format=auto&width=1260&height=630",
+   "keyword_hits": []
+  },
+  {
+   "source": "Ministry of Science and ICT (MSIT)",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://www.msit.go.kr/bbs/list.do?sCode=user&mId=307&mPid=208",
+   "url": "https://www.msit.go.kr/bbs/list.do?pageIndex=1740",
+   "title": "시스템 점검 안내 | 과학기술정보통신부",
+   "published": "",
+   "via": "scrape",
+   "description": "과학기술정보통신부",
+   "og_image": "",
+   "keyword_hits": [
+    "과학기술"
+   ]
+  },
+  {
+   "source": "Ministry of Trade, Industry and Energy (MOTIE)",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://www.motir.go.kr/kor/article/ATCL3f49a5a8c",
+   "url": "https://www.motir.go.kr/attach/down/095a2dda9c864e1d90d751f7668a1117/8a10322ba650b877bebdf9c7cf964345",
+   "title": "",
+   "published": "",
+   "via": "scrape",
+   "keyword_hits": []
+  },
+  {
+   "source": "Ministry of Trade, Industry and Energy (MOTIE)",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://www.motir.go.kr/kor/article/ATCL3f49a5a8c",
+   "url": "https://www.motir.go.kr/attach/down/095a2dda9c864e1d90d751f7668a1117/c871ea8a8a14fd7634e473b3ccc45ef1",
+   "title": "",
+   "published": "",
+   "via": "scrape",
+   "keyword_hits": []
+  },
+  {
+   "source": "Ministry of Trade, Industry and Energy (MOTIE)",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://www.motir.go.kr/kor/article/ATCL3f49a5a8c",
+   "url": "https://www.motir.go.kr/attach/down/095a2dda9c864e1d90d751f7668a1117/ad090c2b6341437f95b4ff0c7ee47f40",
+   "title": "",
+   "published": "",
+   "via": "scrape",
+   "keyword_hits": []
+  },
+  {
+   "source": "Ministry of Trade, Industry and Energy (MOTIE)",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://www.motir.go.kr/kor/article/ATCL3f49a5a8c",
+   "url": "https://www.motir.go.kr/kor/article/ATCL3f49a5a8c?pageIndex=2997",
+   "title": "산업통상부",
+   "published": "",
+   "via": "scrape",
+   "description": "산업통상부",
+   "og_image": "https://www.motir.go.kr/images/core/logo.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/index.gyeong?contentsSid=6949&cate_gy=all&keyword=%EC%B0%BD%EC%9B%90%EA%B5%AD%EA%B0%80%EC%82%B0%EB%8B%A8",
+   "title": "통합검색 - 경상남도 대표 홈페이지",
+   "published": "",
+   "via": "scrape",
+   "description": "경상남도 대표 포털 홈페이지",
+   "og_image": "http://gyeongnam.go.kr/01_potal/images/content/logo_.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/index.gyeong?contentsSid=6949&cate_gy=all&keyword=%EC%99%84%EB%A3%8C%EC%8B%9C",
+   "title": "통합검색 - 경상남도 대표 홈페이지",
+   "published": "",
+   "via": "scrape",
+   "description": "경상남도 대표 포털 홈페이지",
+   "og_image": "http://gyeongnam.go.kr/01_potal/images/content/logo_.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/index.gyeong?contentsSid=6949&cate_gy=all&keyword=%EC%9D%B8%EB%A0%A5%EC%A0%84%ED%99%98",
+   "title": "통합검색 - 경상남도 대표 홈페이지",
+   "published": "",
+   "via": "scrape",
+   "description": "경상남도 대표 포털 홈페이지",
+   "og_image": "http://gyeongnam.go.kr/01_potal/images/content/logo_.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/board/view.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000&paging=ok&startPage=1&searchType=&searchOperation=AND&keyword=&categoryCode1=A&dataSid=42405414",
+   "title": "경남소식 > 보도해명자료 > 보도자료 (상세보기) - 경상남도 대표 홈페이지",
+   "published": "",
+   "via": "scrape",
+   "description": "경상남도 대표 포털 홈페이지",
+   "og_image": "http://gyeongnam.go.kr/01_potal/images/content/logo_.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/board/download.gyeong?boardId=BBS_0000060&&dataSid=42405414&fileSid=5458321",
+   "title": "",
+   "published": "",
+   "via": "scrape",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/board/view.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000&paging=ok&startPage=1&searchType=&searchOperation=AND&keyword=&categoryCode1=A&dataSid=42405413",
+   "title": "경남소식 > 보도해명자료 > 보도자료 (상세보기) - 경상남도 대표 홈페이지",
+   "published": "",
+   "via": "scrape",
+   "description": "경상남도 대표 포털 홈페이지",
+   "og_image": "http://gyeongnam.go.kr/01_potal/images/content/logo_.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/board/download.gyeong?boardId=BBS_0000060&&dataSid=42405413&fileSid=5458315",
+   "title": "",
+   "published": "",
+   "via": "scrape",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/board/view.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000&paging=ok&startPage=1&searchType=&searchOperation=AND&keyword=&categoryCode1=A&dataSid=42405403",
+   "title": "경남소식 > 보도해명자료 > 보도자료 (상세보기) - 경상남도 대표 홈페이지",
+   "published": "",
+   "via": "scrape",
+   "description": "경상남도 대표 포털 홈페이지",
+   "og_image": "http://gyeongnam.go.kr/01_potal/images/content/logo_.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/board/download.gyeong?boardId=BBS_0000060&&dataSid=42405403&fileSid=5458310",
+   "title": "",
+   "published": "",
+   "via": "scrape",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "South Gyeongsang Provincial Government",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000",
+   "url": "https://www.gyeongnam.go.kr/board/view.gyeong?boardId=BBS_0000060&menuCd=DOM_000000135002001000&paging=ok&startPage=1&searchType=&searchOperation=AND&keyword=&categoryCode1=A&dataSid=42405371",
+   "title": "경남소식 > 보도해명자료 > 보도자료 (상세보기) - 경상남도 대표 홈페이지",
+   "published": "",
+   "via": "scrape",
+   "description": "경상남도 대표 포털 홈페이지",
+   "og_image": "http://gyeongnam.go.kr/01_potal/images/content/logo_.jpg",
+   "keyword_hits": []
+  },
+  {
+   "source": "Palladyne AI",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://investor.palladyneai.com/news-events/press-releases",
+   "url": "https://investor.palladyneai.com/news-releases/news-release-details/palladyne-ais-swarmostm-successfully-performs-again-armys",
+   "title": "Palladyne AI’s SwarmOS™ Successfully Performs Again at Army’s Premier Division-Scale Test of Future Warfare | Palladyne AI Corp.",
+   "published": "Thu, 06 Aug 2026 07:45:00 -0400",
+   "via": "rss",
+   "description": "Advancing from the Ivy Mass rehearsal to Project Convergence Capstone 6, SwarmOS again integrated with Anduril’s Lattice and enabled multi-drone, multi-vendor autonomous operations before the U.S. Joint Force and allied military partners SALT LAKE CITY --(BUSINESS WIRE)--Aug.",
+   "og_image": "",
+   "keyword_hits": [
+    "swarmos"
+   ]
+  },
+  {
+   "source": "Palladyne AI",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://investor.palladyneai.com/news-events/press-releases",
+   "url": "https://investor.palladyneai.com/news-releases/news-release-details/palladyne-ai-reports-second-quarter-2026-results",
+   "title": "Palladyne AI Reports Second Quarter 2026 Results | Palladyne AI Corp.",
+   "published": "Thu, 06 Aug 2026 06:30:00 -0400",
+   "via": "rss",
+   "description": "Revenue increased 470% year-over-year and 63% sequentially to $5.8 million, driven by both acquisitions and organic growth Backlog of $24.6 million as of June 30, 2026, net of revenue recognized, reflects approximately $13.0 million in new contract awards during the quarter Reiterates full-year",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Symbotic IR",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://ir.symbotic.com/news-releases",
+   "url": "https://ir.symbotic.com/news-releases/news-release-details/symbotic-reports-third-quarter-fiscal-year-2026-results",
+   "title": "Symbotic Reports Third Quarter Fiscal Year 2026 Results | Symbotic Inc.",
+   "published": "Wed, 05 Aug 2026 16:01:56 -0400",
+   "via": "rss",
+   "description": "Steve Pagliuca, Former Co-Chair of Bain Capital, Elected to Symbotic’s Board of Directors WILMINGTON, Mass., Aug. 05, 2026 (GLOBE NEWSWIRE) -- Symbotic Inc. (Nasdaq: SYM), a leader in A.I.-enabled robotics technology for the supply chain, announced financial results for its third quarter of fiscal",
+   "og_image": "https://symbotic.gcs-web.com/static-files/84313b22-2925-439a-b60f-ce277b47f188",
+   "keyword_hits": [
+    "robotics"
+   ]
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04042",
+   "title": "Kitchen Robotic Manipulation utilizing Foundation Models",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "description": "Deploying robots in everyday human environments requires perception systems that are both robust and adaptable to diverse, dynamic conditions. In this work, we present a modular perception pipeline for household manipulation tasks, with a focus on dishware handling in kitchen environments. The pipeline integrates open-vocabulary object detection, multi-view segmentation, instance-aware 3D reconstr",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04121",
+   "title": "Interpretable Fuzzy Inference for UAV Target Tracking Using Bounding-Box Geometry",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "description": "Vision-based guidance of unmanned aerial vehicles (UAVs) toward unmanned ground vehicles (UGVs) supports cooperative aerial--ground robotics, but reliable continuous yaw estimation from onboard vision remains challenging because of sensing uncertainty, limited computation, and the need for interpretable control. Existing deep-learning and geometric-reconstruction approaches often require large dat",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": [
+    "robotics"
+   ]
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04196",
+   "title": "SiMDex: Mining Similar Egocentric Videos for Cross-Embodiment Dexterous Manipulation",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "description": "Recent years have witnessed an explosive trend of scaling ego-centric human videos for robot manipulation, yet it remains unclear which data actually benefits dexterous manipulation. We present SiMDex, a similarity-based data mining framework that casts human data selection for VLA post-training in dexterous manipulation as a recommendation problem. For each robot demonstration, SiMDex employs a t",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04242",
+   "title": "Feasibility of Embedded Photoplethysmography Sensing in Short-Duration Tactile Interactions With Pocket-Sized Robots Using IMU- and Confidence-Based Filtering",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "description": "Ubiquitous companion robots offer a promising avenue for immediate anxiety relief in children, yet their effectiveness relies on the ability to monitor physiological states continuously and unobtrusively. Current solutions often depend on external wearables, which impose usability barriers and limit the robot's autonomy. This paper investigates the integration of an embedded photoplethysmography (",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04246",
+   "title": "SAFECAST: Robust Failure Detection for VLA Policies with Contrast-Set Training and Calibration",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "description": "Vision-language-action policies often fail under deployment-time distribution shifts such as clutter, distractor objects, lighting changes, novel objects, altered initial states, and reworded instructions. Hidden-state-based risk probes combined with functional conformal prediction can detect rollout failures, but their reliability depends on calibration data matching deployment conditions. We int",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04309",
+   "title": "Structured LLM Reasoning for Zero-Shot Human--Robot Coordination Under Hidden Goals",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "description": "We present a structured large-language-model (LLM) architecture for zero-shot human--robot coordination in a cooperative construction task with private goal views. Guided by a Dec-POMDP formulation, the architecture decomposes decision-making into (i) action-conditioned Theory-of-Mind (ToM) inference, (ii) hierarchical planning, (iii) conversation interpretation, (iv) action verification, and (v) ",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04343",
+   "title": "Design and Flight of an Ion-propelled Micro Hovercraft Leveraging Ground Proximity Effects",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "description": "Electroaerodynamic propulsion is compelling for use in micro air vehicles due to its silent and solid-state nature, but its limited efficiency has thus far precluded a path towards power-autonomous flight. Recent work has shown that thrust density and efficiency for small-scale atmospheric ion thrusters can be vastly increased when operating close to a ground plane. Here, we explore the design spa",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": [
+    "autonomous"
+   ]
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04398",
+   "title": "Approximate Multi-Objective Search Under Rulebooks",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "description": "Robotic planning often involves multiple objectives with complex priority relationships, such as safety, efficiency, and regulatory compliance. Rulebooks formalize these relationships, allowing partial ordering of objectives that generalizes both Pareto and lexicographic dominance. Computing the full set of rulebook-optimal solutions, however, is computationally expensive. To address this challeng",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04420",
+   "title": "SCOPE: Field-of-View-Aware Path Planning in Unknown 3D Environments via Safety-Volume Certification",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "description": "Safe navigation with a body-mounted limited-field-of-view sensor requires the complete robot-inflated volume of an intended motion to be observed and verified free before execution. We formulate this requirement as online safety-volume certification in an unknown voxel map and construct a certified graph whose vertices correspond exactly to positions with fully known-free safety volumes. Based on ",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "arXiv cs.RO",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://arxiv.org/list/cs.RO/recent",
+   "url": "https://arxiv.org/abs/2608.04425",
+   "title": "SSC: A Verifiable Structured Representation for Bimanual Manipulation Labelling",
+   "published": "Thu, 06 Aug 2026 00:00:00 -0400",
+   "via": "rss",
+   "note": "source had more new items; cap applied",
+   "description": "Subtask labels decompose a long-horizon manipulation demonstration into shorter semantic segments for policy training and evaluation. Natural language descriptions are easy to read, but their linguistic variability makes automatic verification difficult. Rigid template formats, such as BEHAVIOR-1K's skill_annotation, are linguistically over-segmented, hindering both readability and annotation cons",
+   "og_image": "https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "Amazon Science Blog",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.amazon.science/blog",
+   "url": "https://www.amazon.science/research-awards/latest-news/34-amazon-research-awards-build-on-trainium-recipients-announced",
+   "title": "34 Amazon Research Awards Build on Trainium recipients announced",
+   "published": "2026-08-05T15:00:00",
+   "via": "rss",
+   "description": "Amazon announces 34 recipients of the Build on Trainium program, a $110 million credit initiative supporting AI research at 30 universities including Stanford, UC Berkeley, UIUC, UCLA, CMU, and MIT, with a focus on Responsible AI.",
+   "og_image": "https://cdn.amazon.science/dims4/default/e83903b/2147483647/strip/true/crop/1920x1008+0+36/resize/1200x630!/quality/90/?url=https%3A%2F%2Famzn-science-production-science.s3.us-east-1.amazonaws.com%2Fscience%2F31%2Fcd%2Fee13144c43e7926aca2e634b4032%2Fbuild-on-trainium-2026.png",
+   "keyword_hits": [
+    "ai"
+   ]
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424054",
+   "title": "Public Safety and Homeland Security Bureau Market Based Licenses Termination Pending Public Notice",
+   "published": "",
+   "via": "rss",
+   "keyword_hits": []
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424052",
+   "title": "Wireless Telecommunications Bureau Market Based Licenses Termination Pending Public Notice",
+   "published": "",
+   "via": "rss",
+   "keyword_hits": []
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424045",
+   "title": "Wireless Telecommunications Bureau Site-By-Site Accepted for Filing",
+   "published": "",
+   "via": "rss",
+   "keyword_hits": []
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424053",
+   "title": "Wireless Telecommunications Bureau Site Based Licenses Termination Pending Public Notice",
+   "published": "",
+   "via": "rss",
+   "keyword_hits": []
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424055",
+   "title": "Public Safety and Homeland Security Bureau Site Based Licenses Termination Pending Public Notice",
+   "published": "",
+   "via": "rss",
+   "keyword_hits": []
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424064",
+   "title": "Antenna Structure Registration Service Information, Environmental Action",
+   "published": "",
+   "via": "rss",
+   "keyword_hits": []
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424046",
+   "title": "Public Safety and Homeland Security Bureau Site-By-Site Action",
+   "published": "",
+   "via": "rss",
+   "keyword_hits": []
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424062",
+   "title": "Satellite Communications Services - SES",
+   "published": "",
+   "via": "rss",
+   "keyword_hits": []
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424063",
+   "title": "Satellite Communications Services - SES",
+   "published": "",
+   "via": "rss",
+   "keyword_hits": []
+  },
+  {
+   "source": "Federal Communications Commission",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.fcc.gov/news-events/headlines",
+   "url": "https://www.fcc.gov/edoc/424042",
+   "title": "Public Safety and Homeland Security Bureau Market-Based Applications Action",
+   "published": "",
+   "via": "rss",
+   "note": "source had more new items; cap applied",
+   "keyword_hits": []
+  },
+  {
+   "source": "AutoStore IR",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.autostoresystem.com/investors/press-releases",
+   "url": "https://www.autostoresystem.com/investors/press-releases/autostore-invitation-to-presentation-of-the-second-quarter-2026-dd6f1?hsLang=en",
+   "title": "AutoStore: Invitation to presentation of the second quarter 2026",
+   "published": "",
+   "via": "scrape",
+   "description": "(Nedre Vats, August 6, 2026): AutoStore Holdings Ltd (AutoStore: OSE:AUTO) invites investors and analysts to join the presentation of the second quarter 2026 financial results on Thursday August 13, 2026 at 08:00 CEST via a live webcast and earnings call.",
+   "og_image": "",
+   "keyword_hits": [
+    "financial results"
+   ]
+  },
+  {
+   "source": "UK DSIT (Department for Science, Innovation and Technology)",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology/about/media-enquiries",
+   "url": "https://www.gov.uk/government/publications/digital-inclusion-action-plan-one-year-on",
+   "title": "Digital Inclusion Action Plan: One Year On",
+   "published": "2026-08-05T13:45:47Z",
+   "via": "rss",
+   "description": "Progress report on delivering the Digital Inclusion Action Plan.",
+   "og_image": "https://www.gov.uk/assets/frontend/govuk-opengraph-image-4196a4d6333cf92aaf720047f56cfd91b3532d7635fc21ebcf0d5897df6b5f77.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=3da3c2aa977ca01264d70b69f0a3140b",
+   "title": "Daily Trading Information",
+   "published": "Thu, 6 Aug 2026 18:22:22 +0800",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=5f4a0f8dcc84312364d70b69f0a3140b",
+   "title": "Quarterly Report",
+   "published": "Thu, 6 Aug 2026 17:06:09 +0800",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=5f4a0f8dcc84312364d70b69f0a3140b",
+   "title": "Quarterly Report",
+   "published": "Thu, 6 Aug 2026 17:06:09 +0800",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=a9ec9d8ee3b3c22f64d70b69f0a3140b",
+   "title": "Press Release",
+   "published": "Thu, 6 Aug 2026 16:15:47 +0800",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=9f85b517cd61b15464d70b69f0a3140b",
+   "title": "Change in Directors and/or Officers (Resignation, Removal or Appointment, Election and/or Promotion)",
+   "published": "Thu, 6 Aug 2026 16:14:56 +0800",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=c6db31b1423bfc0964d70b69f0a3140b",
+   "title": "Material Information/Transactions",
+   "published": "Thu, 6 Aug 2026 16:14:45 +0800",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=b9159106d7c57d9b64d70b69f0a3140b",
+   "title": "Quarterly Report",
+   "published": "Thu, 6 Aug 2026 15:59:14 +0800",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=b9159106d7c57d9b64d70b69f0a3140b",
+   "title": "Quarterly Report",
+   "published": "Thu, 6 Aug 2026 15:59:14 +0800",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=bc6894d59723e33364d70b69f0a3140b",
+   "title": "Statement of Changes in Beneficial Ownership of Securities",
+   "published": "Thu, 6 Aug 2026 15:41:27 +0800",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Philippine Stock Exchange (PSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://edge.pse.com.ph/announcements/form.do",
+   "url": "http://edge.pse.com.ph/openDiscViewer.do?edge_no=581c31bf5dc4a1fb64d70b69f0a3140b",
+   "title": "Statement of Changes in Beneficial Ownership of Securities",
+   "published": "Thu, 6 Aug 2026 15:40:52 +0800",
+   "via": "rss",
+   "note": "source had more new items; cap applied",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": []
+  },
+  {
+   "source": "Semantic Scholar Robotics",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://www.semanticscholar.org/",
+   "url": "https://www.semanticscholar.org/search?q=%22Clayton%20Christensen%22&sort=relevance",
+   "title": "\"Clayton Christensen\" | Semantic Scholar",
+   "published": "",
+   "via": "scrape",
+   "description": "An academic search engine that utilizes artificial intelligence methods to provide highly relevant results and novel tools to filter them with ease.",
+   "og_image": "https://www.semanticscholar.org/img/semantic_scholar_og.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "Semantic Scholar Robotics",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://www.semanticscholar.org/",
+   "url": "https://www.semanticscholar.org/search?q=Biome&sort=relevance",
+   "title": "Biome | Semantic Scholar",
+   "published": "",
+   "via": "scrape",
+   "description": "An academic search engine that utilizes artificial intelligence methods to provide highly relevant results and novel tools to filter them with ease.",
+   "og_image": "https://www.semanticscholar.org/img/semantic_scholar_og.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "Semantic Scholar Robotics",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://www.semanticscholar.org/",
+   "url": "https://www.semanticscholar.org/search?q=Metaphysics&sort=relevance",
+   "title": "Metaphysics | Semantic Scholar",
+   "published": "",
+   "via": "scrape",
+   "description": "An academic search engine that utilizes artificial intelligence methods to provide highly relevant results and novel tools to filter them with ease.",
+   "og_image": "https://www.semanticscholar.org/img/semantic_scholar_og.png",
+   "keyword_hits": []
+  },
+  {
+   "source": "IEEE Spectrum Robotics",
+   "region": "International",
+   "tier": "P0",
+   "source_url": "https://spectrum.ieee.org/topic/robotics/",
+   "url": "https://spectrum.ieee.org/ieee-course-ai-power-grids",
+   "title": "IEEE Course Teaches How to Use AI to Modernize Power Grids",
+   "published": "2026-08-05T18:00:03+00:00",
+   "via": "rss",
+   "description": "Machine learning helps streamline planning and emergency response",
+   "og_image": "https://spectrum.ieee.org/media-library/conceptual-illustration-of-a-man-holding-a-ginormous-lightbulb-with-ai-written-on-it.jpg?id=67568096&width=1200&height=600&coordinates=0%2C250%2C0%2C250",
+   "keyword_hits": [
+    "ai"
+   ]
+  }
+ ],
+ "needs_browser": [
+  {
+   "source": "Fourier",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.fftai.com/newsroom",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "DJI",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.dji.com/newsroom",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "LimX",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.limx.com/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Realman Robotics",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.realman-robotics.cn/cn/main/about-us.html",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "CIIF",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.ciif-expo.com/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "36Kr",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://36kr.com/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Jiqizhixin",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://www.jiqizhixin.com/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Korea Exchange (KRX) KIND",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://kind.krx.co.kr/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Korea Intellectual Property Rights Information Service (KIPRIS)",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.kipris.or.kr/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Anduril Industries",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://www.anduril.com/news/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "OTC Markets Group",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.otcmarkets.com/market-activity/news-filings",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "London Stock Exchange (LSE)",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.londonstockexchange.com/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "HKEXnews",
+   "region": "Hong Kong",
+   "tier": "P0",
+   "source_url": "https://www1.hkexnews.hk/search/titlesearch.xhtml",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Innovation and Technology Commission (ITC)",
+   "region": "Hong Kong",
+   "tier": "P0",
+   "source_url": "https://www.itc.gov.hk/en/press/press_releases.html",
+   "reason": "wechat-or-js-rendered"
+  }
+ ],
+ "errors": [
+  {
+   "source": "Beijing Gov",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.beijing.gov.cn/zhengce/zhengcefagui/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "MIIT",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.miit.gov.cn/xwdt/gxdt/index.html",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "BSE",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "http://www.bse.cn/disclosure/announcement.html",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Beijing Stock Exchange (BSE)",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.bse.cn/disclosure/announcement.html",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "SAMR",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.samr.gov.cn/xw/zj/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "QbitAI",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://www.qbitai.com/",
+   "error": "ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host"
+  },
+  {
+   "source": "TechMagic",
+   "region": "Japan",
+   "tier": "P1",
+   "source_url": "https://techmagic.co.jp/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Japan Times",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://www.japantimes.co.jp/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Omron",
+   "region": "Japan",
+   "tier": "P0",
+   "source_url": "https://robotics.omron.com/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "METI",
+   "region": "Japan",
+   "tier": "P0",
+   "source_url": "https://www.meti.go.jp/english/press/index.html",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Samsung Electronics",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://news.samsung.com/global/",
+   "error": "TimeoutError: The read operation timed out"
+  },
+  {
+   "source": "Financial Supervisory Service (FSS) DART",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://dart.fss.or.kr/",
+   "error": "RemoteDisconnected: Remote end closed connection without response"
+  },
+  {
+   "source": "Teradyne IR",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://investors.teradyne.com/news-events/press-releases",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "Tesla IR",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://ir.tesla.com/press",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "Nasdaq",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://www.nasdaq.com/newsroom",
+   "error": "TimeoutError: The read operation timed out"
+  },
+  {
+   "source": "Medtronic",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://news.medtronic.com",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Odense Robotics",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.odenserobotics.dk/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "ABB Robotics",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://new.abb.com/news",
+   "error": "TimeoutError: The read operation timed out"
+  },
+  {
+   "source": "Bpifrance",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://presse.bpifrance.fr/",
+   "error": "URLError: <urlopen error timed out>"
+  },
+  {
+   "source": "CORDIS Horizon Europe Project News",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://cordis.europa.eu/search?q=contenttype%3D%27news%27%20AND%20%27robotics%27",
+   "error": "URLError: <urlopen error _ssl.c:1015: The handshake operation timed out>"
+  },
+  {
+   "source": "European Commission Digital Strategy News",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://digital-strategy.ec.europa.eu/en/news",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "Germany BMWK (Federal Ministry for Economic Affairs and Climate Action)",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.bmwk.de/Navigation/EN/Service/Press/press.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1032)>"
+  },
+  {
+   "source": "DFKI (German Research Center for Artificial Intelligence)",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.dfki.de/en/web/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "DLR Robotics and Mechatronics Center",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.dlr.de/rm/en/desktopdefault.aspx/tabid-3802/",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "Fraunhofer IPA",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.ipa.fraunhofer.de/en/press-media.html",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "ETH Zurich Robotic Systems Lab (RSL)",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://rsl.ethz.ch/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Nasdaq Nordic",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.nasdaq.com/european-market-activity/news/company-news",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "TED (Tenders Electronic Daily)",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://ted.europa.eu/en/search/result?q=robotics",
+   "error": "202"
+  },
+  {
+   "source": "European Investment Bank (EIB)",
+   "region": "Europe",
+   "tier": "P2",
+   "source_url": "https://www.eib.org/en/press/all/index",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Techman Robot",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://www2.tm-robot.com/en/tm-news-post/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "TWSE Market Observation Post System (MOPS)",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://mops.twse.com.tw/mops/web/t05st01",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Executive Yuan",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://english.ey.gov.tw/Page/5A898E83D438145A",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "National Science and Technology Council (NSTC)",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://www.nstc.gov.tw/?l=en",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Industrial Technology Research Institute (ITRI)",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://www.itri.org.tw/english/ListStyle.aspx?DisplayStyle=06&SiteID=1&MmmID=617731531241750114",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Pegatron Corporation",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://svr.pegatroncorp.com/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Taipei Exchange (TPEx)",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.tpex.org.tw/en-us/about/company/press/list.html",
+   "error": "HTTP 302"
+  },
+  {
+   "source": "MOEA Industrial Development Administration",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.ida.gov.tw/ctlr?PRO=news&lang=1",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Ministry of Digital Affairs (MODA)",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://moda.gov.tw/en/press/press-releases/372",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "National Institutes of Applied Research (NIAR/NARLabs)",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.niar.org.tw/en/xmdoc/cont?xsmsid=0I160457997407279810",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Academia Sinica",
+   "region": "Taiwan",
+   "tier": "P2",
+   "source_url": "https://www.sinica.edu.tw/en/news_card/56",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "National Tsing Hua University (NTHU)",
+   "region": "Taiwan",
+   "tier": "P2",
+   "source_url": "https://nthu-en.site.nthu.edu.tw/p/403-1003-4806-1.php",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "HKSAR Government Press Releases",
+   "region": "Hong Kong",
+   "tier": "P0",
+   "source_url": "https://www.info.gov.hk/gia/general/today.htm",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "XPeng Investor Relations",
+   "region": "Hong Kong",
+   "tier": "P1",
+   "source_url": "https://ir.xiaopeng.com/news-releases",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "Kabam Robotics",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://kabam.ai/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Infinium Robotics",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://infiniumrobotics.com/news-and-press-releases/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "SESTO Robotics",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.sestorobotics.com/tag/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "IEEE International Conference on Robotics and Automation",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://2025.ieee-icra.org/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "RoboCup",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.robocup.org/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "OECD.AI",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://oecd.ai/en/wonk",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "International Electrotechnical Commission",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.iec.ch/taxonomy/term/411",
+   "error": "HTTP 403"
+  }
+ ]
+}

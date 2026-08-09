@@ -82,3 +82,98 @@ def features_from_text(name: str, text: str) -> str:
         if out.lower()[:200] == text.lower()[:200]:
             return ""
     return out
+
+
+# ---------------------------------------------------------------------------
+# Deterministic feature cleanup (free — no model call)
+# ---------------------------------------------------------------------------
+
+import re as _re
+
+# A page HEADING glued onto the first body sentence with no separator, e.g.
+#   "A800 Lightweight Tactical Unmanned Helicopter The fuel-powered Alpha 800,
+#    at less than 14 kg MTOW , is the most reliable UAV helicopter in its class."
+# The Title-Case run is the product's own H1; a reviewer has to delete it by
+# hand (Martti, 2026-08-09, robot 6446 — which scored 100 on AI verification
+# because the text IS faithful to the source: verification measures fidelity,
+# not editorial cleanliness, so this class can never be caught by the score).
+_TITLE_GLUE_RE = _re.compile(
+    r"^(?P<title>[A-Z0-9][\w\-/&®™]*(?:\s+[A-Z0-9][\w\-/&®™]*){1,7})\s+"
+    r"(?P<rest>(?:The|This|These|A|An|It|Its|With|Designed|Powered|Built|"
+    r"Featuring|Equipped|Capable|Ideal|Suitable)\b.+)$"
+)
+# " MTOW ," / "minutes ." — inline tags (<strong>) joined with padding spaces.
+_SPACE_BEFORE_PUNCT_RE = _re.compile(r"\s+([,.;:!?])")
+
+# Site chrome swept up by whole-page text extraction: cookie banners, footers,
+# nav menus, login walls. Found on 36 live rows 2026-08-09 — including PUDU
+# HolaBot (3203), whose features were a German cookie notice while its AI
+# verification score was 100. Verification compares content to the source page;
+# a footer IS on the source page, so the score can never catch this.
+_CHROME_RE = _re.compile(
+    r"privacy policy|copyright\s*©|all rights reserved|sitemap|subscribe to|"
+    r"cookies?\b|terms of use|terms and conditions|follow us|newsletter|"
+    r"contact us|datenschutz|abonnieren|kontakt|"
+    r"please login|log ?in to|sign ?up|©\s*20\d\d|if you continue to browse",
+    _re.I,
+)
+
+
+def _identity_tokens(*values: str) -> set[str]:
+    out: set[str] = set()
+    for value in values:
+        for tok in _re.split(r"[^a-z0-9]+", (value or "").lower()):
+            if tok and len(tok) > 1:
+                out.add(tok)
+    return out
+
+
+def clean_feature_lines(features: str, *, name: str = "", model_name: str = "") -> str:
+    """Strip scraper artifacts from feature text. Free, deterministic, lossless
+    for genuine content.
+
+    Two fixes, both observed on real rows:
+      1. The product's own title glued to the front of the first bullet. Only
+         removed when the Title-Case prefix shares an identity token with the
+         robot's name/model — a heading that ISN'T the product name is left
+         alone rather than silently deleted.
+      2. Whitespace before punctuation from inline-tag joining.
+    """
+    if not features or not features.strip():
+        return features or ""
+    identity = _identity_tokens(name, model_name)
+    out: list[str] = []
+    for raw_line in features.splitlines():
+        line = _SPACE_BEFORE_PUNCT_RE.sub(r"\1", raw_line.strip(" -•*\t"))
+        if not line:
+            continue
+        # Site chrome is never a product feature. Dropping it can empty the
+        # field — that is the honest outcome: a blank raises `missing_features`
+        # and remediation regenerates from real page text, whereas a cookie
+        # banner sits in the queue looking like content.
+        if _CHROME_RE.search(line):
+            continue
+        match = _TITLE_GLUE_RE.match(line)
+        if match:
+            title_tokens = _identity_tokens(match.group("title"))
+            # Only a prefix that names THIS product is a heading to drop.
+            if identity and (title_tokens & identity):
+                line = match.group("rest").strip()
+        # A bullet that is nothing but the product title carries no fact.
+        elif identity:
+            line_tokens = _identity_tokens(line)
+            if len(line.split()) <= 8 and line_tokens and line_tokens <= (identity | _TYPE_WORDS):
+                continue
+        if line:
+            out.append(line)
+    return "\n".join(out)
+
+
+# Generic product-type vocabulary — a bullet made only of these plus the
+# robot's own name is a title, not a feature.
+_TYPE_WORDS = {
+    "robot", "robotic", "system", "systems", "series", "platform", "unmanned",
+    "helicopter", "drone", "uav", "vehicle", "arm", "cobot", "lightweight",
+    "compact", "tactical", "industrial", "autonomous", "mobile", "aerial",
+    "the", "and", "for", "with",
+}

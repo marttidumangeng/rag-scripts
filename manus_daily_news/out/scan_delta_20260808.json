@@ -1,0 +1,1372 @@
+{
+ "date": "2026-08-08",
+ "registry": "registry_v4_20260805.csv",
+ "date_rule": "strict same-day (SKILL.md Section 4): only date_status 'same-day' is drafting-eligible; 'unverified' items MUST have their publication date confirmed at the source before drafting; stale_excluded items need explicit user approval",
+ "stats": {
+  "due": 358,
+  "rss": 20,
+  "scrape_changed": 0,
+  "no_change": 0,
+  "not_modified_304": 0,
+  "baseline": 162,
+  "needs_browser": 44,
+  "errors": 132,
+  "deadline_abandoned": 0,
+  "same_day": 1,
+  "date_unverified": 0,
+  "stale_excluded": 6,
+  "candidates": 1,
+  "candidates_dropped_over_cap": 0
+ },
+ "candidates": [
+  {
+   "source": "Kumamoto Prefecture Government",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://www.pref.kumamoto.jp/soshiki/list1-1.html",
+   "url": "https://www.pref.kumamoto.jp/soshiki/1/274517.html",
+   "title": "令和8年熊本地震に関する情報 - 熊本県ホームページ",
+   "published": "2026-08-08T12:30:00+09:00",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": [],
+   "date_status": "same-day",
+   "age_days": 0,
+   "published_date": "2026-08-08"
+  }
+ ],
+ "stale_excluded": [
+  {
+   "source": "Kumamoto Prefecture Government",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://www.pref.kumamoto.jp/soshiki/list1-1.html",
+   "url": "https://www.pref.kumamoto.jp/soshiki/208/275618.html",
+   "title": "ホテル等避難のご案内 - 熊本県ホームページ",
+   "published": "2026-08-07T13:00:00+09:00",
+   "via": "rss",
+   "description": "",
+   "og_image": "",
+   "keyword_hits": [],
+   "date_status": "prior-day",
+   "age_days": 1,
+   "published_date": "2026-08-07"
+  },
+  {
+   "source": "NSF News",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.nsf.gov/news",
+   "url": "https://www.nsf.gov/news/podcast-new-telescope-transform-study-universe",
+   "title": "Podcast: New telescope to transform study of universe",
+   "published": "Fri, 07 Aug 2026 09:18:09 -0400",
+   "via": "rss",
+   "description": "As the 10-year Legacy Survey of Space and Time officially starts, Edward Ajhar discusses the NSF-DOE Vera C. Rubin Observatory and how it will transform the way people study the universe...",
+   "og_image": "https://nsf-gov-resources.nsf.gov/styles/_inline_image_full_width/s3/media/images/DFPod_GraphicForNSFNews_Rubin_240x160.jpg?itok=g32tr3MY",
+   "keyword_hits": [],
+   "date_status": "prior-day",
+   "age_days": 1,
+   "published_date": "2026-08-07"
+  },
+  {
+   "source": "Lifeward",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://ir.golifeward.com/press-releases",
+   "url": "https://ir.golifeward.com/news-releases/news-release-details/lifeward-report-second-quarter-2026-financial-results-august-14",
+   "title": "Lifeward to Report Second Quarter 2026 Financial Results on August 14, 2026 | Lifeward Ltd.",
+   "published": "Fri, 07 Aug 2026 08:00:00 -0400",
+   "via": "rss",
+   "description": "The Investor Relations website contains information about Lifeward Ltd.'s business for stockholders, potential investors, and financial analysts.",
+   "og_image": "",
+   "keyword_hits": [],
+   "date_status": "prior-day",
+   "age_days": 1,
+   "published_date": "2026-08-07"
+  },
+  {
+   "source": "Lifeward",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://ir.golifeward.com/press-releases",
+   "url": "https://ir.golifeward.com/news-releases/news-release-details/lifeward-launches-pilot-program-ottobock-care-expand-national",
+   "title": "Lifeward Launches Pilot Program with Ottobock Care to Expand National Access to ReWalk® Personal Exoskeleton | Lifeward Ltd.",
+   "published": "Wed, 05 Aug 2026 08:00:00 -0400",
+   "via": "rss",
+   "description": "The Investor Relations website contains information about Lifeward Ltd.'s business for stockholders, potential investors, and financial analysts.",
+   "og_image": "",
+   "keyword_hits": [
+    "exoskeleton"
+   ],
+   "date_status": "stale",
+   "age_days": 3,
+   "published_date": "2026-08-05"
+  },
+  {
+   "source": "SRI International",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.sri.com/about-us/press-room/",
+   "url": "https://www.sri.com/press/sri-to-relocate-silicon-valley-headquarters-to-its-parc-campus/",
+   "title": "SRI to relocate Silicon Valley headquarters to its PARC campus - SRI",
+   "published": "2026-08-06T12:42:56+00:00",
+   "via": "rss",
+   "description": "This space made history. The innovation continues.",
+   "og_image": "https://www.sri.com/wp-content/uploads/2026/08/HQ-relocation-500.jpg",
+   "keyword_hits": [],
+   "date_status": "stale",
+   "age_days": 2,
+   "published_date": "2026-08-06"
+  },
+  {
+   "source": "Stabilus SE",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://group.stabilus.com/news-and-events/press-releases",
+   "url": "",
+   "title": "Gas Spring Solutions from the Stabilus Group",
+   "published": "Fri, 07 Aug 2026 11:12:00 +0200",
+   "via": "rss",
+   "date_status": "prior-day",
+   "age_days": 1,
+   "published_date": "2026-08-07"
+  }
+ ],
+ "needs_browser": [
+  {
+   "source": "Fourier",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.fftai.com/newsroom",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "DJI",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.dji.com/newsroom",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Delta Intelligence",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://huggingface.co/datasets/Delta-Intelligence/OmniEgo",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Galbot",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://galbot.com/about",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Inovance",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.inovance.com/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "LimX",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.limx.com/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Morphi Robot",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://morphi.com/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Realman Robotics",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.realman-robotics.cn/cn/main/about-us.html",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "RobotEra",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.robotera.com/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "CIIF",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.ciif-expo.com/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "BAAI",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.baai.ac.cn/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Zhejiang Humanoid Robot Innovation Center",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.zj-humanoid.com/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Kepler Robotics",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://www.gotokepler.com/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Kinetix AI",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://www.kinetixai.tech/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "HIT",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "http://robot.hit.edu.cn/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Zhejiang University",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "http://www.cse.zju.edu.cn/english/news/list.htm",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "36Kr",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://36kr.com/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Jiqizhixin",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://www.jiqizhixin.com/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "J-PlatPat",
+   "region": "Japan",
+   "tier": "P1",
+   "source_url": "https://www.j-platpat.inpit.go.jp/?uri=/s0000/en",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Mitsui Fudosan",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://www.mitsuifudosan.co.jp/english/corporate/news/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Korea Exchange (KRX) KIND",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://kind.krx.co.kr/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Korea Association of AI Robot Industry (KAR)",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.korearobot.or.kr/information/notice.htm",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Korea Intellectual Property Rights Information Service (KIPRIS)",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.kipris.or.kr/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Korea Association of Robot Industry (KAR)",
+   "region": "South Korea",
+   "tier": "P2",
+   "source_url": "https://korearobot.or.kr/information/notice.htm",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "RobotWorld Korea",
+   "region": "South Korea",
+   "tier": "P2",
+   "source_url": "https://eng.robotworld.or.kr/media/press.php",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Anduril Industries",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://www.anduril.com/news/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "USPTO Patent Public Search",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://ppubs.uspto.gov/pubwebapp/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "OTC Markets Group",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.otcmarkets.com/market-activity/news-filings",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "DOE ARPA-E",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://arpa-e.energy.gov/news-and-events/news-and-insights",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "London Stock Exchange (LSE)",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.londonstockexchange.com/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Engineered Arts",
+   "region": "Europe",
+   "tier": "P2",
+   "source_url": "https://engineeredarts.com/blog",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Quanta Computer",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.quantatw.com/quanta/english/allnews/allnews_hot.aspx",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "HKEXnews",
+   "region": "Hong Kong",
+   "tier": "P0",
+   "source_url": "https://www1.hkexnews.hk/search/titlesearch.xhtml",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Innovation and Technology Commission (ITC)",
+   "region": "Hong Kong",
+   "tier": "P0",
+   "source_url": "https://www.itc.gov.hk/en/press/press_releases.html",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Hong Kong Productivity Council (HKPC)",
+   "region": "Hong Kong",
+   "tier": "P1",
+   "source_url": "https://www.hkpc.org/en/about-us/media-centre/press-releases",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Innovation, Technology and Industry Bureau (ITIB)",
+   "region": "Hong Kong",
+   "tier": "P1",
+   "source_url": "https://www.itib.gov.hk/en/speeches/index.html",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Securities and Futures Commission (SFC)",
+   "region": "Hong Kong",
+   "tier": "P2",
+   "source_url": "https://www.sfc.hk/en/News-and-announcements/News",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "CityU Robotics",
+   "region": "Hong Kong",
+   "tier": "P2",
+   "source_url": "https://www.cityu.edu.hk/en/media/news",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "PolyU Robotics and Embodied Intelligence",
+   "region": "Hong Kong",
+   "tier": "P2",
+   "source_url": "https://www.polyu.edu.hk/me/news-and-events/news/",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Kinova Robotics",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://www.kinovarobotics.com/resources?r=342&s",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Thailand Board of Investment (BOI)",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://www.boi.go.th/index.php?page=press_releases2&language=en",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Ho Chi Minh Stock Exchange (HOSE)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.hsx.vn/en/tin-tuc/tin-tuc-hose",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Singapore Economic Development Board (EDB)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.edb.gov.sg/en/about-edb/media-releases-publications.html",
+   "reason": "wechat-or-js-rendered"
+  },
+  {
+   "source": "Vietnam National Innovation Center (NIC)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://nic.gov.vn/c/10648/News",
+   "reason": "wechat-or-js-rendered"
+  }
+ ],
+ "errors": [
+  {
+   "source": "Beijing Gov",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.beijing.gov.cn/zhengce/zhengcefagui/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "MIIT",
+   "region": "China",
+   "tier": "P0",
+   "source_url": "https://www.miit.gov.cn/xwdt/gxdt/index.html",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "CAA",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "http://www.caa.org.cn/index.php?me_id=2",
+   "error": "URLError: <urlopen error timed out>"
+  },
+  {
+   "source": "CMRA",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://cnmra.com/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Dreame Technology",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.dreametech.com/blogs/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Hikrobot",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.hikrobotics.com/en/news/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Leju",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.lejurobot.com/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Xiaomi Corporation",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.mi.com/global/discover/newsroom",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Youibot Robotics",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://en.youibot.com/news.html",
+   "error": "IncompleteRead: IncompleteRead(543 bytes read)"
+  },
+  {
+   "source": "BSE",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "http://www.bse.cn/disclosure/announcement.html",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Beijing Stock Exchange (BSE)",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.bse.cn/disclosure/announcement.html",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Shanghai Innovation Institute",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.sii.edu.cn/czxw/list.htm",
+   "error": "LookupError: unknown encoding: yaml.null"
+  },
+  {
+   "source": "SAMR",
+   "region": "China",
+   "tier": "P1",
+   "source_url": "https://www.samr.gov.cn/xw/zj/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "AgileX Robotics",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://global.agilex.ai/blogs/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Lumos Robotics",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://www.lumosbot.tech/news.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Roborock",
+   "region": "China",
+   "tier": "P2",
+   "source_url": "https://newsroom.roborock.com/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Genki Robotics",
+   "region": "Japan",
+   "tier": "P1",
+   "source_url": "https://genki.com/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Sony AI",
+   "region": "Japan",
+   "tier": "P1",
+   "source_url": "https://ai.sony/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "TechMagic",
+   "region": "Japan",
+   "tier": "P1",
+   "source_url": "https://techmagic.co.jp/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Yamaha Motor Robotics",
+   "region": "Japan",
+   "tier": "P1",
+   "source_url": "https://global.yamaha-motor.com/business/robot/news/",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "Japan Times",
+   "region": "Japan",
+   "tier": "P2",
+   "source_url": "https://www.japantimes.co.jp/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Mujin",
+   "region": "Japan",
+   "tier": "P1",
+   "source_url": "https://mujin-corp.com/resources/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Omron",
+   "region": "Japan",
+   "tier": "P0",
+   "source_url": "https://robotics.omron.com/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Rapyuta Robotics",
+   "region": "Japan",
+   "tier": "P1",
+   "source_url": "https://www.rapyuta-robotics.com/category/press-release/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "SoftBank Robotics",
+   "region": "Japan",
+   "tier": "P1",
+   "source_url": "https://www.softbankrobotics.com/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "METI",
+   "region": "Japan",
+   "tier": "P0",
+   "source_url": "https://www.meti.go.jp/english/press/index.html",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Samsung Electronics",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://news.samsung.com/global/",
+   "error": "TimeoutError: The read operation timed out"
+  },
+  {
+   "source": "Financial Supervisory Service (FSS) DART",
+   "region": "South Korea",
+   "tier": "P0",
+   "source_url": "https://dart.fss.or.kr/",
+   "error": "RemoteDisconnected: Remote end closed connection without response"
+  },
+  {
+   "source": "Korea Institute for Robot Industry Advancement (KIRIA)",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.kiria.org/portal/info/portalInfoNewsClipSideList.do",
+   "error": "TimeoutError: The read operation timed out"
+  },
+  {
+   "source": "Daegu Gyeongbuk Institute of Science and Technology (DGIST)",
+   "region": "South Korea",
+   "tier": "P1",
+   "source_url": "https://www.dgist.ac.kr/prog/bbsArticle/BBSMSTR_000000000080/list.do",
+   "error": "URLError: <urlopen error [WinError 10054] An existing connection was forcibly closed by the remote host>"
+  },
+  {
+   "source": "Teradyne IR",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://investors.teradyne.com/news-events/press-releases",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "Tesla IR",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://ir.tesla.com/press",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "Nasdaq",
+   "region": "United States",
+   "tier": "P0",
+   "source_url": "https://www.nasdaq.com/newsroom",
+   "error": "TimeoutError: The read operation timed out"
+  },
+  {
+   "source": "AUVSI",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.auvsi.org/newsroom/latest-news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Blue Robotics",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://bluerobotics.com/category/product-news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Diligent Robotics",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.diligentrobots.com/blog",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "John Deere",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.deere.com/en-us/john-deere-news/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Medtronic",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://news.medtronic.com",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Miso Robotics",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.misorobotics.com/newsroom-press-media-kit",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Nuro",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.nuro.ai/blog",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Sea Machines Robotics",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://sea-machines.com/category/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Stryker",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://investors.stryker.com/press-releases/default.aspx",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Virtuix",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://virtuix.com/blogs/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Zebra Technologies",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.zebra.com/us/en/about-zebra/newsroom/press-releases.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Zimmer Biomet",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://investor.zimmerbiomet.com/news-and-events/news",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "NASA Robotics",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.nasa.gov/robotics-news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "NIST Robotics",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.nist.gov/news-events/news-updates/topic/248921",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "MIT CSAIL",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://www.csail.mit.edu/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "UMich Robotics",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://robotics.umich.edu/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "USC Robotics",
+   "region": "United States",
+   "tier": "P1",
+   "source_url": "https://rasc.usc.edu/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Bright Machines",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.brightmachines.com/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Liquid Robotics",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.liquid-robotics.com/news-announcements/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "RightHand Robotics",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://righthandrobotics.com/the-latest",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Starship Technologies",
+   "region": "United States",
+   "tier": "P2",
+   "source_url": "https://www.starship.xyz/press/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Odense Robotics",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.odenserobotics.dk/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "ABB Robotics",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://new.abb.com/news",
+   "error": "TimeoutError: The read operation timed out"
+  },
+  {
+   "source": "European Commission Digital Strategy News",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://digital-strategy.ec.europa.eu/en/news",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "Germany BMWK (Federal Ministry for Economic Affairs and Climate Action)",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.bmwk.de/Navigation/EN/Service/Press/press.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1032)>"
+  },
+  {
+   "source": "DFKI (German Research Center for Artificial Intelligence)",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.dfki.de/en/web/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "DLR Robotics and Mechatronics Center",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.dlr.de/rm/en/desktopdefault.aspx/tabid-3802/",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "Fraunhofer IPA",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://www.ipa.fraunhofer.de/en/press-media.html",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "ETH Zurich Robotic Systems Lab (RSL)",
+   "region": "Europe",
+   "tier": "P0",
+   "source_url": "https://rsl.ethz.ch/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Exail",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.exail.com/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Milrem Robotics",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://milremrobotics.com/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Mobile Industrial Robots (MiR)",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.mobile-industrial-robots.com/en/about-mir/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "PAL Robotics",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://pal-robotics.com/blog/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "SCHUNK",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://schunk.com/us/en/latest-news/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1032)>"
+  },
+  {
+   "source": "Stäubli Robotics",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.staubli.com/en-us/robotics/news/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Euronext",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://live.euronext.com/en/ipo-showcase",
+   "error": "TimeoutError: The read operation timed out"
+  },
+  {
+   "source": "Nasdaq Nordic",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.nasdaq.com/european-market-activity/news/company-news",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "European Robotics Forum (ERF)",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.eu-robotics.net/eurobotics-forum/",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "Innovation Norway",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.innovasjonnorge.no/en/about/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Plattform Industrie 4.0",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://www.plattform-i40.de/PI40/Navigation/EN/News/news.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1032)>"
+  },
+  {
+   "source": "TED (Tenders Electronic Daily)",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://ted.europa.eu/en/search/result?q=robotics",
+   "error": "202"
+  },
+  {
+   "source": "EPFL Robotics",
+   "region": "Europe",
+   "tier": "P1",
+   "source_url": "https://actu.epfl.ch/",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "European Investment Bank (EIB)",
+   "region": "Europe",
+   "tier": "P2",
+   "source_url": "https://www.eib.org/en/press/all/index",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "TÜV SÜD",
+   "region": "Europe",
+   "tier": "P2",
+   "source_url": "https://www.tuvsud.com/en/newsroom/press-releases",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "OnRobot",
+   "region": "Europe",
+   "tier": "P2",
+   "source_url": "https://onrobot.com/en/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Shadow Robot Company",
+   "region": "Europe",
+   "tier": "P2",
+   "source_url": "https://shadowrobot.com/our-blog/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Deutsche Boerse / Frankfurt Stock Exchange",
+   "region": "Europe",
+   "tier": "P2",
+   "source_url": "https://www.cashmarket.deutsche-boerse.com/cash-en/Data-Tech/statistics/New-Companies",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "SIX Swiss Exchange",
+   "region": "Europe",
+   "tier": "P2",
+   "source_url": "https://www.six-group.com/en/newsroom/media-releases.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1032)>"
+  },
+  {
+   "source": "Eurostat",
+   "region": "Europe",
+   "tier": "P2",
+   "source_url": "https://ec.europa.eu/eurostat/web/main/news/news-articles",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1032)>"
+  },
+  {
+   "source": "Techman Robot",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://www2.tm-robot.com/en/tm-news-post/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "TWSE Market Observation Post System (MOPS)",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://mops.twse.com.tw/mops/web/t05st01",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Executive Yuan",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://english.ey.gov.tw/Page/5A898E83D438145A",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "National Science and Technology Council (NSTC)",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://www.nstc.gov.tw/?l=en",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Industrial Technology Research Institute (ITRI)",
+   "region": "Taiwan",
+   "tier": "P0",
+   "source_url": "https://www.itri.org.tw/english/ListStyle.aspx?DisplayStyle=06&SiteID=1&MmmID=617731531241750114",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "SEMI Taiwan",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://semicontaiwan.org/en",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Taiwan Automation Intelligence and Robotics Association (TAIROA)",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.tairoa.org.tw/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1032)>"
+  },
+  {
+   "source": "Pegatron Corporation",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://svr.pegatroncorp.com/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Taipei Exchange (TPEx)",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.tpex.org.tw/en-us/about/company/press/list.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Taiwan Stock Exchange (TWSE)",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.twse.com.tw/en/listed/listed/new-listing.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Central Taiwan Science Park Bureau",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.ctsp.gov.tw/english/01about/abo_park_profile.aspx?v=20&fr=768&no=771",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1032)>"
+  },
+  {
+   "source": "Hsinchu Science Park Administration",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://web.sipa.gov.tw/english/newList",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "MOEA Industrial Development Administration",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.ida.gov.tw/ctlr?PRO=news&lang=1",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Ministry of Digital Affairs (MODA)",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://moda.gov.tw/en/press/press-releases/372",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Southern Taiwan Science Park Bureau",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.stsp.gov.tw/web/indexGroups?frontTarget=ENGLISH",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Institute for Information Industry (III)",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.iii.org.tw/en/news",
+   "error": "HTTP 500"
+  },
+  {
+   "source": "National Institutes of Applied Research (NIAR/NARLabs)",
+   "region": "Taiwan",
+   "tier": "P1",
+   "source_url": "https://www.niar.org.tw/en/xmdoc/cont?xsmsid=0I160457997407279810",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "AUO Corporation",
+   "region": "Taiwan",
+   "tier": "P2",
+   "source_url": "https://www.auo.com/en-global/New_Archive/index",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "Gigabyte Technology",
+   "region": "Taiwan",
+   "tier": "P2",
+   "source_url": "https://www.gigabyte.com/press/news",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "HOBOT Technology Inc.",
+   "region": "Taiwan",
+   "tier": "P2",
+   "source_url": "https://hobot.us/blogs/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Wistron Corporation",
+   "region": "Taiwan",
+   "tier": "P2",
+   "source_url": "https://www.wistron.com/en/Newsroom",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Academia Sinica",
+   "region": "Taiwan",
+   "tier": "P2",
+   "source_url": "https://www.sinica.edu.tw/en/news_card/56",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "National Tsing Hua University (NTHU)",
+   "region": "Taiwan",
+   "tier": "P2",
+   "source_url": "https://nthu-en.site.nthu.edu.tw/p/403-1003-4806-1.php",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Missing Subject Key Identifier (_ssl.c:1032)>"
+  },
+  {
+   "source": "National Yang Ming Chiao Tung University (NYCU)",
+   "region": "Taiwan",
+   "tier": "P2",
+   "source_url": "https://www.nycu.edu.tw/nycu/en/app/news/list?module=headnews&id=552",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "HKSAR Government Press Releases",
+   "region": "Hong Kong",
+   "tier": "P0",
+   "source_url": "https://www.info.gov.hk/gia/general/today.htm",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "XPeng Investor Relations",
+   "region": "Hong Kong",
+   "tier": "P1",
+   "source_url": "https://ir.xiaopeng.com/news-releases",
+   "error": "HTTP 404"
+  },
+  {
+   "source": "Cyberport",
+   "region": "Hong Kong",
+   "tier": "P1",
+   "source_url": "https://www.cyberport.hk/en/news/press_release/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "CUHK T Stone Robotics Institute",
+   "region": "Hong Kong",
+   "tier": "P1",
+   "source_url": "https://ri.cuhk.edu.hk/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Hong Kong Centre for Cerebro-Cardiovascular Health Engineering (COCHE)",
+   "region": "Hong Kong",
+   "tier": "P2",
+   "source_url": "https://www.hkcoche.org/",
+   "error": "HTTP 429"
+  },
+  {
+   "source": "HKU Advanced Robotics Laboratory",
+   "region": "Hong Kong",
+   "tier": "P2",
+   "source_url": "https://www.mech.hku.hk/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Kabam Robotics",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://kabam.ai/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Bursa Malaysia",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://www.bursamalaysia.com/about_bursa/media_centre/media_releases",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "ISO TC 299 Robotics",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://www.iso.org/committee/5915511.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Thai Automation and Robotics Association (TARA)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://thaitara.org/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Infinium Robotics",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://infiniumrobotics.com/news-and-press-releases/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "SESTO Robotics",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.sestorobotics.com/tag/news/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "Indonesia Stock Exchange (IDX)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.idx.co.id/en/news/press-release/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "ASEAN Secretariat",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://asean.org/news/",
+   "error": "HTTP 307"
+  },
+  {
+   "source": "Digital Economy Promotion Agency (depa)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.depa.or.th/en/all-news/all",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Eastern Economic Corridor Office (EECO)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.eeco.or.th/en/press_release/",
+   "error": "feed-unparseable"
+  },
+  {
+   "source": "Global Partnership on Artificial Intelligence",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.oecd.org/en/about/programmes/global-partnership-on-artificial-intelligence.html",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Indonesia Ministry of Industry",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://kemenperin.go.id/artikel/",
+   "error": "URLError: <urlopen error timed out>"
+  },
+  {
+   "source": "International Labour Organization",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.ilo.org/resource/news",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "Vietnam Ministry of Science and Technology (MOST)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://beta-en.mic.gov.vn/english.htm",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "International Organization for Standardization (ISO)",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.iso.org/home/insights-news/news/standards-world/news-list.html",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "IEEE International Conference on Robotics and Automation",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://2025.ieee-icra.org/",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "RoboCup",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.robocup.org/news",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "World Economic Forum C4IR",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://www.weforum.org/press/",
+   "error": "HTTP 403"
+  },
+  {
+   "source": "OECD.AI",
+   "region": "International",
+   "tier": "P1",
+   "source_url": "https://oecd.ai/en/wonk",
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1032)>"
+  },
+  {
+   "source": "International Electrotechnical Commission",
+   "region": "International",
+   "tier": "P2",
+   "source_url": "https://www.iec.ch/taxonomy/term/411",
+   "error": "HTTP 403"
+  }
+ ]
+}

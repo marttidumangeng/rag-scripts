@@ -1,0 +1,321 @@
+"ADRA (AI
+"Innovation
+"Ministry of Trade
+"UK DSIT (Department for Science
+1X Technologies
+1X Technologies (US Ops)
+36Kr
+A3 Association for Advancing Automation
+ABB Robotics
+ADATA Technology
+AIST
+ANYbotics
+ARM Institute
+ASUS
+ATR
+AUO Corporation
+AUVSI
+Academia Sinica
+Advantech
+AgiBot
+Agile Robots
+Agility Robotics
+Allen Institute AI2
+Amazon Science Blog
+Anduril Industries
+Angel Robotics
+Apptronik
+Astribot
+AutoStore IR
+BAAI
+BIS Export Controls
+BSE
+Bear Robotics
+Beijing Gov
+Beijing Humanoid Robot Innovation Center
+Black Sesame Technologies Investor Relations
+Boston Dynamics
+Bpifrance
+Bristol Robotics Laboratory
+CAA
+CAS Institute of Automation
+CCGP
+CIIF
+CMRA
+CMU Robotics Institute
+CNINFO
+CNIPA
+CNRS LAAS
+CORDIS Horizon Europe Project News
+CRIA
+CUHK T Stone Robotics Institute
+Cabinet Office Moonshot
+Census M3 Survey
+Central Taiwan Science Park Bureau
+CityU Robotics
+Clobot
+CoRL
+Comau
+Compal Electronics
+Computex (TAITRA)
+Coretronic Corporation
+Cyberdyne
+Cyberport
+DARPA
+DFKI (German Research Center for Artificial Intelligence)
+DJI
+DLR Robotics and Mechatronics Center
+DOE ARPA-E
+Daegu Gyeongbuk Institute of Science and Technology (DGIST)
+Deep Robotics
+Delta Electronics
+Denso Wave
+DoD DIU
+Dobot
+Doosan Robotics
+EDINET
+EPFL Robotics
+ETH Zurich Robotic Systems Lab (RSL)
+Electrical and Mechanical Services Department (EMSD)
+Electronics and Telecommunications Research Institute (ETRI)
+EngineAI
+Epson Robots
+Estun
+European AI Office
+European Commission Digital Strategy News
+European Patent Office (EPO)
+European Robotics Forum (ERF)
+Eurostat
+Executive Yuan
+Exotec
+FANUC
+FDA 510(k) Database
+Figure AI
+Financial Supervisory Service (FSS) DART
+Fourier
+Fraunhofer IPA
+GITAI
+Galbot
+Geek+
+Georgia Tech IRIM
+Germany BMWK (Federal Ministry for Economic Affairs and Climate Action)
+Gigabyte Technology
+Global Partnership on Artificial Intelligence
+Google DeepMind
+HD Hyundai Robotics
+HIT
+HIWIN Technologies
+HKEXnews
+HKSAR Government Press Releases
+HKTDC Hong Kong Electronics Fair
+HKU Advanced Robotics Laboratory
+HKUST Cheng Kar-Shun Robotics Institute (CKSRI)
+Hai Robotics
+Hannover Messe
+Hanwha Robotics
+Hon Hai Technology Group (Foxconn)
+Honda
+Hong Kong Applied Science and Technology Research Institute (ASTRI)
+Hong Kong Centre for Cerebro-Cardiovascular Health Engineering (COCHE)
+Hong Kong Productivity Council (HKPC)
+Hong Kong Science and Technology Parks (HKSTP)
+Horizon Robotics Investor Relations
+Hospital Authority
+Hsinchu Science Park Administration
+Hyundai Motor Group / Boston Dynamics
+IEEE International Conference on Robotics and Automation
+IEEE Robotics and Automation Society
+IEEE Spectrum Robotics
+IIT Genoa (Istituto Italiano di Tecnologia)
+ISO TC 299 Robotics
+ITU AI for Good
+Industrial Technology Research Institute (ITRI)
+InnoEX
+InnoHK
+Innovation Norway
+Innovation and Technology Commission (ITC)
+Innovation and Technology Fund (ITF)
+Inovance
+Institute for Information Industry (III)
+International Electrotechnical Commission
+International Federation of Robotics
+International Labour Organization
+Intuitive Surgical IR
+InvestHK
+J-PlatPat
+JARA
+JEMA
+JSK Lab
+Japan Times
+Jiqizhixin
+John Deere
+K-Humanoid Alliance
+KUKA
+Kawada Robotics
+Kawasaki Robotics
+Keenon
+Kodiak Robotics
+Korea Advanced Institute of Science and Technology (KAIST)
+Korea Association of AI Robot Industry (KAR)
+Korea Exchange (KRX) KIND
+Korea Institute for Advancement of Technology (KIAT)
+Korea Institute for Robot Industry Advancement (KIRIA)
+Korea Institute of Industrial Technology (KITECH)
+Korea Institute of Machinery & Materials (KIMM)
+Korea Institute of Robotics and Technology Convergence (KIRO)
+Korea Institute of Science and Technology (KIST)
+Korea Intellectual Property Rights Information Service (KIPRIS)
+Korean Statistical Information Service (KOSIS)
+Kyodo News
+LG Electronics / LG AI Research
+Leju
+LimX
+METI
+MIC
+MIIT
+MIT CSAIL
+MOEA Industrial Development Administration
+MOST
+Make UK (including BARA)
+MassRobotics
+MediaTek
+Meta AI (FAIR)
+Microsoft Research
+Ministry of Digital Affairs (MODA)
+Ministry of Science and ICT (MSIT)
+Mitsubishi Electric
+Mobile Industrial Robots (MiR)
+Mujin
+NASA Robotics
+NDRC
+NEDO
+NEURA Robotics
+NIST Robotics
+NSF News
+Nabtesco
+Nachi-Fujikoshi
+National Cheng Kung University (NCKU)
+National Institutes of Applied Research (NIAR/NARLabs)
+National Local Joint Humanoid Robot Innovation Center
+National Science and Technology Council (NSTC)
+National Taiwan University (NTU) Center for AI and Advanced Robotics
+National Tsing Hua University (NTHU)
+National Yang Ming Chiao Tung University (NYCU)
+Naver Labs
+Neuromeka
+Nikkei
+Nuro
+Nvidia Newsroom
+OECD.AI
+Ocado Technology
+Odense Robotics
+Omron
+Open Source Robotics Foundation
+OpenAI
+Orbbec
+Oxford Robotics Institute (ORI)
+PAL Robotics
+Pegatron Corporation
+Peking University
+Physical Intelligence
+Plattform Industrie 4.0
+Pohang University of Science and Technology (POSTECH)
+PolyU Robotics and Embodied Intelligence
+Preferred Networks
+Pudu
+QbitAI
+Quanta Computer
+RIKEN
+RRI
+RSS Conference
+Rainbow Robotics
+Rapyuta Robotics
+RoboCup
+Robostar
+RobotEra
+RobotWorld Korea
+Robotics: Science and Systems
+Robotis
+Rockwell Automation
+SAM.gov
+SAMR
+SEC EDGAR
+SEMI Taiwan
+SJTU
+SK Telecom
+SSE
+SZSE
+Samsung Electronics
+Securities and Futures Commission (SFC)
+Semantic Scholar Robotics
+Serve Robotics IR
+Shanghai Gov
+Shenzhen Gov
+Shield AI
+Siasun
+Silicon Valley Robotics
+Skild AI
+SmartMore
+SoftBank Robotics
+Solomon Technology
+Sony AI
+Southern Taiwan Science Park Bureau
+Stanford SAIL
+State Council
+Stäubli Robotics
+Symbotic IR
+T-Robotics
+TDnet
+TED (Tenders Electronic Daily)
+TU Delft Robotics Institute
+TU Munich MIRMI
+TWSE Market Observation Post System (MOPS)
+Taipei International Industrial Automation Exhibition
+Taiwan Automation Intelligence and Robot Show (TAIROS)
+Taiwan Automation Intelligence and Robotics Association (TAIROA)
+Taiwan Electrical and Electronic Manufacturers' Association (TEEMA)
+Taiwan Intellectual Property Office (TIPO)
+Taiwan Semiconductor Manufacturing Company (TSMC)
+Techman Robot
+Telexistence
+Teradyne IR
+Tesla IR
+Toyota Research Institute
+Toyota Research Institute US
+Tsinghua University
+UBTECH
+UBTECH Investor Relations
+UC Berkeley BAIR
+UK AISI (AI Safety Institute)
+UKRI EPSRC
+UMich Robotics
+UN Industrial Development Organization
+USC Robotics
+USPTO Patent Public Search
+UT Austin Robotics
+Ulsan National Institute of Science and Technology (UNIST)
+Unitree
+Universal Robots
+VDMA Robotics + Automation
+Vieworks
+Vinnova
+WAIC
+WIRobotics
+WRC
+Wandelbots
+Waymo Blog
+Wistron Corporation
+Wonik Robotics
+World Bank
+World Economic Forum C4IR
+World Intellectual Property Organization
+XPeng Investor Relations
+Yaskawa
+Yujin Robot
+Zhejiang University
+arXiv cs.RO
+automatica
+automatica Munich
+e-Stat METI Machinery Statistics
+euRobotics
+iREX

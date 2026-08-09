@@ -121,7 +121,12 @@ stage() {
   local name="$1" limit="$2"; shift 2
   echo "--- $name (limit ${limit}) ---"
   local t0=$SECONDS
-  timeout --signal=INT "$limit" "$@"
+  # --kill-after: INT starts a graceful drain (executors cancel queued work,
+  # in-flight robots finish), but 6 remediation workers mid-company can drain
+  # for HOURS — cycle 2 of 2026-08-04 ran 3.8h against a 90m window, eating
+  # the next cycle's slot. 10 minutes is enough to persist in-flight writes;
+  # after that the drain is costing more than the unfinished work is worth.
+  timeout --signal=INT --kill-after=10m "$limit" "$@"
   local rc=$?
   if [ "$rc" -eq 124 ] || [ "$rc" -eq 130 ]; then
     echo "!! $name TIMED OUT after ${limit} — results are PARTIAL, not empty."
@@ -259,6 +264,19 @@ while true; do
 
   stage "rejection feedback loop" "${T_REJECT:-45m}" \
     "$PY" -u rejection_feedback_loop.py --max-robots "${MAX_REJECTED:-50}" --apply
+
+  # Draft-first pipeline (2026-08-05): discovery imports land as drafts; this
+  # gate is the ONLY path into pending_review. Required-set check is free;
+  # AI verification runs server-side (spends the server key, capped per run).
+  stage "promotion gate (draft -> queue)" "${T_PROMOTE:-20m}" \
+    "$PY" -u promote_drafts.py --apply --max-verify "${MAX_PROMOTE_VERIFIES:-40}"
+
+  # Score sweep for robots ALREADY in To Review that lack a verification
+  # score (remediation PATCHes reset it; human submissions arrive unscored).
+  # Reviewers approve from scores — they must never need to run AI Verify
+  # by hand (Martti, 2026-08-07).
+  stage "verify sweep (unscored pending)" "${T_VERIFY_SWEEP:-30m}" \
+    "$PY" -u verify_pending.py --apply --max-verify "${MAX_SWEEP_VERIFIES:-40}"
 
   # Same-hour spend visibility: today's paid-call count against the budget, in
   # every cycle log. The $76-day was only caught by a human reading the bill.

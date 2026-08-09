@@ -114,6 +114,16 @@ def _is_cjk(text: str) -> bool:
 _LQIP_RE = re.compile(r"blur,|(?:^|[^a-z])f[wh]_\d{1,2}(?:\D|$)", re.I)
 
 
+def _clean_staged_features(features, name: str = "", model_name: str = "") -> str:
+    """Strip scraper artifacts (glued page H1, space-before-punctuation) from
+    feature text. Free and deterministic; never fails the caller."""
+    try:
+        from features_gen import clean_feature_lines
+        return clean_feature_lines(str(features or ""), name=name, model_name=model_name)
+    except Exception:  # noqa: BLE001
+        return str(features or "")
+
+
 def _clean_vision_pool(urls, *, limit: int) -> list[str]:
     """Shortlist distinct, inspectable images for the vision pass.
 
@@ -1769,7 +1779,11 @@ def _robot_api_to_staged(robot: dict[str, Any], company_slug: str, company_name:
         # real existing data as a side effect — found live on AgileX
         # (2026-08-01, robots 1680/1681/1776): `missing_family` remedies wiped
         # `features` even though that flag never touches it.
-        "features": robot.get("features") or "",
+        "features": _clean_staged_features(
+            robot.get("features") or "",
+            str(robot.get("name") or ""),
+            str(robot.get("model_name") or ""),
+        ),
         "tags": _join_pipe([str(t) for t in (robot.get("tags") or []) if str(t).strip()])
                 if isinstance(robot.get("tags"), list)
                 else str(robot.get("tags") or ""),

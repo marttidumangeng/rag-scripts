@@ -208,6 +208,110 @@ Examples:
 ]
 """
 
+# Deterministic non-robot backstop (2026-08-04). The prompt's is_robot /
+# is_robot_page instructions explicitly exclude controllers, software, and
+# components — and the model STILL returned is_robot=true for an entire
+# "Robot Controller GRC Series" catalogue (NexAIoT: 15 controllers, gateways,
+# a teach pendant, an API library and an HMI staged as robots; the category
+# title contains "Robot", which is apparently all it takes). Third incident
+# of an instruction-only gate failing. This veto reads the TYPE PHRASE the
+# extractor itself asserts as fact (the name + the mandated first sentence
+# "X is a <type> from <company>") — a claim we can regex, not a judgement we
+# have to trust. A strong physical-robot phrase anywhere overrides the veto,
+# so "NexMOV AMR is an Autonomous Mobile Robot..." survives while
+# "GRC V100 is a robot controller..." does not.
+_COMPONENT_VETO_RE = re.compile(
+    r"\b(robot |motion )?controllers?\b|\bgateways?\b|\bteach(ing)? pendants?\b"
+    r"|\bpendants?\b|\bsoftware\b|\bsdk\b|\bapi\b|\blibrar(y|ies)\b"
+    r"|\bhmi\b|\bhuman.machine interface\b|\bconfiguration tool\b"
+    r"|\bindustrial pc\b|\bpanel pc\b|\brpa\b|\brobotic process automation\b"
+    r"|\bi/?o module\b|\bservo (drives?|motors?)\b|\bactuators?\b"
+    r"|\bgrippers?\b|\bmaster stack\b|\bcontrol platform\b"
+    # Conventional-machinery vocabulary (2026-08-06 draft-lane sweep found 30
+    # of these already imported: woodworking lines, packaging machines, PLCs).
+    # Deliberately NO bare 'cnc' — real machine-tending robots mention CNC.
+    r"|\bproduction line\b|\bpress brake\b|\bbending machine\b"
+    r"|\bengraving machine\b|\bedge band(er|ing)\b|\bwoodworking\b"
+    r"|\bsheet metal machine\b|\blathe\b|\bmilling machine\b"
+    r"|\b(packaging|filling|sealing|drilling|saw) machine\b"
+    r"|\bplc\b|\bcamera payload\b|\bisr payload\b",
+    re.IGNORECASE,
+)
+_STRONG_ROBOT_RE = re.compile(
+    r"\b(autonomous mobile robot|amr|agv|robot(ic)? arm|articulated robot"
+    r"|scara|delta robot|parallel robot|cobot|collaborative robot|humanoid"
+    r"|quadruped|hexapod|exoskeleton|mobile robot|welding robot"
+    r"|palletiz\w+ robot|robot palletizer|palletizer|inspection robot"
+    r"|cleaning robot|delivery robot|service robot|surgical robot"
+    r"|test automation robot|robotic cell|drone|uav|robot(ic)? hand)\b",
+    re.IGNORECASE,
+)
+
+
+# Robot-TYPE vocabulary for the generic-name check below. Deliberately a
+# SEPARATE set from _GENERIC_NAME_WORDS (which feeds dedupe identity): a name
+# made ENTIRELY of type words + generic words is a category shell, but a type
+# word alongside a brand token ("Agilex AMR") is fine.
+_TYPE_ONLY_WORDS = frozenset({
+    "delta", "scara", "cobot", "co", "amr", "agv", "arm", "arms", "humanoid",
+    "industrial", "collaborative", "mobile", "autonomous", "welding",
+    "palletizing", "picking", "sorting", "inspection", "cleaning", "delivery",
+    "service", "smart", "intelligent", "speed", "high", "ultra", "axis",
+    "dual", "single", "compact", "heavy", "light", "duty", "purpose",
+})
+
+# Rows extracted from news/exhibition coverage rather than a product page.
+# QKM 2026-08-05: "HS-1540 Robot ... was showcased at the fair" — a real-ish
+# model code with no product page behind it, unverifiable as staged.
+_NEWS_DERIVED_RE = re.compile(
+    r"\b(?:was |were |first )?(?:showcased|unveiled|exhibited|debuted|premiered)\s+at\b",
+    re.IGNORECASE,
+)
+
+
+def _clean_features(features, name: str = "", model_name: str = "") -> str:
+    """Deterministic feature cleanup; never fails the caller."""
+    try:
+        from features_gen import clean_feature_lines
+        return clean_feature_lines(str(features or ""), name=name, model_name=model_name)
+    except Exception:  # noqa: BLE001 — cleanup is a bonus, never a blocker
+        return str(features or "")
+
+
+def component_veto(name: str, description: str) -> str:
+    """Return the offending phrase when a staged item is not a catalogable
+    robot product; '' when it reads as one. Three deterministic checks:
+
+    1. Generic-only name — every token is category vocabulary ("Delta Robot",
+       "Co-robot") and there is no model code. These are series/marketing
+       shells that duplicate the properly-named rows next to them.
+    2. News/exhibition derivation — "was showcased at ..." descriptions come
+       from coverage pages, not product pages.
+    3. Component/software type phrase — the extractor's own first sentence
+       says controller/gateway/software/etc. A strong physical-robot phrase
+       overrides ONLY this check (a "Delta Robot" shell must not be saved by
+       'delta robot' also being a strong-robot phrase).
+    """
+    first_sentence = (description or "").split(".")[0]
+    scope = f"{name or ''} {first_sentence}"
+    if not _model_code_set(name or ""):
+        toks = [t for t in re.split(r"[^a-z0-9]+", (name or "").lower()) if t]
+        if toks and all(t in _GENERIC_NAME_WORDS or t in _TYPE_ONLY_WORDS for t in toks):
+            return f"generic-only name {name!r}"
+    # Only when the WHOLE description is a thin blurb: a rich product-page
+    # description may legitimately cite a trade-fair debut as launch evidence,
+    # but "X is a robot from Y. It was showcased at Z." is coverage, not catalog.
+    sentences = [s for s in (description or "").split(".") if s.strip()]
+    if len(sentences) <= 2:
+        m = _NEWS_DERIVED_RE.search(description or "")
+        if m:
+            return m.group(0)
+    if _STRONG_ROBOT_RE.search(scope):
+        return ""
+    m = _COMPONENT_VETO_RE.search(scope)
+    return m.group(0) if m else ""
+
+
 # Content-brief style checks (mirrors robots/description_gen.py on the server) —
 # LLMs don't always follow prompt rules, so violations are logged for review
 # rather than trusted silently
@@ -441,6 +545,12 @@ def extract_robots_from_page(page: PageContent, company_name: str,
         if not name or not item.get("is_robot_page", True):
             continue
         description = str(item.get("description") or "").strip()
+        # Deterministic backstop on the model's own type phrase — the
+        # is_robot_page flag lies on component pages (see component_veto).
+        veto = component_veto(name, description)
+        if veto:
+            print(f"    -- '{name}' type-phrase veto ({veto!r}), skipping")
+            continue
         for problem in _track_a_violations(name, description):
             print(f"    [style] {name}: {problem}")
         robots.append({
@@ -451,7 +561,13 @@ def extract_robots_from_page(page: PageContent, company_name: str,
             "images": page.images,
             # extended extraction fields — consumed by _write_staging
             "purpose": item.get("purpose"),
-            "features": item.get("features"),
+            # Free cleanup of scraper artifacts (page H1 glued to the first
+            # bullet, space-before-punctuation). AI verification cannot catch
+            # these — the text is faithful to the source, just not editorially
+            # clean — so a human was deleting them by hand (robot 6446).
+            "features": _clean_features(
+                item.get("features"), name, str(item.get("model_name") or "")
+            ),
             "release_year": item.get("release_year"),
             "availability": item.get("availability"),
             "price_min": item.get("price_min"),
@@ -1290,6 +1406,13 @@ def discover_robots_for_company(
                 why = str(robot.get("non_robot_reason") or "conventional machinery")[:120]
                 print(f"        -- '{name}' NOT a robot ({why}), skipping")
                 errors.append(f"non_robot skipped: {name} ({why})")
+                continue
+            # Deterministic backstop: the model claims is_robot=true, but its
+            # own type phrase says otherwise (see component_veto docstring).
+            veto = component_veto(name, str(robot.get("description") or ""))
+            if veto:
+                print(f"        -- '{name}' type-phrase veto ({veto!r}), skipping")
+                errors.append(f"component veto skipped: {name} ({veto})")
                 continue
             if _CJK_NAME_RE.search(name):
                 # Prompt asks for English/romanized names; if CJK still leaks through,

@@ -83,6 +83,17 @@ _STOP_TOKENS: set[str] = {
     # match (bug: "...to an Android?" matched animenewsnetwork.com via "an")
     "a", "an", "and", "of", "to", "in", "on", "at", "by", "for", "or", "is",
     "it", "if", "do", "does", "you", "your", "with", "from", "we", "our",
+    # Academic/institutional + geographic generics (2026-08-04): "Korea
+    # Institute of Science & Technology" reduced to {korea, institute,
+    # science}, and "science" substring-matched dongascience.com — a Korean
+    # science NEWS outlet — which then became KIST's stored website and got
+    # mined by discovery into two junk robots. A token every university,
+    # institute, and national lab shares can never identify a specific org.
+    "science", "sciences", "institute", "institutes", "university",
+    "college", "laboratory", "laboratories", "lab", "labs", "research",
+    "academy", "national", "center", "centre", "advanced", "engineering",
+    "solutions", "digital", "smart", "korea", "korean", "chinese", "japan",
+    "japanese", "america", "american", "usa", "europe", "european",
 }
 
 

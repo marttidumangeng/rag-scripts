@@ -1,0 +1,56 @@
+[
+  {
+    "package": "packages/1_nvidia/FINAL_PACKAGE.md",
+    "lane": "news",
+    "body_words": 849,
+    "status": "PASS",
+    "fail_count": 0,
+    "warn_count": 0,
+    "findings": []
+  },
+  {
+    "package": "packages/2_waymo/FINAL_PACKAGE.md",
+    "lane": "news",
+    "body_words": 859,
+    "status": "PASS",
+    "fail_count": 0,
+    "warn_count": 0,
+    "findings": []
+  },
+  {
+    "package": "packages/3_spacex/FINAL_PACKAGE.md",
+    "lane": "news",
+    "body_words": 864,
+    "status": "PASS",
+    "fail_count": 0,
+    "warn_count": 0,
+    "findings": []
+  },
+  {
+    "package": "packages/4_skf/FINAL_PACKAGE.md",
+    "lane": "news",
+    "body_words": 903,
+    "status": "PASS",
+    "fail_count": 0,
+    "warn_count": 0,
+    "findings": []
+  },
+  {
+    "package": "packages/5_shenzhen/FINAL_PACKAGE.md",
+    "lane": "news",
+    "body_words": 808,
+    "status": "PASS",
+    "fail_count": 0,
+    "warn_count": 0,
+    "findings": []
+  },
+  {
+    "package": "packages/6_article/FINAL_PACKAGE.md",
+    "lane": "article",
+    "body_words": 1243,
+    "status": "PASS",
+    "fail_count": 0,
+    "warn_count": 0,
+    "findings": []
+  }
+]

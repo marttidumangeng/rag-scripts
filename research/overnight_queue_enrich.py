@@ -137,41 +137,47 @@ def iter_pending_oldest_first(
     *,
     page_size: int = 50,
 ) -> list[dict[str, Any]]:
-    """Fetch all pending_review robots, then sort oldest → newest locally."""
+    """Fetch all workable robots (draft + pending_review), oldest → newest.
+
+    Draft-first pipeline (2026-08-05): discovery imports land as drafts, so
+    the enrichment loop's job is to complete DRAFTS (which promote_drafts.py
+    then gates into the queue) as well as whatever is already pending.
+    """
     results: list[dict[str, Any]] = []
-    page = 1
-    while True:
-        last_exc: Exception | None = None
-        data = None
-        for attempt in range(5):
-            try:
-                data = client._get(
-                    "robots/robots/",
-                    params={
-                        "status": "pending_review",
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                )
+    for status in ("draft", "pending_review"):
+        page = 1
+        while True:
+            last_exc: Exception | None = None
+            data = None
+            for attempt in range(5):
+                try:
+                    data = client._get(
+                        "robots/robots/",
+                        params={
+                            "status": status,
+                            "page": page,
+                            "page_size": page_size,
+                        },
+                    )
+                    break
+                except Exception as exc:  # noqa: BLE001
+                    last_exc = exc
+                    wait = 2 ** attempt
+                    _safe_print(f"  scan retry {status} page={page} attempt={attempt+1}: {exc} (sleep {wait}s)", flush=True)
+                    time.sleep(wait)
+            if data is None:
+                raise last_exc  # type: ignore[misc]
+            batch = data.get("results") or []
+            results.extend(batch)
+            _safe_print(
+                f"  scan {status} page {page}: +{len(batch)} "
+                f"(total {len(results)}, {status} count {data.get('count')})",
+                flush=True,
+            )
+            if not data.get("next") or not batch:
                 break
-            except Exception as exc:  # noqa: BLE001
-                last_exc = exc
-                wait = 2 ** attempt
-                _safe_print(f"  scan retry page={page} attempt={attempt+1}: {exc} (sleep {wait}s)", flush=True)
-                time.sleep(wait)
-        if data is None:
-            raise last_exc  # type: ignore[misc]
-        batch = data.get("results") or []
-        results.extend(batch)
-        _safe_print(
-            f"  scan page {page}: +{len(batch)} "
-            f"(total {len(results)}/{data.get('count')})",
-            flush=True,
-        )
-        if not data.get("next") or not batch:
-            break
-        page += 1
-        time.sleep(0.15)
+            page += 1
+            time.sleep(0.15)
     results.sort(key=lambda r: (r.get("created_at") or "", r.get("id") or 0))
     return results
 
@@ -357,7 +363,7 @@ def enrich_company(
     pending = [
         r
         for r in client.list_robots_for_company(company_id)
-        if str(r.get("status") or "").lower() == "pending_review" and robot_gaps(r)
+        if str(r.get("status") or "").lower() in ("draft", "pending_review") and robot_gaps(r)
     ]
     # Drop robots whose last pass produced nothing — their gaps are not fillable from
     # the OEM site right now, and re-researching them is the treadmill this stall
@@ -509,13 +515,17 @@ def enrich_company(
                 result["robots"].append(row_info)
                 continue
 
+            # status here is the CREATE default only — patch mode never touches
+            # an existing robot's status (bulk_import skips non-empty fields).
+            # 'draft' so an accidental net-new row lands in the draft lane and
+            # must earn promotion, same as discovery imports (2026-08-05).
             imp = import_staging(
                 path,
                 client=client,
                 patch=True,
                 force_overwrite=False,
                 replace_media=False,
-                status="pending_review",
+                status="draft",
                 batch_size=1,
                 skip_company_update=True,
                 dry_run=False,

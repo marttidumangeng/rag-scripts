@@ -32,6 +32,63 @@ MATCH_THRESHOLD = 50  # same convention as robots/quality.py VERIFICATION_MISMAT
 MAX_IMAGE_CANDIDATES = 8
 
 
+def _graphic_reject_reason(data: bytes, url: str = "") -> str:
+    """Free logo/badge/banner detector on bytes we already downloaded.
+
+    WHY (Martti, 2026-08-09): "before we spend AI scoring to such images, that
+    should have been caught as duplicates or spam." A Skyports robot reached
+    human review carrying a "Living Wage Employer" badge and the company
+    wordmark — each of which cost a slot in a paid vision call just to be told
+    it was a logo. URL patterns cannot catch these: the wordmark is
+    `Skyports_DS_Light-bf61c2c-V1.png` and partner logos are `RWE.png`,
+    `Equinor.svg.png` — no 'logo'/'badge' token anywhere.
+
+    Pixels can. Photographs have thousands of colours and sane proportions;
+    logos, wordmarks, badges and icons are small, extreme-aspect, or flat.
+    Conservative on purpose — every rule here must be one a photo of a robot
+    cannot plausibly trip. Returns a reason string, or "" to keep the image.
+    """
+    try:
+        import io
+
+        from PIL import Image
+    except Exception:  # noqa: BLE001 — no PIL: keep the image, let vision decide
+        return ""
+    try:
+        img = Image.open(io.BytesIO(data))
+        img.load()
+    except Exception:  # noqa: BLE001 — undecodable: vision can't use it either
+        return "undecodable image"
+
+    w, h = img.size
+    if w < 200 or h < 200:
+        return f"icon/badge-sized ({w}x{h})"
+    ratio = max(w, h) / max(1, min(w, h))
+    if ratio >= 3.0:
+        return f"banner/wordmark aspect ratio ({w}x{h})"
+
+    # Flat-colour test: logos are built from a few flat fills, photographs and
+    # product renders are not. Sample a thumbnail so this stays cheap.
+    try:
+        small = img.convert("RGB").resize((96, 96))
+        distinct = len(set(small.getdata()))
+    except Exception:  # noqa: BLE001
+        return ""
+    # Calibrated on real files 2026-08-09, NOT guessed. Measured distinct
+    # colours in a 96x96 sample:
+    #   logos      NHS-logo 454
+    #   REAL parts Laevo FLEX render (transparent bg) 1359, NexMOV render 1095,
+    #              AceiiLab photo 3189, site photos 2502/4149
+    # 700 sits well under the lowest real render (1095) and above the logo.
+    # Deliberately NOT tuned tighter: a detailed badge measured 1553 — higher
+    # than two genuine renders — so pixels alone cannot catch every logo, and
+    # trying would start deleting real robots. URL patterns
+    # (web_extract.is_junk_image_url, applied above) cover that class instead.
+    if distinct < 700:
+        return f"flat graphic — only {distinct} distinct colours (logo/badge/text)"
+    return ""
+
+
 def _generate_json(client, parts: list, *, max_output_tokens: int = 4096) -> Any | None:
     """One JSON-mode call; None on any failure (callers fall back to heuristics).
 
@@ -111,13 +168,47 @@ def pick_hero_image(
     # Deferred import: verify_lib puts robotaigeek-server on sys.path at import time.
     from verify_lib import server_verification
 
+    # Two FREE gates before anything reaches the paid call. Both operate on
+    # bytes we already had to download, and both used to happen too late:
+    # duplicates were hashed only AFTER scoring, and logos were sent to Gemini
+    # purely to be told they were logos.
     loaded: list[tuple[str, tuple[bytes, str]]] = []
+    hashes: dict[str, str] = {}
+    seen_hashes: dict[str, str] = {}   # digest -> first url that carried it
+    try:
+        from web_extract import is_junk_image_url
+    except Exception:  # noqa: BLE001
+        def is_junk_image_url(_u):  # type: ignore[misc]
+            return False
+
     for url in dict.fromkeys(candidates):
         if len(loaded) >= MAX_IMAGE_CANDIDATES:
             break
+        # 0. Free-est gate of all: known junk URL shape (favicon/icon/badge/
+        #    logo/social/CTA). Costs nothing — not even a download. This pool
+        #    never had the filter applied, so favicons and partner logos were
+        #    being fetched AND scored.
+        if is_junk_image_url(url):
+            print(f"        -- skip (junk url pattern): {url[:70]}")
+            continue
         payload = server_verification.fetch_image_bytes(session, url, timeout=timeout)
-        if payload:
-            loaded.append((url, payload))
+        if not payload:
+            continue
+        data, _mime = payload
+        digest = hashlib.md5(data).hexdigest()
+        hashes[url] = digest
+        # 1. Byte-identical duplicate: the SAME file served from two URLs used
+        #    to occupy two of the eight slots and be scored twice.
+        if digest in seen_hashes:
+            print(f"        -- skip (duplicate of {seen_hashes[digest][:60]}): {url[:70]}")
+            continue
+        # 2. Logo / badge / banner by pixels, not filename.
+        reject = _graphic_reject_reason(data, url)
+        if reject:
+            print(f"        -- skip ({reject}): {url[:70]}")
+            continue
+        seen_hashes[digest] = url
+        loaded.append((url, payload))
     if not loaded:
         return None
 
@@ -157,11 +248,12 @@ def pick_hero_image(
         "hero": passing[0] if passing else "",
         "gallery": passing[1:1 + max_gallery],
         "scores": scores,
-        # The bytes were downloaded for scoring anyway — hash them here for free
-        # so callers can stamp ImageCandidate.content_hash and the server's
-        # hash-first photo dedupe (image_candidates._find_existing_photo) can
-        # actually fire at attach time. md5 = detect_duplicate_heroes convention.
-        "hashes": {url: hashlib.md5(data).hexdigest() for url, (data, _mime) in loaded},
+        # Hashes for every candidate we downloaded (including ones dropped as
+        # duplicates/graphics) so callers can stamp ImageCandidate.content_hash
+        # and the server's hash-first photo dedupe
+        # (image_candidates._find_existing_photo) fires at attach time.
+        # md5 = detect_duplicate_heroes convention.
+        "hashes": hashes,
     }
 
 

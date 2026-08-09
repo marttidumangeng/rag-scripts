@@ -290,6 +290,29 @@ class ResearchApiClient:
                 pass
         return out
 
+    def set_robot_status(self, robot_id: int, status: str) -> dict[str, Any]:
+        """Move a robot between lanes (draft <-> pending_review).
+
+        Used by the promotion gate (promote_drafts.py, 2026-08-05): drafts are
+        promoted to pending_review only after the required-field bar AND the
+        AI-verification score gate pass. Plain DRF PATCH — `status` is a
+        writable serializer field; the review/ endpoint is only for
+        approve/reject decisions.
+        """
+        return self._patch(f"robots/robots/{robot_id}/", {"status": status})
+
+    def ai_verify_start(self, robot_ids: list[int], *, force: bool = False) -> dict[str, Any]:
+        """Start a server-side batched AI verification job (verify_content on
+        prod, spends the SERVER's Gemini key, not the research ledger).
+        Returns the job dict; poll ai_verify_status(job_id)."""
+        return self._post(
+            "robots/robots/ai-verify/",
+            {"robot_ids": robot_ids, "force": force},
+        )
+
+    def ai_verify_status(self, job_id: str) -> dict[str, Any]:
+        return self._get(f"robots/robots/ai-verify/{job_id}/")
+
     def bulk_import_robots(
         self,
         robots: list[dict[str, Any]],

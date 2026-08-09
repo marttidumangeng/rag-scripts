@@ -1,0 +1,18 @@
+=== Uploading hero_1_nvidia.png ===
+Upload Successful: https://cdn.robotaigeek.com/images/hero_1_nvidia.png
+
+=== Uploading hero_2_waymo.png ===
+Upload Successful: https://cdn.robotaigeek.com/images/hero_2_waymo.png
+
+=== Uploading hero_3_spacex.png ===
+Upload Successful: https://cdn.robotaigeek.com/images/hero_3_spacex.png
+
+=== Uploading hero_4_skf.png ===
+Upload Successful: https://cdn.robotaigeek.com/images/hero_4_skf.png
+
+=== Uploading hero_5_shenzhen.png ===
+Upload Successful: https://cdn.robotaigeek.com/images/hero_5_shenzhen.png
+
+=== Uploading hero_6_article.png ===
+Upload Successful: https://cdn.robotaigeek.com/images/hero_6_article.png
+
