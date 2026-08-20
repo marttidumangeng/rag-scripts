@@ -1371,19 +1371,6 @@ _YOUTUBE_CHANNEL_PATH_RE = re.compile(r"^/(@[\w.-]+|channel/|c/)", re.I)
 _YOUTUBE_VIDEO_PATH_RE = re.compile(r"watch\?v=|^/shorts/", re.I)
 
 
-def _resolve_grounding_url(uri: str, *, timeout: int = 10) -> str:
-    """Grounding chunks give a Google redirect URL (vertexaisearch.cloud.google.com/...), not
-    the real destination — must resolve it to know if it's actually a YouTube link."""
-    try:
-        resp = requests.head(uri, timeout=timeout, allow_redirects=True)
-        if resp.status_code >= 400:
-            resp = requests.get(uri, timeout=timeout, allow_redirects=True, stream=True)
-            resp.close()
-        return resp.url
-    except requests.RequestException:
-        return ""
-
-
 def search_youtube_videos_for_robot(
     robot_name: str,
     company_name: str,
@@ -1392,62 +1379,65 @@ def search_youtube_videos_for_robot(
     company_website: str = "",
     max_videos: int = 5,
 ) -> dict[str, Any]:
-    """Use Gemini + Google Search grounding to find the company's official YouTube channel and
-    videos specifically about this robot. A single grounded search naturally covers both cases
-    the research agent needs: official-channel videos when they exist, and third-party
-    robotics/AI creator coverage when they don't (it's a general web search, not scoped to one
-    channel) — falling back to page-scraped videos entirely is what causes sibling product
-    variants sharing one page to end up with identical, often irrelevant, video picks.
+    """Find the company's official YouTube channel and videos about this robot, via Serper.
 
-    Real URLs come from the response's grounding citations (real search results), not from the
-    model's own free-text — asking the model to transcribe a specific video URL/ID from memory
-    is what caused it to hallucinate a fake video ID and get stuck in a repetition loop until
-    MAX_TOKENS. thinking_budget=0 is also required: with thinking enabled, Flash spent its
-    entire output budget on hidden reasoning for this grounded query and never emitted an
-    answer at all (finish_reason=MAX_TOKENS with zero visible text and zero grounding chunks).
+    A general web search (not scoped to one channel) covers both cases the research agent
+    needs: official-channel videos when they exist, and third-party robotics/AI creator
+    coverage when they don't — falling back to page-scraped videos entirely is what causes
+    sibling product variants sharing one page to end up with identical, often irrelevant,
+    video picks.
+
+    WAS Gemini + Google Search grounding until 2026-08-11. This call site is unconditional
+    — once per robot, on every research attempt — and grounding bills $35/1,000 requests,
+    which made it the single largest line on the Gemini bill. It only ever read URLs out of
+    `grounding_chunks` and discarded the model's prose entirely, so it was paying 175x for a
+    result page. Serper returns the same real search results for ~$0.001. The original
+    hazard the grounding version documented — Flash hallucinating a video ID when asked to
+    recall one from memory — does not apply to either path, because both take URLs only from
+    actual search results and never from model free-text.
+
+    Serper unavailable (no key, credits out) returns empty rather than falling back to a paid
+    search: videos are an enrichment nice-to-have, and the caller has already collected
+    page-scraped videos via find_youtube_on_domain.
     """
-    disambiguation = f' (website: {company_website})' if company_website else ''
-    prompt = f"""Search for the official YouTube channel of "{company_name}"{disambiguation} and any \
-YouTube videos showing or demoing the robot "{robot_name}" (model: {model_name or robot_name}).
-Briefly summarize in 2-3 sentences what you found: the channel name/handle, and whether you found \
-robot-specific videos or only generic company videos. Do not fabricate URLs or video IDs."""
+    from product_url_search import _serper_google_search
 
-    try:
-        import spend_guard
-        client = spend_guard.client(http_options={"api_version": "v1beta"})
-        response = client.models.generate_content(
-            model="models/gemini-2.5-flash",
-            contents=prompt,
-            config=genai_types.GenerateContentConfig(
-                temperature=0.2,
-                max_output_tokens=800,
-                thinking_config=genai_types.ThinkingConfig(thinking_budget=0),
-                tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())],
-            ),
-        )
-        grounding = response.candidates[0].grounding_metadata if response.candidates else None
-        chunks = grounding.grounding_chunks if grounding else None
-    except Exception:
-        return {"channel_url": "", "video_urls": []}
+    model = model_name or robot_name
+    queries = [
+        f'site:youtube.com "{model}" {company_name}',
+        f'site:youtube.com {company_name} {robot_name} robot',
+    ]
 
     channel_url = ""
     video_urls: list[str] = []
     seen: set[str] = set()
-    for chunk in chunks or []:
-        web = getattr(chunk, "web", None)
-        if not web or not web.uri:
-            continue
-        resolved = _resolve_grounding_url(web.uri)
-        if not resolved:
-            continue
-        parsed = urlparse(resolved)
-        if not _YOUTUBE_HOST_RE.search(parsed.netloc):
-            continue
-        if not channel_url and _YOUTUBE_CHANNEL_PATH_RE.match(parsed.path):
-            channel_url = resolved
-        elif _YOUTUBE_VIDEO_PATH_RE.search(resolved) and resolved not in seen:
-            seen.add(resolved)
-            video_urls.append(resolved)
+    for query in queries:
+        for item in _serper_google_search(query, max_results=10):
+            url = (item.get("link") or "").strip()
+            if not url:
+                continue
+            parsed = urlparse(url)
+            if not _YOUTUBE_HOST_RE.search(parsed.netloc):
+                continue
+            if not channel_url and _YOUTUBE_CHANNEL_PATH_RE.match(parsed.path):
+                channel_url = url
+            elif _YOUTUBE_VIDEO_PATH_RE.search(url) and url not in seen:
+                seen.add(url)
+                video_urls.append(url)
+        if len(video_urls) >= max_videos:
+            break
+
+    if not channel_url:
+        # A `site:youtube.com "<model>"` query returns watch pages, not channel pages, so the
+        # channel needs asking for by name — it becomes an "Official YouTube channel" source
+        # ref upstream. Only run when the video queries didn't already surface one.
+        for item in _serper_google_search(f'site:youtube.com "{company_name}" official channel'):
+            url = (item.get("link") or "").strip()
+            parsed = urlparse(url)
+            if url and _YOUTUBE_HOST_RE.search(parsed.netloc) \
+                    and _YOUTUBE_CHANNEL_PATH_RE.match(parsed.path):
+                channel_url = url
+                break
 
     return {"channel_url": channel_url, "video_urls": video_urls[:max_videos]}
 

@@ -74,6 +74,13 @@ def _stage_and_import(merged: Any, robot_id: int, ctx: RemedyContext, *, replace
     )
 
 
+# The only flags that mean "the hero itself is wrong". Anything else must not
+# cause the existing hero to be discarded.
+HERO_REPLACING_FLAGS: frozenset[str] = frozenset({
+    "missing_image", "image_mismatch", "image_dead", "image_not_uploaded",
+})
+
+
 def run_reresearch(
     robot: dict[str, Any],
     ctx: RemedyContext,
@@ -118,6 +125,18 @@ def run_reresearch(
                 robot = fresh
         except Exception:  # noqa: BLE001
             pass  # fall back to the caller's snapshot rather than fail the remedy
+
+        # SAFETY NET: never swap a hero that is already a localized CDN object
+        # unless this remedy exists BECAUSE the hero is wrong. `replace_media`
+        # tells the server to throw the current hero away, which is right for
+        # missing/mismatched/dead images and catastrophic for anything else —
+        # it silently deletes hand-uploaded heroes (2026-08-11, DEEP Robotics
+        # LYNX M20/M20S). Belt-and-braces behind remedy_few_photos' own
+        # replace_media=False, so a future media remedy cannot reintroduce this.
+        if replace_media and flag not in HERO_REPLACING_FLAGS:
+            hero = str(robot.get("s3_image") or "").strip()
+            if hero:
+                replace_media = False
 
         base = _robot_api_to_staged(robot, ctx.company_slug, ctx.company_name)
         before = snapshot(base.to_dict(), watch)
@@ -585,16 +604,21 @@ def remedy_image_not_uploaded(robot: dict[str, Any], ctx: RemedyContext) -> Reme
         return RemedyResult(action, FAILED, flag=flag, detail=f"{type(exc).__name__}: {exc}")
 
 
-def _make(action: str, flag: str, force: set[str], *, watch: set[str] | None = None, media: bool = False):
+def _make(action: str, flag: str, force: set[str], *, watch: set[str] | None = None,
+          media: bool = False, replace_media: bool | None = None):
     # Media remedies need the vision fallback: filename matching finds nothing on
     # OEMs with CMS/date/hash image names, so pixels are the only remaining signal.
+    # `replace_media` defaults to `media` but is SEPARATE: wanting vision is not
+    # the same as wanting the existing hero thrown away (see remedy_few_photos).
+    swap = media if replace_media is None else replace_media
+
     def _remedy(robot: dict[str, Any], ctx: RemedyContext) -> RemedyResult:
         return run_reresearch(
             robot, ctx,
             action=action, flag=flag,
             force_fields=frozenset(force),
             watch_fields=frozenset(watch or force),
-            replace_media=media,
+            replace_media=swap,
             vision=media,
         )
     _remedy.__name__ = f"remedy_{flag}"
@@ -602,11 +626,19 @@ def _make(action: str, flag: str, force: set[str], *, watch: set[str] | None = N
     return _remedy
 
 
-# Media — replace the hero/photos (needs replace_media so the server swaps them).
+# Media — these three say the HERO ITSELF is wrong (absent, mismatched, dead),
+# so replacing it is the whole point.
 remedy_missing_image = _make("refresh_media", "missing_image", {"image", "images"}, media=True)
 remedy_image_mismatch = _make("refresh_media", "image_mismatch", {"image", "images"}, media=True)
 remedy_image_dead = _make("refresh_media", "image_dead", {"image", "images"}, media=True)
-remedy_few_photos = _make("refresh_media", "few_photos", {"images"}, media=True)
+
+# `few_photos` says the GALLERY is thin — it says nothing against the hero, and
+# its force set is {"images"} only. It ran with replace_media=True anyway and
+# destroyed hand-uploaded heroes: on 2026-08-11 it deleted the localized hero of
+# DEEP Robotics LYNX M20 (2714) and M20S (2716) roughly an hour after they were
+# uploaded and verified serving. Add photos; leave the hero alone.
+remedy_few_photos = _make("refresh_media", "few_photos", {"images"},
+                          media=True, replace_media=False)
 
 # Source URL — never anchor on the stored (broken) URL; `sources` moves with it.
 remedy_missing_url = _make("refresh_url", "missing_url", {"url", "sources"})

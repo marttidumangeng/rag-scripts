@@ -16,8 +16,6 @@ from typing import Any
 from urllib.parse import urlparse
 
 import requests
-from google import genai
-from google.genai import types as genai_types
 
 from estun_english_catalog import preferred_estun_search_site
 from load_env import load_research_env
@@ -68,17 +66,6 @@ def is_weak_product_url(url: str, website: str, tokens: list[str]) -> bool:
     if score_url_for_robot(url, tokens) <= 0:
         return True
     return False
-
-
-def _resolve_redirect_url(uri: str, *, timeout: int = 10) -> str:
-    try:
-        resp = requests.head(uri, timeout=timeout, allow_redirects=True)
-        if resp.status_code >= 400:
-            resp = requests.get(uri, timeout=timeout, allow_redirects=True, stream=True)
-            resp.close()
-        return resp.url
-    except requests.RequestException:
-        return ""
 
 
 def _score_candidate(
@@ -149,59 +136,6 @@ def _pick_best(candidates: list[tuple[str, str, str]], tokens: list[str], compan
     if re.search(r"/\d+\.html?$", path, re.I) and any(tok in blob for tok in tokens):
         return best_url
     return best_url if best_score >= 8 else ""
-
-
-def search_product_url_via_grounding(
-    robot_name: str,
-    company_name: str,
-    *,
-    model_name: str = "",
-    company_website: str = "",
-) -> str:
-    """Gemini + Google Search grounding — same pattern as YouTube video search."""
-    company_website = preferred_estun_search_site(company_website)
-    company_netloc = _normalize_netloc(company_website) if company_website else ""
-    model = model_name or robot_name
-    site_hint = f" (website: {company_website})" if company_website else ""
-    prompt = (
-        f'Search for the official product page for the robot "{robot_name}" (model {model}) '
-        f'made by "{company_name}"{site_hint}. '
-        "Briefly summarize what you found in 2-3 sentences: the product page title and whether "
-        "it is a dedicated model page (not a catalog, news article, or contact page). "
-        "Do not fabricate URLs."
-    )
-    tokens = robot_name_tokens(robot_name, model_name)
-
-    try:
-        import spend_guard
-        client = spend_guard.client(http_options={"api_version": "v1beta"})
-        response = client.models.generate_content(
-            model="models/gemini-2.5-flash",
-            contents=prompt,
-            config=genai_types.GenerateContentConfig(
-                temperature=0.2,
-                max_output_tokens=800,
-                thinking_config=genai_types.ThinkingConfig(thinking_budget=0),
-                tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())],
-            ),
-        )
-        grounding = response.candidates[0].grounding_metadata if response.candidates else None
-        chunks = grounding.grounding_chunks if grounding else None
-    except Exception:
-        return ""
-
-    candidates: list[tuple[str, str, str]] = []
-    for chunk in chunks or []:
-        web = getattr(chunk, "web", None)
-        if not web or not web.uri:
-            continue
-        resolved = _resolve_redirect_url(web.uri)
-        if not resolved:
-            continue
-        title = getattr(web, "title", "") or ""
-        candidates.append((resolved, title, ""))
-
-    return _pick_best(candidates, tokens, company_netloc)
 
 
 _SERPER_DOWN = False  # set when credits run out (4xx) — Exa takes over for the rest of the run
@@ -427,11 +361,12 @@ def search_product_url_for_robot(
         )
         if url:
             return url
-    url = search_product_url_via_grounding(
-        robot_name, company_name, model_name=model_name, company_website=company_website,
-    )
-    if url:
-        return url
+    # No Gemini-grounding tier here (removed 2026-08-11). It read only the URLs out of
+    # `grounding_chunks` — the same shape Serper returns — while billing $35/1,000 requests,
+    # and because it sat BELOW Serper it fired exclusively on robots Serper could not find:
+    # the obscure, the misnamed, and the ones that are not products at all. That concentrated
+    # the most expensive call in the pipeline on its least valuable items. A robot neither
+    # Serper nor Exa can locate is a human's problem, not one to spend 3.5c per retry on.
     return search_product_url_via_apify(
         robot_name, company_name, model_name=model_name, company_website=company_website,
     )

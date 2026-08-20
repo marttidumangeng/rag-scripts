@@ -150,6 +150,25 @@ REMEDY_ORDER: list[str] = [
 MAX_ATTEMPTS_PER_ACTION = 2
 """A hard failure earns one retry; NO_OP earns none."""
 
+import os as _os
+
+MAX_TOTAL_ATTEMPTS_PER_ROBOT = int(
+    _os.environ.get("REMEDY_MAX_TOTAL_ATTEMPTS") or 12
+)
+"""Global per-robot remediation budget — the cap the per-ACTION limits miss.
+
+Per-action caps stop one remedy looping, but a robot carries many flags, and
+flags recompute after every write, so a row can keep qualifying for a
+DIFFERENT remedy indefinitely. Measured 2026-08-09: 334 pending/draft robots
+had >=6 logged attempts and 60 had >=10 (worst: 35), while 1,576 attempts were
+logged in two days at ~$30/day of Gemini — with the queue's approvable count
+barely moving. That is Martti's "repeatedly spending API calls on the same
+item with not much progress", quantified.
+
+Past this budget the robot is not improving under automation: stop spending
+and let a human look. Escalation is what plan_remedies returning [] already
+triggers in every caller."""
+
 MEDIA_ACTIONS: frozenset[str] = frozenset({"refresh_media"})
 """The action behind every MEDIA_FLAGS remedy — kept separate from MEDIA_FLAGS
 (flag names) because blocked_actions() works on actions, not flags."""
@@ -266,11 +285,14 @@ def plan_remedies(
 ) -> list[tuple[str, RemedyFn]]:
     """Ordered [(flag, remedy)] to run for this robot, ledger-aware.
 
-    Returns [] when the robot is terminal, has no fixable flags, or every
-    applicable remedy is already blocked — the caller escalates instead of
-    re-running a pass that would change nothing.
+    Returns [] when the robot is terminal, over its total attempt budget, has
+    no fixable flags, or every applicable remedy is already blocked — the
+    caller escalates instead of re-running a pass that would change nothing.
     """
     if is_terminal(rejection_categories):
+        return []
+    # Global spend ceiling per robot (see MAX_TOTAL_ATTEMPTS_PER_ROBOT).
+    if len(attempts or []) >= MAX_TOTAL_ATTEMPTS_PER_ROBOT:
         return []
 
     keys: list[str] = []

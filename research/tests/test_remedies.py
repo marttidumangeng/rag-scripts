@@ -181,3 +181,82 @@ class TestRegistryIntegrity(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class HeroPreservationTests(unittest.TestCase):
+    """A remedy must not throw away a hero it was not asked to replace.
+
+    2026-08-11: `few_photos` — "this robot has fewer than four photos" — ran with
+    `replace_media=True` and deleted hand-uploaded, verified-serving heroes on
+    DEEP Robotics LYNX M20 (2714) and M20S (2716) about an hour after upload.
+    Its force set is {"images"}; it never had any business touching the hero.
+    """
+
+    def test_few_photos_does_not_replace_media(self):
+        import inspect
+        from remedies import engine
+
+        captured = {}
+
+        def fake_run(robot, ctx, **kw):
+            captured.update(kw)
+            return None
+
+        real = engine.run_reresearch
+        engine.run_reresearch = fake_run
+        try:
+            engine.remedy_few_photos({"id": 1}, object())
+        finally:
+            engine.run_reresearch = real
+
+        self.assertEqual(captured.get("flag"), "few_photos")
+        self.assertFalse(captured.get("replace_media"),
+                         "few_photos must not discard the existing hero")
+        self.assertTrue(captured.get("vision"),
+                        "few_photos still needs the vision fallback to pick photos")
+        self.assertNotIn("image", captured.get("force_fields") or set(),
+                         "few_photos targets the gallery, not the hero")
+
+    def test_hero_replacing_remedies_still_replace(self):
+        from remedies import engine
+
+        for remedy, flag in [(engine.remedy_missing_image, "missing_image"),
+                             (engine.remedy_image_mismatch, "image_mismatch"),
+                             (engine.remedy_image_dead, "image_dead")]:
+            captured = {}
+
+            def fake_run(robot, ctx, **kw):
+                captured.update(kw)
+                return None
+
+            real = engine.run_reresearch
+            engine.run_reresearch = fake_run
+            try:
+                remedy({"id": 1}, object())
+            finally:
+                engine.run_reresearch = real
+            self.assertTrue(captured.get("replace_media"),
+                            f"{flag} exists to replace a bad hero and must still do so")
+
+    def test_hero_replacing_flags_cover_every_media_remedy_that_swaps(self):
+        """The safety net keys off HERO_REPLACING_FLAGS — if a media remedy asks
+        to swap the hero but its flag is not listed, the net would silently
+        cancel it. Keep the two in step."""
+        from remedies import engine
+
+        for remedy in (engine.remedy_missing_image, engine.remedy_image_mismatch,
+                       engine.remedy_image_dead):
+            captured = {}
+
+            def fake_run(robot, ctx, **kw):
+                captured.update(kw)
+                return None
+
+            real = engine.run_reresearch
+            engine.run_reresearch = fake_run
+            try:
+                remedy({"id": 1}, object())
+            finally:
+                engine.run_reresearch = real
+            if captured.get("replace_media"):
+                self.assertIn(captured["flag"], engine.HERO_REPLACING_FLAGS)

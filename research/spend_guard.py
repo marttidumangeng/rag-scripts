@@ -17,11 +17,20 @@ WHAT IT DOES
 * The counter lives in state/gemini_spend.json — `state/` survives both code
   deploys (tar excludes it) and cycle restarts, so the budget is per-DAY,
   not per-process. A runaway loop cannot reset it by restarting.
-* Budget: env `GEMINI_DAILY_CALL_BUDGET`, default 2500 calls/day. At typical
-  flash pricing that bounds worst-case spend well under the incident level
-  while leaving ~2x headroom over legitimate daily volume.
+* Budget: TWO ceilings, whichever binds first.
+  - env `GEMINI_DAILY_USD_BUDGET`, default $10/day — the one that matters.
+  - env `GEMINI_DAILY_CALL_BUDGET`, default 2500 calls/day — a volume backstop.
 * `status()` returns today's usage for cycle-log visibility — every cycle
   prints it, so an anomaly shows in the log the same hour, not on the bill.
+
+WHY DOLLARS AND NOT JUST CALLS (2026-08-11): counting calls hid a 175x price
+difference. A Google-Search-grounded call bills at $35/1,000 ($0.035 each);
+a plain Flash call costs fractions of a cent. Both charged `1` here, so a
+7,000-call budget silently authorised up to $245/day. Billing export for
+08-05..08-10 showed 75-85% of the Gemini bill was the grounding SKU
+("Generate content search query gemini 2.5 paid one") while actual tokens ran
+$5-9/day. A guard that cannot see the expensive unit is not a guard, so the
+meter now prices each call and the ledger carries `usd`.
 
 FAIL BEHAVIOR
 -------------
@@ -55,6 +64,15 @@ _RESEARCH_DIR = Path(__file__).resolve().parent
 STATE_PATH = _RESEARCH_DIR / "state" / "gemini_spend.json"
 
 DEFAULT_DAILY_BUDGET = 2500
+DEFAULT_DAILY_USD_BUDGET = 10.0
+
+# Published Gemini API rates, rounded UP — a cost guard must never under-price.
+# Google Search grounding: $35 per 1,000 grounded prompts, billed per request
+# regardless of how little of the answer we keep.
+SEARCH_GROUNDING_USD = 0.035
+# Everything else: token cost only. Flash text calls in this pipeline land well
+# under a tenth of a cent; $0.002 leaves headroom for image inputs.
+DEFAULT_CALL_USD = 0.002
 
 _LOCK = threading.Lock()
 
@@ -92,6 +110,31 @@ def _budget() -> int:
         return DEFAULT_DAILY_BUDGET
 
 
+def _usd_budget() -> float:
+    try:
+        return float(os.environ.get("GEMINI_DAILY_USD_BUDGET", "") or DEFAULT_DAILY_USD_BUDGET)
+    except ValueError:
+        return DEFAULT_DAILY_USD_BUDGET
+
+
+def _uses_search_grounding(kwargs: dict[str, Any]) -> bool:
+    """True when this generate_content call carries the Google Search tool.
+
+    Inspected rather than declared by the caller: a new grounded call site must
+    be priced correctly without anyone remembering to say so.
+    """
+    config = kwargs.get("config")
+    tools = getattr(config, "tools", None)
+    if tools is None and isinstance(config, dict):
+        tools = config.get("tools")
+    for tool in tools or []:
+        if getattr(tool, "google_search", None) is not None:
+            return True
+        if isinstance(tool, dict) and tool.get("google_search") is not None:
+            return True
+    return False
+
+
 def _today() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
@@ -102,7 +145,8 @@ def _load() -> dict[str, Any]:
     except Exception:  # noqa: BLE001 — missing/corrupt file = fresh day, never crash the pipeline
         data = {}
     if data.get("date") != _today():
-        data = {"date": _today(), "calls": 0, "by_kind": {}}
+        data = {"date": _today(), "calls": 0, "usd": 0.0, "by_kind": {}}
+    data.setdefault("usd", 0.0)  # ledger written before dollar pricing existed
     return data
 
 
@@ -116,16 +160,26 @@ def _save(data: dict[str, Any]) -> None:
         pass
 
 
-def charge(kind: str = "generate_content") -> None:
+def charge(kind: str = "generate_content", usd: float = DEFAULT_CALL_USD) -> None:
     """Record one paid call; raise SpendBudgetExceeded when the day is spent.
 
     Charged BEFORE the call so exhaustion stops spend immediately rather than
     one call late. Serialized across processes via _ledger_lock — since the
     discovery/enrichment service split, two loops write this ledger and a
     lost update would undercount a cost guard.
+
+    Both ceilings are enforced; the dollar one is what actually bounds the bill
+    now that grounded search calls cost 175x a plain one.
     """
     with _ledger_lock():
         data = _load()
+        if data["usd"] + usd > _usd_budget():
+            raise SpendBudgetExceeded(
+                f"GEMINI_DAILY_USD_BUDGET spent: ${data['usd']:.2f}/${_usd_budget():.2f} "
+                f"today ({data['date']}) — refusing further paid calls until UTC midnight. "
+                f"Breakdown: {data['by_kind']}. Raise the env var only after checking WHICH "
+                f"call kind is driving it; grounded search bills $0.035 each."
+            )
         if data["calls"] >= _budget():
             raise SpendBudgetExceeded(
                 f"GEMINI_DAILY_CALL_BUDGET spent: {data['calls']}/{_budget()} calls "
@@ -133,6 +187,7 @@ def charge(kind: str = "generate_content") -> None:
                 f"Raise the env var only after checking WHY today's volume is this high."
             )
         data["calls"] += 1
+        data["usd"] = round(data["usd"] + usd, 6)
         data["by_kind"][kind] = data["by_kind"].get(kind, 0) + 1
         _save(data)
 
@@ -141,7 +196,12 @@ def status() -> dict[str, Any]:
     """Today's usage — printed into every cycle log for same-hour visibility."""
     with _ledger_lock():
         data = _load()
-    return {**data, "budget": _budget()}
+    return {
+        **data,
+        "usd": round(data.get("usd", 0.0), 4),
+        "budget": _budget(),
+        "usd_budget": _usd_budget(),
+    }
 
 
 class _MeteredModels:
@@ -152,7 +212,9 @@ class _MeteredModels:
 
     def generate_content(self, *args: Any, **kwargs: Any) -> Any:
         model = str(kwargs.get("model") or (args[0] if args else "")) or "unknown"
-        charge(f"generate_content:{model}")
+        grounded = _uses_search_grounding(kwargs)
+        kind = f"generate_content:{model}" + (":search" if grounded else "")
+        charge(kind, SEARCH_GROUNDING_USD if grounded else DEFAULT_CALL_USD)
         return self._models.generate_content(*args, **kwargs)
 
     def __getattr__(self, name: str) -> Any:

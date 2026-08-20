@@ -293,6 +293,15 @@ def create_or_find_company(
         "name": name,
         "website": website,
         "source_locale": "en",
+        # DRAFT, not published: discovery cannot yet know whether the site it
+        # found belongs to a real robot manufacturer. Published-on-creation put
+        # a 3D-print file shop ("Battle droid"), a science NEWS outlet stored as
+        # KIST, and a drone-services operator straight onto the public site
+        # (2026-08). The company becomes public automatically when a human
+        # approves one of its robots (robots/signals.py
+        # publish_company_on_first_approved_robot) — visibility is earned by
+        # review, the same way robot visibility is.
+        "publication_status": "draft",
     }
     if country_id:
         payload["country_id"] = country_id

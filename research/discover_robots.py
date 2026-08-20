@@ -234,7 +234,26 @@ _COMPONENT_VETO_RE = re.compile(
     r"|\bengraving machine\b|\bedge band(er|ing)\b|\bwoodworking\b"
     r"|\bsheet metal machine\b|\blathe\b|\bmilling machine\b"
     r"|\b(packaging|filling|sealing|drilling|saw) machine\b"
-    r"|\bplc\b|\bcamera payload\b|\bisr payload\b",
+    r"|\bplc\b|\bcamera payload\b|\bisr payload\b"
+    # Digital goods: 3D-print file shops sell STL/PDF downloads for building
+    # STATIC props, not robots. Droid Division (company 1829, 2026-08-09) put
+    # three Futurama/Star-Wars fan replicas in the queue at GBP 22 each — the
+    # page literally says "Listing is NOT a physical item/prop. It is FILES
+    # for 3D PRINTING at home".
+    r"|\bstl file|\b3d[- ]print(?:ing|able|ed)? (?:file|set|kit|plan)"
+    r"|\bdownloadable (?:pdf|file|plan)|\bprint files\b|\bdigital (?:product|download)"
+    r"|\bnot a physical item\b|\bpapercraft\b|\bcosplay\b|\bprop replica\b",
+    re.IGNORECASE,
+)
+
+# WooCommerce/Etsy listing chrome swallowed into the product NAME: a shop's
+# archive markup glues the rating and price onto the title, and an "add to
+# cart" button label can be captured as the name outright. Real examples from
+# company 1829: "Cal Robot Rated 5.00 out of 5 £ 22.00", "Select options".
+_SHOP_CHROME_NAME_RE = re.compile(
+    r"rated\s+[\d.]+\s+out of\s+\d"
+    r"|\b(?:select options|add to (?:basket|cart)|read more|buy now|out of stock)\b"
+    r"|[£$€]\s?\d",
     re.IGNORECASE,
 )
 _STRONG_ROBOT_RE = re.compile(
@@ -269,6 +288,53 @@ _NEWS_DERIVED_RE = re.compile(
 )
 
 
+_URL_SLUG_NOISE = frozenset({
+    "product", "products", "detail", "details", "index", "html", "htm", "php",
+    "asp", "aspx", "en", "cn", "tw", "de", "jp", "page", "item", "goods",
+    "shop", "store", "view", "id", "www", "com", "solution", "solutions",
+})
+
+
+def name_disagrees_with_url(name: str, url: str) -> bool:
+    """True when the extracted name shares NOTHING with its own product URL.
+
+    WHY (2026-08-09, Wuxi Wanlv 1828): the extractor named three real products
+    after the site's NAV CATEGORY — "Agriculture & Photovoltaic",
+    "Fishery & Photovoltaic", "Ground Projects" — while the URLs said
+    `.../solar-panel-cleaning-robot-wls-7-lm/`. Every downstream step then
+    searched for a category label, found nothing, and left ten fields blank:
+    Martti saw "promising entries with a lot of data missing", but the real
+    defect was the NAME, and every enrichment call spent on those rows was
+    wasted before it started. A product page's slug essentially always carries
+    the model or product words; zero overlap means we grabbed a breadcrumb.
+
+    Conservative: returns False whenever either side has no distinctive tokens
+    (opaque numeric slugs, /product/12345) rather than guessing.
+    """
+    slug = re.split(r"[?#]", (url or ""))[0].rstrip("/").rsplit("/", 1)[-1]
+    slug_tokens = {
+        t for t in re.split(r"[^a-z0-9]+", slug.lower())
+        if len(t) > 1 and not t.isdigit() and t not in _URL_SLUG_NOISE
+    }
+    name_tokens = {
+        t for t in re.split(r"[^a-z0-9]+", (name or "").lower())
+        if len(t) > 1 and t not in _URL_SLUG_NOISE and t not in _GENERIC_NAME_WORDS
+    }
+    if not slug_tokens or not name_tokens:
+        return False
+    if slug_tokens & name_tokens:
+        return False
+    # Model codes vary slightly between name and slug ("UR10e" vs `ur10-robot`,
+    # "HH7E" vs `hh7`), so exact token equality is too strict — a containment
+    # match on either side counts as agreement. >=3 chars so "a"/"x" can't
+    # match everything.
+    for n_tok in name_tokens:
+        for s_tok in slug_tokens:
+            if len(n_tok) >= 3 and len(s_tok) >= 3 and (n_tok in s_tok or s_tok in n_tok):
+                return False
+    return True
+
+
 def _clean_features(features, name: str = "", model_name: str = "") -> str:
     """Deterministic feature cleanup; never fails the caller."""
     try:
@@ -278,7 +344,33 @@ def _clean_features(features, name: str = "", model_name: str = "") -> str:
         return str(features or "")
 
 
-def component_veto(name: str, description: str) -> str:
+# A manufacturer's own URL taxonomy is the most reliable "is this a robot"
+# signal we have — vendors file products honestly even when the marketing copy
+# talks about robotics. Orbbec (company 1799, 2026-08-11) put THIRTEEN depth
+# cameras, a 2D LiDAR and two camera-computer modules into the queue; two
+# reached To Review at score 96, because AI verification checks fidelity to the
+# source page and never asks whether the product is a robot.
+_COMPONENT_URL_RE = re.compile(
+    r"/products?/[^/]*("
+    r"stereo[-_]?vision|structured[-_]?light|depth[-_]?camera|camera[-_]computer"
+    r"|3d[-_]?camera|rgbd?[-_]?camera|vision[-_]?(sensor|camera|system)"
+    r"|lidar|lazer|laser[-_]scanner|tof[-_]|time[-_]of[-_]flight"
+    r"|imu\b|encoder|servo[-_]?(motor|drive)|reducer|gearbox|harmonic[-_]drive"
+    r"|controller|gateway|teach[-_]pendant|power[-_]supply"
+    r"|computer[-_]on[-_]modules?|com[-_]express|single[-_]board|motherboard"
+    r"|industrial[-_]?pcs?|edge[-_](server|computer)|accelerator"
+    r"|end[-_]effector|gripper|actuator"
+    r")", re.IGNORECASE)
+
+# The same vocabulary as it appears in a product's own first sentence.
+_SENSOR_TYPE_RE = re.compile(
+    r"\b(depth (and rgb |)camera|rgbd camera|stereo (vision |)camera"
+    r"|structured[- ]light camera|3d camera|time[- ]of[- ]flight (camera|sensor)"
+    r"|lidar( sensor| scanner|)|laser scanner|vision sensor|camera[- ]computer"
+    r"|imu|inertial measurement unit|depth sensor)\b", re.IGNORECASE)
+
+
+def component_veto(name: str, description: str, url: str = "") -> str:
     """Return the offending phrase when a staged item is not a catalogable
     robot product; '' when it reads as one. Three deterministic checks:
 
@@ -294,6 +386,22 @@ def component_veto(name: str, description: str) -> str:
     """
     first_sentence = (description or "").split(".")[0]
     scope = f"{name or ''} {first_sentence}"
+    # URL taxonomy first: it is the vendor's own classification and survives
+    # marketing copy that name/description checks fall for. Checked BEFORE the
+    # strong-robot override, because "for robotics" appears in the blurb of
+    # every component sold into this market.
+    if url:
+        u = _COMPONENT_URL_RE.search(url)
+        if u:
+            return f"component product path ({u.group(1).lower()!r})"
+    m = _SENSOR_TYPE_RE.search(scope)
+    if m:
+        return f"sensor/vision component ({m.group(0).lower()!r})"
+    # Shop-listing chrome in the NAME means we scraped an archive tile, not a
+    # product page — the row is unusable whatever it turns out to be.
+    chrome = _SHOP_CHROME_NAME_RE.search(name or "")
+    if chrome:
+        return f"shop-listing chrome in name ({chrome.group(0)!r})"
     if not _model_code_set(name or ""):
         toks = [t for t in re.split(r"[^a-z0-9]+", (name or "").lower()) if t]
         if toks and all(t in _GENERIC_NAME_WORDS or t in _TYPE_ONLY_WORDS for t in toks):
@@ -547,7 +655,7 @@ def extract_robots_from_page(page: PageContent, company_name: str,
         description = str(item.get("description") or "").strip()
         # Deterministic backstop on the model's own type phrase — the
         # is_robot_page flag lies on component pages (see component_veto).
-        veto = component_veto(name, description)
+        veto = component_veto(name, description, getattr(page, "url", "") or "")
         if veto:
             print(f"    -- '{name}' type-phrase veto ({veto!r}), skipping")
             continue
@@ -1409,10 +1517,18 @@ def discover_robots_for_company(
                 continue
             # Deterministic backstop: the model claims is_robot=true, but its
             # own type phrase says otherwise (see component_veto docstring).
-            veto = component_veto(name, str(robot.get("description") or ""))
+            veto = component_veto(name, str(robot.get("description") or ""),
+                                  str(robot.get("url") or url or ""))
             if veto:
                 print(f"        -- '{name}' type-phrase veto ({veto!r}), skipping")
                 errors.append(f"component veto skipped: {name} ({veto})")
+                continue
+            # A name that shares nothing with its own product URL is a nav
+            # breadcrumb, not a product name — importing it guarantees wasted
+            # enrichment spend on a row nothing can research.
+            if name_disagrees_with_url(name, str(robot.get("url") or "")):
+                print(f"        -- '{name}' does not match its product URL, skipping")
+                errors.append(f"name/url mismatch skipped: {name}")
                 continue
             if _CJK_NAME_RE.search(name):
                 # Prompt asks for English/romanized names; if CJK still leaks through,

@@ -11,6 +11,32 @@ from urllib.parse import urlparse
 from schema import StagedCompany, StagedRobot
 
 _URL_RE = re.compile(r"^https?://", re.I)
+_ERROR_TEXT_RE = re.compile(
+    r"(?:4\d\d|5\d\d)\s*(?:bad\s+gateway|gateway|bad\s+request|error)|"
+    r"bad\s+gateway|browser\s+working|host\s+error|wts\s+working|"
+    r"captcha|cloudflare|page\s+not\s+found|service\s+unavailable",
+    re.I,
+)
+_CJK_RE = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+
+_REQUIRED_TEXT_FIELDS = ("purpose", "features", "tags")
+
+
+def _has_text(value: Any) -> bool:
+    if isinstance(value, (list, tuple, set)):
+        return any(str(item or "").strip() for item in value)
+    return bool(str(value or "").strip())
+
+
+def _contains_error_text(value: Any) -> bool:
+    return bool(_ERROR_TEXT_RE.search(str(value or "")))
+
+
+def _contains_unreviewed_cjk(robot: StagedRobot, value: Any) -> bool:
+    # CJK is valid when the source is explicitly non-English; it is a contamination
+    # warning when an English output record still contains source-language fragments.
+    locale = (robot.source_locale or "").strip().lower()
+    return locale in {"", "en", "en-us", "en-gb"} and bool(_CJK_RE.search(str(value or "")))
 
 # `purpose` is a short task statement ("Hotel room-service delivery"); `description` is the
 # prose overview. The auto-research pipeline used to set purpose = description.split(".")[0],
@@ -93,6 +119,34 @@ def validate_robot(data: dict[str, Any] | StagedRobot) -> ValidationResult:
             "error", "description", "At least one of description or purpose is required.",
         ))
 
+    # Mandatory first-pass content gates. These are low-hanging fields and must not
+    # be silently left as unresolved warnings by the discovery importer.
+    if not robot.purpose.strip():
+        issues.append(ValidationIssue("error", "purpose", "Purpose is missing."))
+    if not robot.features.strip():
+        issues.append(ValidationIssue("error", "features", "Features are missing."))
+    if not robot.tags.strip():
+        issues.append(ValidationIssue("error", "tags", "Tags are missing."))
+    if not (robot.industry_keys.strip() or robot.industries_other.strip()):
+        issues.append(ValidationIssue("error", "industries", "Uses/industries are missing."))
+    if not (robot.use_keys.strip() or robot.uses_other.strip()):
+        issues.append(ValidationIssue("error", "uses", "Uses/industries are missing."))
+
+    text_fields = {
+        "name": robot.name,
+        "description": robot.description,
+        "purpose": robot.purpose,
+        "features": robot.features,
+        "strengths": robot.strengths,
+        "weaknesses": robot.weaknesses,
+        "notes": robot.notes,
+    }
+    for field_name, value in text_fields.items():
+        if _contains_error_text(value):
+            issues.append(ValidationIssue("error", field_name, "Error-page or gateway text detected."))
+        if _contains_unreviewed_cjk(robot, value):
+            issues.append(ValidationIssue("error", field_name, "Non-English source text remains in an English output record."))
+
     dup_kind = purpose_duplicates_description(robot.purpose, robot.description)
     if dup_kind:
         issues.append(ValidationIssue(
@@ -133,9 +187,8 @@ def validate_robot(data: dict[str, Any] | StagedRobot) -> ValidationResult:
     # and no category on 2026-07-31. Warn on each independently.
     if not robot.category_slugs.strip():
         issues.append(ValidationIssue(
-            "warning", "category_slugs",
-            "No category assigned — this is what raises the 'No category' flag "
-            "(a sub_category does NOT clear it). See robot_categories.derive_category_slugs.",
+            "error", "category_slugs",
+            "No category assigned — a sub-category does not clear the category gap.",
         ))
     if not robot.sub_category_slug.strip():
         issues.append(ValidationIssue("warning", "sub_category_slug", "No sub-category (Application) assigned."))

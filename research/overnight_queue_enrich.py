@@ -337,6 +337,57 @@ def trigger_copy_media(robot_ids: list[int]) -> tuple[int, int]:
     return ok, fail
 
 
+
+
+# Quality gates added after the 2026-08 enrichment audit. These are intentionally
+# conservative: reject known error-page text and non-primary-eligible media, but
+# never invent replacement facts or overwrite a good existing field.
+_QUALITY_BAD_TEXT_PATTERNS = (
+    r"502\\s+Bad\\s+Gateway", r"Bad\\s+Gateway", r"Browser\\s+Working",
+    r"Host\\s+Error", r"发生什么事了", r"网站服务无法请求", r"WTS\\s+Working",
+    r"Error\\s*\\d{3}", r"404\\s+Not\\s+Found", r"Internal\\s+Server\\s+Error",
+    r"Access\\s+Denied", r"Just\\s+a\\s+moment", r"captcha", r"cloudflare",
+)
+_QUALITY_BAD_MEDIA_CLASSES = {"technical_drawing", "cad_screenshot", "diagram", "logo_or_chrome", "wrong_model", "unknown"}
+
+
+def _quality_gate_staged(staged, base):
+    import re as _quality_re
+    for _field in ("description", "purpose", "features", "notes", "strengths", "weaknesses"):
+        _value = getattr(staged, _field, "") or ""
+        if any(_quality_re.search(_pattern, str(_value), flags=_quality_re.I) for _pattern in _QUALITY_BAD_TEXT_PATTERNS):
+            _fallback = getattr(base, _field, "") or ""
+            if not any(_quality_re.search(_pattern, str(_fallback), flags=_quality_re.I) for _pattern in _QUALITY_BAD_TEXT_PATTERNS):
+                setattr(staged, _field, _fallback)
+            else:
+                setattr(staged, _field, "")
+    _images = getattr(staged, "images", None)
+    if isinstance(_images, list):
+        _valid = []
+        for _candidate in _images:
+            if not isinstance(_candidate, dict):
+                continue
+            _media_class = str(_candidate.get("media_class") or "unknown").strip().lower()
+            _eligible = _candidate.get("is_primary_eligible")
+            _score = _candidate.get("confidence_score")
+            try:
+                _score_ok = _score is not None and float(_score) >= 70
+            except (TypeError, ValueError):
+                _score_ok = False
+            if _media_class in _QUALITY_BAD_MEDIA_CLASSES or _eligible is False or (_score is not None and not _score_ok):
+                continue
+            _valid.append(_candidate)
+        setattr(staged, "images", _valid)
+        if not _valid:
+            _fallback_image = getattr(base, "image", "") or ""
+            setattr(staged, "image", _fallback_image)
+        else:
+            _first_url = str(_valid[0].get("url") or _valid[0].get("image") or "").strip()
+            if _first_url:
+                setattr(staged, "image", _first_url)
+    return staged
+
+
 def enrich_company(
     client: ResearchApiClient,
     company_id: int,
@@ -493,6 +544,7 @@ def enrich_company(
                             payload["features"] = generated
                             merged = StagedRobot.from_dict(payload)
                             break
+            merged = _quality_gate_staged(merged, base)
             validation = validate_robot(merged)
             path = staging_dir / f"robot_{rid}.json"
             path.write_text(
@@ -508,15 +560,40 @@ def enrich_company(
                 "features_len": len(merged.features or ""),
                 "videos": len(merged.video_urls or []),
                 "validation_ok": validation.ok,
+                "validation_errors": [
+                    {"field": issue.field, "message": issue.message}
+                    for issue in validation.errors()
+                ],
+                "validation_warnings": [
+                    {"field": issue.field, "message": issue.message}
+                    for issue in validation.warnings()
+                ],
                 "staging": str(path.relative_to(_RESEARCH_DIR)).replace("\\", "/"),
             }
             if dry_run:
+
                 row_info["dry_run"] = True
+                result["robots"].append(row_info)
+                continue
+
+            if not validation.ok:
+                # Never import a record with unresolved hard quality failures. Keep
+                # the staged JSON and surface every field-level error for remediation.
+                result["errors"].append({
+                    "id": rid,
+                    "name": name,
+                    "validation": row_info["validation_errors"],
+                    "warnings": row_info["validation_warnings"],
+                    "staging": row_info["staging"],
+                })
+                row_info["import_ok"] = False
+                row_info["validation_blocked"] = True
                 result["robots"].append(row_info)
                 continue
 
             # status here is the CREATE default only — patch mode never touches
             # an existing robot's status (bulk_import skips non-empty fields).
+
             # 'draft' so an accidental net-new row lands in the draft lane and
             # must earn promotion, same as discovery imports (2026-08-05).
             imp = import_staging(
