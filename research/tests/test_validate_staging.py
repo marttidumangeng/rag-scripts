@@ -56,6 +56,39 @@ def test_validate_robot_warnings_for_missing_image():
     assert any(i.field == "image" for i in result.warnings())
 
 
+def test_uncited_release_year_warns_that_it_will_be_dropped():
+    # Tally 2026-10-14: 'release_year=2017 = first deployment' is not the
+    # 'release_year=YYYY:' citation the importer needs, so the year was dropped.
+    result = validate_robot({
+        **VALID_ROBOT, "release_year": 2017,
+        "research_notes": "release_year=2017 = first commercial deployment",
+    })
+    warning = next(i for i in result.warnings() if i.field == "release_year")
+    assert "will NOT be imported" in warning.message
+    assert "release_year=2017:" in warning.message
+
+
+def test_cited_release_year_has_no_warning():
+    result = validate_robot({
+        **VALID_ROBOT, "release_year": 2020,
+        "research_notes": "release_year=2020: The Spoon, 2020-01-06 (https://thespoon.tech/x)",
+    })
+    assert not any(i.field == "release_year" for i in result.warnings())
+
+
+def test_citation_for_another_year_still_warns():
+    result = validate_robot({
+        **VALID_ROBOT, "release_year": 2025,
+        "notes": "release_year=2021: launch coverage (https://x.com)",
+    })
+    assert any(i.field == "release_year" for i in result.warnings())
+
+
+def test_no_release_year_no_warning():
+    result = validate_robot(VALID_ROBOT)
+    assert not any(i.field == "release_year" for i in result.warnings())
+
+
 def test_validate_company_ok():
     result = validate_company(VALID_COMPANY)
     assert result.ok

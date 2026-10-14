@@ -57,11 +57,14 @@ def _list_to_pipe(values: list[str]) -> str:
     return "|".join(v.strip() for v in values if v and v.strip())
 
 
-def _cited_release_year(robot: StagedRobot) -> int | None:
+def cited_release_year(robot: StagedRobot) -> int | None:
     """A release year imports only when its grounding citation line
     ('release_year=YYYY: ...') is staged in notes/research_notes — the citation
     rides into the robot's notes for audit. An uncited year (hallucination-prone
-    page extraction, stale staging files) is dropped, not imported."""
+    page extraction, stale staging files) is dropped, not imported.
+
+    validate_staging warns when this drops a staged year, so the drop shows
+    in the import output instead of passing silently."""
     year = robot.release_year
     if not year:
         return None
@@ -106,7 +109,7 @@ def staging_robot_to_bulk_import_row(robot: StagedRobot) -> dict[str, Any]:
         "tags": _s(robot.tags),
         "manufacturer_country_code": _s(robot.manufacturer_country_code),
         "manufacturer_country_codes": _s(robot.manufacturer_country_codes),
-        "release_year": _cited_release_year(robot),
+        "release_year": cited_release_year(robot),
         "source_locale": _s(robot.source_locale) or "en",
         "price_range": _s(robot.price_range),
         "price_min": robot.price_min,

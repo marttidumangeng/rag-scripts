@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from typing import Any
 from urllib.parse import urlparse
 
+from map_to_bulk_import import cited_release_year
 from schema import StagedCompany, StagedRobot
 
 _URL_RE = re.compile(r"^https?://", re.I)
@@ -192,6 +193,17 @@ def validate_robot(data: dict[str, Any] | StagedRobot) -> ValidationResult:
         ))
     if not robot.sub_category_slug.strip():
         issues.append(ValidationIssue("warning", "sub_category_slug", "No sub-category (Application) assigned."))
+
+    # The importer drops a release year that has no grounding citation line
+    # (map_to_bulk_import.cited_release_year). Without this warning the year
+    # vanished silently: RcDC (2015) and Tally (2017) landed with no year on
+    # 2026-10-14 although both staging files had one.
+    if robot.release_year and cited_release_year(robot) is None:
+        issues.append(ValidationIssue(
+            "warning", "release_year",
+            f"release_year {robot.release_year} will NOT be imported: add the citation line "
+            f"'release_year={robot.release_year}: <evidence> (<url>)' to notes or research_notes.",
+        ))
 
     # Numeric fields with low confidence should have research_notes
     for field_name, level in robot.confidence.items():
