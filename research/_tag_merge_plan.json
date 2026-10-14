@@ -1,0 +1,170 @@
+[
+ {
+  "dirty_id": 874,
+  "dirty": "'Exoskeleton'",
+  "robots": 45,
+  "clean_id": null,
+  "clean": "Exoskeleton"
+ },
+ {
+  "dirty_id": 1033,
+  "dirty": "'Construction'",
+  "robots": 21,
+  "clean_id": null,
+  "clean": "Construction"
+ },
+ {
+  "dirty_id": 904,
+  "dirty": "['SMP'",
+  "robots": 15,
+  "clean_id": null,
+  "clean": "SMP"
+ },
+ {
+  "dirty_id": 835,
+  "dirty": "'Bear'",
+  "robots": 10,
+  "clean_id": null,
+  "clean": "Bear"
+ },
+ {
+  "dirty_id": 1137,
+  "dirty": "'AS/RS'",
+  "robots": 9,
+  "clean_id": null,
+  "clean": "AS/RS"
+ },
+ {
+  "dirty_id": 905,
+  "dirty": "'Argus'",
+  "robots": 8,
+  "clean_id": null,
+  "clean": "Argus"
+ },
+ {
+  "dirty_id": 906,
+  "dirty": "'S5'",
+  "robots": 8,
+  "clean_id": null,
+  "clean": "S5"
+ },
+ {
+  "dirty_id": 819,
+  "dirty": "'Aethon'",
+  "robots": 6,
+  "clean_id": null,
+  "clean": "Aethon"
+ },
+ {
+  "dirty_id": 841,
+  "dirty": "'Carti'",
+  "robots": 6,
+  "clean_id": null,
+  "clean": "Carti"
+ },
+ {
+  "dirty_id": 831,
+  "dirty": "'CNC'",
+  "robots": 6,
+  "clean_id": null,
+  "clean": "CNC"
+ },
+ {
+  "dirty_id": 836,
+  "dirty": "'Servi'",
+  "robots": 6,
+  "clean_id": null,
+  "clean": "Servi"
+ },
+ {
+  "dirty_id": 907,
+  "dirty": "'UGV'",
+  "robots": 6,
+  "clean_id": null,
+  "clean": "UGV"
+ },
+ {
+  "dirty_id": 892,
+  "dirty": "['Ekso'",
+  "robots": 5,
+  "clean_id": null,
+  "clean": "Ekso"
+ },
+ {
+  "dirty_id": 935,
+  "dirty": "['Lumos'",
+  "robots": 5,
+  "clean_id": null,
+  "clean": "Lumos"
+ },
+ {
+  "dirty_id": 945,
+  "dirty": "['Bluefin'",
+  "robots": 4,
+  "clean_id": null,
+  "clean": "Bluefin"
+ },
+ {
+  "dirty_id": 829,
+  "dirty": "['FarmBot'",
+  "robots": 4,
+  "clean_id": null,
+  "clean": "FarmBot"
+ },
+ {
+  "dirty_id": 1005,
+  "dirty": "['Freefly'",
+  "robots": 4,
+  "clean_id": null,
+  "clean": "Freefly"
+ },
+ {
+  "dirty_id": 998,
+  "dirty": "'Heavy Lift'",
+  "robots": 4,
+  "clean_id": null,
+  "clean": "Heavy Lift"
+ },
+ {
+  "dirty_id": 886,
+  "dirty": "'IGRT'",
+  "robots": 4,
+  "clean_id": null,
+  "clean": "IGRT"
+ },
+ {
+  "dirty_id": 887,
+  "dirty": "'IMRT'",
+  "robots": 4,
+  "clean_id": null,
+  "clean": "IMRT"
+ },
+ {
+  "dirty_id": 885,
+  "dirty": "'TomoTherapy'",
+  "robots": 4,
+  "clean_id": null,
+  "clean": "TomoTherapy"
+ },
+ {
+  "dirty_id": 864,
+  "dirty": "['Blue River'",
+  "robots": 3,
+  "clean_id": null,
+  "clean": "Blue River"
+ },
+ {
+  "dirty_id": 849,
+  "dirty": "'gita'",
+  "robots": 3,
+  "clean_id": null,
+  "clean": "gita"
+ },
+ {
+  "dirty_id": 946,
+  "dirty": "'UUV'",
+  "robots": 3,
+  "clean_id": null,
+  "clean": "UUV"
+ }
+]

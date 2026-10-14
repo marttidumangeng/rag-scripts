@@ -1,0 +1,237 @@
+  page 1 done (100 robots scanned)
+  page 2 done (200 robots scanned)
+  page 3 done (300 robots scanned)
+  page 4 done (400 robots scanned)
+  page 5 done (500 robots scanned)
+  page 6 done (600 robots scanned)
+  page 7 done (700 robots scanned)
+  page 8 done (800 robots scanned)
+  page 9 done (900 robots scanned)
+  page 10 done (1000 robots scanned)
+  page 11 done (1100 robots scanned)
+  page 12 done (1200 robots scanned)
+  page 13 done (1300 robots scanned)
+  page 14 done (1400 robots scanned)
+  page 15 done (1500 robots scanned)
+  page 16 done (1600 robots scanned)
+  page 17 done (1700 robots scanned)
+  page 18 done (1800 robots scanned)
+  page 19 done (1900 robots scanned)
+  page 20 done (2000 robots scanned)
+  page 21 done (2100 robots scanned)
+  page 22 done (2200 robots scanned)
+  page 23 done (2300 robots scanned)
+  page 24 done (2400 robots scanned)
+  page 25 done (2500 robots scanned)
+  page 26 done (2600 robots scanned)
+  page 27 done (2700 robots scanned)
+  page 28 done (2800 robots scanned)
+  page 29 done (2900 robots scanned)
+  page 30 done (3000 robots scanned)
+  page 31 done (3100 robots scanned)
+  page 32 done (3200 robots scanned)
+  page 33 done (3300 robots scanned)
+  page 34 done (3400 robots scanned)
+  page 35 done (3500 robots scanned)
+  page 36 done (3600 robots scanned)
+  page 37 done (3700 robots scanned)
+  page 38 done (3800 robots scanned)
+  page 39 done (3900 robots scanned)
+  page 40 done (4000 robots scanned)
+  page 41 done (4100 robots scanned)
+  page 42 done (4200 robots scanned)
+  page 43 done (4300 robots scanned)
+  page 44 done (4400 robots scanned)
+  page 45 done (4500 robots scanned)
+  page 46 done (4600 robots scanned)
+  page 47 done (4700 robots scanned)
+  page 48 done (4800 robots scanned)
+  page 49 done (4900 robots scanned)
+  page 50 done (5000 robots scanned)
+  page 51 done (5100 robots scanned)
+  page 52 done (5200 robots scanned)
+  page 53 done (5300 robots scanned)
+  page 54 done (5400 robots scanned)
+  page 55 done (5500 robots scanned)
+  page 56 done (5600 robots scanned)
+  page 57 done (5700 robots scanned)
+  page 58 done (5800 robots scanned)
+  page 59 done (5900 robots scanned)
+  page 60 done (5998 robots scanned)
+
+scanned 5998 robots
+
+=== AR  (289 robots)
+    top co-occurring tags: {'Industrial': 87, 'Manufacturing': 86, 'Wheeled': 84, 'picking': 60, 'Cleaning': 60, 'Industrial Robot': 58, 'Pick-and-Place': 56, 'Factory Automation': 54}
+    top companies       : {'Cyberdyne Inc.': 20, 'Estun Automation': 10, 'Leobotics': 10, 'Xiamen MUKA Intelligent Technology Co., Ltd.': 10, 'Lely': 9}
+       6388 Tecan D300e digital dispenser                  | Tecan
+       2411 ER130-2865-BD                                  | Estun Automation
+       2412 ER45-2200-BD                                   | Estun Automation
+       2413 ER80B-2565-BD                                  | Estun Automation
+       3495 ER420-3300                                     | Estun Automation
+=== ACY  (231 robots)
+    top co-occurring tags: {'Taiwan': 86, 'Manufacturing': 85, 'Humanoid': 80, 'EOAT': 72, 'Industrial': 69, 'Logistics': 63, 'Compact': 59, 'Automation': 58}
+    top companies       : {'ACY Automation Inc.': 90, 'Wuxi BEWIS Sensing Technology LLC': 61, 'HAI Robotics': 7, 'Yamaha Motor Co., Ltd. (Robotics Division)': 6, 'Pudu Robotics': 5}
+       5752 Cobot Calibration                              | Cognibotics
+       3181 BUTLERBOT W3                                   | Keenon Robotics
+       3770 Parrot ANAFI USA                               | Parrot
+       4051 ANAFI UKR                                      | Parrot
+       2011 Hai Robotics HaiPick A3                        | HAI Robotics
+=== USA  (148 robots)
+    top co-occurring tags: {'AMR': 35, 'Healthcare': 23, 'Agriculture': 20, 'AI': 19, "['SMP'": 15, 'Warehouse': 15, 'UAV': 14, 'Discontinued': 14}
+    top companies       : {'SMP Robotics': 15, 'Bear Robotics': 10, 'Formic Technologies': 8, 'Accuray Incorporated': 6, 'Aethon': 6}
+       2874 Formic Autonomous Mobile Robots (AMRs) for Pal | Formic Technologies
+       2872 Formic Automated Pallet Wrapping               | Formic Technologies
+       2870 Formic Flexible Case Packer                    | Formic Technologies
+       4408 HAL Lumbar Type for Labor Support HAL-LB01     | Cyberdyne Inc.
+       5166 Automate NOW Industrial Palletizers            | Formic Technologies
+=== PL  (105 robots)
+    top co-occurring tags: {'Wheeled': 29, 'Industrial': 24, 'Manufacturing': 19, 'Cleaning': 17, 'Home': 15, 'Education': 15, 'Healthcare': 13, 'Agriculture': 13}
+    top companies       : {'Leobotics': 8, 'Lely': 6, 'GreenPower Motor Company Inc.': 5, 'Cyberdyne Inc.': 5, 'Xiamen MUKA Intelligent Technology Co., Ltd.': 5}
+       6388 Tecan D300e digital dispenser                  | Tecan
+       6348 Single-Head Solar Panel Cleaning Robot:        | Shandong Tengda Heavy In
+       6457 Customize Your Drone Fleet                     | Brinc
+       6619 Edge Plus Series                               | Turing Robot
+       6386 HANDLING SERIES handling robot TC1020A-164     | TANG CHENG INTERNATIONAL
+=== UT  (96 robots)
+    top co-occurring tags: {'Wheeled': 37, 'Cleaning': 33, 'Manufacturing': 26, 'Industrial': 24, 'Autonomous': 22, 'picking': 19, 'Humanoid': 19, 'Industrial Robot': 18}
+    top companies       : {'Segway Robotics': 9, 'Cyberdyne Inc.': 6, 'RSM Machinery': 5, 'Xiamen MUKA Intelligent Technology Co., Ltd.': 5, 'Shenzhen Smart Drone UAV': 4}
+       2411 ER130-2865-BD                                  | Estun Automation
+       2412 ER45-2200-BD                                   | Estun Automation
+       2413 ER80B-2565-BD                                  | Estun Automation
+       6348 Single-Head Solar Panel Cleaning Robot:        | Shandong Tengda Heavy In
+       5970 SPIDER®                                        | AX Solar Robot
+=== SP  (85 robots)
+    top co-occurring tags: {'Industrial': 21, 'Wheeled': 20, 'Japan': 18, 'Healthcare': 17, 'Cleaning': 14, 'Transport': 14, 'Humanoid': 13, 'Motoman': 13}
+    top companies       : {'YASKAWA Electric': 13, 'Cyberdyne Inc.': 7, 'Mab Technologies': 6, 'GreenPower Motor Company Inc.': 5, 'Lely': 4}
+       6388 Tecan D300e digital dispenser                  | Tecan
+       6348 Single-Head Solar Panel Cleaning Robot:        | Shandong Tengda Heavy In
+       6457 Customize Your Drone Fleet                     | Brinc
+       5970 SPIDER®                                        | AX Solar Robot
+       4931 MAGNI-X                                        | Elbit Systems
+=== HC  (40 robots)
+    top co-occurring tags: {'Healthcare': 35, 'Wheeled': 12, 'Rehabilitation': 11, 'training': 6, 'Research': 5, 'Stationary': 5, 'Mobility': 5, 'Arm': 5}
+    top companies       : {'Cyberdyne Inc.': 12, 'Hocoma': 4, 'Fourier Intelligence': 4, 'GE Healthcare': 3, 'YASKAWA Electric': 3}
+       6388 Tecan D300e digital dispenser                  | Tecan
+       5837 Sam-Spray                                      | Mirax Robots
+       5838 Sam-UV                                         | Mirax Robots
+       4945 OEC MiniView MAX                               | GE Healthcare
+       4946 Uroview 8K                                     | GE Healthcare
+=== R&D  (36 robots)
+    top co-occurring tags: {'Manufacturing': 18, 'Care Robot': 14, 'Industrial': 14, 'Automation': 13, 'Logistics': 11, 'Collaborative Robot': 11, 'Warehouse': 10, 'AI': 9}
+    top companies       : {'KUKA': 12, 'Advantech': 5, 'Shenzhen Smart Drone UAV': 4, 'Cyberdyne Inc.': 3, 'Elbit Systems': 1}
+       2721 Hermes™ 900 Maritime Patrol UAS                | Elbit Systems
+       3769 Parrot ANAFI Ai                                | Parrot
+       1501 aeo Disinfect                                  | Aeolus Robotics
+       6354 V380 PRO                                       | Shenzhen Smart Drone UAV
+       6353 V330 PRO                                       | Shenzhen Smart Drone UAV
+=== 52  (34 robots)
+    top co-occurring tags: {'4-axis': 3, 'Industrial Arm': 3, 'Industrial Robot': 3, 'Stationary': 3, 'Home': 2, 'Industrial': 2, 'Agriculture': 1, 'Arm': 1}
+    top companies       : {'BORUNTE ROBOT CO., LTD': 28, 'Hu Nan Qin Feng Robot': 3, 'Shandong Hightop Group': 2, 'Kondo Kagaku': 1}
+       6888 Joint Stamping Robot - QF-GJ-H-MD-1400-10-4/5  | Hu Nan Qin Feng Robot
+       6887 Joint Stamping Robot - QF-GJ-H-DL-1400-10-4/5  | Hu Nan Qin Feng Robot
+       6886 Joint Stamping Robot - QF-GJ-J-YT-1400-10-4/5  | Hu Nan Qin Feng Robot
+       6339 HT08 0.8T Mini Excavator                       | Shandong Hightop Group
+       6337 HT-10B 1T Mini Excavator                       | Shandong Hightop Group
+=== AV  (31 robots)
+    top co-occurring tags: {'Wheeled': 13, 'Cleaning': 9, 'Autonomous': 9, 'Humanoid': 8, 'Manufacturing': 7, 'Industrial': 6, 'Agriculture': 6, 'Aerial': 5}
+    top companies       : {'Segway Robotics': 5, 'Foxtech': 2, 'Yanmar': 2, 'Shandong Hightop Group': 2, 'RSM Machinery': 2}
+       6457 Customize Your Drone Fleet                     | Brinc
+       5971 WETSLIDER® XL                                  | AX Solar Robot
+       4945 OEC MiniView MAX                               | GE Healthcare
+       6188 Dredge Remote Robot                            | Henan Yulu Machinery
+       6122 T50 High-Pressure Drone Cleaning               | Foxtech
+=== Hip  (31 robots)
+    top co-occurring tags: {'Companionship': 19, 'Companion': 15, 'Humanoid': 7, 'Home': 7, 'Manufacturing': 6, 'large': 6, 'Industrial': 5, 'Arm': 5}
+    top companies       : {'Fujitsu': 6, 'SZGH Automation': 4, 'Sepro Group': 4, 'Skyports': 2, 'Mab Technologies': 2}
+       3651 HOAP 2                                         | Fujitsu
+       6555 Drone inspections                              | Skyports
+       6553 Drone deliveries                               | Skyports
+       6651 Automatic Flap Folding & Carton Sealer         | Jinan Meilin Import and 
+       5790 potato chips production lines                  | Henan Mingqing Food Mach
+=== 116  (29 robots)
+    top co-occurring tags: {'Humanoid': 1, 'Logistics': 1, 'Manufacturing': 1, 'Pallet': 1, 'palletizing': 1, 'Stationary': 1, 'Warehouse': 1}
+    top companies       : {'BORUNTE ROBOT CO., LTD': 28, 'Yooheart': 1}
+       6416 Palletizing robot And Depalletizing robot      | Yooheart
+       4137 BRTIRUS1820A                                   | BORUNTE ROBOT CO., LTD
+       4139 BRTIRUS0805A                                   | BORUNTE ROBOT CO., LTD
+       4164 BRTIRUS0101A                                   | BORUNTE ROBOT CO., LTD
+       4163 BRTIRUS0102A                                   | BORUNTE ROBOT CO., LTD
+=== GP  (27 robots)
+    top co-occurring tags: {'Industrial': 27, 'Japan': 27, 'Motoman': 27, 'Yaskawa': 27}
+    top companies       : {'YASKAWA Electric': 27}
+       2594 GP4                                            | YASKAWA Electric
+       2595 GP7                                            | YASKAWA Electric
+       2596 GP8                                            | YASKAWA Electric
+       2597 GP8L                                           | YASKAWA Electric
+       2598 GP12                                           | YASKAWA Electric
+=== GA  (12 robots)
+    top co-occurring tags: {'Wheeled': 4, 'AI': 3, 'Humanoid': 3, 'Industrial': 2, 'Autonomous': 2, 'Cleaning': 2, 'Home': 2, 'Navigation': 2}
+    top companies       : {'ZMDE Steel Machinery': 1, 'Smonet': 1, 'Wild Hornets': 1, 'Qb Robotics': 1, 'SolarCleano': 1}
+       6443 8-Axis Gantry Welding Robot                    | ZMDE Steel Machinery
+       6559 SR5 Robotic Pool Skimmer                       | Smonet
+       6583 Wild Hornet Digital                            | Wild Hornets
+       6513 Bracket 1.0                                    | Qb Robotics
+       6363 SolarCleano F1                                 | SolarCleano
+=== NEX  (11 robots)
+    top co-occurring tags: {'Industrial': 6, 'Japan': 4, 'Motoman': 4, 'Yaskawa': 4, 'picking': 3, 'Factory Automation': 2, 'Industrial Arm': 2, 'Industrial Robot': 2}
+    top companies       : {'YASKAWA Electric': 4, 'RoboJob': 1, 'Yanmar': 1, 'Lely': 1, 'Weiss Robotics': 1}
+       6701 Mill-Assist                                    | RoboJob
+       6633 V8 10,802 lbs. • 62 HP                         | Yanmar
+       6670 Astronaut                                      | Lely
+       6576 INTRAPAL Series                                | Weiss Robotics
+       6539 BD Rowa™ EasyLoad                              | BD Rowa
+=== PH  (9 robots)
+    top co-occurring tags: {'Education': 2, 'Humanoid': 2, 'Wheeled': 2, 'Industrial': 2, 'Assistance': 2, 'Lightweight': 2, 'Logistics': 2, 'Manufacturing': 2}
+    top companies       : {'Xiamen MUKA Intelligent Technology Co., Ltd.': 2, 'Xiamen Poetry International Trading': 1, 'Mab Technologies': 1, 'Leobotics': 1, 'Cyberdyne Inc.': 1}
+       6401 400G FR4 Rx OE                                 | Xiamen Poetry Internatio
+       6258 Norepinephrine Transporter-human (NET17-1)     | Mab Technologies
+       6242 Robot à Souder et programmer                   | Leobotics
+       4639 All-in-One                                     | Cyberdyne Inc.
+       2630 PH130RF                                        | YASKAWA Electric
+=== MPX  (5 robots)
+    top co-occurring tags: {'Industrial': 5, 'Japan': 5, 'Motoman': 5, 'Yaskawa': 5}
+    top companies       : {'YASKAWA Electric': 5}
+       2655 MPX1150                                        | YASKAWA Electric
+       2656 MPX1400                                        | YASKAWA Electric
+       2657 MPX1950                                        | YASKAWA Electric
+       2658 MPX2600                                        | YASKAWA Electric
+       2659 MPX3500                                        | YASKAWA Electric
+=== MYS  (3 robots)
+    top co-occurring tags: {'Industrial': 3, 'Japan': 3, 'Motoman': 3, 'Yaskawa': 3}
+    top companies       : {'YASKAWA Electric': 3}
+       2631 MYS450F                                        | YASKAWA Electric
+       2632 MYS650LF                                       | YASKAWA Electric
+       2633 MYS850LF                                       | YASKAWA Electric
+=== SCI  (2 robots)
+    top co-occurring tags: {'AI': 1, 'Autonomous': 1, 'Cleaning': 1, 'Consumer': 1, 'Ground': 1, 'Home': 1, 'Home Cleaning': 1, 'Indoor': 1}
+    top companies       : {'Leobotics': 1, 'Ekso Bionics': 1}
+       6240 Robot Nettoyeur de Piscine                     | Leobotics
+       1967 Ekso Indego Personal                           | Ekso Bionics
+=== MPP  (2 robots)
+    top co-occurring tags: {'Industrial': 2, 'Japan': 2, 'Motoman': 2, 'Yaskawa': 2}
+    top companies       : {'YASKAWA Electric': 2}
+       2626 MPP3H                                          | YASKAWA Electric
+       3029 MPP3S                                          | YASKAWA Electric
+=== SG  (2 robots)
+    top co-occurring tags: {'Industrial': 2, 'Japan': 2, 'Motoman': 2, 'Yaskawa': 2}
+    top companies       : {'YASKAWA Electric': 2}
+       2627 SG400                                          | YASKAWA Electric
+       2628 SG650                                          | YASKAWA Electric
+=== CCA  (2 robots)
+    top co-occurring tags: {'Arm': 1, 'Factory Automation': 1, 'Industrial': 1, 'Industrial Arm': 1, 'Industrial Robot': 1, 'Manufacturing': 1, 'Pick-and-Place': 1, 'picking': 1}
+    top companies       : {'Hexagon Manufacturing Intelligence (Qindao) Co.  Ltd': 1, 'Anduril Industries': 1}
+       4992 Absolute Arm 6-Axis                            | Hexagon Manufacturing In
+       1607 Anduril Fury                                   | Anduril Industries
+=== CAS  (1 robots)
+    top co-occurring tags: {'Bipedal': 1, 'Humanoid': 1, 'Research': 1}
+    top companies       : {'CASBOT': 1}
+       7336 CASBOT 02                                      | CASBOT
+=== MH  (1 robots)
+    top co-occurring tags: {'Industrial': 1, 'Japan': 1, 'Motoman': 1, 'Yaskawa': 1}
+    top companies       : {'YASKAWA Electric': 1}
+       2629 MH900                                          | YASKAWA Electric
+=== TKA  (1 robots)
+    top co-occurring tags: {'Healthcare': 1, 'Orthopedics': 1, 'Surgical Robot': 1}
+    top companies       : {'Globus Medical': 1}
+       4959 ExcelsiusFlex                                  | Globus Medical

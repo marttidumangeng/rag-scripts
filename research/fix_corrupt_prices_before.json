@@ -1,0 +1,2017 @@
+{
+ "5371": {
+  "id": 5371,
+  "name": "Unitree H2 PLUS",
+  "source_locale": "en",
+  "description": "The Unitree H2 PLUS is a humanoid robot from Unitree Robotics designed as an integrated R&D and manufacturing platform for full-stack development. It features a Jetson T5000 onboard compute system, dual SharpaWave Tactile Five-Finger Dexterous Hands with 22 active degrees of freedom per hand, and a 15Ah, 0.972 kWh battery providing approximately 3 hours of battery life. The robot is equipped with a head-mounted stereo camera, wrist cameras, and an IMU for multi-view sensing. It has a rated arm payload of 7 kilograms and a peak payload of 15 kilograms, enabling grasping and reaching tasks. The H2 PLUS stands 1820mm tall, weighs about 70kg, and has a total of 75 degrees of freedom.",
+  "purpose": "Platform for research and development of humanoid robot applications",
+  "features": "Jetson T5000 onboard compute\nDual SharpaWave Tactile Five-Finger Dexterous Hands\n15Ah, 0.972 kWh battery capacity\nHead-mounted stereo camera and wrist cameras",
+  "company": "Unitree Robotics",
+  "manufacturer_country": "China",
+  "manufacturer_country_ref": {
+   "id": 3,
+   "name": "China",
+   "code": "CN",
+   "alpha3": "CHN",
+   "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_cn.svg",
+   "emoji": ""
+  },
+  "manufacturer_countries": [
+   {
+    "id": 3,
+    "name": "China",
+    "code": "CN",
+    "alpha3": "CHN",
+    "emoji": "",
+    "flag_icon": "https://cdn.robotaigeek.com/flags/flag_cn.svg"
+   }
+  ],
+  "company_ref": {
+   "id": 109,
+   "slug": "unitree-robotics",
+   "name": "Unitree Robotics",
+   "source_locale": "en",
+   "summary": "",
+   "short_description": "",
+   "description": "sales@unitree.cc",
+   "country": {
+    "id": 3,
+    "name": "China",
+    "code": "CN",
+    "alpha3": "CHN",
+    "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_cn.svg",
+    "emoji": ""
+   },
+   "website": "https://www.unitree.com",
+   "logo_url": "https://cdn.robotaigeek.com/company_logos/cropped-1773122732584.jpg",
+   "logo_variants": {
+    "320": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773122732584/cropped-1773122732584_w320.jpg",
+    "640": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773122732584/cropped-1773122732584_w640.jpg",
+    "960": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773122732584/cropped-1773122732584_w960.jpg",
+    "1280": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773122732584/cropped-1773122732584_w1280.jpg"
+   },
+   "logo_variants_webp": {
+    "320": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773122732584/cropped-1773122732584_w320.webp",
+    "640": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773122732584/cropped-1773122732584_w640.webp",
+    "960": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773122732584/cropped-1773122732584_w960.webp",
+    "1280": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773122732584/cropped-1773122732584_w1280.webp"
+   },
+   "notes": "Go2, B2 quadruped, H1 humanoid",
+   "hq_address": "Hangzhou",
+   "contact_info": "+86 1533 658 3018\r\nmarketing@unitree.com\r\nsupport@unitree.com",
+   "leaders_roles": "Wang Xingxing (Founder / CEO / CTO)",
+   "sources": "",
+   "primary_focus": [],
+   "tags": [],
+   "company_status": "",
+   "product_stage": "",
+   "company_maturity": "",
+   "product_type": "",
+   "publication_status": "published",
+   "hidden_reason": "",
+   "employee_count": null,
+   "employee_min": null,
+   "employee_max": null,
+   "founded_year": null,
+   "linkedin_url": "",
+   "x_url": "",
+   "youtube_url": "",
+   "github_url": "",
+   "categories": [],
+   "timeline": [],
+   "milestones": [],
+   "press_coverage": [],
+   "leaders": [],
+   "linked_news": [
+    {
+     "id": 558,
+     "title": "Unitree Shares Extend Slide, Now Half Below IPO Peak",
+     "slug": "unitree-shares-extend-slide-now-half-below-ipo-peak",
+     "summary": "Unitree Robotics shares fell again on Wednesday, extending a slide that has erased more than half the stock's value since its blockbuster Shanghai IPO debut, reviving scrutiny of China's STAR Market listing mechanism.",
+     "image": "https://www.unitree.com/images/24585f511f8b4ba086c733abed084ea2_1126x1320.png",
+     "thumbnail_url": "",
+     "published_at": "2026-09-03T18:18:00Z",
+     "status": "published",
+     "match_type": "title"
+    },
+    {
+     "id": 439,
+     "title": "Unitree sets US$9 billion Shanghai IPO as DeepSeek backs robotics expansion",
+     "slug": "unitree-shanghai-ipo-us9b-deepseek-invests",
+     "summary": "Unitree priced its STAR Market listing at RMB 150.8 per share, valuing the company at RMB 61 billion and targeting RMB 6.1 billion in proceeds, with subscriptions opening August 10. DeepSeek is a strategic investor as Unitree pivots from quadrupeds to humanoids and invests heavily in growth.",
+     "image": "https://cdn.robotaigeek.com/images/hero_1_unitree_ipo_pricing.jpg",
+     "thumbnail_url": "https://cdn.robotaigeek.com/images/hero_1_unitree_ipo_pricing.jpg",
+     "published_at": "2026-08-07T07:06:38.045452Z",
+     "status": "published",
+     "match_type": "title"
+    },
+    {
+     "id": 418,
+     "title": "AgiBot and Unitree Are Racing to Hong Kong and Shanghai With Opposite Bets on What Makes a Robot Worth Billions",
+     "slug": "agibot-and-unitree-are-racing-to-hong-kong-and-sha",
+     "summary": "AgiBot has confirmed its Hong Kong IPO process targeting a US$4.8-6.0 billion valuation, one day before Unitree opens STAR Market book-building at US$5.85 billion. The two companies represent divergent technology philosophies -- AgiBot bets on AI-first, Unitree on hardware-first -- and the market is about to price both simultaneously.",
+     "image": "https://cdn.robotaigeek.com/images/hero_1_agibot_unitree_ipo.jpg",
+     "thumbnail_url": "https://cdn.robotaigeek.com/images/hero_1_agibot_unitree_ipo.jpg",
+     "published_at": "2026-08-05T01:56:05.726234Z",
+     "status": "published",
+     "match_type": "title"
+    },
+    {
+     "id": 415,
+     "title": "Unitree Robotics Opens Book-Building Tomorrow as China's First Profitable Humanoid Maker Seeks a US$6.2 Billion Valuation",
+     "slug": "unitree-robotics-ipo-book-building-star-market-valuation-6-billion",
+     "summary": "Unitree Robotics opens STAR Market IPO book-building on August 5, 2026, seeking a floor valuation of RMB 42 billion (approximately US$5.85 billion) after completing a record 104-day review process. The company is China's first profitable humanoid robot manufacturer, with RMB 1.2 billion in 2025 revenue and positive net income, setting a pricing benchmark for the wave of humanoid robotics IPOs expected in the next 12 to 18 months.",
+     "image": "https://cdn.robotaigeek.com/images/hero_6_unitree_ipo.jpg",
+     "thumbnail_url": "https://cdn.robotaigeek.com/images/hero_6_unitree_ipo.jpg",
+     "published_at": "2026-08-04T02:15:32.954876Z",
+     "status": "published",
+     "match_type": "title"
+    },
+    {
+     "id": 372,
+     "title": "Washington Just Locked Its Door to Chinese Humanoids, and Unitree Was Standing on the Porch",
+     "slug": "washington-just-locked-its-door-to-chinese-humanoids-and-unitree-was-standing-on-the-porch",
+     "summary": "The FCC on July 28 barred new Chinese humanoid and quadruped robots and connected power inverters from the US equipment authorizations they need to be imported or sold, effective immediately upon publication. Already-authorized models stay legal for now. The move blocks Unitree's planned August North America launch and formalizes the robot trade's split into rival blocs.",
+     "image": "https://cdn.robotaigeek.com/news/372/news_372_fde0a9a8de28410389ae6b6ea9dd6f29.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-07-29T05:57:19.888668Z",
+     "status": "published",
+     "match_type": "title"
+    },
+    {
+     "id": 219,
+     "title": "Shimizu Corporation Tests Unitree Humanoid Robots for Construction Sites",
+     "slug": "shimizu-corporation-tests-unitree-humanoid-robots-for-construction-sites",
+     "summary": "Shimizu Corporation has initiated field trials of AI-powered humanoid robots, including models from Unitree, to address Japan's severe labor shortage in the construction industry.",
+     "image": "https://cdn.robotaigeek.com/news/219/news_219_68aa2575841240e3a23fd2031ae7e2ef.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-07-09T06:36:21.946900Z",
+     "status": "published",
+     "match_type": "title"
+    },
+    {
+     "id": 195,
+     "title": "UBTECH and Unitree Establish Humanoid Manufacturing Hubs in Tianjin TEDA",
+     "slug": "ubtech-and-unitree-establish-humanoid-manufacturing-hubs-in-tianjin-teda",
+     "summary": "UBTECH and Unitree have signed strategic agreements to establish humanoid robot manufacturing and service hubs in the Tianjin Economic-Technological Development Area, accelerating regional industrial-chain competition in Northern China.",
+     "image": "https://cdn.robotaigeek.com/news/195/news_195_ec8f5dd4dcf84873a9f09e4cd8d517e8.png",
+     "thumbnail_url": "",
+     "published_at": "2026-07-07T08:42:47.536884Z",
+     "status": "published",
+     "match_type": "title"
+    },
+    {
+     "id": 101,
+     "title": "Unitree Robotics Clears STAR Market IPO in 73 Days, Targets $618 Million for Humanoid Scale-Up",
+     "slug": "unitree-robotics-star-market-ipo-618-million-humanoid-2026",
+     "summary": "Unitree Robotics cleared its Shanghai STAR Market IPO review in a record 73 days on June 1, 2026, becoming the first humanoid robot developer to list on China's A-share market. The company plans to raise 4.2 billion yuan ($618 million) to fund R&D and manufacturing expansion, despite a 47.7% drop in Q1 2026 net profit as investment spending accelerated.",
+     "image": "https://cdn.robotaigeek.com/news/101/news_101_fb4fbfc1168b41ebba0dfdf470c3918d.png",
+     "thumbnail_url": "",
+     "published_at": "2026-06-23T04:28:56.046672Z",
+     "status": "published",
+     "match_type": "title"
+    },
+    {
+     "id": 94,
+     "title": "GMO AI & Robotics Becomes Authorized Distributor of Unitree Robotics in Japan",
+     "slug": "gmo-ai-robotics-becomes-authorized-distributor-of-unitree-robotics-in-japan",
+     "summary": "GMO AI & Robotics, a subsidiary of Japan's GMO Internet Group, has announced it has become an authorized distributor in Japan for Unitree Robotics, the Chinese company widely recognized as the world's leading humanoid robot manufacturer by volume. The partnership enables GMO AI & Robotics to officially market and distribute Unitree's full range of humanoid and quadruped robots in the Japanese market, marking a significant step in Unitree's international expansion.",
+     "image": "https://cdn.robotaigeek.com/news/94/news_94_23c812d45e944f46914fd10ef05b19e6.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-06-20T10:11:22.660448Z",
+     "status": "published",
+     "match_type": "title"
+    },
+    {
+     "id": 524,
+     "title": "Noitom Robotics Teaches Humanoids Professional Tennis Styles Two Days After Releasing the HiPHI Motion Dataset",
+     "slug": "noitom-robotics-teaches-humanoids-professional-tennis-styles-two-days-after-releasing-the-hiphi-motion-dataset",
+     "summary": "Noitom Robotics, with the Shanghai AI Laboratory, Dobot, and Shanghai Jiao Tong University, has released AdaPT, a system that learns professional tennis rally and serve styles from broadcast footage and executes them on the Unitree G1 and full-size Dobot Atom humanoids, including serving outside the lab with only a camera and a consumer tracker. It arrived two days after Noitom released HiPHI, a 617.5-hour high-precision motion dataset, and a week before RO-MAN 2026 in Fukuoka.",
+     "image": "https://cdn.robotaigeek.com/news/524/news_524_7157acca856a4cc797b86a15f7616e83.png",
+     "thumbnail_url": "",
+     "published_at": "2026-08-22T21:53:00Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 475,
+     "title": "China Takes 97 Percent of H1 Humanoid Robot Shipments",
+     "slug": "china-97-percent-h1-2026-humanoid-shipments",
+     "summary": "Global first-half humanoid shipments hit about 19,100 units, with Chinese vendors above 97 percent share and AGIBOT overtaking Unitree on volume.",
+     "image": "https://cdn.robotaigeek.com/images/a089b3ff-7196-4115-bfa5-2492ef5192cd.jpeg",
+     "thumbnail_url": "https://cdn.robotaigeek.com/images/a089b3ff-7196-4115-bfa5-2492ef5192cd.jpeg",
+     "published_at": "2026-08-12T06:49:28.379498Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 463,
+     "title": "Weekly Robotics Funding Wrap-Up: The Public Market Pricing Event",
+     "slug": "august-2026-robotics-funding-public-market-pricing",
+     "summary": "The first week of August 2026 transformed the financial landscape of embodied artificial intelligence from private speculation to public valuation. With Unitree pricing a nine billion dollar initial public offering in Shanghai and AgiBot targeting a six billion dollar listing in Hong Kong, the market is finally establishing hard benchmarks for hardware production and software reasoning.",
+     "image": "https://cdn.robotaigeek.com/images/20260809_hero_funding.jpg",
+     "thumbnail_url": "https://cdn.robotaigeek.com/images/20260809_hero_funding.jpg",
+     "published_at": "2026-08-09T04:27:46.277089Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 374,
+     "title": "Europe's Biggest Tech Show Is Building a Catwalk for Humanoids, and Chinese Robots Get the Runway",
+     "slug": "europes-biggest-tech-show-is-building-a-catwalk-for-humanoids-and-chinese-robots-get-the-runway",
+     "summary": "IFA Berlin announced on July 27-28 that its IFA Next innovation zone will host the event's largest-ever humanoid showcase this September 4-8, with around 300 exhibitors from 25 countries and a first-ever \"Robots on the Runway\" catwalk. The exhibitor list is dominated by Chinese makers, including Unitree, AgiBot, Galbot, and Deep Robotics, days after Washington banned their newest models.",
+     "image": "https://cdn.robotaigeek.com/news/374/news_374_b1dc8951a34240ceabe1fd11c3dddfc0.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-07-29T06:47:32.231166Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 363,
+     "title": "Hotpot Is Out, Humanoids Are In: What Celebrity Money Says About China's Robot Boom",
+     "slug": "hotpot-is-out-humanoids-are-in-what-celebrity-money-says-about-chinas-robot-boom",
+     "summary": "Chinese entertainment celebrities who once parked their wealth in hotpot chains and milk-tea franchises are now investing in embodied AI. Actor Huang Xiaoming's family office has backed an AgiBot-incubated robot rental platform now valued near RMB7 billion and a dexterous-hand spinoff valued near US$1 billion; Yuehua Entertainment took an angel stake in the same rental venture; and Giant Star Legend, the Hong Kong-listed company built on Jay Chou's brand, formed a 50/50 joint venture with a Unitree subsidiary that has already booked roughly RMB120 million in consumer robot orders. This Article examines what celebrity capital's arrival says about China's embodied AI cycle: distribution power meets hard tech, late-cycle froth meets genuine consumer demand, and the history of celebrity restaurant failures offers both a warning and a surprisingly instructive playbook.\r\n\r\n",
+     "image": "https://cdn.robotaigeek.com/news/363/news_363_30be3f06f36f4fc4b9f1c6d6de58484e.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-07-27T05:49:23.186879Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 359,
+     "title": "Japan Took a Chinese Robot Apart. What It Found Inside Rewrote the Scoreboard",
+     "slug": "japan-took-a-chinese-robot-apart-what-it-found-inside-rewrote-the-scoreboard",
+     "summary": "Nikkei xTECH published a filmed teardown of Unitree's G1 humanoid on July 23, in which Japanese engineers disassembled the RMB85,000 (about US$11,900) robot and concluded that closing the gap with China in humanoids in the short term is probably not realistic. Chinese state media amplified the verdict within 48 hours, with CCTV News and Global Times pushing the story worldwide by July 26. The engineering findings, from four-in-one joint modules to hidden wiring, matter more than the theater, and one detail cuts both ways: the analysis points to Japanese components inside.",
+     "image": "https://cdn.robotaigeek.com/news/359/news_359_8cf1c36862404ff19f22050268944dfd.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-07-27T04:28:01.034604Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 161,
+     "title": "NVIDIA Launches Cosmos 3 World Model and Isaac GR00T Platform at GTC Taipei",
+     "slug": "nvidia-launches-cosmos-3-world-model-and-isaac-gr00t-platform-at-gtc-taipei",
+     "summary": "NVIDIA has officially released its Cosmos 3 physical AI world foundation model and the Isaac GR00T humanoid reference platform at GTC Taipei, directly integrating Chinese robotics hardware like the Unitree H2 Plus.",
+     "image": "https://cdn.robotaigeek.com/news/161/news_161_72f44543852c44ccaa49c4efeb092aaa.png",
+     "thumbnail_url": "",
+     "published_at": "2026-07-02T09:39:43.993539Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 95,
+     "title": "VivaTech 2026: Chinese Manufacturers Drive Humanoid Commercialisation While Western Firms Target Enterprise AI",
+     "slug": "vivatech-2026-chinese-manufacturers-drive-humanoid-commercialisation-while-western-firms-target-enterprise-ai",
+     "summary": "VivaTech 2026 in Paris confirmed what many in the industry have been watching for months: China's humanoid robot manufacturers are no longer prototyping \u2014 they are shipping. AGIBOT, Unitree, and Booster Robotics dominated Hall 7.1 with production-ready robots, live brain-computer interface demonstrations, and IPO announcements. Meanwhile, European companies like PAL Robotics and Wandercraft bet on deep industrial integration, and US tech giants focused almost entirely on AI software and quantum computing \u2014 with no major American humanoid robot on the exhibition floor. Six months after CES 2026 signalled the end of the hype phase, VivaTech confirmed the deployment phase has begun. ",
+     "image": "https://cdn.robotaigeek.com/news/95/news_95_b23cb9b93c92408e8af0596c30cb51a4.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-06-20T12:17:17.656772Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 638,
+     "title": "China's Server Chipmakers Are Coming for the Robot Controller",
+     "slug": "china-robot-controller-domestic-chips-2026",
+     "summary": "Hygon, China's listed x86 processor champion, is pushing its CPU1000 line into robotics. The robot controller is becoming a data-centre vendor's product, and buyers should read the toolchain before the benchmark.",
+     "image": "https://cdn.robotaigeek.com/images/hero_china_robot_controller.jpg",
+     "thumbnail_url": "https://cdn.robotaigeek.com/images/hero_china_robot_controller.jpg",
+     "published_at": "2026-09-22T01:52:55.266161Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 633,
+     "title": "RoboTechnik Opens a Hong Kong Share Sale",
+     "slug": "robotechnik-hong-kong-share-sale-2026",
+     "summary": "Suzhou automation vendor RoboTechnik opened a Hong Kong H share sale of up to HK$5.18 billion, about US$660 million, for photovoltaic and silicon photonics tools, not humanoids.",
+     "image": "https://cdn.robotaigeek.com/images/robotechnik_hong_kong_listing_hero.jpeg",
+     "thumbnail_url": "https://cdn.robotaigeek.com/images/robotechnik_hong_kong_listing_hero.jpeg",
+     "published_at": "2026-09-21T06:28:10.142692Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 628,
+     "title": "Faraday Future Puts Nine Robots and a Reverse Split Behind One Bet",
+     "slug": "faraday-future-puts-nine-robots-and-a-reverse-split-behind-one-bet",
+     "summary": "Faraday Future unveiled nine new robots and opened sales of its US$89,900 Futurist humanoid at a September 19 launch event, its clearest bid yet to prove a decade-long pivot from failed EV maker to robotics vendor can work.",
+     "image": "https://genesis-cdn.ff.com/BruceLee/neweb/0618/FF-Futurist--A3--6-default.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-09-20T06:22:01.264270Z",
+     "status": "published",
+     "match_type": "content"
+    }
+   ],
+   "linked_articles": [
+    {
+     "id": 259,
+     "title": "One Robot Vulnerability Got a Patch. The Other Got an IPO.",
+     "slug": "one-robot-vulnerability-got-a-patch-the-other-got-an-ipo",
+     "summary": "Universal Robots patched a critical, unauthenticated remote-code-execution flaw in its PolyScope 5 controller within a normal coordinated-disclosure cycle. A wormable Bluetooth exploit affecting Unitree's G1, H1, Go2, and B2 robots has gone unpatched for over a year, surviving the company's IPO and a return appearance at IFA Berlin. The gap between the two responses tracks who each company sells to, not how dangerous the machine is.",
+     "image": "https://shop.unitree.com/cdn/shop/files/2_3769ceea-b323-4ebc-a1f4-e27a9624706b.jpg?v=1717575246",
+     "thumbnail_url": "",
+     "published_at": "2026-09-14T00:37:05.107166Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 236,
+     "title": "The Valuation Is the Least Useful Number in a Robotics SPAC Deck",
+     "slug": "the-valuation-is-the-least-useful-number-in-a-robotics-spac-deck",
+     "summary": "PlusAI, Agility Robotics, XTEND AI Robotics, and Unitree all went public or announced going public within the same ten-day window. What each disclosed, or omitted, about current revenue and orders before the valuation headline is a better predictor of what buyers are getting than the deal size itself.",
+     "image": "https://cdn.prod.website-files.com/6980c63561bbbeb67b4b7ab5/6a3b198f4f89c044daad3659_SPAC-Press-Release.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-09-05T00:03:33.661723Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 232,
+     "title": "The Humanoid Industry's Rental Pitch Has a 0.6 Percent Problem",
+     "slug": "the-humanoid-industrys-rental-pitch-has-a-06-percent-problem",
+     "summary": "AgiBot just extended its humanoid rental program to seven Middle Eastern countries, the latest evidence that Robot-as-a-Service has become the industry's growth story. But UBTECH's newly filed H1 2026 results, the only audited numbers a major humanoid maker has published, show services revenue at just 0.6 percent of sales. Real revenue still comes from selling hardware, and Unitree's own filings tell the same story.",
+     "image": "https://owebsite-cdn.ubtrobot.com/resources/image/2025/11/19/743037272154181.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-09-03T10:20:08.573286Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 230,
+     "title": "RoboGesture Teaches Humanoid Robots to Gesture While Speaking",
+     "slug": "robogesture-teaches-humanoid-robots-to-gesture-while-speaking",
+     "summary": "Researchers from Peking University and Tsinghua University built RoboGesture, a framework that generates real-time, speech-synchronized gestures for humanoid robots, tested on a Unitree G1 ahead of ECCV 2026.",
+     "image": "https://www.unitree.com/images/a20ba1ebc0724df8a8135744dee8bbea_2740x1720.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-09-02T08:32:00Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 192,
+     "title": "What Is a Quadruped Robot? Definition, Capabilities, and Where They Actually Work",
+     "slug": "quadruped-robots-what-they-are-use-cases",
+     "summary": "A Unitree Go2 costs $1,600. A Boston Dynamics Spot costs $75,000. Both walk, climb stairs, and carry sensors. The 46-fold gap has almost nothing to do with locomotion. It has everything to do with what happens after the robot arrives.",
+     "image": "https://cdn.robotaigeek.com/articles/192/article_192_de74f07395bb4ee996f429744d511565.png",
+     "thumbnail_url": "",
+     "published_at": "2026-08-16T13:33:35.744690Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 180,
+     "title": "Weekly Robotics Funding Wrap-Up: The Public Market Pricing Event",
+     "slug": "august-2026-robotics-funding-public-market-pricing",
+     "summary": "The first week of August 2026 transformed the financial landscape of embodied artificial intelligence from private speculation to public valuation. With Unitree pricing a nine billion dollar initial public offering in Shanghai and AgiBot targeting a six billion dollar listing in Hong Kong, the market is finally establishing hard benchmarks for hardware production and software reasoning.",
+     "image": "https://cdn.robotaigeek.com/images/20260809_hero_funding.jpg",
+     "thumbnail_url": "https://cdn.robotaigeek.com/images/20260809_hero_funding.jpg",
+     "published_at": "2026-08-09T04:27:46.277089Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 158,
+     "title": "China\u2019s Embodied AI Boom Faces Its First Real Test: Can 370 Startups Survive the IPO Gauntlet?",
+     "slug": "chinas-embodied-ai-boom-faces-its-first-real-test-can-370-startups-survive-the-ipo-gauntlet",
+     "summary": "China\u2019s embodied AI sector has attracted 370 startups in two years, with approximately 50 now pursuing public listings in Hong Kong or mainland China. While companies like AgiBot claim production records of 15,000 robots and Unitree reports profitable operations, industry insiders acknowledge that humanoid robots score just \u201c15 out of 100\u201d on capability and that the AI software powering them \u201clingers at about 3.\u201d The sector\u2019s first wave of IPOs will force companies to prove commercial viability under the discipline of quarterly earnings.",
+     "image": "https://cdn.robotaigeek.com/articles/158/article_158_ef02059b2a8a4e1c83b902c3c4cffd72.png",
+     "thumbnail_url": "",
+     "published_at": "2026-08-01T09:37:02.992402Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 109,
+     "title": "China's Humanoid Robot Capital Cycle: Record IPOs Meet Fresh Angel Money",
+     "slug": "chinas-humanoid-robot-capital-cycle-record-ipos-meet-fresh-angel-money",
+     "summary": "China's humanoid robot sector reached a capital markets turning point in July 2026. Unitree's record-speed IPO registration leads more than 20 companies toward listings while new angel rounds, including Guangxiang Tech's several-hundred-million-yuan raise, show institutional money entering at both ends of the pipeline.",
+     "image": "https://cdn.robotaigeek.com/articles/109/article_109_2a4e29c6a94f4bb4aee6d94ab5b4cfb5.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-07-06T08:44:41.194817Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 80,
+     "title": "2026 First Half Global ARPI Funding Review: Capital Shifts From Verification to Industrial Scale",
+     "slug": "2026-first-half-global-arpi-funding-review-capital-shifts-from-verification-to-industrial-scale",
+     "summary": "The first half of 2026 marked a historic inflection point for Automation, Robotics, and Physical Intelligence (ARPI) funding. Globally, robotics startups raised an unprecedented $18.8 billion in just six months, eclipsing the $15 billion total for all of 2025. This comprehensive review analyzes 26 major funding events across Q1 and Q2, revealing a decisive shift from early-stage R&D to late-stage commercialization, embodied AI infrastructure, and defense tech. The article also provides a Q3 outlook, highlighting the highly anticipated Unitree Robotics IPO on the Shanghai STAR Market and the broader implications for the physical AI ecosystem.",
+     "image": "https://cdn.robotaigeek.com/articles/80/article_80_99c7ed5e6aa54287a44951d6f12cd9b3.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-06-28T15:00:35.409524Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 216,
+     "title": "Humanoid Robots: What They Are, Why They Overheat, and Where They Work",
+     "slug": "humanoid-robots-heat-materials-use-cases",
+     "summary": "At NASA's Johnson Space Center, operators running the Valkyrie humanoid watch its actuator temperatures. When the legs or torso get too hot, the work stops until they cool. Not the battery \u2014 the metal. The humanoid form was copied from a body that sweats. No commercial humanoid does.",
+     "image": "https://cdn.robotaigeek.com/articles/216/article_216_0d7aaf1fb3564f859f5d423cd1ea8e9a.png",
+     "thumbnail_url": "",
+     "published_at": "2026-08-26T13:50:31.889434Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 208,
+     "title": "Inside Gongsheng Zhixing's Bet on a Unified Robot Brain",
+     "slug": "inside-gongsheng-zhixings-bet-on-a-unified-robot-brain",
+     "summary": "Beijing startup Gongsheng Zhixing argues that unified, end-to-end AI models outperform the industry's layered reasoning-and-control architecture, a claim it demonstrated by having a humanoid robot drive a go-kart around a closed track.",
+     "image": "https://x0.ifengimg.com/ucms/2026_34/2334732B078A8BEC42AFAF7CBFC309198AB47B55_size53_w674_h379.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-08-24T03:25:17.506922Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 203,
+     "title": "Shipped, Deployed, Promised: The Three Humanoid Robot Numbers Nobody Is Separating",
+     "slug": "shipped-deployed-promised-the-three-humanoid-robot-numbers-nobody-is-separating",
+     "summary": "Humanoid robotics headlines this month all quote big numbers, but shipped, deployed, and promised measure three different things. Untangled, they show real deployment is still small, and the manufacturing capacity build-out is landing in Korea, China, and the US, not Southeast Asia's electronics-assembly hubs.",
+     "image": "https://cdn.robotaigeek.com/research-staging/figure/figure03-studio-hero.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-08-21T12:47:01.545764Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 201,
+     "title": "Beyond the Invoice: Calculating the True Cost of a Humanoid Robot",
+     "slug": "beyond-the-invoice-calculating-the-true-cost-of-a-humanoid-robot",
+     "summary": "A buyer-focused guide to the hidden costs of humanoid robots, from integration and training to maintenance, downtime, compliance, and upgrades, with a quote-normalised five-year TCO worksheet.",
+     "image": "https://cdn.robotaigeek.com/articles/201/article_201_f5561c8e09ec420aab103ba1717ead53.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-08-20T13:11:31.462144Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 200,
+     "title": "Procuring a Humanoid Robot: Key Specs and Supplier Questions",
+     "slug": "procuring-a-humanoid-robot-key-specs-and-supplier-questions",
+     "summary": "A practical buyer guide to humanoid-robot specifications, supplier questions, lead-time planning, safety and market-access checks, and the cost items that belong in a comparable quotation.",
+     "image": "https://cdn.robotaigeek.com/articles/200/article_200_b2ce42331d0c4893816e5d385a2271a1.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-08-20T11:30:00Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 197,
+     "title": "What to Expect from the Next Generation of Humanoid Robots",
+     "slug": "what-to-expect-from-the-next-generation-of-humanoid-robots-2",
+     "summary": "A plain-language roadmap for the next generation of humanoid robots, covering the technology ceiling, whole-body control, dexterous interaction, AI software, realistic cost drivers, and evidence-based 2026\u20132028 milestones.",
+     "image": "https://cdn.robotaigeek.com/articles/197/article_197_1d9b3366f91d452194350064dc878a5b.png",
+     "thumbnail_url": "",
+     "published_at": "2026-08-18T10:29:29.127011Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 185,
+     "title": "Budgeting for a Humanoid Robot: Current Market Prices Explained",
+     "slug": "budgeting-for-a-humanoid-robot-current-market-prices-explained",
+     "summary": "Official public-award records provide budget references for humanoid robots, but only when buyers normalize configuration, integration, support, and regulatory scope.",
+     "image": "https://cdn.robotaigeek.com/articles/185/article_185_556735f319fd43e395370a5f5125b8bd.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-08-13T11:55:00Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 167,
+     "title": "China's Humanoid Robot Industry Reaches 100,000 Units but the Real Competition Has Not Yet Begun",
+     "slug": "china-humanoid-robot-production-100000-units-2026-industry-analysis",
+     "summary": "China's humanoid robot industry is on track to produce 100,000 units in 2026, a supply-side achievement that masks a more complex reality: the gap between production milestones and sustainable commercial deployment. A 36Kr analysis of five companies at WAIC 2026 reveals that most current humanoid robot companies lack a genuine moat, and that the real competition -- for data flywheels, AI brain capability, and deployment scale -- has barely begun.",
+     "image": "https://cdn.robotaigeek.com/images/hero_8_china_humanoid_production.jpg",
+     "thumbnail_url": "https://cdn.robotaigeek.com/images/hero_8_china_humanoid_production.jpg",
+     "published_at": "2026-08-04T02:08:36.011933Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 161,
+     "title": "The Hardware Reality Check",
+     "slug": "the-hardware-reality-check",
+     "summary": "The proliferation of robotic foundation models has exposed the physical limitations of the hardware they control. With a teleoperated humanoid performing surgery and a high-profile stage collapse at Computex, the technical focus has shifted from artificial intelligence reasoning to actuation, simulation transfer, and raw electromechanical reliability.",
+     "image": "https://cdn.robotaigeek.com/articles/161/article_161_2451c5810fdf43dfb029875496b8265a.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-08-02T04:50:31.764904Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 160,
+     "title": "Global Exhibitions & Ecosystem",
+     "slug": "global-exhibitions-ecosystem",
+     "summary": "The exhibition circuit has transformed from a venue for speculative demonstrations into a hard procurement battleground. With IFA Berlin announcing a dedicated humanoid catwalk and Computex Taipei exposing the friction between silicon ambition and physical reliability, convenings are now the primary mechanism for supply chain allocation.",
+     "image": "https://cdn.robotaigeek.com/articles/160/article_160_b56e5966ee1e404198dca94ea0cedb23.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-08-02T04:44:46.382362Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 145,
+     "title": "The Smart Money in China\u2019s Robot Boom Is No Longer Betting on Robots. It Is Betting on the Exit.",
+     "slug": "the-smart-money-in-chinas-robot-boom-is-no-longer-betting-on-robots-it-is-betting-on-the-exit",
+     "summary": "In a single day, AgiBot hired three banks for a Hong Kong IPO, Horizon Robotics borrowed US$450 million at zero interest, PsiBot became China\u2019s 22nd embodied AI unicorn of the year on a carmaker\u2019s money, and Washington voted to bar the Pentagon from Chinese humanoids. Read together, these are not four stories but one: the smart money in China\u2019s robot boom has repositioned from funding deployment proof to engineering exits. This analysis traces the capital cycle from venture rounds through strategic money to public listings, examines what the rush to price the sector says about its operating reality, and identifies the signals that will mark the exit window\u2019s closing.",
+     "image": "https://cdn.robotaigeek.com/articles/145/article_145_5d334e6ffa1d4201ae9725cb25793df7.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-07-26T03:26:44.653284Z",
+     "status": "published",
+     "match_type": "content"
+    }
+   ],
+   "data_verification_status": "unverified",
+   "data_verified_at": null,
+   "data_verified_by_username": null,
+   "media_mentions_enabled": true,
+   "media_match_term": "",
+   "can_edit": true,
+   "can_claim": false,
+   "my_claim": null,
+   "is_claimed": false,
+   "linked_robots": [
+    {
+     "id": 5305,
+     "name": "Dex5-1 (DEX5)"
+    },
+    {
+     "id": 5276,
+     "name": "DEX5 (Dex5-1)"
+    },
+    {
+     "id": 660,
+     "name": "GD01"
+    },
+    {
+     "id": 282,
+     "name": "Laikago"
+    },
+    {
+     "id": 5349,
+     "name": "Unitree A1 Exploration Version"
+    },
+    {
+     "id": 5350,
+     "name": "Unitree A1 Standard Version"
+    },
+    {
+     "id": 5354,
+     "name": "Unitree A2"
+    },
+    {
+     "id": 5351,
+     "name": "Unitree A2-PRO"
+    },
+    {
+     "id": 5353,
+     "name": "Unitree A2-W"
+    },
+    {
+     "id": 5352,
+     "name": "Unitree A2-W PRO"
+    },
+    {
+     "id": 5355,
+     "name": "Unitree Aliengo"
+    },
+    {
+     "id": 4314,
+     "name": "Unitree As2 AIR"
+    },
+    {
+     "id": 3298,
+     "name": "Unitree As2 EDU"
+    },
+    {
+     "id": 4315,
+     "name": "Unitree As2 PRO"
+    },
+    {
+     "id": 5357,
+     "name": "Unitree B1"
+    },
+    {
+     "id": 5356,
+     "name": "Unitree B1 Land Overlord"
+    },
+    {
+     "id": 44,
+     "name": "Unitree B2"
+    },
+    {
+     "id": 5358,
+     "name": "Unitree B2-W"
+    },
+    {
+     "id": 5360,
+     "name": "Unitree Dual-Arm Humanoid Robot R1-A5"
+    },
+    {
+     "id": 5359,
+     "name": "Unitree Dual-Arm Humanoid Robot R1-A5-D"
+    },
+    {
+     "id": 5362,
+     "name": "Unitree Dual-Arm Humanoid Robot R1-A7"
+    },
+    {
+     "id": 5361,
+     "name": "Unitree Dual-Arm Humanoid Robot R1-A7-D"
+    },
+    {
+     "id": 126,
+     "name": "Unitree G1"
+    },
+    {
+     "id": 5363,
+     "name": "Unitree G1-Comp"
+    },
+    {
+     "id": 4316,
+     "name": "Unitree G1 EDU"
+    },
+    {
+     "id": 601,
+     "name": "Unitree GD01"
+    },
+    {
+     "id": 5368,
+     "name": "Unitree Go1"
+    },
+    {
+     "id": 5364,
+     "name": "Unitree Go1 Air"
+    },
+    {
+     "id": 5365,
+     "name": "Unitree Go1 Edu"
+    },
+    {
+     "id": 5366,
+     "name": "Unitree Go1 Max"
+    },
+    {
+     "id": 5367,
+     "name": "Unitree Go1 Pro"
+    },
+    {
+     "id": 42,
+     "name": "Unitree Go2"
+    },
+    {
+     "id": 4317,
+     "name": "Unitree Go2 AIR"
+    },
+    {
+     "id": 3299,
+     "name": "Unitree Go2 EDU"
+    },
+    {
+     "id": 4318,
+     "name": "Unitree Go2 PRO"
+    },
+    {
+     "id": 644,
+     "name": "Unitree Go2-W"
+    },
+    {
+     "id": 2391,
+     "name": "Unitree Go2 X"
+    },
+    {
+     "id": 40,
+     "name": "Unitree H1"
+    },
+    {
+     "id": 4319,
+     "name": "Unitree H1-2"
+    },
+    {
+     "id": 348,
+     "name": "Unitree H2"
+    },
+    {
+     "id": 5369,
+     "name": "Unitree H2-D Flagship"
+    },
+    {
+     "id": 5370,
+     "name": "Unitree H2-D Standard"
+    },
+    {
+     "id": 3300,
+     "name": "Unitree H2 EDU"
+    },
+    {
+     "id": 5371,
+     "name": "Unitree H2 PLUS"
+    },
+    {
+     "id": 4320,
+     "name": "Unitree R1"
+    },
+    {
+     "id": 3301,
+     "name": "Unitree R1 AIR"
+    },
+    {
+     "id": 4321,
+     "name": "Unitree R1 EDU"
+    },
+    {
+     "id": 5372,
+     "name": "Unitree Z1 AIR"
+    },
+    {
+     "id": 5373,
+     "name": "Unitree Z1 PRO"
+    }
+   ],
+   "linked_robot_count": 49,
+   "public_robot_count": null,
+   "_source": "robotaigeek.com",
+   "resolved_language": "en"
+  },
+  "company_owners": [
+   {
+    "id": 109,
+    "name": "Unitree Robotics",
+    "slug": "unitree-robotics"
+   }
+  ],
+  "release_year": 2026,
+  "availability_status": {
+   "id": 3,
+   "key": "released",
+   "label": "Released",
+   "description": ""
+  },
+  "movement_types": [
+   {
+    "id": 2,
+    "key": "bipedal",
+    "label": "Bipedal",
+    "description": "Two-legged locomotion"
+   }
+  ],
+  "price_range": "From USD $29,900 (H2 PLUS)",
+  "price_min": "2.00",
+  "price_max": "29900.00",
+  "price_currency": "$",
+  "lease_monthly_min": null,
+  "lease_monthly_max": null,
+  "weight": "",
+  "weight_kg": 70.0,
+  "width": "",
+  "width_mm": null,
+  "length": "",
+  "length_mm": null,
+  "height": "",
+  "height_mm": null,
+  "speed": null,
+  "walking_speed": null,
+  "dof": 75,
+  "manipulation": "",
+  "computation": "",
+  "battery_capacity": "",
+  "battery_wh": 972.0,
+  "voltage": "",
+  "runtime": "3 hours",
+  "runtime_minutes": 180,
+  "charging_time": "",
+  "charging_time_minutes": null,
+  "joint_torque": "",
+  "joint_torque_nm": null,
+  "torque_density": "",
+  "torque_density_nm_per_kg": null,
+  "actuation_mechanism": "",
+  "payload_kg": null,
+  "reach_mm": null,
+  "repeatability_mm": null,
+  "overall_score": "0.0",
+  "technology_score": "0.0",
+  "innovation_score": "0.0",
+  "product_maturity_score": "0.0",
+  "credibility_score": "0.0",
+  "heat_score": 0,
+  "search_volume": "",
+  "strengths": "",
+  "weaknesses": "",
+  "image": "https://cdn.robotaigeek.com/robots/photos/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe.jpg",
+  "s3_image": "https://cdn.robotaigeek.com/robots/photos/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe.jpg",
+  "image_url": "https://cdn.robotaigeek.com/robots/photos/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe.jpg",
+  "image_variants": {
+   "320": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w320.jpg",
+   "640": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w640.jpg",
+   "960": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w960.jpg",
+   "1280": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w1280.jpg"
+  },
+  "image_variants_webp": {
+   "320": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w320.webp",
+   "640": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w640.webp",
+   "960": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w960.webp",
+   "1280": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w1280.webp"
+  },
+  "url": "https://www.unitree.com/H2plus",
+  "connectivity": "",
+  "notes": "",
+  "model_name": "H2 PLUS",
+  "charging_type": "",
+  "software": "",
+  "movement_engine": "",
+  "environment": "",
+  "photos": [
+   {
+    "id": 21092,
+    "url": "https://www.unitree.com/images/0b9a2b0f727b48b2a5030689cc0f8f0a_3840x3760.jpg",
+    "is_primary": false,
+    "s3_image": "https://cdn.robotaigeek.com/robots/photos/photo-5371-21092-v1784349914.jpg",
+    "variants": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21092-v1784349914_w320.jpg",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21092-v1784349914_w640.jpg",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21092-v1784349914_w960.jpg",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21092-v1784349914_w1280.jpg"
+    },
+    "variants_webp": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21092-v1784349914_w320.webp",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21092-v1784349914_w640.webp",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21092-v1784349914_w960.webp",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21092-v1784349914_w1280.webp"
+    },
+    "title": "",
+    "description": "",
+    "status": "published",
+    "created_at": "2026-07-18T04:45:12.986500+00:00",
+    "created_by": "martti",
+    "created_by_details": {
+     "id": 1,
+     "username": "martti",
+     "avatar": "https://cdn.robotaigeek.com/avatars/avatar_1_e4dc0df9.png",
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Vanguard",
+     "country_title": "Sergeant",
+     "country": {
+      "id": 13,
+      "name": "Philippines",
+      "code": "PH",
+      "alpha3": "PHL",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_ph.svg"
+     }
+    },
+    "reviewed_at": "2026-07-19T01:24:23.324827+00:00",
+    "published_at": "2026-07-19T01:24:23.324832+00:00",
+    "rejection_reason": ""
+   },
+   {
+    "id": 21093,
+    "url": "https://www.unitree.com/images/2379ab338b3c457e892e7dec9a3ecbe0_1042x1018.jpg",
+    "is_primary": false,
+    "s3_image": "https://cdn.robotaigeek.com/robots/photos/photo-5371-21093-v1784349914.jpg",
+    "variants": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21093-v1784349914_w320.jpg",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21093-v1784349914_w640.jpg",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21093-v1784349914_w960.jpg",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21093-v1784349914_w1280.jpg"
+    },
+    "variants_webp": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21093-v1784349914_w320.webp",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21093-v1784349914_w640.webp",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21093-v1784349914_w960.webp",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-5371/21093-v1784349914_w1280.webp"
+    },
+    "title": "",
+    "description": "",
+    "status": "published",
+    "created_at": "2026-07-18T04:45:13.001220+00:00",
+    "created_by": "martti",
+    "created_by_details": {
+     "id": 1,
+     "username": "martti",
+     "avatar": "https://cdn.robotaigeek.com/avatars/avatar_1_e4dc0df9.png",
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Vanguard",
+     "country_title": "Sergeant",
+     "country": {
+      "id": 13,
+      "name": "Philippines",
+      "code": "PH",
+      "alpha3": "PHL",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_ph.svg"
+     }
+    },
+    "reviewed_at": "2026-07-19T01:24:23.324827+00:00",
+    "published_at": "2026-07-19T01:24:23.324832+00:00",
+    "rejection_reason": ""
+   },
+   {
+    "id": 21689,
+    "url": "https://cdn.robotaigeek.com/robots/photos/robot_348_1_85223040807f4722baa6281ed59e4c1f.jpg",
+    "is_primary": false,
+    "s3_image": "https://cdn.robotaigeek.com/robots/photos/robot_348_1_85223040807f4722baa6281ed59e4c1f.jpg",
+    "variants": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot_348_1_85223040807f4722baa6281ed59e4c1f/robot_348_1_85223040807f4722baa6281ed59e4c1f_w320.jpg",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot_348_1_85223040807f4722baa6281ed59e4c1f/robot_348_1_85223040807f4722baa6281ed59e4c1f_w640.jpg",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot_348_1_85223040807f4722baa6281ed59e4c1f/robot_348_1_85223040807f4722baa6281ed59e4c1f_w960.jpg",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot_348_1_85223040807f4722baa6281ed59e4c1f/robot_348_1_85223040807f4722baa6281ed59e4c1f_w1280.jpg"
+    },
+    "variants_webp": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot_348_1_85223040807f4722baa6281ed59e4c1f/robot_348_1_85223040807f4722baa6281ed59e4c1f_w320.webp",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot_348_1_85223040807f4722baa6281ed59e4c1f/robot_348_1_85223040807f4722baa6281ed59e4c1f_w640.webp",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot_348_1_85223040807f4722baa6281ed59e4c1f/robot_348_1_85223040807f4722baa6281ed59e4c1f_w960.webp",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot_348_1_85223040807f4722baa6281ed59e4c1f/robot_348_1_85223040807f4722baa6281ed59e4c1f_w1280.webp"
+    },
+    "title": "",
+    "description": "",
+    "status": "published",
+    "created_at": "2026-07-18T23:01:36.720698+00:00",
+    "created_by": null,
+    "created_by_details": null,
+    "reviewed_at": "2026-07-19T01:24:23.324827+00:00",
+    "published_at": "2026-07-19T01:24:23.324832+00:00",
+    "rejection_reason": ""
+   },
+   {
+    "id": 21690,
+    "url": "https://cdn.robotaigeek.com/robots/photos/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe.jpg",
+    "is_primary": true,
+    "s3_image": "https://cdn.robotaigeek.com/robots/photos/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe.jpg",
+    "variants": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w320.jpg",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w640.jpg",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w960.jpg",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w1280.jpg"
+    },
+    "variants_webp": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w320.webp",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w640.webp",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w960.webp",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe/robot_348_2_d03bb6029a6d4e54a6cb4f0e404f2afe_w1280.webp"
+    },
+    "title": "",
+    "description": "",
+    "status": "published",
+    "created_at": "2026-07-18T23:01:36.727441+00:00",
+    "created_by": null,
+    "created_by_details": null,
+    "reviewed_at": "2026-07-19T01:24:23.324827+00:00",
+    "published_at": "2026-07-19T01:24:23.324832+00:00",
+    "rejection_reason": ""
+   }
+  ],
+  "videos": [
+   {
+    "id": 11167,
+    "url": "https://www.youtube.com/watch?v=T4ekeXQ2B6Q",
+    "title": "Unitree New Robot Goes Superhuman on Camera (Snaps Into Attack State)",
+    "description": "Unitree just unleashed a humanoid robot that doesn\u2019t just mimic human motion \u2014 it executes it. In a new demo, the H2 throws flying kicks, lands backflips, and smashes targets without hesitation. At the same time, another Unitree robot calmly spoke about the AI boom on live TV. Unitree robots are getting deployed, prices are public, and shipments are locked in. And now they\u2019re training like fighters. CES 2026 confirmed it: humanoid robotics is no longer a demo phase. It\u2019s a full-scale arms race.\n\n\ud83d\udce9 Brand Deals and Partnerships: collabs@nouralabs.com\n\u2709 General Inquiries: airevolutionofficial@gmail.com\n\n\ud83e\udde0 What You\u2019ll See\n0:00 Intro\n0:30 Unitree H2 performing combat drills live on camera\nhttps://www.youtube.com/watch?v=JZllfrHRc4g\n3:31 G1 humanoid speaking on CNBC about the AI boom\nhttps://interestingengineering.com/ai-robotics/humanoid-robot-responds-to-ai-bubble-debate\n4:41 How Unitree robots are already shipping to customers\n5:21 Boston Dynamics Atlas redesigned for mass production\nhttps://bostondynamics.com/blog/boston-dynamics-unveils-new-atlas-robot-to-revolutionize-industry/\n7:33 The real deployment plans revealed at CES 2026\n8:22 The robotics war between Unitree, Boston Dynamics, and DeepMind\n8:51 What Unitree\u2019s rumored $7B IPO means for humanoids\n\n\ud83d\udea8 Why It Matters\nThe age of humanoid robots as lab toys is over. They train, speak, fight, and deploy \u2014 and it\u2019s all caught on camera. This is the moment robots step out of research labs and into the real world. Unitree isn\u2019t teasing. They\u2019re selling. Boston Dynamics is mass-producing. Google\u2019s AI is inside the hardware.",
+    "is_primary": true,
+    "order": 0,
+    "created_by": "martti",
+    "created_by_details": {
+     "id": 1,
+     "username": "martti",
+     "avatar": "https://cdn.robotaigeek.com/avatars/avatar_1_e4dc0df9.png",
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Vanguard",
+     "country_title": "Sergeant",
+     "country": {
+      "id": 13,
+      "name": "Philippines",
+      "code": "PH",
+      "alpha3": "PHL",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_ph.svg"
+     }
+    },
+    "created_at": "2026-07-19T01:24:51.921006+00:00"
+   },
+   {
+    "id": 11168,
+    "url": "https://www.youtube.com/watch?v=UJRg92QulIU",
+    "title": "Meet Unitree H2: The 1.8 m Tall Humanoid Robot Ready to Serve Us",
+    "description": "Welcome to the big reveal of Unitree\u2019s H2 \u201cDestiny Awakening\u201d \u2014 a full-size humanoid robot standing at 1.8 m tall and weighing 70 kg, built to work alongside humans with agility and friendliness. In this video you will see the H2 take the stage, perform advanced movements, and showcase features that mark a major step forward for humanoid robotics.\n\nIn this demonstration you will discover how Unitree has shifted from pure speed toward versatile dexterity, with upgraded limbs, improved articulation, a friendly design, and a focus on real-world service applications. Whether you are a robotics enthusiast, a developer, or just curious about the future of humanoids in everyday life, this video gives you a front-row seat to what could be the next generation of robots. We talk about technical upgrades, design choices, potential use-cases \u2014 and what it all means for humans interacting with robots.\n\nIf you appreciate this content, please give it a thumbs up, drop a comment letting us know what you think the H2 should be used for, subscribe for future updates, and click the notification bell so you never miss our next robotics deep dive.\n#humanoidrobot #unitreeh2 #robotics\nGet More Great Car Videos - Subscribe: https://goo.gl/BSIaFc",
+    "is_primary": false,
+    "order": 1,
+    "created_by": "martti",
+    "created_by_details": {
+     "id": 1,
+     "username": "martti",
+     "avatar": "https://cdn.robotaigeek.com/avatars/avatar_1_e4dc0df9.png",
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Vanguard",
+     "country_title": "Sergeant",
+     "country": {
+      "id": 13,
+      "name": "Philippines",
+      "code": "PH",
+      "alpha3": "PHL",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_ph.svg"
+     }
+    },
+    "created_at": "2026-07-19T01:24:51.924272+00:00"
+   },
+   {
+    "id": 11169,
+    "url": "https://www.youtube.com/watch?v=kjJeQZECPcQ",
+    "title": "Unitree 1.8m Humanoid Robot  Every Punch Comes Through\uff01\ud83e\udd70",
+    "description": "Unitree 1.8m H2 Humanoid Robot, A Combat Sparring Test. H2's knee strike lifts G1 off the ground. This is to validate the overall reliability of the robot, please do not attempt to replicate this. Please use robots in a friendly manner.",
+    "is_primary": false,
+    "order": 2,
+    "created_by": "martti",
+    "created_by_details": {
+     "id": 1,
+     "username": "martti",
+     "avatar": "https://cdn.robotaigeek.com/avatars/avatar_1_e4dc0df9.png",
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Vanguard",
+     "country_title": "Sergeant",
+     "country": {
+      "id": 13,
+      "name": "Philippines",
+      "code": "PH",
+      "alpha3": "PHL",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_ph.svg"
+     }
+    },
+    "created_at": "2026-07-19T01:24:51.926723+00:00"
+   }
+  ],
+  "programming_interface": "",
+  "safety_fencing": "",
+  "mounting_options": "",
+  "deployment_context": "",
+  "ecosystem_compatibility": "",
+  "linked_videos": [
+   {
+    "id": 3759,
+    "title": "Unitree 1.8m Humanoid Robot  Every Punch Comes Through\uff01\ud83e\udd70",
+    "slug": "unitree-18m-humanoid-robot-every-punch-comes-through-r5371-v11169",
+    "video_url": "https://www.youtube.com/watch?v=kjJeQZECPcQ",
+    "thumbnail_url": "https://img.youtube.com/vi/kjJeQZECPcQ/hqdefault.jpg",
+    "video_type": "robot",
+    "created_by": "martti",
+    "created_by_details": {
+     "id": 1,
+     "username": "martti",
+     "avatar": "https://cdn.robotaigeek.com/avatars/avatar_1_e4dc0df9.png",
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Vanguard",
+     "country_title": "Sergeant",
+     "country": {
+      "id": 13,
+      "name": "Philippines",
+      "code": "PH",
+      "alpha3": "PHL",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_ph.svg"
+     }
+    },
+    "company": "Unitree Robotics",
+    "tags": "",
+    "duration": "",
+    "created_at": "2026-07-20T05:44:30.136572+00:00"
+   }
+  ],
+  "linked_news": [
+   {
+    "id": 161,
+    "title": "NVIDIA Launches Cosmos 3 World Model and Isaac GR00T Platform at GTC Taipei",
+    "slug": "nvidia-launches-cosmos-3-world-model-and-isaac-gr00t-platform-at-gtc-taipei",
+    "summary": "NVIDIA has officially released its Cosmos 3 physical AI world foundation model and the Isaac GR00T humanoid reference platform at GTC Taipei, directly integrating Chinese robotics hardware like the Unitree H2 Plus.",
+    "image": "https://cdn.robotaigeek.com/news/161/news_161_72f44543852c44ccaa49c4efeb092aaa.png",
+    "thumbnail_url": "",
+    "published_at": "2026-07-02T09:39:43.993539Z",
+    "status": "published"
+   }
+  ],
+  "linked_articles": [
+   {
+    "id": 216,
+    "title": "Humanoid Robots: What They Are, Why They Overheat, and Where They Work",
+    "slug": "humanoid-robots-heat-materials-use-cases",
+    "summary": "At NASA's Johnson Space Center, operators running the Valkyrie humanoid watch its actuator temperatures. When the legs or torso get too hot, the work stops until they cool. Not the battery \u2014 the metal. The humanoid form was copied from a body that sweats. No commercial humanoid does.",
+    "image": "https://cdn.robotaigeek.com/articles/216/article_216_0d7aaf1fb3564f859f5d423cd1ea8e9a.png",
+    "thumbnail_url": "",
+    "published_at": "2026-08-26T13:50:31.889434Z",
+    "status": "published"
+   }
+  ],
+  "sensors": [],
+  "materials": [],
+  "industries": [
+   {
+    "id": 18,
+    "key": "research",
+    "label": "Research"
+   }
+  ],
+  "uses": [
+   {
+    "id": 75,
+    "key": "development",
+    "label": "Development"
+   },
+   {
+    "id": 19,
+    "key": "research",
+    "label": "Research"
+   }
+  ],
+  "industries_other": "",
+  "uses_other": "",
+  "robot_code": "UNIT-UNIT-44",
+  "family_name": "Unitree H2",
+  "family_key": "unitree-robotics:h2",
+  "variant_code": "",
+  "variant_label": "H2 PLUS",
+  "family_url": "",
+  "product_url_scope": "exact_variant",
+  "status": "published",
+  "status_display": "Published",
+  "priority": 0,
+  "rejection_reason": "",
+  "rejection_categories": [],
+  "auto_fix_status": "none",
+  "auto_fix_attempts": [],
+  "quality_flags": [],
+  "quality_checked_at": "2026-09-04T09:42:05.850200Z",
+  "verification_confidence": null,
+  "verification_checked_at": "2026-07-18T14:50:07.801841Z",
+  "created_by": 1,
+  "created_by_username": "martti",
+  "updated_by": null,
+  "updated_by_username": null,
+  "reviewed_by": 1,
+  "reviewed_by_username": "martti",
+  "created_at": "2026-07-18T04:45:12.896516Z",
+  "updated_at": "2026-07-20T07:40:18.390836Z",
+  "reviewed_at": "2026-07-19T01:24:22.495286Z",
+  "published_at": "2026-07-19T01:24:22.495292Z",
+  "last_updated": "2026-07-20T07:40:18.390764Z",
+  "categories": [
+   "Humanoid"
+  ],
+  "sub_category": 9,
+  "tags": [
+   "Humanoid",
+   "humanoid robot",
+   "Legged",
+   "Manipulation",
+   "R&D",
+   "Research"
+  ],
+  "views": 0,
+  "likes": 0,
+  "rating": "0.00",
+  "reviews": 0,
+  "forum_discussions": [],
+  "rating_stats": {
+   "average_rating": 0,
+   "total_ratings": 0
+  },
+  "information_sources": [
+   {
+    "id": 5966,
+    "url": "https://www.unitree.com/H2plus",
+    "source_type": "website",
+    "title": "",
+    "description": "",
+    "order": 0,
+    "file": "",
+    "file_name": "",
+    "file_size": null,
+    "file_hash": ""
+   },
+   {
+    "id": 5989,
+    "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGg9a23AJN26-E_2tRJ6hS5hnbfSmiHSFYH5CGKzj1ajKcg1D2Gr630ck_6lXU4TVHPAzMsnJheETTsd9DHfSMpnnuiiV-8qWERwXjFRVlAgbGLIuEKF8hM6inBagMT-Sai",
+    "source_type": "website",
+    "title": "Release year (2026) citation",
+    "description": "Unitree today announced the H2 Plus, the first humanoid robot reference design built on the NVIDIA Isaac\u2122 GR00T development platform.",
+    "order": 1,
+    "file": "",
+    "file_name": "",
+    "file_size": null,
+    "file_hash": ""
+   },
+   {
+    "id": 5998,
+    "url": "https://www.unitree.com",
+    "source_type": "website",
+    "title": "",
+    "description": "",
+    "order": 2,
+    "file": "",
+    "file_name": "",
+    "file_size": null,
+    "file_hash": ""
+   },
+   {
+    "id": 5999,
+    "url": "https://www.youtube.com/channel/UCsMbp4V8oxzHCMdOUP-3oWw/shorts",
+    "source_type": "website",
+    "title": "",
+    "description": "",
+    "order": 3,
+    "file": "",
+    "file_name": "",
+    "file_size": null,
+    "file_hash": ""
+   },
+   {
+    "id": 6000,
+    "url": "https://www.unitree.com/unitree-favicon.svg",
+    "source_type": "website",
+    "title": "",
+    "description": "",
+    "order": 4,
+    "file": "",
+    "file_name": "",
+    "file_size": null,
+    "file_hash": ""
+   }
+  ],
+  "mentioned_users": [],
+  "data_verification_status": "unverified",
+  "can_confirm_data": false,
+  "where_to_buy": {
+   "answer": "unknown",
+   "count": 0,
+   "country_known": false,
+   "in_territory": [],
+   "elsewhere": []
+  },
+  "_source": "robotaigeek.com",
+  "resolved_language": "en"
+ },
+ "60": {
+  "id": 60,
+  "name": "Da Vinci Xi (Dr. Da Vinci Xi)",
+  "source_locale": "en",
+  "description": "da Vinci Xi is a fourth-generation robotic surgical system developed by Intuitive Surgical, representing the company\u2019s vision for minimally invasive precision surgery.\n\nIntroduced in 2014, the Xi platform focuses on high-definition visualization, enhanced surgeon control, and multi-quadrant surgical access. Unlike autonomous robots, da Vinci Xi is fully surgeon-operated, translating human movements into ultra-precise robotic actions.\n\nIts development underscores the role of robotics in human-augmented decision-making, rather than autonomy.",
+  "purpose": "Minimally invasive surgery",
+  "features": "Robotic arms, 3D HD vision, tremor reduction",
+  "company": "Intuitive Surgical",
+  "manufacturer_country": "United States",
+  "manufacturer_country_ref": {
+   "id": 20,
+   "name": "United States",
+   "code": "US",
+   "alpha3": "USA",
+   "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_us.svg",
+   "emoji": ""
+  },
+  "manufacturer_countries": [],
+  "company_ref": {
+   "id": 52,
+   "slug": "intuitive-surgical",
+   "name": "Intuitive Surgical",
+   "source_locale": "en",
+   "summary": "",
+   "short_description": "",
+   "description": "https://www.intuitive.com/en-us/contact-us",
+   "country": {
+    "id": 20,
+    "name": "United States",
+    "code": "US",
+    "alpha3": "USA",
+    "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_us.svg",
+    "emoji": ""
+   },
+   "website": "https://www.intuitive.com",
+   "logo_url": "https://cdn.robotaigeek.com/company_logos/cropped-1773541256990.jpg",
+   "logo_variants": {
+    "320": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773541256990/cropped-1773541256990_w320.jpg",
+    "640": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773541256990/cropped-1773541256990_w640.jpg",
+    "960": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773541256990/cropped-1773541256990_w960.jpg",
+    "1280": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773541256990/cropped-1773541256990_w1280.jpg"
+   },
+   "logo_variants_webp": {
+    "320": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773541256990/cropped-1773541256990_w320.webp",
+    "640": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773541256990/cropped-1773541256990_w640.webp",
+    "960": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773541256990/cropped-1773541256990_w960.webp",
+    "1280": "https://cdn.robotaigeek.com/company_logos/thumb/cropped-1773541256990/cropped-1773541256990_w1280.webp"
+   },
+   "notes": "da Vinci Surgical System",
+   "hq_address": "Sunnyvale, California",
+   "contact_info": "https://www.intuitive.com/en-us/contact-us",
+   "leaders_roles": "Gary Guthart (CEO)",
+   "sources": "https://www.intuitive.com/en-us/contact-us\r\nhttps://www.intuitive.com",
+   "primary_focus": [],
+   "tags": [],
+   "company_status": "public",
+   "product_stage": "released",
+   "company_maturity": "",
+   "product_type": "b2b",
+   "publication_status": "published",
+   "hidden_reason": "",
+   "employee_count": 13000,
+   "employee_min": null,
+   "employee_max": null,
+   "founded_year": null,
+   "linkedin_url": "",
+   "x_url": "",
+   "youtube_url": "",
+   "github_url": "",
+   "categories": [],
+   "timeline": [],
+   "milestones": [],
+   "press_coverage": [],
+   "leaders": [],
+   "linked_news": [
+    {
+     "id": 394,
+     "title": "Teleoperated Humanoid Robots Successfully Perform Laparoscopic Surgery in Animal Trials",
+     "slug": "teleoperated-humanoid-robots-successfully-perform-laparoscopic-surgery-in-animal-trials",
+     "summary": "A research team at UC San Diego has successfully used a teleoperated humanoid robot to perform laparoscopic gallbladder removal in pigs, as highlighted in Nature Medicine on July 31, 2026. The research demonstrates the feasibility of using general-purpose humanoid morphology with standard surgical instruments for complex procedures, challenging the dominance of purpose-built surgical robots like Intuitive Surgical's Da Vinci system and potentially enabling surgical access in standard operating rooms without specialized equipment.",
+     "image": "https://cdn.robotaigeek.com/news/394/news_394_9a28124a671347d89ba3d49c43760172.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-08-01T13:33:10.984055Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 331,
+     "title": "Johnson & Johnson Wins FDA Authorization for OTTAVA, the First Table-Integrated Surgical Robot",
+     "slug": "johnson-johnson-wins-fda-authorization-for-ottava-the-first-table-integrated-surgical-robot",
+     "summary": "The United States Food and Drug Administration has granted De Novo authorization to Johnson & Johnson's OTTAVA Robotic Surgical System, the first soft tissue surgical robot with arms built directly into the operating table, clearing it for ten general surgery procedures and setting up the first serious architectural challenge to Intuitive Surgical's long-standing dominance.",
+     "image": "https://cdn.robotaigeek.com/news/331/news_331_175f90a17c494a359b8fe05239765457.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-07-23T03:42:20.974697Z",
+     "status": "published",
+     "match_type": "summary"
+    }
+   ],
+   "linked_articles": [
+    {
+     "id": 243,
+     "title": "What a 14-Million-Procedure Study Says About da Vinci",
+     "slug": "what-a-14-million-procedure-study-says-about-da-vinci",
+     "summary": "A 14-million-procedure meta-analysis backed by Intuitive Surgical finds da Vinci robotic surgery beats open surgery on complications and mortality but shows no advantage over laparoscopic surgery, a distinction hospital capital committees should weigh before expanding robotic capacity.",
+     "image": "https://www.stlukes.com.ph/assets/images/news/DA_VINCI_XI_-_LED_2.png",
+     "thumbnail_url": "",
+     "published_at": "2026-09-10T22:51:00Z",
+     "status": "published",
+     "match_type": "summary"
+    },
+    {
+     "id": 267,
+     "title": "The U.S. Is No Longer the First Market a Surgical Robot Conquers",
+     "slug": "the-us-is-no-longer-the-first-market-a-surgical-robot-conquers",
+     "summary": "Medtronic's latest Hugo clearance covers one instrument for one U.S. specialty, four years after the platform launched abroad. Across surgical robotics, FDA clearance now proceeds one procedure at a time, and it's made the United States the last major market platforms reach with full capability.",
+     "image": "https://mmx.prnewswire.com/media/MS1989397/Photo-2_Medtronic-Hugo-RAS-system_LigaSure-RAS-instrument-jaw_FDA-clearance-ID-9740423696f4.jpg?p=original",
+     "thumbnail_url": "",
+     "published_at": "2026-09-17T04:58:55.199953Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 144,
+     "title": "The Surgical Robotics Shakeout: A Bankruptcy, a Duopoly Test, and the Buyer's New Leverage",
+     "slug": "the-surgical-robotics-shakeout-a-bankruptcy-a-duopoly-test-and-the-buyers-new-leverage",
+     "summary": "Surgical robotics just lost one of its most hyped startups to bankruptcy in the same week the premium market gained its first credible second supplier in a generation. This analysis maps the consolidation economics deciding who survives, China's parallel game, and a practical evaluation framework for hospitals entering the duopoly era.",
+     "image": "https://cdn.robotaigeek.com/articles/144/article_144_4d19dc4298684d4fbf5fbf69667b7750.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-07-23T08:44:11.881301Z",
+     "status": "published",
+     "match_type": "content"
+    },
+    {
+     "id": 10,
+     "title": "What Is Physical AI?",
+     "slug": "what-is-physical-ai",
+     "summary": "Most people think AI lives inside computers and phones. That is no longer true. The moment AI gained sensors, motors, and the ability to act in physical space, its mistakes stopped being reversible. This affects every worker, patient, infrastructure manager, and policymaker whose environment now includes a machine that can move and decide. The question no one is answering clearly enough is: what exactly is physical AI, and why does it change the stakes so fundamentally?",
+     "image": "https://cdn.robotaigeek.com/news/13/news_13_0b6fbdf7f23c4809a9c67eea7b45e8b5.jpg",
+     "thumbnail_url": "",
+     "published_at": "2026-02-25T11:20:43.281013Z",
+     "status": "published",
+     "match_type": "content"
+    }
+   ],
+   "data_verification_status": "unverified",
+   "data_verified_at": null,
+   "data_verified_by_username": null,
+   "media_mentions_enabled": true,
+   "media_match_term": "",
+   "can_edit": true,
+   "can_claim": false,
+   "my_claim": null,
+   "is_claimed": false,
+   "linked_robots": [
+    {
+     "id": 3694,
+     "name": "Da Vinci 5"
+    },
+    {
+     "id": 3696,
+     "name": "Da Vinci Instruments"
+    },
+    {
+     "id": 3693,
+     "name": "Da Vinci SP"
+    },
+    {
+     "id": 60,
+     "name": "Da Vinci Xi (Dr. Da Vinci Xi)"
+    },
+    {
+     "id": 3695,
+     "name": "Ion robotic bronchoscopy"
+    }
+   ],
+   "linked_robot_count": 5,
+   "public_robot_count": null,
+   "_source": "robotaigeek.com",
+   "resolved_language": "en"
+  },
+  "company_owners": [
+   {
+    "id": 52,
+    "name": "Intuitive Surgical",
+    "slug": "intuitive-surgical"
+   }
+  ],
+  "release_year": null,
+  "availability_status": {
+   "id": 3,
+   "key": "released",
+   "label": "Released",
+   "description": ""
+  },
+  "movement_types": [
+   {
+    "id": 10,
+    "key": "stationary",
+    "label": "Stationary",
+    "description": "Non-mobile or fixed base"
+   }
+  ],
+  "price_range": "USD ~1,5\u20132 million",
+  "price_min": "15.00",
+  "price_max": "2000000.00",
+  "price_currency": null,
+  "lease_monthly_min": null,
+  "lease_monthly_max": null,
+  "weight": "~500+ kg (system total)",
+  "weight_kg": null,
+  "width": "",
+  "width_mm": null,
+  "length": "",
+  "length_mm": null,
+  "height": "Room-scale system",
+  "height_mm": null,
+  "speed": null,
+  "walking_speed": null,
+  "dof": null,
+  "manipulation": "",
+  "computation": "",
+  "battery_capacity": "",
+  "battery_wh": null,
+  "voltage": "",
+  "runtime": "",
+  "runtime_minutes": null,
+  "charging_time": "",
+  "charging_time_minutes": null,
+  "joint_torque": "",
+  "joint_torque_nm": null,
+  "torque_density": "",
+  "torque_density_nm_per_kg": null,
+  "actuation_mechanism": "",
+  "payload_kg": null,
+  "reach_mm": null,
+  "repeatability_mm": null,
+  "overall_score": "0.0",
+  "technology_score": "0.0",
+  "innovation_score": "0.0",
+  "product_maturity_score": "0.0",
+  "credibility_score": "0.0",
+  "heat_score": 0,
+  "search_volume": "",
+  "strengths": "",
+  "weaknesses": "",
+  "image": "https://cdn.robotaigeek.com/robots/original/robot-60-da-vinci-xi-dr-da-vinci-xi.jpg",
+  "s3_image": "https://cdn.robotaigeek.com/robots/original/robot-60-da-vinci-xi-dr-da-vinci-xi.jpg",
+  "image_url": "https://cdn.robotaigeek.com/robots/original/robot-60-da-vinci-xi-dr-da-vinci-xi.jpg",
+  "image_variants": {
+   "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/da-vinci-xi-dr-da-vinci-xi_w320.jpg",
+   "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/da-vinci-xi-dr-da-vinci-xi_w640.jpg",
+   "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/da-vinci-xi-dr-da-vinci-xi_w960.jpg",
+   "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/da-vinci-xi-dr-da-vinci-xi_w1280.jpg"
+  },
+  "image_variants_webp": {
+   "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/da-vinci-xi-dr-da-vinci-xi_w320.webp",
+   "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/da-vinci-xi-dr-da-vinci-xi_w640.webp",
+   "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/da-vinci-xi-dr-da-vinci-xi_w960.webp",
+   "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/da-vinci-xi-dr-da-vinci-xi_w1280.webp"
+  },
+  "url": "https://www.intuitive.com/en-us/products-and-services/da-vinci/xi",
+  "connectivity": "Wired (secure hospital networks)",
+  "notes": "",
+  "model_name": "da Vinci Xi Surgical System",
+  "charging_type": "AC powered",
+  "software": "Intuitive surgical software",
+  "movement_engine": "",
+  "environment": "",
+  "photos": [
+   {
+    "id": 2443,
+    "url": "https://cdn.robotaigeek.com/robots/photos/photo-60-2443.jpg",
+    "is_primary": true,
+    "s3_image": "https://cdn.robotaigeek.com/robots/photos/photo-60-2443.jpg",
+    "variants": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2443_w320.jpg",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2443_w640.jpg",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2443_w960.jpg",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2443_w1280.jpg"
+    },
+    "variants_webp": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2443_w320.webp",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2443_w640.webp",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2443_w960.webp",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2443_w1280.webp"
+    },
+    "title": "",
+    "description": "",
+    "status": "published",
+    "created_at": "2026-02-24T10:26:41.108911+00:00",
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "reviewed_at": null,
+    "published_at": null,
+    "rejection_reason": ""
+   },
+   {
+    "id": 2444,
+    "url": "https://cdn.robotaigeek.com/robots/photos/photo-60-2444.jpg",
+    "is_primary": false,
+    "s3_image": "https://cdn.robotaigeek.com/robots/photos/photo-60-2444.jpg",
+    "variants": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2444_w320.jpg",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2444_w640.jpg",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2444_w960.jpg",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2444_w1280.jpg"
+    },
+    "variants_webp": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2444_w320.webp",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2444_w640.webp",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2444_w960.webp",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2444_w1280.webp"
+    },
+    "title": "",
+    "description": "",
+    "status": "published",
+    "created_at": "2026-02-24T10:26:41.113539+00:00",
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "reviewed_at": null,
+    "published_at": null,
+    "rejection_reason": ""
+   },
+   {
+    "id": 2445,
+    "url": "https://cdn.robotaigeek.com/robots/photos/photo-60-2445.jpg",
+    "is_primary": false,
+    "s3_image": "https://cdn.robotaigeek.com/robots/photos/photo-60-2445.jpg",
+    "variants": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2445_w320.jpg",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2445_w640.jpg",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2445_w960.jpg",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2445_w1280.jpg"
+    },
+    "variants_webp": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2445_w320.webp",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2445_w640.webp",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2445_w960.webp",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2445_w1280.webp"
+    },
+    "title": "",
+    "description": "",
+    "status": "published",
+    "created_at": "2026-02-24T10:26:41.116960+00:00",
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "reviewed_at": null,
+    "published_at": null,
+    "rejection_reason": ""
+   },
+   {
+    "id": 2446,
+    "url": "https://cdn.robotaigeek.com/robots/photos/photo-60-2446.jpg",
+    "is_primary": false,
+    "s3_image": "https://cdn.robotaigeek.com/robots/photos/photo-60-2446.jpg",
+    "variants": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2446_w320.jpg",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2446_w640.jpg",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2446_w960.jpg",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2446_w1280.jpg"
+    },
+    "variants_webp": {
+     "320": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2446_w320.webp",
+     "640": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2446_w640.webp",
+     "960": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2446_w960.webp",
+     "1280": "https://cdn.robotaigeek.com/robots/thumb/robot-60/2446_w1280.webp"
+    },
+    "title": "",
+    "description": "",
+    "status": "published",
+    "created_at": "2026-02-24T10:26:41.120172+00:00",
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "reviewed_at": null,
+    "published_at": null,
+    "rejection_reason": ""
+   }
+  ],
+  "videos": [
+   {
+    "id": 2021,
+    "url": "https://youtu.be/H5f5C75I39c",
+    "title": "",
+    "description": "",
+    "is_primary": true,
+    "order": 0,
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "created_at": "2026-02-24T10:26:41.193042+00:00"
+   },
+   {
+    "id": 2022,
+    "url": "https://youtu.be/H4WzUSq9OeY",
+    "title": "",
+    "description": "",
+    "is_primary": false,
+    "order": 1,
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "created_at": "2026-02-24T10:26:41.197327+00:00"
+   },
+   {
+    "id": 2023,
+    "url": "https://youtu.be/N2WW8wLynGE",
+    "title": "",
+    "description": "",
+    "is_primary": false,
+    "order": 2,
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "created_at": "2026-02-24T10:26:41.201793+00:00"
+   }
+  ],
+  "programming_interface": "",
+  "safety_fencing": "",
+  "mounting_options": "",
+  "deployment_context": "",
+  "ecosystem_compatibility": "",
+  "linked_videos": [
+   {
+    "id": 367,
+    "title": "Da Vinci Xi (Dr. Da Vinci Xi) Video 2021",
+    "slug": "da-vinci-xi-dr-da-vinci-xi-video-2021",
+    "video_url": "https://youtu.be/H5f5C75I39c",
+    "thumbnail_url": "",
+    "video_type": "robot",
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "company": "Intuitive Surgical",
+    "tags": "",
+    "duration": "",
+    "created_at": "2026-02-27T00:56:56.833839+00:00"
+   },
+   {
+    "id": 366,
+    "title": "Da Vinci Xi (Dr. Da Vinci Xi) Video 2022",
+    "slug": "da-vinci-xi-dr-da-vinci-xi-video-2022",
+    "video_url": "https://youtu.be/H4WzUSq9OeY",
+    "thumbnail_url": "",
+    "video_type": "robot",
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "company": "Intuitive Surgical",
+    "tags": "",
+    "duration": "",
+    "created_at": "2026-02-27T00:56:56.826993+00:00"
+   },
+   {
+    "id": 365,
+    "title": "Da Vinci Xi (Dr. Da Vinci Xi) Video 2023",
+    "slug": "da-vinci-xi-dr-da-vinci-xi-video-2023",
+    "video_url": "https://youtu.be/N2WW8wLynGE",
+    "thumbnail_url": "",
+    "video_type": "robot",
+    "created_by": "jeannifer",
+    "created_by_details": {
+     "id": 5,
+     "username": "jeannifer",
+     "avatar": null,
+     "avatar_variants": {},
+     "avatar_variants_webp": {},
+     "magician_tier": "Tech-Adept",
+     "house_title": "Warrior",
+     "country_title": "Corporal",
+     "country": {
+      "id": 101,
+      "name": "Indonesia",
+      "code": "ID",
+      "alpha3": "IDN",
+      "emoji": "",
+      "flag_icon_url": "https://cdn.robotaigeek.com/flags/flag_id.svg"
+     }
+    },
+    "company": "Intuitive Surgical",
+    "tags": "",
+    "duration": "",
+    "created_at": "2026-02-27T00:56:56.819253+00:00"
+   }
+  ],
+  "linked_news": [],
+  "linked_articles": [
+   {
+    "id": 243,
+    "title": "What a 14-Million-Procedure Study Says About da Vinci",
+    "slug": "what-a-14-million-procedure-study-says-about-da-vinci",
+    "summary": "A 14-million-procedure meta-analysis backed by Intuitive Surgical finds da Vinci robotic surgery beats open surgery on complications and mortality but shows no advantage over laparoscopic surgery, a distinction hospital capital committees should weigh before expanding robotic capacity.",
+    "image": "https://www.stlukes.com.ph/assets/images/news/DA_VINCI_XI_-_LED_2.png",
+    "thumbnail_url": "",
+    "published_at": "2026-09-10T22:51:00Z",
+    "status": "published"
+   }
+  ],
+  "sensors": [
+   "Force feedback",
+   "imaging sensors"
+  ],
+  "materials": [
+   "Medical-grade metals and plastics"
+  ],
+  "industries": [
+   {
+    "id": 8,
+    "key": "healthcare",
+    "label": "Healthcare"
+   }
+  ],
+  "uses": [
+   {
+    "id": 23,
+    "key": "surgery",
+    "label": "Surgery"
+   }
+  ],
+  "industries_other": "",
+  "uses_other": "",
+  "robot_code": "INTU-DAVI-01",
+  "family_name": "",
+  "family_key": "",
+  "variant_code": "",
+  "variant_label": "",
+  "family_url": "",
+  "product_url_scope": "",
+  "status": "published",
+  "status_display": "Published",
+  "priority": 0,
+  "rejection_reason": "",
+  "rejection_categories": [],
+  "auto_fix_status": "none",
+  "auto_fix_attempts": [],
+  "quality_flags": [
+   {
+    "flag": "missing_release_year",
+    "detail": "",
+    "severity": "warn"
+   },
+   {
+    "flag": "missing_tags",
+    "detail": "",
+    "severity": "warn"
+   }
+  ],
+  "quality_checked_at": "2026-09-04T09:37:35.940557Z",
+  "verification_confidence": null,
+  "verification_checked_at": null,
+  "created_by": 5,
+  "created_by_username": "jeannifer",
+  "updated_by": null,
+  "updated_by_username": null,
+  "reviewed_by": null,
+  "reviewed_by_username": null,
+  "created_at": "2026-02-14T11:32:46.039269Z",
+  "updated_at": "2026-09-02T03:10:51.968308Z",
+  "reviewed_at": "2026-02-14T11:32:46.039269Z",
+  "published_at": "2026-02-14T11:32:46.039269Z",
+  "last_updated": "2026-02-24T10:26:41.010386Z",
+  "categories": [
+   "Ground"
+  ],
+  "sub_category": null,
+  "tags": [],
+  "views": 0,
+  "likes": 0,
+  "rating": "0.00",
+  "reviews": 0,
+  "forum_discussions": [
+   {
+    "id": 198,
+    "title": "Robot of the Week - 24th June 2026 (da Vinci Surgical Xi by Intuitive)",
+    "slug": "robot-of-the-week-24th-june-2026-da-vinci-surgical-xi-by-intuitive",
+    "author": "jamie",
+    "forum": "Robot Recommendations",
+    "posts_count": 1,
+    "views_count": 19,
+    "created_at": "2026-07-01T06:58:39.404961Z",
+    "last_post_at": "2026-07-01T06:58:39.404944Z"
+   }
+  ],
+  "rating_stats": {
+   "average_rating": 0,
+   "total_ratings": 0
+  },
+  "information_sources": [],
+  "mentioned_users": [],
+  "data_verification_status": "unverified",
+  "can_confirm_data": false,
+  "where_to_buy": {
+   "answer": "unknown",
+   "count": 0,
+   "country_known": false,
+   "in_territory": [],
+   "elsewhere": []
+  },
+  "_source": "robotaigeek.com",
+  "resolved_language": "en"
+ }
+}

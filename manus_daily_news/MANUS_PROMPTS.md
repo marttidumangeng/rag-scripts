@@ -342,6 +342,11 @@ DRAFTING (the skill governs; this prompt adds nothing to style):
     AI-phrasing (SKILL 3.5) and on non-USD amounts missing US$
     conversions. Exit 1 = fix the listed errors and re-run. No piece
     enters the package until its lint passes.
+10c. If (and only if) you will submit through the RobotAIGeek MCP connector,
+    also call its content_lint tool on each public body (lane news|article,
+    editorial_date = the run date). It applies the same rules the server
+    enforces at submit time, so a body that passes here will not be flagged
+    later. Fix errors; warnings are informational.
 
 PACKAGING:
 11. Deliver YYYYMMDD_RobotAIGeek_Daily_Package.zip plus the separate
@@ -358,6 +363,16 @@ PACKAGING:
     publication date of the underlying event and confirm it equals the
     run date. Any package whose source date is not today must not be in
     the delivery.
+11d. SUBMITTING VIA MCP (news_submit): always pass the provenance the server
+    checks: source_url (the first-hand source), source_name, source_published_at
+    (the RAW source date as ISO 8601, e.g. 2026-09-30T08:00:00+08:00, not the
+    date you wrote the piece), source_timezone (e.g. Asia/Shanghai), and
+    editorial_date (the run date, YYYY-MM-DD). A source dated before the
+    editorial date is flagged, and refused once the server gate is switched to
+    enforce. Only pass allow_stale_reason for a genuine background piece, with
+    a one-sentence reason; it is stored on the item for the editor. The
+    response carries a `compliance` block (passed, errors, warnings): if
+    passed is false, fix the body and resubmit rather than leaving it queued.
 12. After packaging, register every packaged story in the dedup log AND
     append the confirmed-published rows to
     references/published_articles_log.csv per SKILL.md once the user

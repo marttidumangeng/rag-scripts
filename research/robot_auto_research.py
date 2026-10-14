@@ -1194,23 +1194,62 @@ def _key_from_obj(obj: Any, default: str = "") -> str:
     return default
 
 
-_VALID_MOVEMENT_TYPES = {"wheeled", "legged", "aerial", "tracked", "stationary", "swimming", "other"}
+# Mirrors CANONICAL_MOVEMENT_KEYS in robots/taxonomy_standard.py.
+#
+# This set used to be {"wheeled","legged","aerial","tracked","stationary","swimming","other"},
+# of which THREE keys do not exist in the database at all. They survived only because
+# MOVEMENT_KEY_SYNONYMS silently rewrites them on import — and one of those rewrites is
+# lossy: "legged" -> "bipedal", unconditionally. So every legged QUADRUPED the classifier saw
+# was filed as a biped. That is what put 64 records wrong in the Shanghai-August intake and
+# needed a manual movement_types repatch.
+#
+# The model now names the real key (bipedal vs quadruped vs humanoid) instead of a coarse
+# one a synonym table has to guess at, and "other" is withheld for the same reason it is
+# withheld from _VALID_USES — an unset movement type is better than a false one.
+_VALID_MOVEMENT_TYPES = {
+    "bipedal", "quadruped", "wheeled", "humanoid", "aerial",
+    "aquatic", "hybrid", "snake-like", "stationary",
+}
 _VALID_SUB_CATEGORIES = {
     "personal-assistants", "service-hospitality", "personal-mobility",
     "retail-customer-engagement", "learning", "logistics-warehouse",
     "agriculture", "companionship", "manufacturing-industrial",
     "cleaning-facilities", "security", "healthcare", "military",
 }
+# Mirrors CANONICAL_USE_KEYS in robots/taxonomy_standard.py, MINUS the "other"/"others"
+# escape hatch — deliberately, on both counts.
+#
+# This set had drifted to the pre-2026-08-20 service-robot canon and was missing every
+# industrial key the taxonomy backfill campaign promoted: machine-tending, material-handling,
+# welding, painting, dispensing, intralogistics, packaging, sorting, agriculture,
+# rehabilitation. So when the classifier met an industrial arm the honest answer was not on
+# the menu and "others" was, and it picked "others" — correctly, given what it was offered.
+# That is how the Unical UniBot iR18 arms (CNC machine-tending cobots) ended up filed under
+# Uses: Others with an empty uses_other, which renders as "Other" with no other-what and is
+# a dead end for filtering.
+#
+# "other"/"others" are now withheld from the model entirely: a use it cannot name is left
+# unset, and _classify_robot's caller falls back to the robot's existing uses rather than
+# stamping a placeholder over them. An empty uses array is a better record than a false one.
+# Keep this in sync with CANONICAL_USE_KEYS when that list grows.
 _VALID_USES = {
-    "assembly", "cleaning", "entertainment", "exploration", "other", "others",
+    "assembly", "cleaning", "entertainment", "exploration",
     "palletizing", "pick-and-place", "research", "surgery", "cooking", "delivery",
     "guiding", "helping", "inspection", "inventory", "monitoring", "patrol",
     "picking", "reception", "remote", "sanitizing", "scanning", "transport", "education",
+    # promoted 2026-08-20 (taxonomy backfill campaign), synced here 2026-08-30
+    "material-handling", "machine-tending", "welding", "painting", "dispensing",
+    "intralogistics", "packaging", "sorting", "agriculture", "rehabilitation",
 }
+# Mirrors CANONICAL_INDUSTRY_KEYS in robots/taxonomy_standard.py, minus the "others" escape
+# hatch. Same drift as _VALID_USES: the 2026-08-20 promotion of automotive, electronics and
+# energy never reached this copy, so those three verticals could not be chosen and "others"
+# absorbed them. Synced 2026-08-30.
 _VALID_INDUSTRIES = {
-    "adult", "defence", "others", "research", "space", "agriculture", "airports",
+    "adult", "defence", "research", "space", "agriculture", "airports",
     "cleaning", "construction", "education", "healthcare", "homes", "hotels",
     "logistics", "manufacturing", "restaurants", "retail", "story", "security",
+    "automotive", "electronics", "energy",
 }
 
 _CLASSIFY_SYSTEM = """\
@@ -1234,17 +1273,27 @@ return a JSON object with these fields:
   bending length and no robot anywhere). When in doubt, say "medium" or "low".
 - "product_type_reason": one short factual sentence quoting what on the page led to the
   verdict. "" when product_type is "robot".
-- "movement_types": array of movement types from: ["wheeled","legged","aerial","tracked","stationary","swimming","other"]
+- "movement_types": array of movement types from: ["bipedal","quadruped","wheeled","humanoid",
+  "aerial","aquatic","hybrid","snake-like","stationary"]
+  Name the specific gait: a four-legged robot is "quadruped", NOT "legged". Tracked/crawler
+  ground vehicles are "wheeled". A fixed-base arm is "stationary". There is deliberately no
+  "other" — return an empty array if none of these fits.
 - "sub_category": single slug from: ["personal-assistants","service-hospitality","personal-mobility",
   "retail-customer-engagement","learning","logistics-warehouse","agriculture","companionship",
   "manufacturing-industrial","cleaning-facilities","security","healthcare","military"]
-- "uses": array of use keys from: ["assembly","cleaning","entertainment","exploration","other","others",
+- "uses": array of use keys from: ["assembly","cleaning","entertainment","exploration",
   "palletizing","pick-and-place","research","surgery","cooking","delivery","guiding","helping",
   "inspection","inventory","monitoring","patrol","picking","reception","remote","sanitizing",
-  "scanning","transport","education"]
-- "industries": array of industry keys from: ["adult","defence","others","research","space",
+  "scanning","transport","education","material-handling","machine-tending","welding","painting",
+  "dispensing","intralogistics","packaging","sorting","agriculture","rehabilitation"]
+  There is deliberately NO "other" option. If none of these keys fits the robot's task,
+  return an empty array — do NOT reach for the closest loose match, and do NOT invent a key.
+  An empty array is the correct answer for a use you cannot name from the page.
+- "industries": array of industry keys from: ["adult","defence","research","space",
   "agriculture","airports","cleaning","construction","education","healthcare","homes","hotels",
-  "logistics","manufacturing","restaurants","retail","story","security"]
+  "logistics","manufacturing","restaurants","retail","story","security","automotive",
+  "electronics","energy"]
+  There is deliberately no "others" — return an empty array if none of these fits.
 - "purpose": a SHORT phrase (max 120 chars) naming what this robot is FOR — its primary
   task. NOT a summary of the page and NOT a sentence copied from the product description.
   Write it as a task, e.g. "Hotel room-service delivery", "Spot welding in automotive body

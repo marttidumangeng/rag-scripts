@@ -32,6 +32,7 @@ while True:
             'website': (co.get('website') or '').strip(),
             'country': (co.get('country') or {}).get('name') if co.get('country') else None,
             'source_locale': co.get('source_locale'),
+            'tags': co.get('tags') or [],
         }
     if not data.get('next'):
         break
@@ -75,14 +76,33 @@ while True:
 print(f"companies WITH robots: {len(have)} | skipped pages: {skipped_pages}", flush=True)
 
 # 3. Zero-robot companies
-zero = [co for cid, co in companies.items() if have.get(cid, 0) == 0]
+#
+# Component suppliers are zero-robot ON PURPOSE and permanently: they make the parts that go
+# into robots, so there is no robot to find and no amount of research will fill them. Leaving
+# them in the worklist means re-triaging the same rows every survey, so they are counted
+# separately instead of being dropped silently.
+COMPONENT_SUPPLIER_TAG = 'component-supplier'
+
+
+def is_component_supplier(co):
+    return COMPONENT_SUPPLIER_TAG in [str(t).strip().lower() for t in (co.get('tags') or [])]
+
+
+zero_all = [co for cid, co in companies.items() if have.get(cid, 0) == 0]
+suppliers = sorted([co for co in zero_all if is_component_supplier(co)],
+                   key=lambda x: x['name'].lower())
+zero = [co for co in zero_all if not is_component_supplier(co)]
+print(f"zero-robot rows: {len(zero_all)} total, of which {len(suppliers)} are tagged "
+      f"'{COMPONENT_SUPPLIER_TAG}' (permanently empty by design) -> {len(zero)} to work",
+      flush=True)
 zero_web = sorted([co for co in zero if co['website']], key=lambda x: x['name'].lower())
 zero_noweb = sorted([co for co in zero if not co['website']], key=lambda x: x['name'].lower())
 print(f"ZERO-robot companies: {len(zero)}  (with website: {len(zero_web)}, no website: {len(zero_noweb)})", flush=True)
 
 with open('zero_robot_report.json', 'w', encoding='utf-8') as f:
     json.dump({'have_counts': have, 'skipped_pages': skipped_pages,
-               'zero_with_website': zero_web, 'zero_no_website': zero_noweb}, f, indent=2, ensure_ascii=False)
+               'zero_with_website': zero_web, 'zero_no_website': zero_noweb,
+               'component_suppliers_excluded': suppliers}, f, indent=2, ensure_ascii=False)
 print("wrote zero_robot_report.json", flush=True)
 print("\n--- ZERO-robot WITH website (en locale first) ---", flush=True)
 for co in sorted(zero_web, key=lambda x: (x.get('source_locale') != 'en', x['name'].lower())):

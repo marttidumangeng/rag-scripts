@@ -226,6 +226,52 @@ def _resp_text(resp) -> str:
     return resp.text
 
 
+def _esc(s: str) -> str:
+    return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+_MD_IMG = re.compile(r"!\[([^\]]*)\]\(\s*(https?://[^)\s]+)[^)]*\)")
+_MD_LINK = re.compile(r"\[([^\]]*)\]\(\s*(https?://[^)\s]+)[^)]*\)")
+_MD_HEAD = re.compile(r"^(#{1,6})\s+(.*)$")
+
+
+def _markdown_to_html(md: str) -> str:
+    """Minimal markdown -> HTML, enough for the extractors downstream.
+
+    Only what the pipeline actually reads: links (URL discovery), images (media
+    extraction), and headings (feature extraction keys off headings). Everything
+    else becomes paragraph text. Escaping happens BEFORE link substitution so a
+    page's own angle brackets can't inject tags, while the hrefs we build stay
+    intact.
+    """
+    out: list[str] = []
+    para: list[str] = []
+
+    def flush() -> None:
+        if para:
+            out.append("<p>" + "<br>".join(para) + "</p>")
+            para.clear()
+
+    for raw in (md or "").splitlines():
+        if not raw.strip():
+            flush()
+            continue
+        esc = _esc(raw)
+        esc = _MD_IMG.sub(lambda m: f'<img src="{m.group(2)}" alt="{m.group(1)}">', esc)
+        esc = _MD_LINK.sub(lambda m: f'<a href="{m.group(2)}">{m.group(1)}</a>', esc)
+        head = _MD_HEAD.match(esc)
+        if head:
+            # headings go out as siblings, never nested inside a <p> — feature
+            # extraction keys off heading tags and a mis-nested one gets reparented
+            flush()
+            lvl = min(len(head.group(1)), 6)
+            out.append(f"<h{lvl}>{head.group(2)}</h{lvl}>")
+        else:
+            para.append(esc)
+    flush()
+    return "\n".join(out)
+
+
 class WebFetcher:
     def __init__(
         self,
@@ -233,6 +279,7 @@ class WebFetcher:
         stealth: bool = False,
         apify_fallback: bool | None = None,
         apify_budget: int = 8,
+        serper_budget: int = 40,
     ):
         self.timeout = timeout
         self.stealth = stealth
@@ -247,6 +294,13 @@ class WebFetcher:
             apify_fallback = os.environ.get("RESEARCH_USE_APIFY", "").lower() in ("1", "true", "yes")
         self.apify_fallback = bool(apify_fallback)
         self._apify_budget = apify_budget
+        # Tier 3 (scrape.serper.dev): on by default when a key exists, because one
+        # HTTP call on a plan we already pay for is cheaper than the Gemini call we
+        # currently burn reading a challenge screen. Still capped: a wholly-walled
+        # site must not quietly bill 60 scrapes for one company.
+        self._serper_budget = serper_budget
+        self._serper_used = 0
+        self._serper_credits = 0
         if stealth:
             try:
                 from curl_cffi import requests as curl_requests
@@ -313,6 +367,75 @@ class WebFetcher:
             if rendered:
                 return rendered
         return html
+
+    def serper_get(self, url: str) -> str | None:
+        """Tier 3: scrape.serper.dev — the paid Serper account we already hold.
+
+        Sits ahead of Apify because it is a plain HTTP call against a plan we are
+        already paying for, rather than a metered actor run taking 30-90s.
+        Verified 2026-08-26 against akarobotics.com, which answers 403 to our
+        fetcher and serves a "Robot Challenge Screen" to stealth Playwright.
+
+        We ask for `markdown`, not `text`. The flat `text` field drops every link
+        and image, which silently broke URL discovery worse than the bot wall did:
+        the homepage came back readable but with zero <a href>, so a site with 11
+        product pages yielded 0 candidates. The markdown keeps both, so link
+        discovery and media extraction survive the rescue.
+        """
+        if url.lower().rstrip("/").endswith(".xml"):
+            return None
+        if self._serper_budget <= 0:
+            return None
+        key = os.environ.get("SERPER_API_KEY", "").strip()
+        if not key:
+            return None
+        self._serper_budget -= 1
+        self._serper_used += 1
+        # Serper answers 500 "Scraping failed" intermittently — observed six
+        # straight failures on a URL that succeeded before and after, with no
+        # payload change. One URL costs one unit of budget no matter how many
+        # attempts it takes, since a 500 carries no credits.
+        data = None
+        for attempt in range(3):
+            if attempt:
+                time.sleep(2 * attempt)
+            try:
+                resp = requests.post(
+                    "https://scrape.serper.dev",
+                    headers={"X-API-KEY": key, "Content-Type": "application/json"},
+                    json={"url": url, "includeMarkdown": True},
+                    timeout=max(self.timeout, 60),
+                )
+            except Exception:
+                continue
+            if resp.status_code == 200:
+                try:
+                    data = resp.json()
+                except Exception:
+                    data = None
+                break
+            if resp.status_code in (401, 403, 429):
+                # auth or quota — retrying just burns the plan
+                print(f"    [serper] tier-3 refused ({resp.status_code}) — "
+                      f"disabling for this run", flush=True)
+                self._serper_budget = 0
+                return None
+        if not data:
+            return None
+        md = (data.get("markdown") or "").strip()
+        body = _markdown_to_html(md) if md else ""
+        if len(body) < 200:
+            text = (data.get("text") or "").strip()
+            if len(text) < 200:
+                return None
+            body = "<p>" + _esc(text) + "</p>"
+        self._serper_credits += int(data.get("credits") or 0)
+        meta = data.get("metadata") or {}
+        title = _esc(str(meta.get("title") or data.get("title") or ""))
+        print(f"    [serper] tier-3 scrape #{self._serper_used} "
+              f"({self._serper_budget} left, {self._serper_credits} credits spent) "
+              f"{len(md)} chars md: {url}", flush=True)
+        return f"<html><head><title>{title}</title></head><body>{body}</body></html>"
 
     def apify_get(self, url: str) -> str | None:
         """Tier 4: Apify website-content-crawler (headless Firefox + rotating proxy).
@@ -695,12 +818,33 @@ def page_from_html(url: str, html: str) -> PageContent | None:
   )
 
 
+# A bot wall answers with a PAGE, not an error: "403 - Forbidden" renders ~107
+# characters, a Cloudflare-style "Robot Challenge Screen" about 204. Both are
+# perfectly valid HTML, so `if not html` never fired and the escape-hatch tiers
+# never ran — akarobotics.com fed ten challenge pages straight to Gemini, which
+# dutifully judged each "not a robot product page". Anything under this much
+# visible text is treated as a failed fetch so the next tier gets a turn. Kept
+# well below _JS_SHELL_TEXT_CHARS so a merely thin product page does not trigger
+# a paid fetch.
+_BOT_WALL_TEXT_CHARS = 400
+
+
+def _looks_like_a_wall(html: str | None) -> bool:
+  if not html:
+    return True
+  text = BeautifulSoup(html, "html.parser").get_text(" ", strip=True)
+  return len(text) < _BOT_WALL_TEXT_CHARS
+
+
 def parse_page(fetcher: WebFetcher, url: str, *, rendered: bool = False) -> PageContent | None:
   html = fetcher.get_rendered(url) if rendered else fetcher.get(url)
-  if not html:
-    # Tier 4: bot-walled page — try Apify website-content-crawler (no-op unless
-    # the fetcher was built with apify_fallback and budget remains).
-    html = fetcher.apify_get(url)
+  if _looks_like_a_wall(html):
+    # Tier 3: scrape.serper.dev — paid plan we already hold, one HTTP call.
+    html = fetcher.serper_get(url) or html
+  if _looks_like_a_wall(html):
+    # Tier 4: Apify website-content-crawler (no-op unless the fetcher was built
+    # with apify_fallback and budget remains).
+    html = fetcher.apify_get(url) or html
   return page_from_html(url, html or "")
 
 

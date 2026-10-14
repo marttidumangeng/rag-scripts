@@ -41,21 +41,37 @@ from __future__ import annotations
 
 import re
 
-# Canonical slugs this module is allowed to emit. Anything not in here must never
-# reach the importer, because the importer would CREATE it.
+# Canonical slugs this module is allowed to emit.
+#
+# EVERY SLUG HERE MUST EXIST IN THE PROD Category TABLE. The importer resolves
+# category_slugs against existing rows only and will not create new ones — an
+# unrecognised slug is dropped with a warning buried in import_warnings, so the
+# robot lands with NO CATEGORY and nothing obvious went wrong. bulk_import's own
+# comment relies on this file being correct: "the research pipeline sends a fixed
+# vocabulary whose slugs all exist, so a miss here is a hand-authored XLSX".
+#
+# That assumption was false and cost us twice: `industrial-robots` /
+# `autonomous-mobile-robots` left 18 rows uncategorised, and `logistics-robots`
+# (below) silently dropped the category on every logistics robot the pipeline
+# classified. Reconciled against prod 2026-08-30 — verified all 29 slugs resolve.
+# tests/test_category_vocab.py pins this set so a future edit has to be deliberate.
 CANONICAL_CATEGORY_SLUGS: frozenset[str] = frozenset({
     "industrial-robot", "collaborative-robot", "scara-robot", "delta-robot",
     "robotic-arms", "end-effectors",
-    "mobile-robots", "warehouse-robots", "logistics-robots", "delivery-robots",
+    "mobile-robots", "warehouse-robots", "delivery-robots",
     "humanoid", "legged-robots", "quadruped",
     "aerial", "marine",
-    "service-robots", "consumer-robot", "home-robots", "food-service-robots",
+    "service-robots", "consumer-robot", "food-service-robots",
     "cleaning-robots", "security", "military",
     "medical-robots", "exosuit",
     "agricultural-robots", "educational-robots", "research-robots",
     "computing-platform",
     "other",
 })
+# Deliberately NOT included, though they exist in prod: `ground` (225 rows) and
+# `industrial-robot-components` (13) are legacy vocabulary we are migrating away
+# from, and the other 19 prod slugs hold zero robots. This set is what discovery
+# may EMIT, which is a narrower question than what prod contains.
 
 MAX_CATEGORIES = 3
 """Cap per robot. Three is enough to say form + domain; more is noise that makes
@@ -98,7 +114,9 @@ _BY_SUB_CATEGORY: dict[str, str] = {
 # --- signal 3: industry keys (weaker than sub_category, same idea) ----------
 _BY_INDUSTRY: dict[str, str] = {
     "manufacturing": "industrial-robot",
-    "logistics": "logistics-robots",
+    # was "logistics-robots", which prod does not have — every logistics robot
+    # therefore lost this category at import.
+    "logistics": "warehouse-robots",
     "agriculture": "agricultural-robots",
     "healthcare": "medical-robots",
     "education": "educational-robots",
@@ -107,7 +125,7 @@ _BY_INDUSTRY: dict[str, str] = {
     "defence": "military",
     "research": "research-robots",
     "space": "research-robots",
-    "homes": "home-robots",
+    "homes": "consumer-robot",   # was "home-robots" — not a prod category
     "restaurants": "food-service-robots",
     "hotels": "service-robots",
     "retail": "service-robots",
@@ -162,7 +180,8 @@ _IMPLIES: dict[str, str] = {
     "scara-robot": "robotic-arms",
     "delta-robot": "robotic-arms",
     "collaborative-robot": "robotic-arms",
-    "warehouse-robots": "logistics-robots",
+    # "warehouse-robots" used to imply "logistics-robots"; that slug is gone, and
+    # warehouse-robots is now what the logistics industry key maps to directly.
 }
 
 # Rank decides which survive the MAX_CATEGORIES cap: form factor beats domain,
@@ -175,8 +194,7 @@ _RANK: dict[str, int] = {
     "medical-robots": 2, "agricultural-robots": 2, "educational-robots": 2,
     "warehouse-robots": 2, "delivery-robots": 2, "cleaning-robots": 2,
     "security": 2, "military": 2, "food-service-robots": 2, "research-robots": 2,
-    "logistics-robots": 3, "service-robots": 3, "consumer-robot": 3,
-    "home-robots": 3,
+    "service-robots": 3, "consumer-robot": 3,
     "mobile-robots": 4, "legged-robots": 4, "aerial": 4, "marine": 4,
     "other": 9,
 }

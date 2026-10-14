@@ -23,6 +23,26 @@ _KEYWORD_HINTS: dict[str, tuple[str, ...]] = {
     "research": ("research", "education"),
 }
 
+# Words too generic to count as evidence when matching a PART of a multi-word tag name.
+# Without this, every tag containing "robot" ("Care Robot", "Service Robot") scored on any
+# description that says "robot" — which is how AGVs ended up tagged "Care Robot".
+_GENERIC_PARTS = frozenset({
+    "robot", "robots", "robotic", "robotics", "system", "systems", "machine", "machines",
+    "solution", "solutions", "platform", "platforms", "series", "unit", "units",
+    "device", "devices",
+})
+
+
+def _has_word(text: str, phrase: str) -> bool:
+    """True when `phrase` occurs in `text` as a whole word/phrase (both already lowercase).
+
+    Substring matching made short tags fire inside unrelated words ("ai" in "maintain",
+    "arm" in "farm"), so every comparison in this module goes through word boundaries.
+    """
+    if not phrase:
+        return False
+    return re.search(r"(?<![a-z0-9])" + re.escape(phrase) + r"(?![a-z0-9])", text) is not None
+
 
 @dataclass
 class TagCatalog:
@@ -58,10 +78,15 @@ class TagCatalog:
         sub_category_slug: str = "",
         max_tags: int = 8,
     ) -> list[str]:
-        """Return tag *names* from the catalog that best match robot text."""
+        """Return tag *names* from the catalog that best match robot text.
+
+        `movement_type_keys` is accepted for caller compatibility but deliberately NOT read:
+        a wrong movement key (a robot vacuum stored as `stationary`) used to become a wrong
+        "Stationary" tag, so one bad field propagated into another.
+        """
+        del movement_type_keys
         blob = " ".join([
             name, description, purpose, features,
-            movement_type_keys.replace("|", " "),
             industry_keys.replace("|", " "),
             use_keys.replace("|", " "),
             sub_category_slug.replace("-", " "),
@@ -77,29 +102,37 @@ class TagCatalog:
             score = 0.0
             name_l = tag_name.lower()
             slug_l = tag_slug.lower()
-            # Whole-word / slug match in blob
-            if slug_l and slug_l.replace("-", " ") in blob:
+            if slug_l and _has_word(blob, slug_l.replace("-", " ")):
                 score += 12
-            if name_l in blob:
+            if _has_word(blob, name_l):
                 score += 10
             for part in re.split(r"[^a-z0-9]+", name_l):
-                if len(part) >= 3 and part in blob:
+                if len(part) >= 3 and part not in _GENERIC_PARTS and _has_word(blob, part):
                     score += 4
+            if score <= 0:
+                # Popularity is a tie-breaker between real matches, never a reason to suggest
+                # a tag on its own. Applying it unconditionally gave EVERY tag with robots a
+                # positive score, so popular tags (Drone, Humanoid) filled empty top-N slots.
+                continue
             robots_count = tag.get("robots_count") or 0
             if robots_count:
                 score += min(float(robots_count), 20) * 0.05
-            if score > 0:
-                scores[tag_name] = score
+            scores[tag_name] = score
 
-        # Keyword hint boost for known catalog tags
+        # Keyword hint boost: when the robot text contains a hint phrase, prefer catalog tags
+        # NAMED after that hint. The boost must depend on the tag — the old condition also
+        # accepted `hint_key in blob`, which is true for every tag once the hint fired, so one
+        # matching word added +6 to the entire catalog and alphabetical tie-breaking then
+        # handed out "Autonomous, Collaborative, Drone, Humanoid..." to cobots and AGVs.
         for hint_key, phrases in _KEYWORD_HINTS.items():
-            if not any(p in blob for p in phrases):
+            if not any(_has_word(blob, p) for p in phrases):
                 continue
             for tag in self.tags:
                 tag_name = str(tag.get("name") or "")
-                slug_l = str(tag.get("slug") or "").lower()
-                name_l = tag_name.lower()
-                if hint_key in slug_l or hint_key in name_l or hint_key in blob:
+                if not tag_name:
+                    continue
+                slug_words = str(tag.get("slug") or "").lower().replace("-", " ")
+                if _has_word(slug_words, hint_key) or _has_word(tag_name.lower(), hint_key):
                     scores[tag_name] = scores.get(tag_name, 0) + 6
 
         ranked = sorted(scores.items(), key=lambda x: (-x[1], x[0].lower()))

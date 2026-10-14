@@ -469,6 +469,15 @@ def _slug_word_count(url: str) -> int:
     return len([w for w in slug.split("-") if w])
 
 
+# A path segment that is itself a product container: everything BELOW it is a
+# product page by the site's own filing, whatever the slug looks like.
+_PRODUCT_CONTAINER = re.compile(r"^/(products?|robots?|machines?|equipment|catalogue|catalog)/.+")
+
+
+def _in_product_container(url: str) -> bool:
+    return bool(_PRODUCT_CONTAINER.match("/" + urlparse(url).path.strip("/") + "/"))
+
+
 def _score_url_as_product(url: str, *, strict: bool = False) -> int:
     """Score a URL for likelihood of being a dedicated robot product page.
 
@@ -496,7 +505,12 @@ def _score_url_as_product(url: str, *, strict: bool = False) -> int:
     # e.g. /robot-restaurant-singapore-japanese-dining/ (5 words) → blog
     #      /hotel-room-delivery-service-robot/ (5 words) → product (has product signal)
     # Penalise if slug is long AND no strong product signal.
-    if strict:
+    # A URL the site itself files under /products/ is exempt: descriptive product
+    # slugs get long legitimately. akarobotics.com files every robot as
+    # /products/wallhiker-w-06-uhp-water-blasting-magnetic-crawler-robot/ — 8 words,
+    # so the blog penalty took it from +9 to -11 and all 12 products were discarded
+    # before a single page was read.
+    if strict and not _in_product_container(url):
         words = _slug_word_count(url)
         if words > 5:
             score -= 20  # definitely a blog post
@@ -928,11 +942,22 @@ def _catalog_category_slugs() -> list[str]:
         try:
             from api_client import ResearchApiClient
             c = ResearchApiClient()
-            slugs, page = [], 1
-            while True:
+            slugs, page, seen_pages = [], 1, set()
+            # Hard page cap + no-new-slugs guard. A server-side cache that ignores
+            # `page` (prod did exactly this until 2026-08-23, see
+            # interactions/views.py::CategoryViewSet.list) hands back page 1 with
+            # `next` permanently set, so a plain "page until next is null" loop
+            # never terminates — and it hangs before the first Gemini call, so the
+            # symptom is a silent freeze, not an error.
+            while page <= 50:
                 d = c._get("categories/", params={"page": page, "page_size": 100})
                 items = d.get("results", []) if isinstance(d, dict) else d
-                slugs += [i.get("slug") for i in items if isinstance(i, dict) and i.get("slug")]
+                fresh = [i.get("slug") for i in items
+                         if isinstance(i, dict) and i.get("slug") and i.get("slug") not in seen_pages]
+                if not fresh:
+                    break
+                seen_pages.update(fresh)
+                slugs += fresh
                 if not (isinstance(d, dict) and d.get("next")):
                     break
                 page += 1
@@ -1167,9 +1192,21 @@ def _write_staging(
     # The extractor returns [] for categories whenever nothing in the allowed
     # list "fits", which is most of the time — derive from the taxonomy it DID
     # return rather than staging a robot that lands flagged "No category".
-    from robot_categories import derive_category_slugs
+    from robot_categories import CANONICAL_CATEGORY_SLUGS, derive_category_slugs
 
-    category_slugs = _keys(robot.get("categories")) or derive_category_slugs(
+    # The extractor's own suggestions must be filtered against the vocabulary,
+    # not trusted. It is prompted with the allowed list but returns plausible
+    # near-misses anyway - 'industrial-robots' for 'industrial-robot',
+    # 'autonomous-mobile-robots' for 'mobile-robots' - and the importer drops an
+    # unknown slug SILENTLY, so the staging file looks correct while the robot
+    # lands with no category at all. That is how 18 of 22 robots imported on
+    # 2026-08-26 (Unical, Construction Robotics, most of Innok) reached prod
+    # uncategorised despite a category being proposed for every one of them.
+    # robot_categories.py already says such slugs "must never reach the
+    # importer"; this is the line that was letting them through.
+    _proposed = [s for s in _keys(robot.get("categories")) if s in CANONICAL_CATEGORY_SLUGS]
+
+    category_slugs = _proposed or derive_category_slugs(
         name=name,
         text=" ".join(str(robot.get(f) or "") for f in ("description", "purpose", "features")),
         movement_type_keys=_keys(robot.get("movement_types")),
@@ -1640,6 +1677,16 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--playwright", action="store_true", help="Render JS pages with Playwright")
     p.add_argument(
+        "--stealth",
+        action="store_true",
+        help="Fetch with Chrome TLS impersonation (curl_cffi) for sites whose bot "
+             "protection 403s the default fetcher. WebFetcher has supported this all "
+             "along; the flag was never wired up. akarobotics.com (2026-08-26) served "
+             "200 to a browser and 403 to us on all 11 product pages — including under "
+             "--playwright — and the crawler spent a Gemini call on each 403 page "
+             "before ruling it 'not a robot product page'.",
+    )
+    p.add_argument(
         "--apify",
         action="store_true",
         help="Bot-wall escape hatch: fetch blocked pages via Apify website-content-crawler; "
@@ -1682,6 +1729,7 @@ def main() -> None:
         client=client,
         seed_urls=seed_urls,
         use_playwright=args.playwright,
+        use_stealth=args.stealth,
         use_apify=args.apify or None,
         skip_existing=not args.include_existing,
         product_pages_only=args.product_pages_only,

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import sys
 import time
 from typing import Any
 from urllib.parse import urljoin
@@ -42,7 +43,66 @@ class ResearchApiClient:
         resp.raise_for_status()
         return resp.json()
 
+    # Cache of writable field names per endpoint "shape" (e.g. "robots/robots"), discovered once
+    # via OPTIONS against the DEPLOYED server. Class-level so it is shared by all clients in a run.
+    _writable_fields_cache: dict[str, set[str]] = {}
+
+    def _endpoint_shape(self, path: str) -> str:
+        """'robots/robots/2213/' -> 'robots/robots'. Numeric ids are dropped so every robot
+        shares one cache entry."""
+        parts = [p for p in path.strip("/").split("/") if p and not p.isdigit()]
+        return "/".join(parts)
+
+    def _writable_fields(self, path: str) -> set[str] | None:
+        """Writable field names for this endpoint, or None if they cannot be determined.
+
+        DRF's OPTIONS response carries the serializer's field metadata, so this is the DEPLOYED
+        server's truth rather than whatever the local checkout says. Returns None on any failure —
+        the guard must never break a write.
+        """
+        shape = self._endpoint_shape(path)
+        if shape in self._writable_fields_cache:
+            return self._writable_fields_cache[shape] or None
+        fields: set[str] = set()
+        try:
+            resp = self._session.options(self._url(path), timeout=min(self.timeout, 30))
+            if resp.ok:
+                actions = (resp.json() or {}).get("actions") or {}
+                meta = actions.get("PUT") or actions.get("PATCH") or {}
+                fields = {k for k, v in meta.items()
+                          if not (isinstance(v, dict) and v.get("read_only"))}
+        except Exception:
+            fields = set()
+        self._writable_fields_cache[shape] = fields
+        return fields or None
+
     def _patch(self, path: str, data: dict[str, Any]) -> Any:
+        """PATCH, warning about keys the endpoint will silently ignore.
+
+        THE PROBLEM THIS GUARDS: DRF drops unknown input keys without complaint, so a PATCH
+        carrying a misnamed field returns 200 and changes nothing — a successful call is NOT
+        evidence of a write. Confirmed 2026-09-08: one PATCH carrying `zzz_not_a_real_field`,
+        `category_slugs` and `price` was accepted and changed nothing. Real cases this has cost:
+          * `research_notes` — NOT writable here; the importer maps it to `notes`, a direct PATCH
+            is dropped;
+          * `price` — the typed fields are price_min / price_max / price_currency;
+          * `category_slugs` — a bulk-import-only input, resolved server-side to the M2M, so
+            changing a category needs import_staging(..., patch=True, force_overwrite=True).
+        Warn rather than raise: this is shared tooling and a hard failure could break a pipeline
+        that legitimately sends extra keys.
+        """
+        known = self._writable_fields(path)
+        if known:
+            unknown = sorted(set(data) - known)
+            if unknown:
+                hint = {"research_notes": "use 'notes' (or go through import_staging)",
+                        "price": "use price_min / price_max / price_currency",
+                        "category_slugs": "not patchable — use import_staging(patch=True, force_overwrite=True)"}
+                for f in unknown:
+                    extra = hint.get(f)
+                    print("WARNING: PATCH %s — field %r is not writable and will be SILENTLY "
+                          "DROPPED%s" % (path, f, "; " + extra if extra else ""),
+                          file=sys.stderr)
         resp = self._session.patch(self._url(path), json=data, timeout=self.timeout)
         resp.raise_for_status()
         return resp.json()
