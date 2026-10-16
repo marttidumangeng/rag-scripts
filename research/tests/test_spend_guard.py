@@ -39,6 +39,7 @@ PIPELINE_MODULES = [
     "remedy_dryrun.py",
     "rejection_feedback_loop.py",
     "resolve_pending_company_gaps.py",
+    "recheck_company_funding.py",
     "smoke_test.py",
 ]
 
