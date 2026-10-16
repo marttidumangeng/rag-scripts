@@ -226,6 +226,7 @@ class Round:
     currency: str | None
     amount_text: str = ""
     lead_investors: list[str] = field(default_factory=list)
+    participating_investors: list[str] = field(default_factory=list)
     source_url: str = ""
     source_kind: str = "press"     # company | filing | press | other
     confidence: str = "medium"     # high | medium | low
@@ -246,6 +247,9 @@ def summary_for_round(r: Round) -> str:
     label = r.round
     investors = ", ".join(i for i in (r.lead_investors or [])[:3] if i)
     led = f" led by {investors}" if investors else ""
+    others = ", ".join(i for i in (r.participating_investors or [])[:4] if i and i not in (r.lead_investors or []))
+    if others:
+        led += f" with {others}" if led else f" from {others}"
     if label == "Acquisition":
         who = f" by {investors}" if investors else ""
         amt = "" if r.amount is None and not r.amount_text else f" for {amount}"
@@ -341,8 +345,46 @@ def collapse_rounds(rounds: list[Round]) -> list[Round]:
         winner, loser = (r, current) if better else (current, r)
         merged = list(winner.lead_investors) + [i for i in loser.lead_investors if i not in winner.lead_investors]
         winner.lead_investors = merged[:5]
+        others = list(winner.participating_investors) + [i for i in loser.participating_investors
+                                                         if i not in winner.participating_investors]
+        winner.participating_investors = [i for i in others if i not in winner.lead_investors][:10]
         kept[index[key]] = winner
     return kept
+
+
+# company_maturity values on the profile, in order; a round label maps to the
+# stage it proves. Acquisition proves nothing about the stage.
+STAGE_ORDER = ["seed", "series_a", "series_b", "series_c", "series_d_plus", "public_company"]
+_STAGE_OF_ROUND = {
+    "Pre-seed": "seed", "Seed": "seed", "Angel": "seed", "Pre-A": "seed",
+    "Series A": "series_a", "Series A+": "series_a",
+    "Series B": "series_b", "Series B+": "series_b",
+    "Series C": "series_c",
+    "Series D": "series_d_plus", "Series E": "series_d_plus", "Series F": "series_d_plus",
+    "IPO": "public_company",
+}
+
+
+def stage_of_round(label: str) -> str | None:
+    return _STAGE_OF_ROUND.get(label)
+
+
+def stage_from_rounds(rounds: list[Round]) -> str | None:
+    """The furthest stage the evidence proves (where the company is now)."""
+    best = None
+    for r in rounds:
+        stage = stage_of_round(r.round)
+        if stage and (best is None or STAGE_ORDER.index(stage) > STAGE_ORDER.index(best)):
+            best = stage
+    return best
+
+
+def stage_is_later(suggested: str | None, on_record: str | None) -> bool:
+    if not suggested or suggested not in STAGE_ORDER:
+        return False
+    if not on_record or on_record not in STAGE_ORDER:
+        return True
+    return STAGE_ORDER.index(suggested) > STAGE_ORDER.index(on_record)
 
 
 def _milestone_year(m: dict[str, Any]) -> int | None:
@@ -390,10 +432,11 @@ def serper_search(query: str, *, num: int = 8) -> list[dict[str, Any]]:
 
 def funding_queries(name: str, website: str = "") -> list[str]:
     host = domain_of(website)
-    q1 = f'"{name}" funding round raised million'
-    q2 = f'"{name}" series OR seed OR acquisition OR investment robotics'
+    # q1 finds the latest round; q2 the history (seed, series A/B/C, investors).
+    q1 = f'"{name}" funding round raised million led by investors'
+    q2 = f'"{name}" "pre-seed" OR seed OR "series a" OR "series b" OR "series c" funding history investors'
     if host:
-        q2 = f'"{name}" raises OR funding site:{host} OR "{name}" series funding'
+        q2 += f' OR site:{host} funding'
     return [q1, q2]
 
 
@@ -445,7 +488,8 @@ Return JSON only: {"rounds": [ {...}, ... ]} with one object per distinct event:
   amount: number in whole currency units (e.g. 520000000), or null when not stated exactly
   currency: ISO code ("USD", "CNY", "EUR", "GBP", "JPY", "KRW") or null
   amount_text: the stated wording when there is no exact number ("hundreds of millions of yuan", "undisclosed")
-  lead_investors: [names] of lead investors or the acquirer, [] if not stated
+  lead_investors: [names] of the investor(s) that led the round, or the acquirer; [] if not stated
+  participating_investors: [names] of every other investor named in the round (new and existing); [] if none
   source_index: the number of the evidence block [S<n>] that states this event
   source_kind: "company" (the company's own announcement or site), "filing" (regulator), "press", or "other"
   confidence: "high" | "medium" | "low"
@@ -456,6 +500,10 @@ Rules:
   conversion in the text ("~US$220M") may be reported as amount_text, not as the amount.
 - An extension of a round is its own event with the extension amount. A cumulative total
   ("has raised US$935M to date") is NOT an event.
+- Capture the WHOLE history the evidence states — pre-seed, angel, seed, every series, strategic
+  rounds, grants, acquisition, IPO — not only the latest round.
+- Investor names exactly as written; "led by X" or "X led" makes X a lead, everyone else named as
+  investing or participating goes in participating_investors.
 - One event once: if several blocks state the same round, pick the company/filing block.
 - No event at all -> {"rounds": []}."""
 
@@ -516,6 +564,8 @@ def rounds_from_json(data: Any, evidence: list[dict[str, str]]) -> list[Round]:
             amount=amount, currency=(str(item.get("currency") or "").upper()[:3] or None),
             amount_text=str(item.get("amount_text") or "").strip()[:120],
             lead_investors=[str(x).strip()[:80] for x in (item.get("lead_investors") or []) if str(x).strip()][:5],
+            participating_investors=[str(x).strip()[:80] for x in (item.get("participating_investors") or [])
+                                     if str(x).strip()][:10],
             source_url=source_url, source_kind=str(item.get("source_kind") or "press").lower(),
             confidence=str(item.get("confidence") or "medium").lower(),
             quote=str(item.get("quote") or "").strip()[:300],
@@ -549,7 +599,8 @@ def change_payload(company_id: int, r: Round, relation: str, milestone: dict[str
         "status": "draft",
         "kind": "change",
         "new_value": {"round": r.round, "amount": r.amount, "currency": r.currency,
-                      "amount_text": r.amount_text or None, "lead_investors": r.lead_investors},
+                      "amount_text": r.amount_text or None, "lead_investors": r.lead_investors,
+                      "participating_investors": r.participating_investors},
         "review_note": note[:1000],
     }
 
@@ -576,6 +627,7 @@ class Stats:
     filed: int = 0
     duplicates: int = 0
     milestones_written: int = 0
+    stage_suggestions: int = 0
     errors: int = 0
 
 
@@ -673,10 +725,18 @@ class FundingRecheck:
         self.stats.gemini_calls += 1
         rounds = collapse_rounds(self.extract(company, evidence))
         self.stats.rounds_found += len(rounds)
+        order = {"low": 0, "medium": 1, "high": 2}
+        confident = [r for r in rounds if order.get(r.confidence, 1) >= order.get(self.min_confidence, 1)]
+        # Where the company is now: the furthest stage the evidence proves,
+        # against the funding stage on the profile. Reported, never written.
+        suggested = stage_from_rounds(confident)
+        on_record = company.get("company_maturity") or ""
+        if stage_is_later(suggested, on_record):
+            record["stage"] = {"on_record": on_record or None, "suggested": suggested}
+            self.stats.stage_suggestions += 1
         new_milestones: list[dict[str, Any]] = []
         for r in rounds:
             entry: dict[str, Any] = {**asdict(r), "summary": summary_for_round(r)}
-            order = {"low": 0, "medium": 1, "high": 2}
             if order.get(r.confidence, 1) < order.get(self.min_confidence, 1):
                 entry["relation"] = "low_confidence"
                 self.stats.low_confidence += 1
@@ -690,6 +750,9 @@ class FundingRecheck:
                 self.stats.new += relation == "new"
                 self.stats.mismatch += relation == "mismatch"
                 payload = change_payload(cid, r, relation, m, self.run_id)
+                if record.get("stage") and stage_of_round(r.round) == record["stage"]["suggested"]:
+                    payload["review_note"] = (payload["review_note"] + f" | stage on record: {on_record or 'none'}; "
+                                              f"evidence suggests {suggested}")[:1000]
                 entry["payload"] = payload
                 if self.apply:
                     entry["result"] = self.file_event(payload)
@@ -758,10 +821,12 @@ class FundingRecheck:
             print(f"{head}: no rounds in evidence", flush=True)
             return
         print(head, flush=True)
-        for r in record["rounds"]:
+        for r in sorted(record["rounds"], key=lambda x: x.get("date", "")):
             tag = r.get("relation")
             res = f" -> {r['result']}" if r.get("result") else ""
             print(f"    {tag:<14} {r['date']:<10} {r['summary']}  [{r.get('source_kind')}, {r.get('confidence')}] {r.get('source_url', '')}{res}", flush=True)
+        if record.get("stage"):
+            print(f"    stage: on record {record['stage']['on_record'] or 'none'}, evidence suggests {record['stage']['suggested']}", flush=True)
 
     def summary(self) -> str:
         s = self.stats
@@ -775,7 +840,7 @@ class FundingRecheck:
         return (f"\n{mode} run {self.run_id}: companies={s.companies} searches={s.searches} pages={s.pages} "
                 f"gemini_calls={s.gemini_calls} rounds={s.rounds_found} known={s.known} new={s.new} "
                 f"mismatch={s.mismatch} low_confidence={s.low_confidence} filed={s.filed} duplicates={s.duplicates} "
-                f"milestones_written={s.milestones_written} errors={s.errors}{spend}")
+                f"milestones_written={s.milestones_written} stage_suggestions={s.stage_suggestions} errors={s.errors}{spend}")
 
 
 def main(argv: list[str] | None = None) -> int:

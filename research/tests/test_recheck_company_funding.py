@@ -60,6 +60,21 @@ class ParsingTests(unittest.TestCase):
                                                  lead_investors=["Ant Group"])),
                          "Raised a strategic round (several hundred million yuan) led by Ant Group")
         self.assertEqual(normalise_round("Other"), "Funding round")
+        self.assertEqual(summary_for_round(Round("2026-02-11", "Series A", 520e6, "USD", lead_investors=["B Capital"],
+                                                 participating_investors=["AT&T Ventures", "John Deere", "B Capital"])),
+                         "Raised a US$520M Series A led by B Capital with AT&T Ventures, John Deere")
+        self.assertEqual(summary_for_round(Round("2025", "Seed", 5e6, "USD", participating_investors=["Y Combinator"])),
+                         "Raised a US$5M Seed from Y Combinator")
+
+    def test_stage_mapping(self):
+        self.assertEqual(rcf.stage_from_rounds([Round("2024", "Seed", None, None), Round("2026", "Series B", 1, "USD"),
+                                                Round("2026", "Acquisition", None, None)]), "series_b")
+        self.assertIsNone(rcf.stage_from_rounds([Round("2026", "Grant", None, None)]))
+        self.assertTrue(rcf.stage_is_later("series_b", "series_a"))
+        self.assertTrue(rcf.stage_is_later("seed", ""))
+        self.assertFalse(rcf.stage_is_later("series_a", "series_a"))
+        self.assertFalse(rcf.stage_is_later("series_a", "public_company"))
+        self.assertFalse(rcf.stage_is_later(None, ""))
 
     def test_unopened_results_become_their_own_evidence_blocks(self):
         job = FundingRecheck(FakeApi({}), search=lambda q: [
@@ -100,9 +115,11 @@ class CollapseTests(unittest.TestCase):
         own = Round("2026-02", "Seed", 280e6, "USD", source_url="https://spirit.example/news/30", source_kind="company",
                     confidence="high", lead_investors=["Chaos Investment"])
         other = Round("2026-03-31", "Pre-A", 528e6, "CNY", source_kind="company")
+        press.participating_investors = ["Synstellation", "Chaos Investment"]
         kept = rcf.collapse_rounds([press, own, other])
         self.assertEqual([r.source_url for r in kept], ["https://spirit.example/news/30", ""])
         self.assertEqual(kept[0].lead_investors, ["Chaos Investment", "Yunfeng Capital"])
+        self.assertEqual(kept[0].participating_investors, ["Synstellation"])  # a lead is not also a participant
 
     def test_different_amounts_stay_separate(self):
         a = Round("2026", "Seed", 280e6, "USD")
@@ -231,6 +248,7 @@ class RunnerTests(unittest.TestCase):
     def setUp(self):
         self.api = FakeApi({
             7: {"name": "Maker", "website": "https://maker.example", "publication_status": "published",
+                "company_maturity": "series_a",
                 "milestones": [{"year": 2025, "description": "Raised a US$25M Series A", "source_url": ""},
                                {"year": 2016, "description": "Founded", "source_url": ""}]},
             8: {"name": "Hidden Co", "publication_status": "hidden", "milestones": []},
@@ -253,6 +271,12 @@ class RunnerTests(unittest.TestCase):
         # the hidden company never left the listing filter
         self.assertEqual([r["company_id"] for r in job.records], [7])
         self.assertIn("DRY RUN", job.summary())
+        # where the company is now: the Series B proves a later stage than the profile's series_a
+        self.assertEqual(job.records[0]["stage"], {"on_record": "series_a", "suggested": "series_b"})
+        notes = {r["summary"]: r.get("payload", {}).get("review_note", "") for r in job.records[0]["rounds"]}
+        self.assertIn("evidence suggests series_b", notes["Raised a US$60M Series B led by Sequoia"])
+        self.assertNotIn("evidence suggests", notes["Raised a US$20M Series A"])
+        self.assertEqual(job.stats.stage_suggestions, 1)
 
     def test_unpublished_company_named_explicitly_is_skipped(self):
         job = self._job()
