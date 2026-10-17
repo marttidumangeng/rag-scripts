@@ -278,6 +278,17 @@ class RunnerTests(unittest.TestCase):
         self.assertNotIn("evidence suggests", notes["Raised a US$20M Series A"])
         self.assertEqual(job.stats.stage_suggestions, 1)
 
+    def test_listed_company_is_suggested_public_not_an_early_round(self):
+        self.api.companies[7]["company_status"] = "public"
+        self.api.companies[7]["company_maturity"] = ""
+        job = self._job()
+        job.run(limit=10, company_ids=[7], since_year=None, start_page=1, pause=0)
+        self.assertEqual(job.records[0]["stage"], {"on_record": None, "suggested": "public_company"})
+
+    def test_aggregators_are_never_sources(self):
+        self.assertTrue(rcf.is_skipped_domain("https://bouncewatch.com/company/cyberdyne-inc"))
+        self.assertTrue(rcf.is_skipped_domain("https://www.crustdata.com/x"))
+
     def test_unpublished_company_named_explicitly_is_skipped(self):
         job = self._job()
         job.run(limit=10, company_ids=[8], since_year=None, start_page=1, pause=0)

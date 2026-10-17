@@ -100,6 +100,9 @@ SKIP_DOMAINS = (
     "x.com", "instagram.com", "youtube.com", "tiktok.com", "reddit.com", "glassdoor.com",
     "indeed.com", "apollo.io", "rocketreach.co", "signalhire.com", "multiples.vc", "growjo.com",
     "startuptalky.com", "cypherlabs.com", "failory.com", "seedtable.com", "wellfound.com",
+    # Crunchbase/PitchBook restaters: same data, no primary source behind it.
+    "bouncewatch.com", "crustdata.com", "cbinsights.com", "golden.com", "privco.com", "datanyze.com",
+    "leadiq.com", "clay.com", "parsers.vc", "dealroom.net", "startupmap.iamsterdam.com",
 )
 COMPANY_SIGNAL_PATHS = ("news", "press", "blog", "media", "announcement", "newsroom")
 FILING_DOMAINS = ("sec.gov", "companieshouse.gov.uk", "edinet-fsa.go.jp", "dart.fss.or.kr", "hkexnews.hk")
@@ -731,6 +734,10 @@ class FundingRecheck:
         # against the funding stage on the profile. Reported, never written.
         suggested = stage_from_rounds(confident)
         on_record = company.get("company_maturity") or ""
+        # A listed company is public whatever early rounds the evidence
+        # recalls; suggesting "series_b" for Yaskawa would be noise.
+        if (company.get("company_status") or "").lower() == "public":
+            suggested = "public_company" if on_record != "public_company" else None
         if stage_is_later(suggested, on_record):
             record["stage"] = {"on_record": on_record or None, "suggested": suggested}
             self.stats.stage_suggestions += 1
