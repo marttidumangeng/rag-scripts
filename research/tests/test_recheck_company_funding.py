@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import sys
 import unittest
+import unittest.mock
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -284,6 +285,24 @@ class RunnerTests(unittest.TestCase):
         job = self._job()
         job.run(limit=10, company_ids=[7], since_year=None, start_page=1, pause=0)
         self.assertEqual(job.records[0]["stage"], {"on_record": None, "suggested": "public_company"})
+
+    def test_connection_reset_is_retried_once(self):
+        calls = {"n": 0}
+        real = self.api.get_company
+
+        def flaky(cid):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise requests.ConnectionError("reset")
+            return real(cid)
+
+        self.api.get_company = flaky
+        job = self._job()
+        with unittest.mock.patch.object(rcf.time, "sleep"):
+            job.run(limit=10, company_ids=[7], since_year=None, start_page=1, pause=0)
+        self.assertEqual(job.stats.errors, 0)
+        self.assertEqual(job.records[0]["company_id"], 7)
+        self.assertTrue(job.records[0]["rounds"])
 
     def test_aggregators_are_never_sources(self):
         self.assertTrue(rcf.is_skipped_domain("https://bouncewatch.com/company/cyberdyne-inc"))

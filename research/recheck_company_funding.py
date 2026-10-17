@@ -103,6 +103,7 @@ SKIP_DOMAINS = (
     # Crunchbase/PitchBook restaters: same data, no primary source behind it.
     "bouncewatch.com", "crustdata.com", "cbinsights.com", "golden.com", "privco.com", "datanyze.com",
     "leadiq.com", "clay.com", "parsers.vc", "dealroom.net", "startupmap.iamsterdam.com",
+    "startupintros.com",
 )
 COMPANY_SIGNAL_PATHS = ("news", "press", "blog", "media", "announcement", "newsroom")
 FILING_DOMAINS = ("sec.gov", "companieshouse.gov.uk", "edinet-fsa.go.jp", "dart.fss.or.kr", "hkexnews.hk")
@@ -802,7 +803,13 @@ class FundingRecheck:
     def run(self, *, limit: int, company_ids: list[int] | None, since_year: int | None, start_page: int, pause: float) -> None:
         for brief in self.iter_companies(limit=limit, company_ids=company_ids, start_page=start_page):
             try:
-                record = self.process(brief, since_year=since_year)
+                try:
+                    record = self.process(brief, since_year=since_year)
+                except requests.ConnectionError:
+                    # The prod API resets a connection now and then under load;
+                    # one retry after a pause clears nearly all of them.
+                    time.sleep(10)
+                    record = self.process(brief, since_year=since_year)
             except Exception as exc:  # noqa: BLE001
                 if type(exc).__name__ == "SpendBudgetExceeded":
                     print(f"STOP: {exc}", flush=True)
