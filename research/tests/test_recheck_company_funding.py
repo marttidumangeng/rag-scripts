@@ -161,6 +161,7 @@ class DealMadeTests(unittest.TestCase):
             ("Hydroid", "Acquired Hydroid in 2020 (US$350 million purchase price or 24x EBITDA), a maker of AUVs."),
             ("Ottobock (SuitX)", "Terms of the deal were undisclosed, but Ottobock acquired 100% of suitX shares."),
             ("QinetiQ (Foster-Miller)", "QinetiQ acquired Foster-Miller in 2004."),
+            ("Canvas Technology (Amazon)", "Amazon acquires Canvas Technology: Amazon bought the Boulder startup."),
             ("PWR Pack", "Coesia, a leader in packaging solutions, acquired a minority share in PWR Pack."),
             ("InTouch Health", "Through its most recent acquisition of InTouch Technologies, Teladoc acquired a patent portfolio."),
             ("Acme Robotics", "Acme Robotics secured US$5M and acquired a small software team."),
@@ -382,6 +383,18 @@ class RunnerTests(unittest.TestCase):
         (d / "a.json").write_text(_json.dumps({"records": [{"company_id": 1}, {"company_id": 2, "error": "x"}]}), encoding="utf-8")
         (d / "b.json").write_text(_json.dumps({"records": [{"company_id": 3}]}), encoding="utf-8")
         self.assertEqual(rcf.done_company_ids([str(d / "*.json")]), {1, 3})
+
+    def test_operator_only_companies_are_skipped(self):
+        listing = [{"id": 7, "name": "Maker", "roles": ["maker"]}, {"id": 9, "name": "Boeing", "roles": ["operator"]},
+                   {"id": 11, "name": "Untagged", "roles": []}]
+        companies = dict(self.api.companies)
+        companies[11] = {"name": "Untagged", "publication_status": "published", "milestones": []}
+        api = FakeApi(companies, listing)
+        job = FundingRecheck(api, search=_search, fetch=_fetch, extract=lambda c, e: [], run_id="t")
+        job.run(limit=10, company_ids=None, since_year=None, start_page=1, pause=0)
+        self.assertEqual([r["company_id"] for r in job.records], [7, 11])
+        job2 = FundingRecheck(api, search=_search, fetch=_fetch, extract=lambda c, e: [], run_id="t", makers_only=False)
+        self.assertEqual([r["id"] for r in job2.iter_companies(limit=10)], [7, 9, 11])
 
     def test_aggregators_are_never_sources(self):
         self.assertTrue(rcf.is_skipped_domain("https://bouncewatch.com/company/cyberdyne-inc"))

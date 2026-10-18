@@ -584,6 +584,14 @@ def is_deal_made_by(company_name: str, r: Round) -> bool:
     # brackets; its parent buying it is that company being acquired, not a deal it made.
     bracket = re.search(r"\(([^)]+)\)", company_name or "")
     if bracket:
+        outer = (company_name or "")[:bracket.start()].strip()
+
+        def _named(name: str) -> bool:
+            toks = [t for t in re.split(r"[^\w]+", name.lower()) if len(t) >= 3][:2]
+            return bool(toks) and any(re.search(r"\b" + re.escape(t) + r"\b", quote.lower()) for t in toks)
+
+        if outer and _named(outer) and _named(bracket.group(1)):
+            return False
         child = bracket.group(1).strip()
         child_tokens = [t for t in re.split(r"[^\w]+", child.lower()) if len(t) >= 3][:2]
         if child_tokens and any(t in quote.lower() for t in child_tokens):
@@ -715,7 +723,8 @@ class FundingRecheck:
     def __init__(self, api: Any, *, search: Callable[..., list[dict[str, Any]]] = serper_search,
                  fetch: Callable[[str], str] = fetch_page_text, extract: Callable[..., list[Round]] = gemini_extract,
                  searches_per_company: int = 2, pages_per_company: int = 3, apply: bool = False,
-                 write_milestones: bool = False, min_confidence: str = "medium", run_id: str = ""):
+                 write_milestones: bool = False, min_confidence: str = "medium", run_id: str = "",
+                 makers_only: bool = True):
         self.api = api
         self.search = search
         self.fetch = fetch
@@ -726,6 +735,7 @@ class FundingRecheck:
         self.write_milestones = write_milestones and apply
         self.min_confidence = min_confidence
         self.run_id = run_id or datetime.now().strftime("%Y%m%d-%H%M")
+        self.makers_only = makers_only
         self.stats = Stats()
         self.records: list[dict[str, Any]] = []
 
@@ -748,6 +758,9 @@ class FundingRecheck:
                 if (row.get("publication_status") or "published") != "published":
                     continue
                 if exclude and row.get("id") in exclude:
+                    continue
+                roles = row.get("roles") or []
+                if self.makers_only and roles and "maker" not in roles:
                     continue
                 yield row
                 yielded += 1
@@ -983,6 +996,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--write-milestones", action="store_true",
                     help="with --apply: also append NEW rounds to the public profile milestones")
     ap.add_argument("--out", default="", help="snapshot JSON path (default output/funding_recheck_<run>.json)")
+    ap.add_argument("--include-operators", action="store_true",
+                    help="also check companies whose roles do not include maker (operators, sellers)")
     ap.add_argument("--exclude-snapshots", action="append", default=[],
                     help="glob of earlier snapshot JSONs; companies in them are skipped (repeatable)")
     args = ap.parse_args(argv)
@@ -1005,7 +1020,8 @@ def main(argv: list[str] | None = None) -> int:
     limit = min(args.limit, args.max_companies)
     since_year = date.today().year - max(0, args.since_days) // 365 if args.since_days else None
     job = FundingRecheck(ResearchApiClient(), searches_per_company=args.searches, pages_per_company=args.pages,
-                         apply=args.apply, write_milestones=args.write_milestones, min_confidence=args.min_confidence)
+                         apply=args.apply, write_milestones=args.write_milestones, min_confidence=args.min_confidence,
+                         makers_only=not args.include_operators)
     print(f"{'APPLY' if args.apply else 'DRY RUN'} funding re-check {job.run_id}: up to {limit} companies, "
           f"{args.searches} searches + {args.pages} pages + 1 Gemini call each"
           f"{' (+ milestones)' if job.write_milestones else ''}", flush=True)
