@@ -248,7 +248,12 @@ class Round:
         return parsed[0].year if parsed else None
 
 
+_UNDISCLOSED = ("", "undisclosed", "not disclosed", "amount undisclosed", "n/a", "unknown")
+
+
 def summary_for_round(r: Round) -> str:
+    if (r.amount_text or "").strip().lower() in _UNDISCLOSED:
+        r.amount_text = ""
     amount = format_amount(r.amount, r.currency, r.amount_text)
     label = r.round
     investors = ", ".join(i for i in (r.lead_investors or [])[:3] if i)

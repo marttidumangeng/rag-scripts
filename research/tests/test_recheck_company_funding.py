@@ -61,6 +61,10 @@ class ParsingTests(unittest.TestCase):
                                                  lead_investors=["Ant Group"])),
                          "Raised a strategic round (several hundred million yuan) led by Ant Group")
         self.assertEqual(normalise_round("Other"), "Funding round")
+        self.assertEqual(summary_for_round(Round("2023-11", "Acquisition", None, None, amount_text="undisclosed",
+                                                 lead_investors=["Agile Robots"])), "Acquired by Agile Robots")
+        self.assertEqual(summary_for_round(Round("2022", "Seed", None, None, amount_text="Undisclosed")),
+                         "Raised a Seed (amount undisclosed)")
         self.assertEqual(summary_for_round(Round("2026-02-11", "Series A", 520e6, "USD", lead_investors=["B Capital"],
                                                  participating_investors=["AT&T Ventures", "John Deere", "B Capital"])),
                          "Raised a US$520M Series A led by B Capital with AT&T Ventures, John Deere")
