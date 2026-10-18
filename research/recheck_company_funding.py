@@ -104,6 +104,8 @@ SKIP_DOMAINS = (
     "bouncewatch.com", "crustdata.com", "cbinsights.com", "golden.com", "privco.com", "datanyze.com",
     "leadiq.com", "clay.com", "parsers.vc", "dealroom.net", "startupmap.iamsterdam.com",
     "startupintros.com",
+    # Pre-IPO secondary-market sites restating rounds from the same databases.
+    "forgeglobal.com", "caplight.com", "equityzen.com", "hiive.com", "notice.co",
 )
 COMPANY_SIGNAL_PATHS = ("news", "press", "blog", "media", "announcement", "newsroom")
 FILING_DOMAINS = ("sec.gov", "companieshouse.gov.uk", "edinet-fsa.go.jp", "dart.fss.or.kr", "hkexnews.hk")
@@ -814,7 +816,14 @@ class FundingRecheck:
 
     def file_event(self, payload: dict[str, Any]) -> str:
         try:
-            self.api._post("changes/", payload)
+            try:
+                self.api._post("changes/", payload)
+            except requests.HTTPError as exc:
+                # A 502/503/504 is the gateway, not the request: retry once.
+                if getattr(exc.response, "status_code", None) not in (502, 503, 504):
+                    raise
+                time.sleep(10)
+                self.api._post("changes/", payload)
         except requests.HTTPError as exc:
             status = getattr(exc.response, "status_code", None)
             if status == 409:

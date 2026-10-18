@@ -330,9 +330,28 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(job.records[0]["company_id"], 7)
         self.assertTrue(job.records[0]["rounds"])
 
+    def test_gateway_error_is_retried_once(self):
+        calls = {"n": 0}
+        real = self.api._post
+
+        def flaky(path, data):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                err = requests.HTTPError("502")
+                err.response = _Resp(502, "Bad gateway")
+                raise err
+            return real(path, data)
+
+        self.api._post = flaky
+        job = self._job(apply=True)
+        with unittest.mock.patch.object(rcf.time, "sleep"):
+            job.run(limit=10, company_ids=[7], since_year=None, start_page=1, pause=0)
+        self.assertEqual((job.stats.filed, job.stats.errors), (2, 0))
+
     def test_aggregators_are_never_sources(self):
         self.assertTrue(rcf.is_skipped_domain("https://bouncewatch.com/company/cyberdyne-inc"))
         self.assertTrue(rcf.is_skipped_domain("https://www.crustdata.com/x"))
+        self.assertTrue(rcf.is_skipped_domain("https://forgeglobal.com/vecna-robotics_funding/"))
 
     def test_unpublished_company_named_explicitly_is_skipped(self):
         job = self._job()
