@@ -566,8 +566,8 @@ _RAISE_RE = re.compile(r"\b(?:rais(?:e|es|ed|ing)|secur(?:e|es|ed|ing)|clos(?:e|
 
 
 _OBJECT_OF_DEAL_RE = re.compile(
-    r"\b(?:acquired|acquires|acquire|acquisition of|purchase of|bought|buys|takeover of|merger with|invest(?:ed|s|ment)? in)\s+"
-    r"(?:\w+\s+){0,3}$", re.I)
+    r"\b(?:acquired|acquires|acquire|acquisition of|purchase of|bought|buys|takeover of|merger with|invest(?:ed|s|ment)? in|"
+    r"(?:share|stake|interest|holding)s? in)\s+(?:\w+\s+){0,5}$", re.I)
 
 
 def is_deal_made_by(company_name: str, r: Round) -> bool:
@@ -578,16 +578,28 @@ def is_deal_made_by(company_name: str, r: Round) -> bool:
         return False
     if re.search(r"kickstarter|indiegogo", quote, re.I):
         return True
+    if r.round in ("IPO", "Grant"):
+        return False
+    # "Ottobock (SuitX)", "QinetiQ (Foster-Miller)": the profile is the company in
+    # brackets; its parent buying it is that company being acquired, not a deal it made.
+    bracket = re.search(r"\(([^)]+)\)", company_name or "")
+    if bracket:
+        child = bracket.group(1).strip()
+        child_tokens = [t for t in re.split(r"[^\w]+", child.lower()) if len(t) >= 3][:2]
+        if child_tokens and any(t in quote.lower() for t in child_tokens):
+            company_name = child
     tokens = [t for t in re.split(r"[^\w]+", (company_name or "").lower()) if len(t) >= 3][:2]
     if not tokens:
         return False
     low = quote.lower()
-    pos = min((low.find(t) for t in tokens if low.find(t) >= 0), default=-1)
+    # Whole words only: "PWR Pack" must not match inside "packaging".
+    hits = [m.start() for t in tokens for m in [re.search(r"\b" + re.escape(t) + r"\b", low)] if m]
+    pos = min(hits, default=-1)
     if pos < 0:
         return False
     # "Acquired Hydroid in 2020", "its acquisition of InTouch Technologies": a deal verb or
     # noun just BEFORE the name makes the company the object, i.e. the one being bought.
-    if _OBJECT_OF_DEAL_RE.search(low[max(0, pos - 40):pos]):
+    if _OBJECT_OF_DEAL_RE.search(low[max(0, pos - 70):pos]):
         return False
     m = _DEAL_MADE_RE.search(quote, pos)
     # "<Company> acquires/acquired/sold/invested in ..." within the clause after the name

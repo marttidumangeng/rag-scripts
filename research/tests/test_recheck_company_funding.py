@@ -145,6 +145,11 @@ class DealMadeTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertTrue(rcf.is_deal_made_by(name, Round("2021", "Acquisition", 1, "USD", quote=quote)))
 
+    def test_ipo_is_never_a_deal_made(self):
+        r = Round("2021-09", "IPO", 100e6, "USD",
+                  quote="This is an initial public offering of PROCEPT BioRobotics; underwriters may purchase more shares.")
+        self.assertFalse(rcf.is_deal_made_by("PROCEPT BioRobotics", r))
+
     def test_money_the_company_received_is_kept(self):
         keep = [
             ("Anduril Industries", "Anduril Industries raised US$2.5 billion in a Series G led by Founders Fund."),
@@ -154,6 +159,9 @@ class DealMadeTests(unittest.TestCase):
             ("Cleveron", "Cleveron raises EUR 2.2 million, sells package machines in the US."),
             ("Franka Robotics", "Franka Robotics (force-sensitive robotic arms, acquired by Agile Robots for about EUR 33 million)."),
             ("Hydroid", "Acquired Hydroid in 2020 (US$350 million purchase price or 24x EBITDA), a maker of AUVs."),
+            ("Ottobock (SuitX)", "Terms of the deal were undisclosed, but Ottobock acquired 100% of suitX shares."),
+            ("QinetiQ (Foster-Miller)", "QinetiQ acquired Foster-Miller in 2004."),
+            ("PWR Pack", "Coesia, a leader in packaging solutions, acquired a minority share in PWR Pack."),
             ("InTouch Health", "Through its most recent acquisition of InTouch Technologies, Teladoc acquired a patent portfolio."),
             ("Acme Robotics", "Acme Robotics secured US$5M and acquired a small software team."),
             ("Kinova", ""),
