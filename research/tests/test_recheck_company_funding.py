@@ -162,6 +162,8 @@ class DealMadeTests(unittest.TestCase):
             ("Ottobock (SuitX)", "Terms of the deal were undisclosed, but Ottobock acquired 100% of suitX shares."),
             ("QinetiQ (Foster-Miller)", "QinetiQ acquired Foster-Miller in 2004."),
             ("Canvas Technology (Amazon)", "Amazon acquires Canvas Technology: Amazon bought the Boulder startup."),
+            ("Jiangsu DINGS' Intelligent Control Technology",
+             "After Jiangsu LEILI invested in DINGS' Technology in 2019, standardized motors followed."),
             ("PWR Pack", "Coesia, a leader in packaging solutions, acquired a minority share in PWR Pack."),
             ("InTouch Health", "Through its most recent acquisition of InTouch Technologies, Teladoc acquired a patent portfolio."),
             ("Acme Robotics", "Acme Robotics secured US$5M and acquired a small software team."),

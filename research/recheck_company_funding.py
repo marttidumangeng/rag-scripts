@@ -570,6 +570,25 @@ _OBJECT_OF_DEAL_RE = re.compile(
     r"(?:share|stake|interest|holding)s? in)\s+(?:\w+\s+){0,5}$", re.I)
 
 
+# Words that do not identify a company: "Jiangsu LEILI invested in DINGS'" must
+# not match DINGS' through the shared province name.
+_GENERIC_NAME_WORDS = {
+    "jiangsu", "zhejiang", "guangdong", "shenzhen", "shanghai", "beijing", "hangzhou", "suzhou", "nanjing",
+    "wuhan", "chengdu", "tianjin", "shandong", "anhui", "hefei", "dongguan", "foshan", "xiamen", "qingdao",
+    "china", "chinese", "japan", "korea", "india", "american", "europe", "european", "global", "international",
+    "technology", "technologies", "tech", "robotics", "robotic", "robot", "robots", "intelligent", "intelligence",
+    "automation", "systems", "system", "industries", "industrial", "group", "holdings", "company", "corporation",
+    "corp", "inc", "ltd", "limited", "llc", "gmbh", "the", "and", "science", "sciences", "innovation", "smart",
+    "equipment", "machinery", "electric", "electronics", "medical", "dynamics", "labs", "lab", "solutions",
+}
+
+
+def _name_tokens(name: str, limit: int = 2) -> list[str]:
+    words = [t for t in re.split(r"[^\w]+", (name or "").lower()) if len(t) >= 3]
+    distinctive = [t for t in words if t not in _GENERIC_NAME_WORDS]
+    return (distinctive or words)[:limit]
+
+
 def is_deal_made_by(company_name: str, r: Round) -> bool:
     """True when the quote names this company as the one doing the deal
     ("Thermo Fisher to acquire PPD for US$17.4B"), which is not money it raised."""
@@ -587,16 +606,16 @@ def is_deal_made_by(company_name: str, r: Round) -> bool:
         outer = (company_name or "")[:bracket.start()].strip()
 
         def _named(name: str) -> bool:
-            toks = [t for t in re.split(r"[^\w]+", name.lower()) if len(t) >= 3][:2]
+            toks = _name_tokens(name)
             return bool(toks) and any(re.search(r"\b" + re.escape(t) + r"\b", quote.lower()) for t in toks)
 
         if outer and _named(outer) and _named(bracket.group(1)):
             return False
         child = bracket.group(1).strip()
-        child_tokens = [t for t in re.split(r"[^\w]+", child.lower()) if len(t) >= 3][:2]
+        child_tokens = _name_tokens(child)
         if child_tokens and any(t in quote.lower() for t in child_tokens):
             company_name = child
-    tokens = [t for t in re.split(r"[^\w]+", (company_name or "").lower()) if len(t) >= 3][:2]
+    tokens = _name_tokens(company_name)
     if not tokens:
         return False
     low = quote.lower()
