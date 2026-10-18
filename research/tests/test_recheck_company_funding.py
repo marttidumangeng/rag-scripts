@@ -153,6 +153,8 @@ class DealMadeTests(unittest.TestCase):
             ("Mecka AI", "Mecka AI announced a US$60M Series B led by Sequoia."),
             ("Cleveron", "Cleveron raises EUR 2.2 million, sells package machines in the US."),
             ("Franka Robotics", "Franka Robotics (force-sensitive robotic arms, acquired by Agile Robots for about EUR 33 million)."),
+            ("Hydroid", "Acquired Hydroid in 2020 (US$350 million purchase price or 24x EBITDA), a maker of AUVs."),
+            ("InTouch Health", "Through its most recent acquisition of InTouch Technologies, Teladoc acquired a patent portfolio."),
             ("Acme Robotics", "Acme Robotics secured US$5M and acquired a small software team."),
             ("Kinova", ""),
         ]

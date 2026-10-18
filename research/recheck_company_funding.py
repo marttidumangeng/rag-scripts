@@ -565,6 +565,11 @@ _RAISE_RE = re.compile(r"\b(?:rais(?:e|es|ed|ing)|secur(?:e|es|ed|ing)|clos(?:e|
                        r"land(?:s|ed)|bag(?:s|ged)|nets?|netted|receiv(?:e|es|ed)|gets?|got)\b", re.I)
 
 
+_OBJECT_OF_DEAL_RE = re.compile(
+    r"\b(?:acquired|acquires|acquire|acquisition of|purchase of|bought|buys|takeover of|merger with|invest(?:ed|s|ment)? in)\s+"
+    r"(?:\w+\s+){0,3}$", re.I)
+
+
 def is_deal_made_by(company_name: str, r: Round) -> bool:
     """True when the quote names this company as the one doing the deal
     ("Thermo Fisher to acquire PPD for US$17.4B"), which is not money it raised."""
@@ -579,6 +584,10 @@ def is_deal_made_by(company_name: str, r: Round) -> bool:
     low = quote.lower()
     pos = min((low.find(t) for t in tokens if low.find(t) >= 0), default=-1)
     if pos < 0:
+        return False
+    # "Acquired Hydroid in 2020", "its acquisition of InTouch Technologies": a deal verb or
+    # noun just BEFORE the name makes the company the object, i.e. the one being bought.
+    if _OBJECT_OF_DEAL_RE.search(low[max(0, pos - 40):pos]):
         return False
     m = _DEAL_MADE_RE.search(quote, pos)
     # "<Company> acquires/acquired/sold/invested in ..." within the clause after the name
