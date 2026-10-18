@@ -106,6 +106,7 @@ SKIP_DOMAINS = (
     "startupintros.com",
     # Pre-IPO secondary-market sites restating rounds from the same databases.
     "forgeglobal.com", "caplight.com", "equityzen.com", "hiive.com", "notice.co",
+    "whitefordresearch.com", "exa.ai",
 )
 COMPANY_SIGNAL_PATHS = ("news", "press", "blog", "media", "announcement", "newsroom")
 FILING_DOMAINS = ("sec.gov", "companieshouse.gov.uk", "edinet-fsa.go.jp", "dart.fss.or.kr", "hkexnews.hk")
