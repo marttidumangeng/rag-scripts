@@ -148,6 +148,7 @@ class DealMadeTests(unittest.TestCase):
             ("Boston Dynamics", "Hyundai acquired Boston Dynamics for about US$1.1 billion."),
             ("Mecka AI", "Mecka AI announced a US$60M Series B led by Sequoia."),
             ("Cleveron", "Cleveron raises EUR 2.2 million, sells package machines in the US."),
+            ("Franka Robotics", "Franka Robotics (force-sensitive robotic arms, acquired by Agile Robots for about EUR 33 million)."),
             ("Acme Robotics", "Acme Robotics secured US$5M and acquired a small software team."),
             ("Kinova", ""),
         ]
@@ -349,6 +350,24 @@ class RunnerTests(unittest.TestCase):
         with unittest.mock.patch.object(rcf.time, "sleep"):
             job.run(limit=10, company_ids=[7], since_year=None, start_page=1, pause=0)
         self.assertEqual((job.stats.filed, job.stats.errors), (2, 0))
+
+    def test_excluded_companies_are_skipped_without_using_the_limit(self):
+        listing = [{"id": 7, "name": "Maker"}, {"id": 9, "name": "Other"}]
+        companies = dict(self.api.companies)
+        companies[9] = {"name": "Other", "website": "https://other.example", "publication_status": "published",
+                        "milestones": []}
+        api = FakeApi(companies, listing)
+        job = FundingRecheck(api, search=_search, fetch=_fetch, extract=lambda c, e: [], run_id="t")
+        job.run(limit=1, company_ids=None, since_year=None, start_page=1, pause=0, exclude={7})
+        self.assertEqual([r["company_id"] for r in job.records], [9])
+
+    def test_done_company_ids_reads_snapshots(self):
+        import json as _json
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        (d / "a.json").write_text(_json.dumps({"records": [{"company_id": 1}, {"company_id": 2, "error": "x"}]}), encoding="utf-8")
+        (d / "b.json").write_text(_json.dumps({"records": [{"company_id": 3}]}), encoding="utf-8")
+        self.assertEqual(rcf.done_company_ids([str(d / "*.json")]), {1, 3})
 
     def test_aggregators_are_never_sources(self):
         self.assertTrue(rcf.is_skipped_domain("https://bouncewatch.com/company/cyberdyne-inc"))

@@ -582,6 +582,10 @@ def is_deal_made_by(company_name: str, r: Round) -> bool:
     # between the name and the deal verb means the company RECEIVED money.
     if _RAISE_RE.search(quote[pos:m.start()]):
         return False
+    # "Franka Robotics (..., acquired by Agile Robots ...)": the deal verb followed by
+    # "by" is passive, so the company is the one being acquired or invested in.
+    if quote[m.end():m.end() + 4].lower().startswith(" by"):
+        return False
     # "<Company> was acquired by ..." / "<Company> is acquired by ..." is the company being bought: keep it.
     between = low[pos:m.end()]
     return not re.search(r"\b(?:was|is|be|been|being|has been|will be)\s+(?:\w+\s+)?(?:acquired|bought|purchased|sold)\b", between)
@@ -700,7 +704,8 @@ class FundingRecheck:
 
     # -- selection ----------------------------------------------------------
 
-    def iter_companies(self, *, limit: int, company_ids: list[int] | None = None, start_page: int = 1) -> Iterable[dict[str, Any]]:
+    def iter_companies(self, *, limit: int, company_ids: list[int] | None = None, start_page: int = 1,
+                       exclude: set[int] | None = None) -> Iterable[dict[str, Any]]:
         if company_ids:
             for cid in company_ids[:limit]:
                 yield {"id": cid}
@@ -708,12 +713,14 @@ class FundingRecheck:
         page, yielded = start_page, 0
         while yielded < limit:
             data = self.api._get("companies/", params={"lite": 1, "page": page, "page_size": 100,
-                                                       "ordering": "-public_robot_count"})
+                                                       "ordering": "-public_robot_count,name"})
             rows = data.get("results") if isinstance(data, dict) else data
             if not rows:
                 return
             for row in rows:
                 if (row.get("publication_status") or "published") != "published":
+                    continue
+                if exclude and row.get("id") in exclude:
                     continue
                 yield row
                 yielded += 1
@@ -857,8 +864,9 @@ class FundingRecheck:
 
     # -- loop ---------------------------------------------------------------
 
-    def run(self, *, limit: int, company_ids: list[int] | None, since_year: int | None, start_page: int, pause: float) -> None:
-        for brief in self.iter_companies(limit=limit, company_ids=company_ids, start_page=start_page):
+    def run(self, *, limit: int, company_ids: list[int] | None, since_year: int | None, start_page: int, pause: float,
+            exclude: set[int] | None = None) -> None:
+        for brief in self.iter_companies(limit=limit, company_ids=company_ids, start_page=start_page, exclude=exclude):
             try:
                 try:
                     record = self.process(brief, since_year=since_year)
@@ -915,6 +923,23 @@ class FundingRecheck:
                 f"errors={s.errors}{spend}")
 
 
+def done_company_ids(patterns: list[str]) -> set[int]:
+    """Company ids processed in earlier runs (records without an error)."""
+    import glob
+
+    done: set[int] = set()
+    for pattern in patterns or []:
+        for path in glob.glob(pattern):
+            try:
+                data = json.loads(Path(path).read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            for rec in data.get("records", []):
+                if rec.get("company_id") and not rec.get("error"):
+                    done.add(int(rec["company_id"]))
+    return done
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--limit", type=int, default=50, help="companies to process this run (default 50)")
@@ -931,6 +956,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--write-milestones", action="store_true",
                     help="with --apply: also append NEW rounds to the public profile milestones")
     ap.add_argument("--out", default="", help="snapshot JSON path (default output/funding_recheck_<run>.json)")
+    ap.add_argument("--exclude-snapshots", action="append", default=[],
+                    help="glob of earlier snapshot JSONs; companies in them are skipped (repeatable)")
     args = ap.parse_args(argv)
 
     filled = load_env_file()
@@ -955,7 +982,11 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{'APPLY' if args.apply else 'DRY RUN'} funding re-check {job.run_id}: up to {limit} companies, "
           f"{args.searches} searches + {args.pages} pages + 1 Gemini call each"
           f"{' (+ milestones)' if job.write_milestones else ''}", flush=True)
-    job.run(limit=limit, company_ids=args.company_id, since_year=since_year, start_page=args.start_page, pause=args.pause)
+    exclude = done_company_ids(args.exclude_snapshots)
+    if args.exclude_snapshots:
+        print(f"skipping {len(exclude)} companies already in earlier snapshots", flush=True)
+    job.run(limit=limit, company_ids=args.company_id, since_year=since_year, start_page=args.start_page, pause=args.pause,
+            exclude=exclude)
 
     out = Path(args.out) if args.out else _HERE / "output" / f"funding_recheck_{job.run_id}.json"
     try:
