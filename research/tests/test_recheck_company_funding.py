@@ -128,6 +128,32 @@ class CollapseTests(unittest.TestCase):
         self.assertEqual(len(rcf.collapse_rounds([a, b])), 2)
 
 
+class DealMadeTests(unittest.TestCase):
+    def test_deals_the_company_made_are_dropped(self):
+        drop = [
+            ("Thermo Fisher Scientific", "Thermo Fisher Scientific to acquire PPD for US$17.4 billion in cash."),
+            ("Brooks Automation", "Brooks Automation sold its semiconductor business to Thomas H. Lee Partners for US$3 billion."),
+            ("Hydrex", "Hydrex acquired VertiDrive B.V., maker of magnetic blasting crawlers."),
+            ("PongBot", "The Pace series raised more than US$2.7 million on Kickstarter."),
+            ("Anduril Industries", "Anduril Industries invested in a drone maker last year."),
+        ]
+        for name, quote in drop:
+            with self.subTest(name=name):
+                self.assertTrue(rcf.is_deal_made_by(name, Round("2021", "Acquisition", 1, "USD", quote=quote)))
+
+    def test_money_the_company_received_is_kept(self):
+        keep = [
+            ("Anduril Industries", "Anduril Industries raised US$2.5 billion in a Series G led by Founders Fund."),
+            ("Universal Robots", "Universal Robots was acquired by Teradyne for US$285 million."),
+            ("Boston Dynamics", "Hyundai acquired Boston Dynamics for about US$1.1 billion."),
+            ("Mecka AI", "Mecka AI announced a US$60M Series B led by Sequoia."),
+            ("Kinova", ""),
+        ]
+        for name, quote in keep:
+            with self.subTest(name=name):
+                self.assertFalse(rcf.is_deal_made_by(name, Round("2021", "Series A", 1, "USD", quote=quote)))
+
+
 class MatchingTests(unittest.TestCase):
     milestones = [
         {"year": 2026, "description": "Closed a US$520 million Series A extension (Series A-X) on 11 February 2026",

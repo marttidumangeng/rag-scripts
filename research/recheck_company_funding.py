@@ -499,8 +499,13 @@ Return JSON only: {"rounds": [ {...}, ... ]} with one object per distinct event:
   confidence: "high" | "medium" | "low"
   quote: the one sentence from that block stating the event
 Rules:
+- Only money THIS company RECEIVED: a round it raised, a grant it received, its own listing, or
+  THIS company being acquired. Never a deal it made: an acquisition it bought, a business or unit
+  it sold, a fund it launched or an investment it made in another company (if Company X "acquired
+  Y for US$3B", that is not an event for X). Never crowdfunding pre-orders (Kickstarter, Indiegogo).
 - Only events the evidence explicitly states for THIS company (check the name; a different company
-  with a similar name is not this company). Never infer, estimate or convert an amount. A
+  with a similar name is not this company). A government or sovereign fund's total size is not a
+  round: only the amount invested in THIS company counts. Never infer, estimate or convert an amount. A
   conversion in the text ("~US$220M") may be reported as amount_text, not as the amount.
 - An extension of a round is its own event with the extension amount. A cumulative total
   ("has raised US$935M to date") is NOT an event.
@@ -541,6 +546,35 @@ def gemini_extract(company: dict[str, Any], evidence: list[dict[str, str]], *, m
         print("  [gemini] unparsable JSON; treated as no rounds", flush=True)
         return []
     return rounds_from_json(data, evidence)
+
+
+_DEAL_MADE_RE = re.compile(
+    r"\b(?:acquire[sd]?|acquiring|to acquire|bought|buys|purchas(?:e|ed|es|ing)|sold|sells|selling|divest(?:s|ed|iture)?|"
+    r"invest(?:s|ed)? in|led the|launch(?:es|ed)? a (?:fund|venture)|kickstarter|indiegogo)\b", re.I)
+
+
+def is_deal_made_by(company_name: str, r: Round) -> bool:
+    """True when the quote names this company as the one doing the deal
+    ("Thermo Fisher to acquire PPD for US$17.4B"), which is not money it raised."""
+    quote = r.quote or ""
+    if not quote:
+        return False
+    if re.search(r"kickstarter|indiegogo", quote, re.I):
+        return True
+    tokens = [t for t in re.split(r"[^\w]+", (company_name or "").lower()) if len(t) >= 3][:2]
+    if not tokens:
+        return False
+    low = quote.lower()
+    pos = min((low.find(t) for t in tokens if low.find(t) >= 0), default=-1)
+    if pos < 0:
+        return False
+    m = _DEAL_MADE_RE.search(quote, pos)
+    # "<Company> acquires/acquired/sold/invested in ..." within the clause after the name
+    if not m or m.start() - pos > 60:
+        return False
+    # "<Company> was acquired by ..." / "<Company> is acquired by ..." is the company being bought: keep it.
+    between = low[pos:m.end()]
+    return not re.search(r"\b(?:was|is|be|been|being|has been|will be)\s+(?:\w+\s+)?(?:acquired|bought|purchased|sold)\b", between)
 
 
 def rounds_from_json(data: Any, evidence: list[dict[str, str]]) -> list[Round]:
@@ -632,6 +666,7 @@ class Stats:
     duplicates: int = 0
     milestones_written: int = 0
     stage_suggestions: int = 0
+    deals_dropped: int = 0
     errors: int = 0
 
 
@@ -727,7 +762,12 @@ class FundingRecheck:
             record["skipped"] = "no evidence found"
             return record
         self.stats.gemini_calls += 1
-        rounds = collapse_rounds(self.extract(company, evidence))
+        extracted = self.extract(company, evidence)
+        deals_made = [r for r in extracted if is_deal_made_by(company.get("name") or "", r)]
+        if deals_made:
+            self.stats.deals_dropped += len(deals_made)
+            record["deals_dropped"] = [summary_for_round(r) + " | " + (r.quote or "")[:120] for r in deals_made]
+        rounds = collapse_rounds([r for r in extracted if r not in deals_made])
         self.stats.rounds_found += len(rounds)
         order = {"low": 0, "medium": 1, "high": 2}
         confident = [r for r in rounds if order.get(r.confidence, 1) >= order.get(self.min_confidence, 1)]
@@ -854,7 +894,8 @@ class FundingRecheck:
         return (f"\n{mode} run {self.run_id}: companies={s.companies} searches={s.searches} pages={s.pages} "
                 f"gemini_calls={s.gemini_calls} rounds={s.rounds_found} known={s.known} new={s.new} "
                 f"mismatch={s.mismatch} low_confidence={s.low_confidence} filed={s.filed} duplicates={s.duplicates} "
-                f"milestones_written={s.milestones_written} stage_suggestions={s.stage_suggestions} errors={s.errors}{spend}")
+                f"milestones_written={s.milestones_written} stage_suggestions={s.stage_suggestions} deals_dropped={s.deals_dropped} "
+                f"errors={s.errors}{spend}")
 
 
 def main(argv: list[str] | None = None) -> int:
