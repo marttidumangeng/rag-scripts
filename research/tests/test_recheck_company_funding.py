@@ -132,6 +132,29 @@ class CollapseTests(unittest.TestCase):
         self.assertEqual(len(rcf.collapse_rounds([a, b])), 2)
 
 
+class TemplateNoiseTests(unittest.TestCase):
+    def test_market_figures_are_noise(self):
+        for r in [
+            Round("2024", "Public", 30e9, "USD", quote="Komatsu has successfully raised $30B in a Public at a $35B valuation led by Public."),
+            Round("2024", "Funding round", 5e9, "USD", quote="Chili's Grill & Bar has successfully raised $5B in a Private at a $7B valuation led by Private."),
+            Round("2026", "Bootstrapped", None, None, quote="Wholly owned by Ant Group."),
+        ]:
+            with self.subTest(q=r.quote):
+                self.assertTrue(rcf.is_template_noise(r))
+
+    def test_real_rounds_are_not_noise(self):
+        for r in [
+            Round("2026", "Series H", 5e9, "USD", quote="Anduril is announcing our Series H: a $5 billion raise, led by Founders Fund."),
+            Round("2025", "IPO", 725e6, "USD", quote="Symbotic priced its public offering."),
+            Round("2023", "Private Placement", 24e6, "USD", quote="Stereotaxis Completes Private Placement of $24 Million."),
+            Round("2017", "Funding round", 38e6, "USD",
+                  quote="Xenex said today that it raised a $38 million funding round, led by private equity shop Essex Woodlands."),
+            Round("2017", "Series E", 18e6, "USD", quote="Rethink raised $18 million in an unfinished Series E round led by"),
+        ]:
+            with self.subTest(q=r.quote):
+                self.assertFalse(rcf.is_template_noise(r))
+
+
 class DealMadeTests(unittest.TestCase):
     def test_deals_the_company_made_are_dropped(self):
         drop = [

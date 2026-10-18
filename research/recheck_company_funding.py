@@ -589,6 +589,17 @@ def _name_tokens(name: str, limit: int = 2) -> list[str]:
     return (distinctive or words)[:limit]
 
 
+_TEMPLATE_NOISE_RE = re.compile(r"\bin an? (?:public|private) at an? \S+ valuation\b|\bled by (?:public|private)\s*(?:\.|$)", re.I)
+
+
+def is_template_noise(r: Round) -> bool:
+    """Generated stock-data pages write "Komatsu has successfully raised $30B in a
+    Public at a $35B valuation led by Public." - a market figure, not a round."""
+    if (r.round or "").strip().lower() in ("public", "private", "bootstrapped"):
+        return True
+    return bool(_TEMPLATE_NOISE_RE.search(r.quote or ""))
+
+
 def is_deal_made_by(company_name: str, r: Round) -> bool:
     """True when the quote names this company as the one doing the deal
     ("Thermo Fisher to acquire PPD for US$17.4B"), which is not money it raised."""
@@ -839,6 +850,11 @@ class FundingRecheck:
             return record
         self.stats.gemini_calls += 1
         extracted = self.extract(company, evidence)
+        noise = [r for r in extracted if is_template_noise(r)]
+        if noise:
+            self.stats.deals_dropped += len(noise)
+            record["noise_dropped"] = [summary_for_round(r) + " | " + (r.quote or "")[:120] for r in noise]
+        extracted = [r for r in extracted if r not in noise]
         deals_made = [r for r in extracted if is_deal_made_by(company.get("name") or "", r)]
         if deals_made:
             self.stats.deals_dropped += len(deals_made)
