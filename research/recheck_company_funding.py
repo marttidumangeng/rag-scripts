@@ -555,6 +555,10 @@ _DEAL_MADE_RE = re.compile(
     r"invest(?:s|ed)? in|led the|launch(?:es|ed)? a (?:fund|venture)|kickstarter|indiegogo)\b", re.I)
 
 
+_RAISE_RE = re.compile(r"\b(?:rais(?:e|es|ed|ing)|secur(?:e|es|ed|ing)|clos(?:e|es|ed|ing) (?:a|its|an)|"
+                       r"land(?:s|ed)|bag(?:s|ged)|nets?|netted|receiv(?:e|es|ed)|gets?|got)\b", re.I)
+
+
 def is_deal_made_by(company_name: str, r: Round) -> bool:
     """True when the quote names this company as the one doing the deal
     ("Thermo Fisher to acquire PPD for US$17.4B"), which is not money it raised."""
@@ -573,6 +577,10 @@ def is_deal_made_by(company_name: str, r: Round) -> bool:
     m = _DEAL_MADE_RE.search(quote, pos)
     # "<Company> acquires/acquired/sold/invested in ..." within the clause after the name
     if not m or m.start() - pos > 60:
+        return False
+    # "<Company> raises EUR 2.2M, sells package machines in ..." is a round: a raise verb
+    # between the name and the deal verb means the company RECEIVED money.
+    if _RAISE_RE.search(quote[pos:m.start()]):
         return False
     # "<Company> was acquired by ..." / "<Company> is acquired by ..." is the company being bought: keep it.
     between = low[pos:m.end()]

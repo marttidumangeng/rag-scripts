@@ -147,6 +147,8 @@ class DealMadeTests(unittest.TestCase):
             ("Universal Robots", "Universal Robots was acquired by Teradyne for US$285 million."),
             ("Boston Dynamics", "Hyundai acquired Boston Dynamics for about US$1.1 billion."),
             ("Mecka AI", "Mecka AI announced a US$60M Series B led by Sequoia."),
+            ("Cleveron", "Cleveron raises EUR 2.2 million, sells package machines in the US."),
+            ("Acme Robotics", "Acme Robotics secured US$5M and acquired a small software team."),
             ("Kinova", ""),
         ]
         for name, quote in keep:
