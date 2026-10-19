@@ -300,6 +300,72 @@ done
 RUNNER
 chmod +x "$APP_DIR/run_enrich.sh"
 
+# ---------------------------------------------------------------------------
+# Runner 3: monthly funding re-check (one-shot, fired by funding-recheck.timer)
+# ---------------------------------------------------------------------------
+# Rotation, not a full pass: the companies never checked come first, then the
+# longest-unchecked, MAX_FUNDING_COMPANIES per run, skipping anything checked in
+# the last FUNDING_RECHECK_AFTER_DAYS. Earlier snapshots are the HISTORY: their
+# filed rounds count as known, so a round already waiting in review is not filed
+# again (drafts never reach the profile milestones the agent also compares with).
+# History lives in GCS, data not code: every run pulls it first and uploads its
+# own snapshot back. With no history the run REFUSES, because it would re-file
+# every round from the first full pass (2026-10-18, 1,694 drafts).
+cat > "$APP_DIR/run_funding_recheck.sh" <<'RUNNER'
+#!/usr/bin/env bash
+set -uo pipefail
+TS="$(date -u +%Y%m%d-%H%M%S)"
+LOG="/var/log/funding-recheck-$TS.log"
+LOG_BASENAME="funding-recheck-$TS.log"
+# The loops' raised daily Gemini budgets live in systemd drop-ins on THEIR units
+# (enrichment.service.d/override.conf). All three services charge ONE ledger, so a
+# run left on the 2500 default would be refused as soon as the loops passed it.
+for VAR in GEMINI_DAILY_CALL_BUDGET GEMINI_DAILY_USD_BUDGET; do
+  if [ -z "${!VAR:-}" ]; then
+    VAL="$(systemctl show enrichment.service -p Environment --value 2>/dev/null | tr ' ' '\n' | sed -n "s/^$VAR=//p" | tail -1)"
+    [ -n "$VAL" ] && export "$VAR=$VAL"
+  fi
+done
+source /opt/enrichment/pipeline_common.sh
+start_shipper
+cd "$CODE_DIR"
+{
+  echo "=== funding re-check $TS (limit ${MAX_FUNDING_COMPANIES:-400}, window ${FUNDING_RECHECK_AFTER_DAYS:-60}d) ==="
+  # One-shot: a failed gate must not sleep half an hour before giving up.
+  GATE_BACKOFF="${GATE_BACKOFF:-60}" gate || { echo "!! gate failed - no run this month"; ship; exit 0; }
+
+  HIST="staging/funding_snapshots"
+  mkdir -p "$HIST"
+  gcloud storage rsync "gs://$BUCKET/data/funding-recheck/" "$HIST/" >/dev/null 2>&1 \
+    && echo "history pulled: $(ls "$HIST"/*.json 2>/dev/null | wc -l) snapshot(s)" \
+    || echo "!! history pull failed"
+  if [ "$(ls "$HIST"/*.json 2>/dev/null | wc -l)" -eq 0 ] && [ "${FUNDING_ALLOW_EMPTY_HISTORY:-0}" != "1" ]; then
+    echo "!! NO HISTORY - refusing to run: it would re-file every round already in review."
+    echo "!! upload the snapshots to gs://$BUCKET/data/funding-recheck/ (deploy/README.md)."
+    ship
+    exit 0
+  fi
+
+  OUT="$HIST/funding-recheck-$TS.json"
+  stage "funding re-check (rotation)" "${T_FUNDING:-8h}" \
+    "$PY" -u recheck_company_funding.py --apply \
+      --limit "${MAX_FUNDING_COMPANIES:-400}" --max-companies "${MAX_FUNDING_COMPANIES:-400}" \
+      --recheck-after-days "${FUNDING_RECHECK_AFTER_DAYS:-60}" \
+      --history-snapshots "$HIST/*.json" --out "$OUT"
+
+  # The snapshot is written after every company, so even a run cut off by its
+  # stage limit leaves a record of what it filed for the next run to skip.
+  if [ -f "$OUT" ]; then
+    gcloud storage cp "$OUT" "gs://$BUCKET/data/funding-recheck/" >/dev/null 2>&1 \
+      && echo "snapshot uploaded to history" || echo "!! snapshot upload FAILED - next run may re-file these rounds"
+  fi
+  "$PY" -c "from spend_guard import status; print('GEMINI SPEND:', status())" || true
+  echo "=== funding re-check finished $(date -u +%FT%TZ) ==="
+} >>"$LOG" 2>&1
+ship
+RUNNER
+chmod +x "$APP_DIR/run_funding_recheck.sh"
+
 # NOTE: a systemd ExecStop hook was tried here and REMOVED — it never fired. With
 # DefaultDependencies=no the stop action can run after network teardown, and gcloud
 # needs the network, so it silently shipped nothing. Preemption safety is handled
@@ -342,6 +408,34 @@ Restart=always
 RestartSec=60
 TimeoutStartSec=0
 UNIT
+
+# Monthly funding re-check. oneshot + timer, NOT a loop: it is a rotation over
+# the catalogue, and the loops above already keep the VM busy. Persistent=true
+# runs a missed slot at the next boot (the VM may be off on the 1st).
+cat > /etc/systemd/system/funding-recheck.service <<'UNIT'
+[Unit]
+Description=RobotAIGeek monthly funding re-check (rotation; files DRAFT change events)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/enrichment/run_funding_recheck.sh
+TimeoutStartSec=0
+UNIT
+
+cat > /etc/systemd/system/funding-recheck.timer <<'UNIT'
+[Unit]
+Description=Monthly funding re-check, 1st of the month 02:00 SGT
+
+[Timer]
+OnCalendar=*-*-01 02:00:00 Asia/Singapore
+Persistent=true
+RandomizedDelaySec=15min
+
+[Install]
+WantedBy=timers.target
+UNIT
 systemctl daemon-reload
 
 AUTORUN="$(curl -s -H 'Metadata-Flavor: Google' \
@@ -349,6 +443,16 @@ AUTORUN="$(curl -s -H 'Metadata-Flavor: Google' \
 echo "enrichment-autorun=$AUTORUN"
 if [ "$AUTORUN" = "1" ]; then
   systemctl start --no-block discovery.service enrichment.service
+  # Separate switch so the monthly paid-search job can be turned off on its own.
+  FUNDING="$(curl -s -H 'Metadata-Flavor: Google' \
+    'http://metadata.google.internal/computeMetadata/v1/instance/attributes/funding-recheck' 2>/dev/null || echo 1)"
+  if [ "$FUNDING" = "0" ]; then
+    systemctl disable --now funding-recheck.timer >/dev/null 2>&1 || true
+    echo "funding-recheck timer DISABLED (metadata funding-recheck=0)"
+  else
+    systemctl enable --now funding-recheck.timer
+    echo "funding-recheck timer: $(systemctl list-timers funding-recheck.timer --no-legend | head -1)"
+  fi
 else
   echo "--- autorun disabled; VM idle (manual/debug boot) ---"
 fi

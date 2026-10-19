@@ -754,7 +754,7 @@ class FundingRecheck:
                  fetch: Callable[[str], str] = fetch_page_text, extract: Callable[..., list[Round]] = gemini_extract,
                  searches_per_company: int = 2, pages_per_company: int = 3, apply: bool = False,
                  write_milestones: bool = False, min_confidence: str = "medium", run_id: str = "",
-                 makers_only: bool = True):
+                 makers_only: bool = True, known_rounds: dict[int, list[dict[str, Any]]] | None = None):
         self.api = api
         self.search = search
         self.fetch = fetch
@@ -766,16 +766,49 @@ class FundingRecheck:
         self.min_confidence = min_confidence
         self.run_id = run_id or datetime.now().strftime("%Y%m%d-%H%M")
         self.makers_only = makers_only
+        self.known_rounds = known_rounds or {}
+        self.checkpoint: Callable[[], None] | None = None
         self.stats = Stats()
         self.records: list[dict[str, Any]] = []
 
     # -- selection ----------------------------------------------------------
 
     def iter_companies(self, *, limit: int, company_ids: list[int] | None = None, start_page: int = 1,
-                       exclude: set[int] | None = None) -> Iterable[dict[str, Any]]:
+                       exclude: set[int] | None = None, last_checked: dict[int, str] | None = None,
+                       recheck_after_days: int | None = None) -> Iterable[dict[str, Any]]:
         if company_ids:
             for cid in company_ids[:limit]:
                 yield {"id": cid}
+            return
+        if recheck_after_days is not None:
+            # Rotation for the scheduled run: read the whole list once, drop what was
+            # checked inside the window, then never-checked companies first and the
+            # longest-unchecked after them. Ordering by robot count alone would
+            # re-check the same top companies every month and never reach the tail.
+            from datetime import timedelta
+            cutoff = (date.today() - timedelta(days=recheck_after_days)).isoformat()
+            last_checked = last_checked or {}
+            pool: list[tuple[str, int, dict[str, Any]]] = []
+            page = 1
+            while True:
+                data = self.api._get("companies/", params={"lite": 1, "page": page, "page_size": 100,
+                                                           "ordering": "-public_robot_count,name"})
+                rows = data.get("results") if isinstance(data, dict) else data
+                for row in rows or []:
+                    if not self._eligible(row, exclude):
+                        continue
+                    seen = last_checked.get(int(row["id"]), "")
+                    if seen and seen > cutoff:
+                        continue
+                    pool.append((seen, len(pool), row))
+                if not rows or (isinstance(data, dict) and not data.get("next")):
+                    break
+                page += 1
+            pool.sort(key=lambda t: (t[0], t[1]))
+            self.rotation = {"eligible": len(pool), "cutoff": cutoff,
+                             "never_checked": sum(1 for t in pool if not t[0])}
+            for _, _, row in pool[:limit]:
+                yield row
             return
         page, yielded = start_page, 0
         while yielded < limit:
@@ -785,12 +818,7 @@ class FundingRecheck:
             if not rows:
                 return
             for row in rows:
-                if (row.get("publication_status") or "published") != "published":
-                    continue
-                if exclude and row.get("id") in exclude:
-                    continue
-                roles = row.get("roles") or []
-                if self.makers_only and roles and "maker" not in roles:
+                if not self._eligible(row, exclude):
                     continue
                 yield row
                 yielded += 1
@@ -799,6 +827,14 @@ class FundingRecheck:
             if isinstance(data, dict) and not data.get("next"):
                 return
             page += 1
+
+    def _eligible(self, row: dict[str, Any], exclude: set[int] | None) -> bool:
+        if (row.get("publication_status") or "published") != "published":
+            return False
+        if exclude and row.get("id") in exclude:
+            return False
+        roles = row.get("roles") or []
+        return not (self.makers_only and roles and "maker" not in roles)
 
     # -- one company --------------------------------------------------------
 
@@ -882,7 +918,7 @@ class FundingRecheck:
                 self.stats.low_confidence += 1
                 record["rounds"].append(entry)
                 continue
-            relation, m = match_existing(r, milestones)
+            relation, m = match_existing(r, milestones + self.known_rounds.get(cid, []))
             entry["relation"] = relation
             if relation == "known":
                 self.stats.known += 1
@@ -940,8 +976,10 @@ class FundingRecheck:
     # -- loop ---------------------------------------------------------------
 
     def run(self, *, limit: int, company_ids: list[int] | None, since_year: int | None, start_page: int, pause: float,
-            exclude: set[int] | None = None) -> None:
-        for brief in self.iter_companies(limit=limit, company_ids=company_ids, start_page=start_page, exclude=exclude):
+            exclude: set[int] | None = None, last_checked: dict[int, str] | None = None,
+            recheck_after_days: int | None = None) -> None:
+        for brief in self.iter_companies(limit=limit, company_ids=company_ids, start_page=start_page, exclude=exclude,
+                                         last_checked=last_checked, recheck_after_days=recheck_after_days):
             try:
                 try:
                     record = self.process(brief, since_year=since_year)
@@ -959,6 +997,10 @@ class FundingRecheck:
                 print(f"  [error] company {brief.get('id')}: {record['error']}", flush=True)
             self.records.append(record)
             self.print_record(record)
+            if self.checkpoint:
+                # A scheduled run can be cut off by its stage timeout or a reboot; the
+                # snapshot is what tells the next run which rounds are already filed.
+                self.checkpoint()
             if pause:
                 time.sleep(pause)
 
@@ -998,6 +1040,48 @@ class FundingRecheck:
                 f"errors={s.errors}{spend}")
 
 
+def load_history(patterns: list[str]) -> tuple[dict[int, str], dict[int, list[dict[str, Any]]]]:
+    """From earlier APPLY snapshots: the date each company was last checked, and
+    the rounds already filed for it (as milestone-like rows, so match_existing
+    treats them as known). Without this a repeat run re-files every round it
+    filed last time, because drafts never reach the profile milestones.
+
+    Dry-run snapshots are ignored: nothing was filed and nothing should rotate."""
+    import glob
+
+    last: dict[int, str] = {}
+    known: dict[int, list[dict[str, Any]]] = {}
+    for pattern in patterns or []:
+        for path in sorted(glob.glob(pattern)):
+            try:
+                data = json.loads(Path(path).read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            if not data.get("apply", True):
+                continue
+            run = str(data.get("run_id") or "")
+            m = re.match(r"(\d{4})(\d{2})(\d{2})", run)
+            if m:
+                when = f"{m[1]}-{m[2]}-{m[3]}"
+            else:
+                when = datetime.fromtimestamp(Path(path).stat().st_mtime).strftime("%Y-%m-%d")
+            for rec in data.get("records", []):
+                cid = rec.get("company_id")
+                if not cid or rec.get("error"):
+                    continue
+                cid = int(cid)
+                if when > last.get(cid, ""):
+                    last[cid] = when
+                for x in rec.get("rounds", []):
+                    if x.get("result") not in ("filed", "duplicate"):
+                        continue
+                    year = str(x.get("date") or "")[:4]
+                    if year.isdigit():
+                        known.setdefault(cid, []).append(
+                            {"year": int(year), "description": x.get("summary") or "", "source_url": x.get("source_url") or ""})
+    return last, known
+
+
 def done_company_ids(patterns: list[str]) -> set[int]:
     """Company ids processed in earlier runs (records without an error)."""
     import glob
@@ -1033,6 +1117,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", default="", help="snapshot JSON path (default output/funding_recheck_<run>.json)")
     ap.add_argument("--include-operators", action="store_true",
                     help="also check companies whose roles do not include maker (operators, sellers)")
+    ap.add_argument("--history-snapshots", action="append", default=[],
+                    help="glob of earlier APPLY snapshots: their filed rounds count as known (repeatable)")
+    ap.add_argument("--recheck-after-days", type=int, default=None,
+                    help="rotation: skip companies checked in the last N days (needs --history-snapshots); "
+                         "never-checked first, then the longest since last check")
     ap.add_argument("--exclude-snapshots", action="append", default=[],
                     help="glob of earlier snapshot JSONs; companies in them are skipped (repeatable)")
     args = ap.parse_args(argv)
@@ -1054,27 +1143,50 @@ def main(argv: list[str] | None = None) -> int:
     from api_client import ResearchApiClient
     limit = min(args.limit, args.max_companies)
     since_year = date.today().year - max(0, args.since_days) // 365 if args.since_days else None
+    if args.recheck_after_days is not None and not args.history_snapshots:
+        print("--recheck-after-days needs --history-snapshots (otherwise every round is re-filed)", file=sys.stderr)
+        return 2
+    last_checked, known_rounds = load_history(args.history_snapshots)
+    if args.history_snapshots:
+        print(f"history: {len(last_checked)} companies checked before, "
+              f"{sum(len(v) for v in known_rounds.values())} rounds already on file", flush=True)
     job = FundingRecheck(ResearchApiClient(), searches_per_company=args.searches, pages_per_company=args.pages,
                          apply=args.apply, write_milestones=args.write_milestones, min_confidence=args.min_confidence,
-                         makers_only=not args.include_operators)
+                         makers_only=not args.include_operators, known_rounds=known_rounds)
     print(f"{'APPLY' if args.apply else 'DRY RUN'} funding re-check {job.run_id}: up to {limit} companies, "
           f"{args.searches} searches + {args.pages} pages + 1 Gemini call each"
           f"{' (+ milestones)' if job.write_milestones else ''}", flush=True)
     exclude = done_company_ids(args.exclude_snapshots)
     if args.exclude_snapshots:
         print(f"skipping {len(exclude)} companies already in earlier snapshots", flush=True)
-    job.run(limit=limit, company_ids=args.company_id, since_year=since_year, start_page=args.start_page, pause=args.pause,
-            exclude=exclude)
-
     out = Path(args.out) if args.out else _HERE / "output" / f"funding_recheck_{job.run_id}.json"
+
+    def write_snapshot() -> bool:
+        try:
+            out.parent.mkdir(parents=True, exist_ok=True)
+            tmp = out.with_suffix(out.suffix + ".tmp")
+            tmp.write_text(json.dumps({"run_id": job.run_id, "apply": args.apply, "stats": asdict(job.stats),
+                                       "rotation": getattr(job, "rotation", None), "records": job.records},
+                                      indent=1, ensure_ascii=False, default=str), encoding="utf-8")
+            tmp.replace(out)
+            return True
+        except OSError as exc:
+            print(f"snapshot not written: {exc}", flush=True)
+            return False
+
+    job.checkpoint = write_snapshot
     try:
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps({"run_id": job.run_id, "apply": args.apply, "stats": asdict(job.stats),
-                                   "records": job.records}, indent=1, ensure_ascii=False, default=str), encoding="utf-8")
-        print(f"snapshot: {out}", flush=True)
-    except OSError as exc:
-        print(f"snapshot not written: {exc}", flush=True)
-    print(job.summary(), flush=True)
+        job.run(limit=limit, company_ids=args.company_id, since_year=since_year, start_page=args.start_page,
+                pause=args.pause, exclude=exclude, last_checked=last_checked,
+                recheck_after_days=args.recheck_after_days)
+    finally:
+        if write_snapshot():
+            print(f"snapshot: {out}", flush=True)
+        if getattr(job, "rotation", None):
+            r = job.rotation
+            print(f"rotation: {r['eligible']} eligible (not checked since {r['cutoff']}; "
+                  f"{r['never_checked']} never checked)", flush=True)
+        print(job.summary(), flush=True)
     return 0
 
 

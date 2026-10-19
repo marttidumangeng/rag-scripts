@@ -132,6 +132,66 @@ class CollapseTests(unittest.TestCase):
         self.assertEqual(len(rcf.collapse_rounds([a, b])), 2)
 
 
+class MonthlyRunTests(unittest.TestCase):
+    """The scheduled run: earlier snapshots are history, companies rotate."""
+
+    def _write(self, folder, name, data):
+        import json as _json
+        (folder / name).write_text(_json.dumps(data), encoding="utf-8")
+
+    def test_load_history_reads_apply_snapshots_only(self):
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        self._write(d, "a.json", {"run_id": "20261017-1914", "apply": True, "records": [
+            {"company_id": 7, "rounds": [
+                {"date": "2026-10-07", "summary": "Raised a US$60M Series B led by Sequoia", "result": "filed"},
+                {"date": "2025", "summary": "Raised a US$20M Series A", "result": "duplicate"},
+                {"date": "2024", "summary": "Raised a Seed", "relation": "low_confidence"},
+            ]},
+            {"company_id": 8, "error": "ConnectionError"},
+        ]})
+        self._write(d, "b.json", {"run_id": "20261101-0200", "apply": True, "records": [{"company_id": 7, "rounds": []}]})
+        self._write(d, "dry.json", {"run_id": "20261201-0200", "apply": False, "records": [{"company_id": 9, "rounds": []}]})
+        last, known = rcf.load_history([str(d / "*.json")])
+        self.assertEqual(last, {7: "2026-11-01"})
+        self.assertEqual([k["year"] for k in known[7]], [2026, 2025])
+
+    def test_rounds_on_file_are_not_filed_again(self):
+        api = FakeApi({7: {"name": "Maker", "website": "https://maker.example", "publication_status": "published",
+                           "milestones": []}})
+        known = {7: [{"year": 2026, "description": "Raised a US$60M Series B led by Sequoia Capital"},
+                     {"year": 2025, "description": "Raised a US$20M Series A"}]}
+        job = FundingRecheck(api, search=_search, fetch=_fetch, extract=_extract, run_id="t", apply=True, known_rounds=known)
+        job.run(limit=10, company_ids=[7], since_year=None, start_page=1, pause=0)
+        self.assertEqual(api.posts, [])
+        self.assertEqual(job.stats.known, 2)
+
+    def test_rotation_never_checked_first_then_oldest_and_window_skipped(self):
+        from datetime import date as _date, timedelta
+        listing = [{"id": i, "name": f"Co {i}", "roles": ["maker"]} for i in (1, 2, 3, 4)]
+        api = FakeApi({}, listing)
+        job = FundingRecheck(api, search=_search, fetch=_fetch, extract=lambda c, e: [], run_id="t")
+        recent = (_date.today() - timedelta(days=5)).isoformat()
+        last = {1: "2026-01-10", 2: recent, 3: "2025-12-01"}  # 4 never checked
+        order = [r["id"] for r in job.iter_companies(limit=10, last_checked=last, recheck_after_days=30)]
+        self.assertEqual(order, [4, 3, 1])
+        self.assertEqual(job.rotation["never_checked"], 1)
+        self.assertEqual([r["id"] for r in job.iter_companies(limit=2, last_checked=last, recheck_after_days=30)], [4, 3])
+
+    def test_checkpoint_runs_after_every_company(self):
+        listing = [{"id": 7, "name": "Maker"}, {"id": 8, "name": "Hidden Co"}]
+        api = FakeApi({7: {"name": "Maker", "publication_status": "published", "milestones": []},
+                       8: {"name": "Hidden Co", "publication_status": "hidden", "milestones": []}}, listing)
+        job = FundingRecheck(api, search=_search, fetch=_fetch, extract=lambda c, e: [], run_id="t")
+        calls = []
+        job.checkpoint = lambda: calls.append(len(job.records))
+        job.run(limit=10, company_ids=[7, 8], since_year=None, start_page=1, pause=0)
+        self.assertEqual(calls, [1, 2])
+
+    def test_rotation_requires_history(self):
+        self.assertEqual(rcf.main(["--recheck-after-days", "60", "--limit", "1"]), 2)
+
+
 class TemplateNoiseTests(unittest.TestCase):
     def test_market_figures_are_noise(self):
         for r in [

@@ -39,6 +39,45 @@ Verify a startup change actually landed — a failed startup script leaves the O
 sudo ls -la /opt/enrichment/run_nightly.sh   # mtime must be after your change
 ```
 
+## Monthly funding re-check
+
+`funding-recheck.timer` fires `run_funding_recheck.sh` on the **1st of every month,
+02:00 SGT** (`Persistent=true`: a missed slot runs at the next boot). It runs
+`recheck_company_funding.py --apply` as a **rotation**: makers never checked first,
+then the longest-unchecked, `MAX_FUNDING_COMPANIES` (400) per run, skipping anything
+checked in the last `FUNDING_RECHECK_AFTER_DAYS` (60). Every round lands as a DRAFT
+change event for review; nothing is published and milestones are not touched.
+
+**History is required.** Earlier run snapshots are how the agent knows which rounds
+are already in review (drafts never reach the profile milestones it also compares
+with). They live in `gs://robotaigeek-core-enrichment/data/funding-recheck/`; each run
+pulls them first and uploads its own snapshot back. With no history the runner
+**refuses to run**, because it would re-file every round from the first full pass.
+
+One-time seed (the first full pass, 2026-10-17/18, 28 snapshots, 3.4 MB):
+
+```bash
+GC="--account martti@robotaigeek.com --project robotaigeek-core"
+gcloud storage cp scripts/research/staging/funding_snapshots/*.json \
+  gs://robotaigeek-core-enrichment/data/funding-recheck/ $GC
+```
+
+| Knob | Default | Purpose |
+|---|---|---|
+| `MAX_FUNDING_COMPANIES` | 400 | companies per monthly run (~4 months for a full rotation of ~1,500 makers) |
+| `FUNDING_RECHECK_AFTER_DAYS` | 60 | skip companies checked more recently than this |
+| `T_FUNDING` | 8h | stage wall clock; the snapshot is saved after every company, so a cut-off run still records what it filed |
+| metadata `funding-recheck` | 1 | set to `0` to disable the timer at the next boot without touching the loops |
+
+Cost per run at the defaults: about 800 serper searches, up to ~1,200 page scrapes
+(mostly free tiers), and about 400 Gemini calls (≈ US$0.80) metered through
+`spend_guard` against the same daily budget as the loops. Runtime ≈ 3–5 h.
+
+Run it once by hand (after deploying): `sudo systemctl start funding-recheck.service`,
+then `sudo journalctl -u funding-recheck -f` or the shipped
+`funding-recheck-<ts>.log` in `gs://…/logs/`. Check the timer:
+`systemctl list-timers funding-recheck.timer`.
+
 ## Fast iteration
 
 A normal cycle is ~2.5h, which is far too slow to debug the pipeline. Roughly 7min of
