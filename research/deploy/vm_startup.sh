@@ -363,6 +363,15 @@ cd "$CODE_DIR"
   echo "=== funding re-check finished $(date -u +%FT%TZ) ==="
 } >>"$LOG" 2>&1
 ship
+# Monthly-boot mode: with the loops off (enrichment-autorun != 1) the VM is up
+# only for this job, booted by the funding-recheck-monthly instance schedule,
+# so it powers itself off when done. With the loops on it keeps running.
+AUTORUN="$(curl -s -H 'Metadata-Flavor: Google' \
+  'http://metadata.google.internal/computeMetadata/v1/instance/attributes/enrichment-autorun' 2>/dev/null || echo 0)"
+if [ "$AUTORUN" != "1" ] && [ "${FUNDING_NO_POWEROFF:-0}" != "1" ]; then
+  echo "loops off: powering off in 2 minutes" >>"$LOG"; ship
+  shutdown -h +2
+fi
 RUNNER
 chmod +x "$APP_DIR/run_funding_recheck.sh"
 
@@ -426,12 +435,15 @@ UNIT
 
 cat > /etc/systemd/system/funding-recheck.timer <<'UNIT'
 [Unit]
-Description=Monthly funding re-check, 1st of the month 02:00 SGT
+Description=Monthly funding re-check, 1st of the month 02:30 SGT
 
 [Timer]
-OnCalendar=*-*-01 02:00:00 Asia/Singapore
+# 02:30, not 02:00: in monthly-boot mode the instance schedule starts the VM at
+# 02:00, and the timer must elapse AFTER this script has enabled it. A first-ever
+# run has no Persistent stamp, so a slot that passed during boot would be skipped.
+OnCalendar=*-*-01 02:30:00 Asia/Singapore
 Persistent=true
-RandomizedDelaySec=15min
+RandomizedDelaySec=10min
 
 [Install]
 WantedBy=timers.target
@@ -441,18 +453,21 @@ systemctl daemon-reload
 AUTORUN="$(curl -s -H 'Metadata-Flavor: Google' \
   'http://metadata.google.internal/computeMetadata/v1/instance/attributes/enrichment-autorun' 2>/dev/null || echo 0)"
 echo "enrichment-autorun=$AUTORUN"
+# The monthly funding timer is independent of the loops: it is enabled in both
+# modes, and has its own off switch (metadata funding-recheck=0). With the loops
+# off, the VM is booted for it by the funding-recheck-monthly instance schedule.
+FUNDING="$(curl -s -H 'Metadata-Flavor: Google' \
+  'http://metadata.google.internal/computeMetadata/v1/instance/attributes/funding-recheck' 2>/dev/null || echo 1)"
+if [ "$FUNDING" = "0" ]; then
+  systemctl disable --now funding-recheck.timer >/dev/null 2>&1 || true
+  echo "funding-recheck timer DISABLED (metadata funding-recheck=0)"
+else
+  systemctl enable --now funding-recheck.timer
+  echo "funding-recheck timer: $(systemctl list-timers funding-recheck.timer --no-legend | head -1)"
+fi
+
 if [ "$AUTORUN" = "1" ]; then
   systemctl start --no-block discovery.service enrichment.service
-  # Separate switch so the monthly paid-search job can be turned off on its own.
-  FUNDING="$(curl -s -H 'Metadata-Flavor: Google' \
-    'http://metadata.google.internal/computeMetadata/v1/instance/attributes/funding-recheck' 2>/dev/null || echo 1)"
-  if [ "$FUNDING" = "0" ]; then
-    systemctl disable --now funding-recheck.timer >/dev/null 2>&1 || true
-    echo "funding-recheck timer DISABLED (metadata funding-recheck=0)"
-  else
-    systemctl enable --now funding-recheck.timer
-    echo "funding-recheck timer: $(systemctl list-timers funding-recheck.timer --no-legend | head -1)"
-  fi
 else
   echo "--- autorun disabled; VM idle (manual/debug boot) ---"
 fi

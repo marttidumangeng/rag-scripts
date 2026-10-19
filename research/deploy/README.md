@@ -42,7 +42,15 @@ sudo ls -la /opt/enrichment/run_nightly.sh   # mtime must be after your change
 ## Monthly funding re-check
 
 `funding-recheck.timer` fires `run_funding_recheck.sh` on the **1st of every month,
-02:00 SGT** (`Persistent=true`: a missed slot runs at the next boot). It runs
+02:30 SGT** (`Persistent=true`: a missed slot runs at the next boot). The timer is
+enabled whether or not the loops run. **With the loops off** (`enrichment-autorun=0`,
+the state since August), the VM is booted for it by the instance schedule
+**`funding-recheck-monthly`** (start `0 2 1 * *`, backstop stop `0 12 1 * *`,
+Asia/Singapore), and the runner powers the VM off two minutes after it finishes.
+If the loops are switched back to continuous, detach that schedule, because its
+12:00 stop would kill them every month:
+`gcloud compute instances remove-resource-policies discovery-bakeoff --zone asia-southeast1-b --resource-policies funding-recheck-monthly $GC`.
+It runs
 `recheck_company_funding.py --apply` as a **rotation**: makers never checked first,
 then the longest-unchecked, `MAX_FUNDING_COMPANIES` (400) per run, skipping anything
 checked in the last `FUNDING_RECHECK_AFTER_DAYS` (60). Every round lands as a DRAFT
