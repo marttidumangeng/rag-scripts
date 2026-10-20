@@ -361,8 +361,12 @@ def _search(query):
             {"link": "https://www.crunchbase.com/organization/maker", "title": "Maker", "snippet": "funding"}]
 
 
+_FILLER = " Its robots work in warehouses, factories and hospitals across Europe and Asia." * 8
+
+
 def _fetch(url):
-    return "Maker today announced a US$60 million Series B led by Sequoia. It previously raised a $20M Series A in 2025."
+    return ("Maker today announced a US$60 million Series B led by Sequoia. It previously raised a $20M Series A in 2025."
+            + _FILLER)
 
 
 def _extract(company, evidence):
@@ -511,6 +515,25 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(years, [2025, 2016, 2026])  # existing kept, the new Series B appended
         self.assertEqual(payload["milestones"][2]["description"], "Raised a US$60M Series B led by Sequoia")
         self.assertEqual(job.stats.milestones_written, 1)
+
+    def test_rounds_the_page_does_not_back_are_not_filed(self):
+        def extract(company, evidence):
+            return [
+                Round("2026-10-07", "Series B", 60e6, "USD", source_url=evidence[0]["url"], source_kind="company",
+                      confidence="high", quote="announced a US$60 million Series B"),
+                # figure not on the page
+                Round("2024", "Seed", 9e6, "USD", source_url=evidence[0]["url"], source_kind="press", confidence="high"),
+                # snippet-only source: unverifiable
+                Round("2023", "Pre-seed", 1e6, "USD", source_url="https://snippet.example/x", source_kind="press",
+                      confidence="high"),
+            ]
+        job = FundingRecheck(self.api, search=_search, fetch=_fetch, extract=extract, run_id="t", apply=True)
+        job.run(limit=10, company_ids=[7], since_year=None, start_page=1, pause=0)
+        self.assertEqual([p["summary"] for p in self.api.posts], ["Raised a US$60M Series B"])
+        self.assertEqual(job.stats.unverified, 2)
+        verdicts = {r["summary"]: r.get("verify") for r in job.records[0]["rounds"]}
+        self.assertEqual(verdicts["Raised a US$9M Seed"], ["fail", "amount not on page"])
+        self.assertEqual(verdicts["Raised a US$1M Pre-seed"], ["unverifiable", "page not readable"])
 
     def test_duplicate_is_counted_not_fatal(self):
         self.api.conflict_on.add("Raised a US$60M Series B led by Sequoia")

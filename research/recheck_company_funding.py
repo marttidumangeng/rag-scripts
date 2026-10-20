@@ -58,6 +58,8 @@ _HERE = Path(__file__).resolve().parent
 if str(_HERE) not in sys.path:
     sys.path.insert(0, str(_HERE))
 
+import verify_funding_source  # noqa: E402  (imports this module lazily: no cycle at import time)
+
 # ---------------------------------------------------------------------------
 # Env
 # ---------------------------------------------------------------------------
@@ -745,6 +747,7 @@ class Stats:
     duplicates: int = 0
     milestones_written: int = 0
     stage_suggestions: int = 0
+    unverified: int = 0
     deals_dropped: int = 0
     errors: int = 0
 
@@ -754,7 +757,8 @@ class FundingRecheck:
                  fetch: Callable[[str], str] = fetch_page_text, extract: Callable[..., list[Round]] = gemini_extract,
                  searches_per_company: int = 2, pages_per_company: int = 3, apply: bool = False,
                  write_milestones: bool = False, min_confidence: str = "medium", run_id: str = "",
-                 makers_only: bool = True, known_rounds: dict[int, list[dict[str, Any]]] | None = None):
+                 makers_only: bool = True, known_rounds: dict[int, list[dict[str, Any]]] | None = None,
+                 verify_sources: bool = True):
         self.api = api
         self.search = search
         self.fetch = fetch
@@ -767,6 +771,7 @@ class FundingRecheck:
         self.run_id = run_id or datetime.now().strftime("%Y%m%d-%H%M")
         self.makers_only = makers_only
         self.known_rounds = known_rounds or {}
+        self.verify_sources = verify_sources
         self.checkpoint: Callable[[], None] | None = None
         self.stats = Stats()
         self.records: list[dict[str, Any]] = []
@@ -881,6 +886,7 @@ class FundingRecheck:
             return record
         self.stats.companies += 1
         evidence = self.evidence_for(company)
+        page_texts = {ev["url"]: ev["text"] for ev in evidence}
         if not evidence:
             record["skipped"] = "no evidence found"
             return record
@@ -920,6 +926,24 @@ class FundingRecheck:
                 continue
             relation, m = match_existing(r, milestones + self.known_rounds.get(cid, []))
             entry["relation"] = relation
+            if relation != "known" and self.verify_sources:
+                # Gate (2026-10-20 audit): file only what the cited page itself backs -
+                # the company, the figure and the quote on the page, and the figure not
+                # a valuation, fund, joint venture or revenue. A snippet-only source is
+                # unverifiable and is not filed.
+                verdict, why = verify_funding_source.verify_event(
+                    {"company": company.get("name") or "", "summary": entry["summary"], "source_url": r.source_url,
+                     "new_value": {"round": r.round, "amount": r.amount, "currency": r.currency,
+                                   "lead_investors": r.lead_investors,
+                                   "participating_investors": r.participating_investors},
+                     "quote": r.quote, "occurred_on": r.date},
+                    page_texts.get(r.source_url, ""))
+                if verdict != verify_funding_source.PASS:
+                    entry["relation"] = "unverified"
+                    entry["verify"] = [verdict] + why
+                    self.stats.unverified += 1
+                    record["rounds"].append(entry)
+                    continue
             if relation == "known":
                 self.stats.known += 1
             else:
@@ -1036,7 +1060,7 @@ class FundingRecheck:
         return (f"\n{mode} run {self.run_id}: companies={s.companies} searches={s.searches} pages={s.pages} "
                 f"gemini_calls={s.gemini_calls} rounds={s.rounds_found} known={s.known} new={s.new} "
                 f"mismatch={s.mismatch} low_confidence={s.low_confidence} filed={s.filed} duplicates={s.duplicates} "
-                f"milestones_written={s.milestones_written} stage_suggestions={s.stage_suggestions} deals_dropped={s.deals_dropped} "
+                f"milestones_written={s.milestones_written} stage_suggestions={s.stage_suggestions} deals_dropped={s.deals_dropped} unverified={s.unverified} "
                 f"errors={s.errors}{spend}")
 
 
@@ -1115,6 +1139,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--write-milestones", action="store_true",
                     help="with --apply: also append NEW rounds to the public profile milestones")
     ap.add_argument("--out", default="", help="snapshot JSON path (default output/funding_recheck_<run>.json)")
+    ap.add_argument("--no-verify", action="store_true",
+                    help="file rounds without checking them against the cited page (not recommended)")
     ap.add_argument("--include-operators", action="store_true",
                     help="also check companies whose roles do not include maker (operators, sellers)")
     ap.add_argument("--history-snapshots", action="append", default=[],
@@ -1152,7 +1178,8 @@ def main(argv: list[str] | None = None) -> int:
               f"{sum(len(v) for v in known_rounds.values())} rounds already on file", flush=True)
     job = FundingRecheck(ResearchApiClient(), searches_per_company=args.searches, pages_per_company=args.pages,
                          apply=args.apply, write_milestones=args.write_milestones, min_confidence=args.min_confidence,
-                         makers_only=not args.include_operators, known_rounds=known_rounds)
+                         makers_only=not args.include_operators, known_rounds=known_rounds,
+                         verify_sources=not args.no_verify)
     print(f"{'APPLY' if args.apply else 'DRY RUN'} funding re-check {job.run_id}: up to {limit} companies, "
           f"{args.searches} searches + {args.pages} pages + 1 Gemini call each"
           f"{' (+ milestones)' if job.write_milestones else ''}", flush=True)
