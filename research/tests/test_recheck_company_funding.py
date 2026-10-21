@@ -131,6 +131,28 @@ class CollapseTests(unittest.TestCase):
         b = Round("2026", "Seed", 1.5e9, "CNY")
         self.assertEqual(len(rcf.collapse_rounds([a, b])), 2)
 
+    def test_one_round_in_two_currencies_collapses(self):
+        cny = Round("2022-01-26", "Series D", 400e6, "CNY", source_kind="press", lead_investors=["SoftBank Vision Fund 2"])
+        usd = Round("2022-02-08", "Series D", 62e6, "USD", source_kind="press", participating_investors=["Prosperity7"])
+        kept = rcf.collapse_rounds([cny, usd])
+        self.assertEqual(len(kept), 1)
+        self.assertEqual((kept[0].lead_investors, kept[0].participating_investors), (["SoftBank Vision Fund 2"], ["Prosperity7"]))
+
+    def test_same_event_rule(self):
+        d = rcf.parse_round_date
+        self.assertTrue(rcf.same_event((d("2026-01-08"), 154e6, "IPO"), (d("2025-12-30"), None, "IPO")))
+        self.assertFalse(rcf.same_event((d("2026-02-25"), 280e6, "Strategic"), (d("2026-04-07"), 145e6, "Strategic")))
+        self.assertFalse(rcf.same_event((d("2025-01-01"), None, "Series A+"), (d("2025-02-11"), None, "Strategic")))
+        self.assertFalse(rcf.same_event((d("2025-01"), None, "Strategic"), (d("2025-01"), None, "Strategic")))  # generic label
+        self.assertFalse(rcf.same_event((d("2021-03-01"), 15e6, "Series C"), (d("2021-10-01"), 15e6, "Series C")))  # 7 months
+        self.assertTrue(rcf.same_event((d("2017"), 22e6, "Strategic"), (d("2017-07-01"), 22e6, "Strategic")))
+
+    def test_round_filed_in_another_currency_is_known(self):
+        filed = {"year": 2022, "description": "Raised a CNY 400M Series D", "date": "2022-01-26", "amount": 400e6,
+                 "currency": "CNY", "round": "Series D"}
+        relation, _ = rcf.match_existing(Round("2022-02-08", "Series D", 62e6, "USD"), [filed])
+        self.assertEqual(relation, "known")
+
 
 class MonthlyRunTests(unittest.TestCase):
     """The scheduled run: earlier snapshots are history, companies rotate."""
@@ -489,6 +511,9 @@ class RunnerTests(unittest.TestCase):
         self.assertTrue(rcf.is_skipped_domain("https://bouncewatch.com/company/cyberdyne-inc"))
         self.assertTrue(rcf.is_skipped_domain("https://www.crustdata.com/x"))
         self.assertTrue(rcf.is_skipped_domain("https://forgeglobal.com/vecna-robotics_funding/"))
+        self.assertTrue(rcf.is_skipped_domain("https://www.preqin.com/data/profile/asset/aplux/571537"))
+        self.assertTrue(rcf.is_skipped_domain("https://inc42.com/company/genrobotics/funding/"))
+        self.assertFalse(rcf.is_skipped_domain("https://inc42.com/buzz/genrobotics-raises-funding/"))
 
     def test_unpublished_company_named_explicitly_is_skipped(self):
         job = self._job()

@@ -109,7 +109,12 @@ SKIP_DOMAINS = (
     # Pre-IPO secondary-market sites restating rounds from the same databases.
     "forgeglobal.com", "caplight.com", "equityzen.com", "hiive.com", "notice.co",
     "whitefordresearch.com", "exa.ai",
+    # 2026-10-21 spot-check: more restaters and generated profiles.
+    "preqin.com", "upmarket.co", "startupfundraising.com", "siliconvalleyinvestclub.com", "texau.com",
+    "valueaddvc.com",
 )
+# Sites that also publish real news, where only the generated company pages restate rounds.
+SKIP_URL_PARTS = (("inc42.com", "/company/"),)
 COMPANY_SIGNAL_PATHS = ("news", "press", "blog", "media", "announcement", "newsroom")
 FILING_DOMAINS = ("sec.gov", "companieshouse.gov.uk", "edinet-fsa.go.jp", "dart.fss.or.kr", "hkexnews.hk")
 
@@ -149,7 +154,49 @@ def domain_of(url: str) -> str:
 
 def is_skipped_domain(url: str) -> bool:
     host = domain_of(url)
-    return any(host == d or host.endswith("." + d) for d in SKIP_DOMAINS)
+    if any(host == d or host.endswith("." + d) for d in SKIP_DOMAINS):
+        return True
+    path = (urlparse(url).path or "").lower() if url else ""
+    return any((host == d or host.endswith("." + d)) and part in path for d, part in SKIP_URL_PARTS)
+
+
+# Rough US$ per unit, only to tell whether two reports of a round name the same
+# money (RMB 400M vs US$62M); never shown or stored.
+USD_PER_UNIT = {"USD": 1.0, "CNY": 0.14, "RMB": 0.14, "EUR": 1.08, "GBP": 1.27, "JPY": 0.0067, "KRW": 0.00073,
+                "INR": 0.012, "CHF": 1.12, "SEK": 0.095, "HKD": 0.128, "CAD": 0.73, "AUD": 0.66, "SGD": 0.74,
+                "TWD": 0.031, "ILS": 0.27, "NOK": 0.095, "DKK": 0.145, "BRL": 0.19}
+_GENERIC_LABELS = {"funding round", "strategic", "growth", "debt", "grant", "corporate round", ""}
+SAME_EVENT_DAYS = 60
+
+
+def usd_value(amount: float | None, currency: str | None) -> float | None:
+    if amount in (None, ""):
+        return None
+    rate = USD_PER_UNIT.get((currency or "USD").upper().replace("US$", "USD"))
+    return float(amount) * rate if rate else None
+
+
+def same_event(a: tuple[Any, float | None, str], b: tuple[Any, float | None, str]) -> bool:
+    """Whether two reports, each (parsed date, US$ amount, round label), are one round.
+
+    Two sources often report one round differently: Fourier's Series D as RMB
+    400M on 26 Jan and US$62M on 8 Feb, an IPO with and without its size. Same
+    event = dated within SAME_EVENT_DAYS of each other AND either the amounts
+    agree within 12%, or one has no amount and both carry the same specific
+    label. Year-only dates need agreeing amounts and the same year."""
+    (da, ua, la), (db, ub, lb) = a, b
+    if not da or not db:
+        return False
+    (a_day, a_prec), (b_day, b_prec) = da, db
+    la, lb = (la or "").strip().lower(), (lb or "").strip().lower()
+    amounts_agree = ua is not None and ub is not None and abs(ua - ub) <= 0.12 * max(ua, ub)
+    if "year" in (a_prec, b_prec):
+        return a_day.year == b_day.year and amounts_agree
+    if abs((a_day - b_day).days) > SAME_EVENT_DAYS:
+        return False
+    if ua is not None and ub is not None:
+        return amounts_agree
+    return la == lb and la not in _GENERIC_LABELS
 
 
 def normalise_round(text: str) -> str:
@@ -317,6 +364,13 @@ def match_existing(r: Round, milestones: list[dict[str, Any]]) -> tuple[str, dic
     year = r.year
     if year is None:
         return "new", None
+    # Rounds already filed (history rows carry date/amount/currency/round): the same
+    # round reported in another currency or with a slightly different date is known.
+    for m in milestones:
+        if m.get("date") and same_event(_event_key(r), (parse_round_date(str(m["date"])),
+                                                       usd_value(m.get("amount"), m.get("currency")),
+                                                       str(m.get("round") or ""))):
+            return "known", m
     label = r.round.lower()
     found_amount = int(round(float(r.amount))) if r.amount is not None else None
     same_year = [m for m in milestones if _milestone_year(m) == year]
@@ -363,7 +417,28 @@ def collapse_rounds(rounds: list[Round]) -> list[Round]:
                                                          if i not in winner.participating_investors]
         winner.participating_investors = [i for i in others if i not in winner.lead_investors][:10]
         kept[index[key]] = winner
-    return kept
+    # Second pass: one round reported in two currencies or a few weeks apart.
+    out: list[Round] = []
+    for r in kept:
+        twin = next((i for i, k in enumerate(out) if same_event(_event_key(r), _event_key(k))), None)
+        if twin is None:
+            out.append(r)
+            continue
+        current = out[twin]
+        better = (_SOURCE_RANK.get(r.source_kind, 0), r.amount is not None, r.occurred[1] == "day") > (
+            _SOURCE_RANK.get(current.source_kind, 0), current.amount is not None, current.occurred[1] == "day")
+        winner, loser = (r, current) if better else (current, r)
+        winner.lead_investors = (list(winner.lead_investors)
+                                 + [i for i in loser.lead_investors if i not in winner.lead_investors])[:5]
+        winner.participating_investors = [i for i in list(winner.participating_investors) + [
+            i for i in loser.participating_investors if i not in winner.participating_investors]
+            if i not in winner.lead_investors][:10]
+        out[twin] = winner
+    return out
+
+
+def _event_key(r: Round) -> tuple[Any, float | None, str]:
+    return r.occurred, usd_value(r.amount, r.currency), r.round
 
 
 # company_maturity values on the profile, in order; a round label maps to the
@@ -1102,7 +1177,9 @@ def load_history(patterns: list[str]) -> tuple[dict[int, str], dict[int, list[di
                     year = str(x.get("date") or "")[:4]
                     if year.isdigit():
                         known.setdefault(cid, []).append(
-                            {"year": int(year), "description": x.get("summary") or "", "source_url": x.get("source_url") or ""})
+                            {"year": int(year), "description": x.get("summary") or "", "source_url": x.get("source_url") or "",
+                             "date": x.get("date") or "", "amount": x.get("amount"), "currency": x.get("currency"),
+                             "round": x.get("round") or ""})
     return last, known
 
 

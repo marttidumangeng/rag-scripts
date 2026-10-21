@@ -12,6 +12,11 @@ failing in five ways, and each is a check here:
                             or order pipeline, revenue           -> FAIL
   * company is the buyer  - a deal it made, not money it got     -> FAIL
 
+The 2026-10-21 spot-check added: a figure written as a total across rounds
+("in total", "bringing total funding to", "across two rounds") -> FAIL, and, in
+the CLI audit, the later of two filed events that report one round -> FAIL
+(recheck_company_funding.same_event: within 60 days, same US$ amount or label).
+
 `verify_event(event, page_text)` is pure (no network), so it is shared by the
 one-off audit of rows already filed (this module's CLI) and by the recheck
 agent's gate before it files anything (recheck_company_funding.py).
@@ -68,6 +73,18 @@ _JV_QUOTE_RE = re.compile(r"\bjoint[- ]ventures?\b|\bforged a pact\b|\bcreate a 
 _RAISE_WORDS_RE = re.compile(r"\braise[sd]?\b|\braising\b|\bfunding\b|\bseries [a-h]\d?\b|\brights (?:issue|offering)\b|"
                              r"\bipo\b|\bplacement\b|\bbonds?\b|\bfinancing\b|\bsecures?\b|\bclos(?:es|ed) (?:a|its)\b|"
                              r"\binvestment from\b|\battract(?:s|ed)\b|\breceiv(?:es|ed)\b|\bthe round\b|\bparticipation from\b", re.I)
+# A figure written as a total across rounds, not one round (2026-10-21 spot-check:
+# EngineAI and RoboParty carried a two-round total on each row; Xynova its total to date).
+# Bare "a total of" / "totaling" usually sizes ONE round ("a Series A+ round totaling RMB
+# 1.5 billion"), so only strong cues count.
+_TOTAL_BEFORE_RE = re.compile(r"\btotal (?:funding|capital|investment|financing|raised|amount raised)\b[^.]{0,40}$|"
+                              r"\b(?:cumulative(?:ly)?|to date|so far)\b[^.]{0,40}$|"
+                              r"\bbring(?:s|ing)?\b[^.]{0,50}\btotal\b[^.]{0,30}\bto\s+"
+                              r"(?:about |around |nearly |almost |over |more than )?\S*$", re.I)
+_TOTAL_AFTER_RE = re.compile(r"^[^.]{0,30}\b(?:to date|so far|cumulatively)\b|"
+                             r"^[^.]{0,45}\b(?:across|over|in) (?:two|three|four|five|six|several|multiple|a series of|"
+                             r"\d+|consecutive|back-to-back)\b[^.]{0,30}\b(?:rounds?|financings?)\b", re.I)
+_TWO_ROUNDS_RE = re.compile(r"\b(?:back-to-back|consecutive|two|both)\b[^.]{0,60}\b(?:rounds|financings)\b", re.I)
 _BACKER_MARK_RE = re.compile(r"\bfrom\b|\bled by\b|\bby\b|\bincluding\b|\binvestors?\b|\bparticipat", re.I)
 
 
@@ -155,9 +172,10 @@ def event_amount(event: dict[str, Any]) -> float | None:
             return v if v > 0 else None
         except (TypeError, ValueError):
             return None
-    # backfill rows carry the amount in the summary only
+    # Backfill rows carry the amount in the summary only. The FIRST figure is the round:
+    # later ones are a running total or a valuation ("US$300M ... at a US$1.1B valuation").
     nums = [n for n, _ in page_numbers(event.get("summary") or "") if n >= 1e4]
-    return max(nums) if nums else None
+    return nums[0] if nums else None
 
 
 def company_on_page(company: str, text: str) -> bool:
@@ -220,6 +238,28 @@ def verify_event(event: dict[str, Any], page_text: str | None, *, page_url: str 
                 clean = True
         if kinds and not clean:
             reasons.append(" / ".join(sorted(kinds)))
+        def _num_end(p: int) -> int:
+            m = _NUM_RE.match(text, p)
+            return m.end() if m else p
+        def _is_total(p: int) -> bool:
+            # "back-to-back Angel++ and Pre-A rounds, raising nearly 500 million yuan" is a total;
+            # "$420 million across two rounds, including a $145 million round" is not, for the $145M.
+            # "$16 million to date including its $5 million Series A": the $5M is one round.
+            # "two previous rounds of $7.4 million and $14.8 million": a list of single rounds.
+            start = text.rfind(".", 0, p) + 1
+            lead_in = text[start:p]
+            def _cue_applies(m: re.Match | None, between: str) -> bool:
+                return bool(m) and not re.search(r"\b(?:including|of which|among them)\b", between, re.I)
+            two = _TWO_ROUNDS_RE.search(lead_in)
+            two = _cue_applies(two, lead_in[two.end():] if two else "") and \
+                not re.fullmatch(r"\s*(?:of|worth)\s*(?:US\$|\$|€|£|¥|₩|RMB|CNY|USD|EUR|GBP|INR|Rs\.?)?\s*",
+                                 lead_in[two.end():] if two else "", re.I)
+            before = text[max(0, p - 80):p]
+            cue = _TOTAL_BEFORE_RE.search(before)
+            return bool(_cue_applies(cue, before[cue.start():] if cue else "")
+                        or _TOTAL_AFTER_RE.search(text[_num_end(p):_num_end(p) + 80]) or two)
+        if all(_is_total(p) for p in hits):
+            reasons.append("amount is a total across rounds")
     for label, rx in _WRONG_MONEY:
         if quote and label in ("valuation", "fund", "joint venture / pipeline") and rx.search(quote) \
                 and not re.search(r"\braised?\b|\bfunding\b|\bround\b|\binvest", quote, re.I):
@@ -251,6 +291,52 @@ def verify_event(event: dict[str, Any], page_text: str | None, *, page_url: str 
             reasons.append("quote describes a joint venture")
 
     return (FAIL, reasons) if reasons else (PASS, [])
+
+
+_CUR_IN_SUMMARY = re.compile(r"\b(US\$|USD|CNY|RMB|EUR|GBP|JPY|KRW|INR|CHF|SEK|HKD|CAD|CA\$|AUD|SGD|TWD|ILS|NOK|DKK|BRL)\b|"
+                             r"(US\$|CA\$|\$|€|£|¥|₩)", re.I)
+
+
+def event_key(event: dict[str, Any]) -> tuple[Any, float | None, str]:
+    """(parsed date, US$ amount, round label) of a filed event, for duplicate checks."""
+    from recheck_company_funding import parse_round_date, usd_value
+
+    nv = event.get("new_value") if isinstance(event.get("new_value"), dict) else {}
+    currency = nv.get("currency")
+    if not currency:
+        m = _CUR_IN_SUMMARY.search(event.get("summary") or "")
+        sym = (m.group(1) or m.group(2) or "") if m else ""
+        currency = {"US$": "USD", "$": "USD", "CA$": "CAD", "€": "EUR", "£": "GBP", "¥": "CNY", "₩": "KRW",
+                    "RMB": "CNY"}.get(sym.upper() if sym.isalpha() else sym, sym.upper() or "USD")
+    when = parse_round_date(str(event.get("occurred_on") or ""))
+    if when and event.get("date_precision") in ("month", "year"):
+        when = (when[0], event["date_precision"])
+    label = str(nv.get("round") or "")
+    if not label:
+        from recheck_company_funding import normalise_round
+        label = normalise_round(event.get("summary") or "")
+    return when, usd_value(event_amount(event), currency), label
+
+
+def mark_duplicates(events: list[dict[str, Any]], verdicts: list[dict[str, Any]]) -> None:
+    """Fail the second of two filed events that report one round (same company,
+    recheck_company_funding.same_event). A published row is kept over a draft;
+    otherwise the earlier id is kept."""
+    from recheck_company_funding import same_event
+
+    by_id = {v["id"]: v for v in verdicts}
+    seen: dict[Any, list[tuple[int, Any]]] = {}
+    for e in sorted(events, key=lambda x: (x.get("status") != "published", x["id"])):
+        if e.get("status") == "rejected":
+            continue  # a rejected row neither counts as the original nor gets flagged
+        cid = e.get("company_id") or e.get("company")
+        key = event_key(e)
+        twin = next((i for i, k in seen.get(cid, []) if same_event(key, k)), None)
+        if twin is not None and by_id.get(e["id"]):
+            v = by_id[e["id"]]
+            v["verdict"], v["reasons"] = FAIL, v["reasons"] + [f"duplicate of #{twin}"]
+        else:
+            seen.setdefault(cid, []).append((e["id"], key))
 
 
 # ---------------------------------------------------------------------------
@@ -329,6 +415,7 @@ def main(argv: list[str] | None = None) -> int:
         verdicts.append({"id": e["id"], "status": e.get("status"), "origin": e.get("origin"), "company": e.get("company"),
                          "summary": e.get("summary"), "source_url": e.get("source_url"),
                          "verdict": verdict, "reasons": reasons})
+    mark_duplicates(events, verdicts)
     Path(args.out).write_text(json.dumps(verdicts, ensure_ascii=False, indent=1), encoding="utf-8")
     from collections import Counter
     print("verdicts:", dict(Counter(v["verdict"] for v in verdicts)))

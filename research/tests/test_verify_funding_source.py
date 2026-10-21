@@ -178,6 +178,50 @@ class VerifyTests(unittest.TestCase):
         self.assertEqual(vfs.verify_event(ev("Chowbotics (DoorDash)", "Acquired by DoorDash", None, quote,
                                              rnd="Acquisition"), quote + FILLER)[0], vfs.PASS)
 
+    def test_total_across_rounds_fails(self):
+        for page, amount in [
+            ("Xynova completed a series A round, bringing total capital raised to nearly 1 billion yuan (US$148 million).", 1e9),
+            ("RoboParty closed back-to-back Angel++ and Pre-A rounds, raising nearly 500 million yuan in total.", 5e8),
+            ("Hanson Robotics has raised around USD 21.7 million over four funding rounds.", 21.7e6),
+            ("Cafe after two initial rounds of funding brought in $5.1 million from investors.", 5.1e6),
+            ("YouiBot completed two rounds of Series B financing for a total of RMB 300 million.", 3e8),
+        ]:
+            company = page.split(" ")[0]
+            v, r = vfs.verify_event(ev(company, "Raised a round", amount), page + FILLER)
+            self.assertIn("amount is a total across rounds", r, page)
+
+    def test_one_round_sized_with_total_wording_passes(self):
+        for page, amount in [
+            ("Spirit AI announced the completion of a Series A+ financing round totaling RMB 1.5 billion.", 1.5e9),
+            ("BlueSword issued 18.17 million shares at 27.7 yuan, and a total of 503 million yuan raised.", 5.03e8),
+            ("Spirit has raised about $420 million across two funding rounds in 30 days, including a $145 million round.",
+             145e6),
+            ("Niqo Robotics has raised $16 million to date including its $5 million in Series A round from FMC.", 5e6),
+            ("Blue participated in two previous funding rounds of $7.4 million in 2016 and $14.8 million in 2018.", 7.4e6),
+        ]:
+            company = page.split(" ")[0]
+            self.assertEqual(vfs.verify_event(ev(company, "Raised a round", amount), page + FILLER)[0], vfs.PASS, page)
+
+    def test_round_with_a_running_total_passes(self):
+        page = "Mind Robotics said it has raised $400 million, bringing its total investment to more than $1 billion." + FILLER
+        self.assertEqual(vfs.verify_event(ev("Mind Robotics", "Raised US$400M", 400e6), page)[0], vfs.PASS)
+        self.assertIn("amount is a total across rounds",
+                      vfs.verify_event(ev("Mind Robotics", "Raised US$1B", 1e9), page)[1])
+
+    def test_duplicates_in_audit(self):
+        rows = [
+            {"id": 172, "company_id": 37, "status": "published", "summary": "Raised a CNY 400M Series D",
+             "new_value": {"round": "Series D", "amount": 400e6, "currency": "CNY"}, "occurred_on": "2022-01-26"},
+            {"id": 173, "company_id": 37, "status": "published", "summary": "Raised a US$62M Series D",
+             "new_value": {"round": "Series D", "amount": 62e6, "currency": "USD"}, "occurred_on": "2022-02-08"},
+            {"id": 174, "company_id": 37, "status": "published", "summary": "Raised a CNY 800M Series E",
+             "new_value": {"round": "Series E", "amount": 800e6, "currency": "CNY"}, "occurred_on": "2025-01-07"},
+        ]
+        verdicts = [{"id": r["id"], "verdict": vfs.PASS, "reasons": []} for r in rows]
+        vfs.mark_duplicates(rows, verdicts)
+        self.assertEqual([v["verdict"] for v in verdicts], [vfs.PASS, vfs.FAIL, vfs.PASS])
+        self.assertEqual(verdicts[1]["reasons"], ["duplicate of #172"])
+
     def test_undisclosed_amount_needs_company_and_quote(self):
         quote = "PongBot completed its Series B financing led by Tencent."
         page = quote + FILLER
