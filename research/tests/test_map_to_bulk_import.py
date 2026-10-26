@@ -94,6 +94,7 @@ def test_batch_conversion():
 
 def test_canonical_robot_key():
     assert canonical_robot_key("Go2", "unitree-robotics") == "unitree-robotics::go2"
+    assert canonical_robot_key("BOLT+", "sphero") != canonical_robot_key("BOLT", "sphero")
 
 
 def test_uncited_release_year_dropped():

@@ -207,5 +207,6 @@ def staging_robots_to_bulk_import_rows(
 def canonical_robot_key(name: str, company_slug: str = "") -> str:
     """Dedupe key within a staging batch."""
     slug = re.sub(r"[^a-z0-9]+", "-", (company_slug or "").lower()).strip("-")
-    n = re.sub(r"[^a-z0-9]+", "-", (name or "").lower()).strip("-")
+    # "+" is meaningful in model names (BOLT vs BOLT+), so keep it distinct
+    n = re.sub(r"[^a-z0-9]+", "-", (name or "").lower().replace("+", " plus ")).strip("-")
     return f"{slug}::{n}" if slug else n
