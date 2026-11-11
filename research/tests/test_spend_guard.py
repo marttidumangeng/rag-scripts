@@ -40,6 +40,7 @@ PIPELINE_MODULES = [
     "rejection_feedback_loop.py",
     "resolve_pending_company_gaps.py",
     "recheck_company_funding.py",
+    "recheck_published.py",
     "smoke_test.py",
 ]
 
