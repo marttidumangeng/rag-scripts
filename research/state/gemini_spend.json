@@ -1,8 +1,8 @@
 {
-  "date": "2026-10-19",
-  "calls": 4,
-  "usd": 0.008,
+  "date": "2026-11-11",
+  "calls": 393,
+  "usd": 0.786,
   "by_kind": {
-    "generate_content:models/gemini-2.5-flash": 4
+    "generate_content:models/gemini-2.5-flash": 393
   }
 }
