@@ -111,6 +111,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.api_key is not None:
         os.environ["IMPORT_SYNC_API_KEY"] = args.api_key
     for key in ("IMPORT_SYNC_API_BASE_URL", "IMPORT_SYNC_API_KEY"):
+        if key == "IMPORT_SYNC_API_KEY" and args.api_key == "":
+            continue
         if not os.environ.get(key):
             print(f"Missing {key}", file=sys.stderr)
             return 2
