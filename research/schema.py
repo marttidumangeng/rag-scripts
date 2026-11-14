@@ -286,6 +286,13 @@ class StagedRobot:
     weaknesses: str = ""
     notes: str = ""
     availability_status_key: str = ""
+    # Buyability (schema.org ItemAvailability). Separate from product stage.
+    # Leave blank / not_assessed unless a verbatim quote + source URL support it.
+    sales_status_key: str = ""
+    sales_status_source_url: str = ""
+    sales_status_quote: str = ""
+    # YYYY-MM-DD the source page was read; the import sends it as checked_on.
+    sales_status_checked_on: str = ""
     movement_type_keys: str = ""
     industry_keys: str = ""
     industries_other: str = ""

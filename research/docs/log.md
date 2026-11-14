@@ -11,6 +11,10 @@ tags:
 
 # Research Docs Changelog
 
+## 2026-11-14
+
+- **Sales status (buyability)** added to staging and research tooling: `StagedRobot.sales_status_key` + source URL + quote; discover prompt field; validate rejects assessed values without quote/URL; bulk-import passes `sales_status` through when set. New report-only `assess_sales_status.py` and dry-run-default `apply_sales_status.py` for published `not_assessed` robots via `sales-status-batch`. Never derive sales status from the availability default `"available"`.
+
 ## 2026-08-02
 
 - Company **49** (Hyundai Robotics): remapped 17 To-Review robots from category list URLs to OEM detail pages (`/biz/product/detail/{prdSeq}`); filled features/specs from product API; restored missing HDR20L-32/HDR10L-19 heroes from attachments; CDN 17/17. Soft: few_photos/price/year/video; HC FPD no typed arm specs. Script: `fix_hyundai_49_detail_urls.py`.

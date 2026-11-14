@@ -927,6 +927,9 @@ class RobotAutoResearcher:
             description=description,
             purpose=purpose,
             features=_summarize_features(best_features),
+            # Defaulting a blank availability to "available" is product-stage only.
+            # Never derive sales_status from that default — only an explicit quoted
+            # finding (discover path) may set sales_status_* fields.
             availability_status_key=_key_from_obj(robot.get("availability_status"), "available"),
             movement_type_keys=movement_types,
             industry_keys=industry_keys,
