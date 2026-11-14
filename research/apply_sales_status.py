@@ -96,6 +96,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("sheet", help="Reviewed CSV from assess_sales_status.py")
     parser.add_argument("--apply", action="store_true", help="Write (default is dry_run).")
+    parser.add_argument("--api-base", default="", help="Override IMPORT_SYNC_API_BASE_URL.")
+    parser.add_argument("--api-key", default=None, help="Override IMPORT_SYNC_API_KEY.")
     args = parser.parse_args(argv)
 
     sheet = Path(args.sheet)
@@ -104,6 +106,10 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     load_env_file(_HERE.parents[1] / "robotaigeek-server" / ".env")
+    if args.api_base:
+        os.environ["IMPORT_SYNC_API_BASE_URL"] = args.api_base
+    if args.api_key is not None:
+        os.environ["IMPORT_SYNC_API_KEY"] = args.api_key
     for key in ("IMPORT_SYNC_API_BASE_URL", "IMPORT_SYNC_API_KEY"):
         if not os.environ.get(key):
             print(f"Missing {key}", file=sys.stderr)
@@ -119,7 +125,10 @@ def main(argv: list[str] | None = None) -> int:
 
     from api_client import ResearchApiClient
 
-    api = ResearchApiClient()
+    api = ResearchApiClient(
+        base_url=os.environ.get("IMPORT_SYNC_API_BASE_URL"),
+        api_key=os.environ.get("IMPORT_SYNC_API_KEY", ""),
+    )
     body = {"dry_run": not args.apply, "rows": batch}
     print(f"Sending {len(batch)} rows (dry_run={body['dry_run']})…")
     result = api._post("robots/robots/sales-status-batch/", body)

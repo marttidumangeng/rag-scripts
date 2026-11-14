@@ -256,17 +256,28 @@ def main(argv: list[str] | None = None) -> int:
         help="Prior assess JSON snapshots whose robot ids to skip.",
     )
     parser.add_argument("--output-dir", default=str(_HERE / "output"))
+    parser.add_argument("--api-base", default="", help="Override IMPORT_SYNC_API_BASE_URL.")
+    parser.add_argument("--api-key", default=None, help="Override IMPORT_SYNC_API_KEY ('' for none).")
     args = parser.parse_args(argv)
 
     load_env_file(_HERE.parents[1] / "robotaigeek-server" / ".env")
+    if args.api_base:
+        os.environ["IMPORT_SYNC_API_BASE_URL"] = args.api_base
+    if args.api_key is not None:
+        os.environ["IMPORT_SYNC_API_KEY"] = args.api_key
     for key in ("IMPORT_SYNC_API_BASE_URL", "IMPORT_SYNC_API_KEY"):
+        if key == "IMPORT_SYNC_API_KEY" and args.api_key == "":
+            continue
         if not os.environ.get(key):
             print(f"Missing {key}", file=sys.stderr)
             return 2
 
     from api_client import ResearchApiClient
 
-    api = ResearchApiClient()
+    api = ResearchApiClient(
+        base_url=os.environ.get("IMPORT_SYNC_API_BASE_URL"),
+        api_key=os.environ.get("IMPORT_SYNC_API_KEY", ""),
+    )
     excluded = load_excluded_ids([Path(p) for p in args.exclude_snapshots])
     briefs = list_unassessed(
         api,
