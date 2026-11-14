@@ -99,6 +99,8 @@ def staging_robot_to_bulk_import_row(robot: StagedRobot) -> dict[str, Any]:
         "weaknesses": _s(robot.weaknesses),
         "notes": _build_notes(robot),
         "availability_status_key": _s(robot.availability_status_key),
+        "sales_status": _s(robot.sales_status_key),
+        "sales_status_source_url": _s(robot.sales_status_source_url),
         "movement_type_keys": _s(robot.movement_type_keys),
         "industry_keys": _s(robot.industry_keys),
         "industries_other": _s(robot.industries_other),

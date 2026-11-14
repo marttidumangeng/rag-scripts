@@ -127,6 +127,18 @@ Return a JSON array. Each element must have:
   - "release_year": 4-digit year the robot launched IF the page states it (int or null)
   - "availability": one of "available", "pre_order", "coming_soon", "discontinued",
     or "" when the page doesn't say
+  - "sales_status": one of "not_for_sale", "pre_order", "limited_availability",
+    "general_sale", "made_to_order", or "" when the page does not show how an
+    outside buyer can order. Meanings:
+      not_for_sale — no way for an outside buyer to order (internal/research only)
+      pre_order — orders/reservations open; deliveries to buyers have not started
+      limited_availability — pilots, allocated production, or waitlist only
+      general_sale — any qualifying buyer can order now
+      made_to_order — sold by quote / built per customer
+    When sales_status is set, also return:
+      "sales_status_quote": verbatim sentence from the page that supports it
+      "sales_status_source_url": the page URL that contains that quote
+    Never invent a sales_status; leave "" (and omit quote/URL) when unsure.
   - "price_min" / "price_max": numeric price in the page's currency if shown
     (numbers or null; a single price goes in both)
   - "price_currency": ISO code or symbol when a price is shown (string or "")
@@ -1187,6 +1199,17 @@ def _write_staging(
 
     _avail_map = {"available": "released", "pre_order": "pre_order",
                   "coming_soon": "coming_soon", "discontinued": "discontinued"}
+    _sales_allowed = {
+        "not_for_sale", "pre_order", "limited_availability",
+        "general_sale", "made_to_order",
+    }
+    _sales_key = str(robot.get("sales_status") or "").strip().lower().replace("-", "_").replace(" ", "_")
+    _sales_quote = str(robot.get("sales_status_quote") or "").strip()
+    _sales_url = str(robot.get("sales_status_source_url") or product_url or "").strip()
+    # Assessed sales status requires a quote and a URL; otherwise leave blank
+    # (importer keeps not_assessed). Never derive this from availability.
+    if _sales_key not in _sales_allowed or not _sales_quote or not _sales_url:
+        _sales_key, _sales_quote, _sales_url = "", "", ""
     _price_min, _price_max = robot.get("price_min"), robot.get("price_max")
 
     # The extractor returns [] for categories whenever nothing in the allowed
@@ -1230,6 +1253,9 @@ def _write_staging(
         # extraction — the extractor invents years despite the "IF the page
         # states it" prompt rule (refresh years, the current year).
         availability_status_key=_avail_map.get(str(robot.get("availability") or "").strip(), ""),
+        sales_status_key=_sales_key,
+        sales_status_source_url=_sales_url,
+        sales_status_quote=_sales_quote,
         price_min=float(_price_min) if isinstance(_price_min, (int, float)) else None,
         price_max=float(_price_max) if isinstance(_price_max, (int, float)) else None,
         price_currency=(robot.get("price_currency") or "")[:10],

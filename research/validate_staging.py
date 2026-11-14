@@ -171,6 +171,24 @@ def validate_robot(data: dict[str, Any] | StagedRobot) -> ValidationResult:
     if robot.url and not _is_url(robot.url):
         issues.append(ValidationIssue("error", "url", f"Invalid product URL: {robot.url!r}"))
 
+    sales_key = (robot.sales_status_key or "").strip().lower()
+    if sales_key and sales_key not in ("", "not_assessed"):
+        if not (robot.sales_status_source_url or "").strip():
+            issues.append(ValidationIssue(
+                "error", "sales_status_source_url",
+                "A source URL is required when sales_status_key is assessed.",
+            ))
+        elif not _is_url(robot.sales_status_source_url):
+            issues.append(ValidationIssue(
+                "error", "sales_status_source_url",
+                f"Invalid sales status source URL: {robot.sales_status_source_url!r}",
+            ))
+        if not (robot.sales_status_quote or "").strip():
+            issues.append(ValidationIssue(
+                "error", "sales_status_quote",
+                "A verbatim quote is required when sales_status_key is assessed.",
+            ))
+
     if robot.image and not _is_url(robot.image):
         issues.append(ValidationIssue("warning", "image", f"Invalid image URL: {robot.image!r}"))
 
