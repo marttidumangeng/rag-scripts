@@ -21,7 +21,7 @@ import os
 import re
 import sys
 from collections import Counter
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -31,14 +31,8 @@ if str(_HERE) not in sys.path:
 
 from recheck_company_funding import load_env_file  # noqa: E402
 from recheck_published import PoliteFetcher, Probe, _get_with_backoff  # noqa: E402
-
-ASSESSABLE = {
-    "not_for_sale",
-    "pre_order",
-    "limited_availability",
-    "general_sale",
-    "made_to_order",
-}
+from sales_evidence import ASSESSABLE_SALES_STATUSES as ASSESSABLE  # noqa: E402
+from sales_evidence import verify_sales_evidence  # noqa: E402
 
 _SALES_SYSTEM = """You assess whether/how an OUTSIDE buyer can order ONE robot,
 using the maker's product page (and any search snippets) as evidence. Return JSON only:
@@ -102,6 +96,31 @@ def parse_sales_assessment(text: str) -> dict[str, Any]:
     }
 
 
+def apply_evidence_check(assessment: dict[str, Any], probe: Probe) -> dict[str, Any]:
+    """Downgrade to unclear unless the quote is on the probed page and the URL is that page.
+
+    A reviewer skimming the sheet will accept a confident row; the quote must
+    be real before it reaches them.
+    """
+    if assessment.get("sales_status") not in ASSESSABLE:
+        return assessment
+    page_text = probe.full_text or probe.text or ""
+    pages = [(probe.final_url or probe.url, page_text)]
+    if probe.url and probe.url != probe.final_url:
+        pages.append((probe.url, page_text))
+    ok, why = verify_sales_evidence(
+        assessment["sales_status"], assessment.get("quote", ""), assessment.get("source_url", ""), pages,
+    )
+    if ok:
+        return assessment
+    return {
+        **assessment,
+        "sales_status": "unclear",
+        "confidence": "low",
+        "reason": f"{why} (model said {assessment['sales_status']})",
+    }
+
+
 def gemini_sales_assessment(
     robot: dict[str, Any],
     company: str,
@@ -153,18 +172,23 @@ def list_unassessed(
     company_id: int | None = None,
     limit: int = 50,
 ) -> list[dict[str, Any]]:
-    """Published robots with sales_status=not_assessed, makers grouped."""
+    """Published robots with sales_status=not_assessed, sorted by maker then name."""
     out: list[dict[str, Any]] = []
     page = 1
     params: dict[str, Any] = {
         "lite": 1,
         "status": "published",
         "sales_status": "not_assessed",
-        "ordering": "company_ref__name,name",
+        # company_ref__name is not in RobotViewSet.ordering_fields (DRF would
+        # drop it silently); sort by name here and group by maker below.
+        "ordering": "name",
         "page_size": 100,
     }
     if category.strip():
         params["c"] = category.strip()
+    if company_id is not None:
+        # Filter server-side; otherwise one maker means paging the whole catalog.
+        params["company_ref"] = str(company_id)
     while True:
         data = _get_with_backoff(api, "robots/robots/", {**params, "page": page})
         rows = data.get("results", []) if isinstance(data, dict) else (data or [])
@@ -184,11 +208,15 @@ def list_unassessed(
                 "availability_status": sales_status_key(r.get("availability_status")),
             })
             if len(out) >= limit:
-                return out
+                return _by_maker(out)
         if not rows or (isinstance(data, dict) and not data.get("next")):
             break
         page += 1
-    return out
+    return _by_maker(out)
+
+
+def _by_maker(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(rows, key=lambda r: ((r.get("company") or "").lower(), (r.get("name") or "").lower()))
 
 
 def load_excluded_ids(paths: list[Path]) -> set[int]:
@@ -216,6 +244,9 @@ CSV_FIELDS = [
     "confidence",
     "quote",
     "source_url",
+    # Date the page was read. apply_sales_status sends it as checked_on, so a
+    # sheet reviewed weeks later does not claim a fresher check.
+    "checked_on",
     "reason",
     "decision",
 ]
@@ -313,9 +344,7 @@ def main(argv: list[str] | None = None) -> int:
             )
             gemini_calls += 1
             if result:
-                assessment = result
-                if assessment["sales_status"] != "unclear" and not assessment["source_url"]:
-                    assessment["source_url"] = probe.final_url or probe.url
+                assessment = apply_evidence_check(result, probe)
         elif probe.status != "ok":
             assessment["reason"] = f"source page {probe.status}"
 
@@ -328,6 +357,7 @@ def main(argv: list[str] | None = None) -> int:
             "confidence": assessment["confidence"],
             "quote": assessment["quote"],
             "source_url": assessment["source_url"],
+            "checked_on": date.today().isoformat(),
             "reason": assessment["reason"],
             "decision": "",
         })

@@ -50,9 +50,10 @@ def build_batch_rows(sheet_rows: list[dict[str, Any]]) -> tuple[list[dict[str, A
     """Return (batch rows, skip notes)."""
     batch: list[dict[str, Any]] = []
     skips: list[str] = []
+    seen_ids: set[int] = set()
     today = date.today().isoformat()
     for row in sheet_rows:
-        rid = row.get("id")
+        rid = str(row.get("id") or "").strip()
         name = (row.get("name") or "").strip()
         current = normalize_decision(row.get("current_status") or "not_assessed") or "not_assessed"
         proposed = normalize_decision(row.get("proposed_sales_status") or "")
@@ -80,16 +81,41 @@ def build_batch_rows(sheet_rows: list[dict[str, Any]]) -> tuple[list[dict[str, A
         if not source_url:
             skips.append(f"{rid}: missing source_url")
             continue
+        try:
+            robot_id = int(rid)
+        except ValueError:
+            skips.append(f"{rid!r}: id is not a number")
+            continue
+        # The endpoint rejects a request with a repeated id; keep the first row.
+        if robot_id in seen_ids:
+            skips.append(f"{rid}: repeated id, only the first row is sent")
+            continue
+        seen_ids.add(robot_id)
+
+        # The page was read when the sheet was assessed, not today.
+        checked_on = (row.get("checked_on") or "").strip()
+        try:
+            checked_on = date.fromisoformat(checked_on).isoformat()
+        except ValueError:
+            skips.append(f"{rid}: no valid checked_on in sheet, using today ({today})")
+            checked_on = today
 
         batch.append({
-            "id": int(rid),
+            "id": robot_id,
             "expected_name": name,
             "expected_sales_status": current,
             "sales_status": new_status,
             "source_url": source_url,
-            "checked_on": today,
+            "checked_on": checked_on,
         })
     return batch, skips
+
+
+BATCH_MAX_ROWS = 200  # sales-status-batch rejects larger requests
+
+
+def chunked(rows: list[dict[str, Any]], size: int = BATCH_MAX_ROWS) -> list[list[dict[str, Any]]]:
+    return [rows[i:i + size] for i in range(0, len(rows), size)]
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -131,9 +157,23 @@ def main(argv: list[str] | None = None) -> int:
         base_url=os.environ.get("IMPORT_SYNC_API_BASE_URL"),
         api_key=os.environ.get("IMPORT_SYNC_API_KEY", ""),
     )
-    body = {"dry_run": not args.apply, "rows": batch}
-    print(f"Sending {len(batch)} rows (dry_run={body['dry_run']})…")
-    result = api._post("robots/robots/sales-status-batch/", body)
+    dry_run = not args.apply
+    chunks = chunked(batch)
+    print(f"Sending {len(batch)} rows in {len(chunks)} request(s) (dry_run={dry_run})…")
+    responses = []
+    for i, chunk in enumerate(chunks, 1):
+        resp = api._post("robots/robots/sales-status-batch/", {"dry_run": dry_run, "rows": chunk})
+        responses.append(resp)
+        if isinstance(resp, dict):
+            print(f"  request {i}/{len(chunks)}: applied={resp.get('applied_count')} "
+                  f"skipped={resp.get('skipped_count')} error={resp.get('error', '')}")
+    result = {
+        "dry_run": dry_run,
+        "applied_count": sum((r or {}).get("applied_count", 0) for r in responses if isinstance(r, dict)),
+        "skipped_count": sum((r or {}).get("skipped_count", 0) for r in responses if isinstance(r, dict)),
+        "results": [row for r in responses if isinstance(r, dict) for row in (r.get("results") or [])],
+        "responses": responses,
+    }
 
     stamp = datetime.now().strftime("%Y%m%d-%H%M")
     out = sheet.with_name(f"{sheet.stem}_apply_{stamp}.json")

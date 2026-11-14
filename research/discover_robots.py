@@ -51,6 +51,9 @@ from api_client import ResearchApiClient
 from evidence_store import EvidenceStore
 from product_url_search import is_weak_product_url, search_product_url_for_robot
 from release_year_lookup import citation_line, lookup_release_year
+from datetime import date as _date
+
+from sales_evidence import verify_sales_evidence
 from schema import SourceRef, StagedRobot
 from slug_utils import slugify_company_name
 from web_extract import (
@@ -1199,16 +1202,19 @@ def _write_staging(
 
     _avail_map = {"available": "released", "pre_order": "pre_order",
                   "coming_soon": "coming_soon", "discontinued": "discontinued"}
-    _sales_allowed = {
-        "not_for_sale", "pre_order", "limited_availability",
-        "general_sale", "made_to_order",
-    }
     _sales_key = str(robot.get("sales_status") or "").strip().lower().replace("-", "_").replace(" ", "_")
     _sales_quote = str(robot.get("sales_status_quote") or "").strip()
     _sales_url = str(robot.get("sales_status_source_url") or product_url or "").strip()
-    # Assessed sales status requires a quote and a URL; otherwise leave blank
-    # (importer keeps not_assessed). Never derive this from availability.
-    if _sales_key not in _sales_allowed or not _sales_quote or not _sales_url:
+    # Keep a sales status only when its quote really appears on a page we
+    # fetched and the URL is that page; otherwise leave blank (importer keeps
+    # not_assessed). Never derive this from availability.
+    _sales_ok, _sales_why = verify_sales_evidence(
+        _sales_key, _sales_quote, _sales_url,
+        [(p.url, p.text) for p in (source_pages or [])],
+    )
+    if not _sales_ok:
+        if _sales_key:
+            print(f"    sales_status {_sales_key!r} dropped: {_sales_why}")
         _sales_key, _sales_quote, _sales_url = "", "", ""
     _price_min, _price_max = robot.get("price_min"), robot.get("price_max")
 
@@ -1256,6 +1262,7 @@ def _write_staging(
         sales_status_key=_sales_key,
         sales_status_source_url=_sales_url,
         sales_status_quote=_sales_quote,
+        sales_status_checked_on=_date.today().isoformat() if _sales_key else "",
         price_min=float(_price_min) if isinstance(_price_min, (int, float)) else None,
         price_max=float(_price_max) if isinstance(_price_max, (int, float)) else None,
         price_currency=(robot.get("price_currency") or "")[:10],

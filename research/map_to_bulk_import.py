@@ -101,6 +101,8 @@ def staging_robot_to_bulk_import_row(robot: StagedRobot) -> dict[str, Any]:
         "availability_status_key": _s(robot.availability_status_key),
         "sales_status": _s(robot.sales_status_key),
         "sales_status_source_url": _s(robot.sales_status_source_url),
+        # Research date, so the site does not show the import date as the check.
+        "sales_status_checked_on": _s(robot.sales_status_checked_on) if robot.sales_status_key else "",
         "movement_type_keys": _s(robot.movement_type_keys),
         "industry_keys": _s(robot.industry_keys),
         "industries_other": _s(robot.industries_other),
